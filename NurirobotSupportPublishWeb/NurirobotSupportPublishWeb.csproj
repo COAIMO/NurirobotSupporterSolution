@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>4e4fd9fa-bcbf-4338-ac07-52895fa1222d</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Application Files\NurirobotSupporter_1_0_0_0\NurirobotSupporter.application" />
+    <None Include="wwwroot\Application Files\NurirobotSupporter_1_0_0_0\NurirobotSupporter.exe.config.deploy" />
+    <None Include="wwwroot\Application Files\NurirobotSupporter_1_0_0_0\NurirobotSupporter.exe.deploy" />
+    <None Include="wwwroot\Application Files\NurirobotSupporter_1_0_0_0\NurirobotSupporter.exe.manifest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+  </ItemGroup>
+
+</Project>
