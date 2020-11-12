@@ -32,3 +32,4 @@ csharp_style_var_when_type_is_apparent = false:suggestion
 
 #prefer accessibility modifiers to be declared except for public interface members. This will currently not differ from always and will act as future proofing for if C# adds default interface methods.
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+csharp_using_directive_placement = inside_namespace:silent
