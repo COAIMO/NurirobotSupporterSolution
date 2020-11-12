@@ -19,8 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
-		TextFile1.txt = TextFile1.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibMacroBase", "LibMacroBase\LibMacroBase.csproj", "{810FFD84-2A6D-4E1B-8986-88661CB4E798}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestLibMacroBase", "UnitTestLibMacroBase\UnitTestLibMacroBase.csproj", "{0629380E-2676-4AD8-8966-5ABED83565C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +43,14 @@ Global
 		{4D88D1DC-E8E5-4C00-A995-3D0FA0249DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D88D1DC-E8E5-4C00-A995-3D0FA0249DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D88D1DC-E8E5-4C00-A995-3D0FA0249DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{810FFD84-2A6D-4E1B-8986-88661CB4E798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{810FFD84-2A6D-4E1B-8986-88661CB4E798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{810FFD84-2A6D-4E1B-8986-88661CB4E798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{810FFD84-2A6D-4E1B-8986-88661CB4E798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0629380E-2676-4AD8-8966-5ABED83565C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0629380E-2676-4AD8-8966-5ABED83565C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0629380E-2676-4AD8-8966-5ABED83565C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0629380E-2676-4AD8-8966-5ABED83565C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
