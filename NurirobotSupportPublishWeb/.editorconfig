@@ -1,10 +1,4 @@
-root = true
-[*]
-end_of_line = lf
-insert_final_newline = true
-charset = utf-8
-
-# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Users\cgdo\source\repos\NurirobotSupporterSolution codebase based on best match to current usage at 2020-11-11
+# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Users\cgdo\source\repos\NurirobotSupporterSolution\NurirobotSupportPublishWeb\ codebase based on best match to current usage at 2020-11-12
 # You can modify the rules from these initially generated values to suit your own policies
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
 [*.cs]
@@ -13,7 +7,7 @@ charset = utf-8
 #Core editorconfig formatting - indentation
 
 #use soft tabs (spaces) for indentation
-indent_style = tabs
+indent_style = space
 
 #Formatting - new line options
 
@@ -29,14 +23,8 @@ dotnet_sort_system_directives_first = true
 
 #Formatting - spacing options
 
-#require a space before the colon for bases or interfaces in a type declaration
-csharp_space_after_colon_in_inheritance_clause = true
 #require a space after a keyword in a control flow statement such as a for loop
 csharp_space_after_keywords_in_control_flow_statements = true
-#require a space before the colon for bases or interfaces in a type declaration
-csharp_space_before_colon_in_inheritance_clause = true
-#remove space within empty argument list parentheses
-csharp_space_between_method_call_empty_parameter_list_parentheses = false
 #remove space between method call name and opening parenthesis
 csharp_space_between_method_call_name_and_opening_parenthesis = false
 #do not place space characters after the opening parenthesis and before the closing parenthesis of a method call
