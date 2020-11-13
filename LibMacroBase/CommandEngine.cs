@@ -14,7 +14,7 @@ namespace LibMacroBase
 {
 
     /// <summary>
-    /// 명령어(매크로) 엔진
+    /// 명령어(매크로) 실행 엔진
     /// </summary>
     public class CommandEngine : IDisposable
     {
@@ -34,15 +34,11 @@ namespace LibMacroBase
         });
         _TimerSubscribeDispose?.Dispose();
         */
-        ScriptOptions _ScriptOptions;
 
         private const string _Templete =
-"public class Script {{\n"+
-"public static void Run() {{\n" +
+"static void Run() {{\n" +
 "{0}\n" +
-"}}\n"+
-"}}";
-
+"}}\n" ;
         /// <summary>
         /// 명령어 레코딩 시작
         /// </summary>
@@ -80,26 +76,6 @@ namespace LibMacroBase
             return ret;
         }
 
-        /*
-        //CSharpScript 이용한 스크립트 처리
-        //성능이 떨어짐
-        public bool RunScriptsCSharpScript(string arg)
-        {
-            bool ret = false;
-                //Task.Run(async () => await CSharpScript.EvaluateAsync(arg, ScriptOptions.Default.WithImports("System")));
-            try {
-                var result = CSharpScript.EvaluateAsync(arg, _ScriptOptions).Result;
-                Console.WriteLine(result);
-                ret = true;
-            }
-            catch (Exception e) {
-                Console.WriteLine(e);
-            }
-            
-            return ret;
-        }
-        */
-
         /// <summary>
         /// 텍스트를 변환하여 실행시킨다.
         /// </summary>
@@ -129,11 +105,6 @@ namespace LibMacroBase
             CSScript.GlobalSettings.InMemoryAssembly = true;
             CSScript.EvaluatorConfig.DebugBuild = false;
             CSScript.EvaluatorConfig.Engine = EvaluatorEngine.CodeDom;
-            _ScriptOptions = ScriptOptions.Default.WithImports("System");
-            _ScriptOptions.WithImports("LibNurirobotBase");
-            _ScriptOptions.WithImports("LibNurirobotBase.Args");
-            _ScriptOptions.WithImports("LibNurirobotBase.Enum");
-            _ScriptOptions.WithImports("LibNurirobotBase.Interface");
         }
 
         /// <summary>

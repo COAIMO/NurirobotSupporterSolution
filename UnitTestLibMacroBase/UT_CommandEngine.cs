@@ -30,7 +30,7 @@ namespace UnitTestLibMacroBase
                 Console.WriteLine("Construct : {0}",sw.ElapsedMilliseconds);
                 sw.Restart();
 
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 100; i++) {
                     Console.WriteLine(ce.RunScript("Console.WriteLine(string.Format(\"{{ {0} }}\", 1));"));
                     Console.WriteLine("run {1} : {0}", sw.ElapsedMilliseconds, i);
                     sw.Restart();
