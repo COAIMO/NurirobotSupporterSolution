@@ -7,7 +7,7 @@ namespace LibMacroBase
     /// <summary>
     /// 매크로 정보
     /// </summary>
-    public class MacroInfo : MacroInfoHeader
+    public class MacroInfo : MacroInfoHeader, IDisposable
     {
         /// <summary>
         /// 처리 매크로
@@ -22,6 +22,11 @@ namespace LibMacroBase
             var tmpDT = DateTime.Now;
             this.Ticks = tmpDT.Ticks;
             this.MacroName = tmpDT.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public void Dispose()
+        {
+            Macro.Clear();
         }
     }
 }
