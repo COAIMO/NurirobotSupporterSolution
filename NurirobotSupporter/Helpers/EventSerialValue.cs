@@ -15,7 +15,7 @@ namespace NurirobotSupporter.Helpers
         /// <summary>
         /// 최종 데이터 사전
         /// </summary>
-        Dictionary<string, SerialValueArgs> _DictValues = new Dictionary<string, SerialValueArgs>();
+        Dictionary<int, Dictionary<string, SerialValueArgs>> _DictValues = new Dictionary<int, Dictionary<string, SerialValueArgs>>();
         /// <summary>
         /// 주제 : 수신데이터
         /// </summary>
@@ -26,12 +26,20 @@ namespace NurirobotSupporter.Helpers
         public IObservable<SerialValueArgs> ObsSerialValueObservable => _SerialValue.Retry().Where(x=> {
             bool ret = false;
             try {
-                if (_DictValues.ContainsKey(x.ValueName)) {
-                    var data = _DictValues[x.ValueName].ReciveData;
-                    ret = !data.SequenceEqual(x.ReciveData);
+                if (_DictValues.ContainsKey(x.ID)) {
+                    var d = _DictValues[x.ID];
+                    if (d.ContainsKey(x.ValueName)) {
+                        var data = d[x.ValueName].ReciveData;
+                        ret = !data.SequenceEqual(x.ReciveData);
+                    } else {
+                        d.Add(x.ValueName, x);
+                        ret = true;
+                    }
                 }
                 else {
-                    _DictValues.Add(x.ValueName, x);
+                    var dic = new Dictionary<string, SerialValueArgs>();
+                    dic.Add(x.ValueName, x);
+                    _DictValues.Add(x.ID, dic);
                     ret = true;
                 }
             }
@@ -44,7 +52,9 @@ namespace NurirobotSupporter.Helpers
             _SerialValue.OnNext(
                 new SerialValueArgs() { 
                     ValueName = Encoding.ASCII.GetString(arg),
-                    ReciveData = arg
+                    ID = arg[2],
+                    ReciveData = arg,
+                    Object = new object()
                 });
         }
 

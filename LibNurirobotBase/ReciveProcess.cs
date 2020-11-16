@@ -8,7 +8,7 @@ namespace LibNurirobotBase
     using LibNurirobotBase.Interface;
     using Splat;
 
-    public class ReciveProcess : IDisposable
+    public class ReciveProcess : IReciveProcess
     {
         /// <summary>
         /// 수신 Queue
@@ -34,6 +34,7 @@ namespace LibNurirobotBase
         /// 이벤트 시리얼 로그
         /// </summary>
         IEventSerialLog _EventSerialLog = Locator.Current.GetService<IEventSerialLog>();
+        IEventSerialValue _EventSerialValue = Locator.Current.GetService<IEventSerialValue>();
 
         public ReciveProcess()
         {
@@ -41,6 +42,7 @@ namespace LibNurirobotBase
             _SerialControl = Locator.Current.GetService<ISerialControl>();
             _Token = new CancellationTokenSource();
             _Thread = new Thread(new ThreadStart(Job));
+            _Thread.Start();
         }
 
         ~ReciveProcess()
@@ -62,10 +64,20 @@ namespace LibNurirobotBase
                             continue;
 
                         _EventSerialLog?.AddLog(tmp);
+                        _EventSerialValue?.ReciveData(tmp);
                     }
                 }
             }
             catch { }
+        }
+
+        /// <summary>
+        /// 수신데이터 작업 큐 등록
+        /// </summary>
+        /// <param name="arg">수신데이터</param>
+        public void AddReciveData(byte[] arg)
+        {
+            _CQTaskQueue.Enqueue(arg);
         }
 
         #region IDisposable 구현

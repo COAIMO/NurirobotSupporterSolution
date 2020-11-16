@@ -16,6 +16,7 @@ namespace NurirobotSupporter
     using System.Collections.Generic;
     using System.Text;
     using LibNurirobotBase;
+    using LibNurirobotV00;
 
 
     /// <summary>
@@ -42,6 +43,9 @@ namespace NurirobotSupporter
             Locator.CurrentMutable.RegisterConstant(new SerialControl(), typeof(ISerialControl));
             Locator.CurrentMutable.RegisterConstant(new EventSerialLog(), typeof(IEventSerialLog));
             Locator.CurrentMutable.RegisterConstant(new EventSerialValue(), typeof(IEventSerialValue));
+            Locator.CurrentMutable.RegisterConstant(new ReciveProcess(), typeof(IReciveProcess));
+            Locator.CurrentMutable.RegisterConstant(new SerialProcess(), typeof(ISerialProcess));
+            Locator.CurrentMutable.RegisterConstant(new DeviceProtocolDictionary(), typeof(IDeviceProtocolDictionary));
 
             //_IStorage = Locator.Current.GetService<IStorage>();
 #if DEBUG
@@ -91,42 +95,46 @@ namespace NurirobotSupporter
             isc.ObsIsOpenObservable.Subscribe(x => {
                 Debug.WriteLine("Port {0} is {1}", comport, x == true ? "T" : "F");
                 if (x == true) {
-                    var dataToWrite = "DataToWrite\n";
-                    isc.Send(Encoding.ASCII.GetBytes(dataToWrite));
-                    isc.Send(Encoding.ASCII.GetBytes(dataToWrite));
-
-                    SerialProcess sp = new SerialProcess();
-                    sp.Start();
-                    sp.AddTaskqueue(Encoding.ASCII.GetBytes(dataToWrite));
-                    sp.AddTaskqueue(Encoding.ASCII.GetBytes(dataToWrite));
-                    sp.AddTaskqueue(Encoding.ASCII.GetBytes(dataToWrite));
+                    //var dataToWrite = "DataToWrite\n";
+                    //isc.Send(Encoding.ASCII.GetBytes(dataToWrite));
+                    //isc.Send(Encoding.ASCII.GetBytes(dataToWrite));
+                    ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
                     sp.AddTo(comdis);
+                    sp.Start();
                 }
             }).AddTo(comdis);
 
+            //ReciveProcess rp = new ReciveProcess();
+            IReciveProcess irp = Locator.Current.GetService<IReciveProcess>();
+            irp.AddTo(comdis);
             // STX를 사용하여 byte 배열 가져오기
-            var stx = Observable.Return<byte[]>(new byte[] { 0x30, 0x31 });
+            var stx = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
             isc.ObsDataReceived
                 .BufferUntilSTXtoByteArray(stx, 5)
                 .Subscribe(data => {
-                    Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                    irp.AddReciveData(data);
                 })
                 .AddTo(comdis);
             isc.Connect();
 
             EventSerialValue esv = (EventSerialValue)Locator.Current.GetService<IEventSerialValue>();
             esv.AddTo(comdis);
-            esv.ObsSerialValueObservable.Subscribe(x=> {
-                Debug.WriteLine(x.ValueName);
+            esv.ObsSerialValueObservable.Subscribe(x => {
+                Debug.WriteLine("EventSerialValue : " + x.ValueName);
             }).AddTo(comdis);
-            esv.ReciveData(Encoding.ASCII.GetBytes("DataToWrite1"));
-            esv.ReciveData(Encoding.ASCII.GetBytes("DataToWrite"));
-            esv.ReciveData(Encoding.ASCII.GetBytes("DataToWrite1"));
-            esv.ReciveData(Encoding.ASCII.GetBytes("DataToWrite2"));
-            esv.ReciveData(Encoding.ASCII.GetBytes("DataToWrite2"));
-            esv.ReciveData(Encoding.ASCII.GetBytes("DataToWrite"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da1aToWrite1"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da2aToWrite1"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da3aToWrite1"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da4aToWrite1"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da1aToWrite1"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da2aToWrite1"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da3aToWrite1"));
+            //esv.ReciveData(Encoding.ASCII.GetBytes("Da4aToWrite1"));
+            IDeviceProtocolDictionary dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            dpd.AddDeviceProtocol(1, new NurirobotMC());
+            dpd.AddDeviceProtocol(2, new NurirobotMC());
 
-            Thread.Sleep(1000 * 1);
+            Thread.Sleep(1000 * 5);
             //isc.Disconnect();
             comdis.Dispose();
 #endif

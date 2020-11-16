@@ -13,7 +13,7 @@ namespace LibNurirobotBase
     /// <summary>
     /// 시리얼 프로세스
     /// </summary>
-    public class SerialProcess : IDisposable
+    public class SerialProcess : ISerialProcess
     {
         /// <summary>
         /// 요청 Queue

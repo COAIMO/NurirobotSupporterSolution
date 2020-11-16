@@ -14,6 +14,10 @@ namespace LibNurirobotBase.Args
         /// </summary>
         public string ValueName { get; set; }
         /// <summary>
+        /// ID
+        /// </summary>
+        public byte ID { get; set; }
+        /// <summary>
         /// 피드백 객체
         /// </summary>
         public Object Object { get; set; }

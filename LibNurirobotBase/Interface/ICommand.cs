@@ -13,10 +13,6 @@ namespace LibNurirobotBase.Interface
         /// 전달 데이터
         /// </summary>
         byte[] Data { get; set; }
-        /// <summary>
-        /// 시리얼 프로세스
-        /// </summary>
-        SerialProcess SerialProcess { get; set; }
 
         /// <summary>
         /// 파싱

@@ -244,6 +244,10 @@
       <Project>{4d88d1dc-e8e5-4c00-a995-3d0fa0249de4}</Project>
       <Name>LibNurirobotBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LibNurirobotV00\LibNurirobotV00.csproj">
+      <Project>{D9B9DFE3-30FA-4CD3-82DD-2074031F3FD3}</Project>
+      <Name>LibNurirobotV00</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
