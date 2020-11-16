@@ -24,6 +24,11 @@ namespace LibMacroBase
             this.MacroName = tmpDT.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
+        ~MacroInfo()
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             Macro.Clear();

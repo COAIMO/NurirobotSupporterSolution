@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace LibNurirobotBase.Interface
 {
     /// <summary>
@@ -13,13 +9,13 @@ namespace LibNurirobotBase.Interface
         /// 연결 포트 정보 호출
         /// </summary>
         /// <returns>시리얼 포트 연결 정보</returns>
-        SerialPort[] GetPorts();
+        SerialPortInfo[] GetPorts();
 
         /// <summary>
         /// 통신 포트 요청
         /// </summary>
         /// <param name="arg">시리얼 포트 연결 정보</param>
         /// <returns>시리얼 포트 컨트롤</returns>
-        ISerialControl GetPort(SerialPort arg);
+        ISerialControl GetPort(SerialPortInfo arg);
     }
 }

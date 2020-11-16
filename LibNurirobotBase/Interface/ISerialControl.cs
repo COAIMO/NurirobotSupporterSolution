@@ -2,22 +2,44 @@ using LibNurirobotBase.Args;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LibNurirobotBase.Interface
 {
     /// <summary>
     /// 시리얼 포트 컨트롤
     /// </summary>
-    public interface ISerialControl
+    public interface ISerialControl: IDisposable
     {
         /// <summary>
         /// 데이터 수신 이벤트
         /// </summary>
-        event EventHandler<SerialDataReceivedArgs> DataReceived;
+        //event EventHandler<SerialDataReceivedArgs> DataReceived;
         /// <summary>
         /// 에러 발생 이벤트
         /// </summary>
-        event EventHandler<UnhandledExceptionEventArgs> ErrorReceived;
+        //event EventHandler<UnhandledExceptionEventArgs> ErrorReceived;
+
+        /// <summary>
+        /// 데이터 수신
+        /// </summary>
+        /// <value>수신데이터</value>
+        IObservable<char> ObsDataReceived { get; }
+
+        /// <summary>
+        /// 에러 발생
+        /// </summary>
+        /// <value>발생 에러</value>
+        IObservable<Exception> ObsErrorReceived { get; }
+
+        /// <summary>
+        /// 포트 열림
+        /// </summary>
+        /// <value>포트 열림 여부</value>
+        IObservable<bool> ObsIsOpenObservable { get; }
+
+        bool IsOpen { get; }
+
         /// <summary>
         /// 시리얼 연결 초기화
         /// </summary>
@@ -26,7 +48,8 @@ namespace LibNurirobotBase.Interface
         /// <summary>
         /// 시리얼 연결
         /// </summary>
-        void Connect();
+        /// <returns>작업</returns>
+        Task Connect();
         /// <summary>
         /// 시리얼 연결 해제
         /// </summary>
