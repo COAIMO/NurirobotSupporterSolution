@@ -13,6 +13,10 @@ namespace LibNurirobotBase.Interface
         /// 전달 데이터
         /// </summary>
         byte[] Data { get; set; }
+        /// <summary>
+        /// 장비 ID
+        /// </summary>
+        byte ID { get; set; }
 
         /// <summary>
         /// 파싱
