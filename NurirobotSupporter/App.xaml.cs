@@ -17,6 +17,9 @@ namespace NurirobotSupporter
     using System.Text;
     using LibNurirobotBase;
     using LibNurirobotV00;
+    using WPFLocalizeExtension.Engine;
+    using ReactiveUI;
+    using LibNurisupportPresentation;
 
 
     /// <summary>
@@ -24,6 +27,18 @@ namespace NurirobotSupporter
     /// </summary>
     public partial class App : Application
     {
+        private readonly AutoSuspendHelper _autoSuspendHelper;
+        private CompositeDisposable _Disposables;
+
+        public App()
+        {
+            InitializeComponent();
+            _autoSuspendHelper = new AutoSuspendHelper(this);
+            _Disposables = new CompositeDisposable();
+            RxApp.SuspensionHost.CreateNewAppState = () => new AppState();
+            RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver("appstate.json"));
+        }
+
 #if DEBUG
         [DllImport("Kernel32")]
         public static extern void AllocConsole();
@@ -37,6 +52,7 @@ namespace NurirobotSupporter
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            RxApp.SuspensionHost.GetAppState<AppState>();
 
             Locator.CurrentMutable.RegisterConstant(new FileHelper(), typeof(IFileHelper));
             Locator.CurrentMutable.RegisterConstant(new DeviceInfo(), typeof(IDeviceInfo));
@@ -46,26 +62,18 @@ namespace NurirobotSupporter
             Locator.CurrentMutable.RegisterConstant(new ReciveProcess(), typeof(IReciveProcess));
             Locator.CurrentMutable.RegisterConstant(new SerialProcess(), typeof(ISerialProcess));
             Locator.CurrentMutable.RegisterConstant(new DeviceProtocolDictionary(), typeof(IDeviceProtocolDictionary));
+            Locator.Current.GetService<ISerialControl>().AddTo(_Disposables);
+            Locator.Current.GetService<IEventSerialLog>().AddTo(_Disposables);
+            Locator.Current.GetService<IEventSerialValue>().AddTo(_Disposables);
+            Locator.Current.GetService<IReciveProcess>().AddTo(_Disposables);
+            Locator.Current.GetService<ISerialProcess>().AddTo(_Disposables);
+
+            // 한영 설정
+            //LocalizeDictionary.Instance.Culture = new System.Globalization.CultureInfo("en-US");
 
             //_IStorage = Locator.Current.GetService<IStorage>();
-#if DEBUG
+#if DEBUG_TEST
             AllocConsole();
-            //using (CommandEngine ce = new CommandEngine()) {
-            //    ce.StartRec();
-            //    ce.RunScript("Console.WriteLine(string.Format(\"{{ {0} }}\", 1));");
-            //    ce.RunScript("Console.WriteLine(string.Format(\"{{ {0} }}\", 1));");
-            //    ce.RunScript("Console.WriteLine(string.Format(\"{{ {0} }}\", 1));");
-            //    ce.RunScript("Console.WriteLine(string.Format(\"{{ {0} }}\", 1));");
-            //    ce.RunScript("Console.WriteLine(string.Format(\"{{ {0} }}\", 1));");
-            //    ce.StopRec();
-
-            //    var tmps = ce.Storage?.GetMacros();
-            //    if (tmps != null) {
-            //        foreach (var item in tmps) {
-            //            Debug.WriteLine(ce.Storage.GetMacro(item.Ticks).Macro[0]);
-            //        }
-            //    }
-            //}
 
             IDeviceInfo deviceInfo = Locator.Current.GetService<IDeviceInfo>();
             var tmps = deviceInfo.GetPorts();
@@ -140,7 +148,7 @@ namespace NurirobotSupporter
                 Direction = LibNurirobotBase.Enum.Direction.CCW,
                 Pos = 180f,
                 Speed = 100f,
-                Protocol = ProtocolMode.CTRLPosSpeed
+                Protocol = (byte)ProtocolMode.CTRLPosSpeed
             });
             Debug.WriteLine(BitConverter.ToString(tmpmc.Data).Replace("-", ""));
 
@@ -149,7 +157,7 @@ namespace NurirobotSupporter
                 Direction = LibNurirobotBase.Enum.Direction.CW,
                 Pos = 360f,
                 Arrivetime = 1f,
-                Protocol = ProtocolMode.CTRLAccPos
+                Protocol = (byte)ProtocolMode.CTRLAccPos
             });
             Debug.WriteLine(BitConverter.ToString(tmpmc.Data).Replace("-", ""));
 
@@ -158,7 +166,7 @@ namespace NurirobotSupporter
                 Direction = LibNurirobotBase.Enum.Direction.CCW,
                 Speed = 100f,
                 Arrivetime = 2f,
-                Protocol = ProtocolMode.CTRLAccSpeed
+                Protocol = (byte)ProtocolMode.CTRLAccSpeed
             });
             Debug.WriteLine(BitConverter.ToString(tmpmc.Data).Replace("-", ""));
 
@@ -187,11 +195,11 @@ namespace NurirobotSupporter
             });
             Debug.WriteLine(BitConverter.ToString(tmpmc.Data).Replace("-", ""));
 
-            tmpmc.PROT_SettingID(new LibNurirobotV00.Struct.NuriID {
-                ID = 0,
-                AfterID = 1
-            });
-            Debug.WriteLine(BitConverter.ToString(tmpmc.Data).Replace("-", ""));
+            //tmpmc.PROT_SettingID(new LibNurirobotV00.Struct.NuriID {
+            //    ID = 0,
+            //    AfterID = 1
+            //});
+            //Debug.WriteLine(BitConverter.ToString(tmpmc.Data).Replace("-", ""));
 
             tmpmc.PROT_SettingBaudrate(new LibNurirobotV00.Struct.NuriBaudrate {
                 ID = 0,
@@ -261,7 +269,7 @@ namespace NurirobotSupporter
             //17
             tmpmc.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
                 ID = 0,
-                Protocol = ProtocolMode.REQPos
+                Protocol = (byte)ProtocolMode.REQPos
             });
             Debug.WriteLine(BitConverter.ToString(tmpmc.Data).Replace("-", ""));
 
@@ -269,7 +277,7 @@ namespace NurirobotSupporter
             //18
             tmpmc.PROT_FeedbackPing(new LibNurirobotV00.Struct.NuriProtocol {
                 ID = 0,
-                Protocol = ProtocolMode.FEEDPing
+                Protocol = (byte)ProtocolMode.FEEDPing
             });
             Debug.WriteLine(string.Format("18 : {0}", BitConverter.ToString(tmpmc.Data).Replace("-", "")));
  
@@ -368,17 +376,191 @@ namespace NurirobotSupporter
                 Version = 0
             });
             Debug.WriteLine(string.Format("30 : {0}", BitConverter.ToString(tmpmc.Data).Replace("-", "")));
+            Debug.WriteLine("=================================================================");
+
+            NurirobotRSA tmpRSA = new NurirobotRSA();
+            tmpRSA.PROT_ControlPosSpeed(new LibNurirobotV00.Struct.NuriPosSpeedAclCtrl {
+                ID = 0,
+                Direction = LibNurirobotBase.Enum.Direction.CCW,
+                Pos = 180f,
+                Speed = 5f,
+            });
+            Debug.WriteLine(string.Format("1 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_ControlAcceleratedPos(new LibNurirobotV00.Struct.NuriPosSpeedAclCtrl {
+                ID = 0,
+                Direction = LibNurirobotBase.Enum.Direction.CW,
+                Pos = 360f,
+                Arrivetime = 5f,
+            });
+            Debug.WriteLine(string.Format("2 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_ControlAcceleratedSpeed(new LibNurirobotV00.Struct.NuriPosSpeedAclCtrl {
+                ID = 0,
+                Direction = LibNurirobotBase.Enum.Direction.CCW,
+                Speed = 10f,
+                Arrivetime = 1f,
+            });
+            Debug.WriteLine(string.Format("3 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingPositionController(new LibNurirobotV00.Struct.NuriPosSpdCtrl {
+                ID = 0,
+                Kp = 254,
+                Ki = 254,
+                kd = 0,
+                Current = 3200,
+            });
+            Debug.WriteLine(string.Format("4 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingSpeedController(new LibNurirobotV00.Struct.NuriPosSpdCtrl {
+                ID = 0,
+                Kp = 254,
+                Ki = 254,
+                kd = 0,
+                Current = 3200,
+            });
+            Debug.WriteLine(string.Format("5 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingID(new LibNurirobotV00.Struct.NuriID {
+                ID = 0,
+                AfterID = 1
+            });
+            Debug.WriteLine(string.Format("6 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingBaudrate(new LibNurirobotV00.Struct.NuriBaudrate {
+                ID = 0,
+                Baudrate = 115200
+            });
+            Debug.WriteLine(string.Format("7 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingResponsetime(new LibNurirobotV00.Struct.NuriResponsetime {
+                ID = 0,
+                Responsetime = 200
+            });
+            Debug.WriteLine(string.Format("8 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingRatio(new LibNurirobotV00.Struct.NuriRatio {
+                ID = 0,
+                Ratio = 2f
+            });
+            Debug.WriteLine(string.Format("9 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingControlOnOff(new LibNurirobotV00.Struct.NuriControlOnOff {
+                ID = 0,
+                IsCtrlOn = false
+            });
+            Debug.WriteLine(string.Format("10 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_SettingPositionControl(new LibNurirobotV00.Struct.NuriPositionCtrl {
+                ID = 0,
+                IsAbsolutePotionCtrl = false
+            });
+            Debug.WriteLine(string.Format("11 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_ResetPostion(new LibNurirobotV00.Struct.NuriProtocol {
+                ID = 0
+            });
+            Debug.WriteLine(string.Format("12 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_ResetFactory(new LibNurirobotV00.Struct.NuriProtocol {
+                ID = 255
+            });
+            Debug.WriteLine(string.Format("13 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
+                ID = 0,
+                Protocol = (byte)ProtocolModeRSA.REQPos
+            });
+            Debug.WriteLine(string.Format("14 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackPing(new LibNurirobotV00.Struct.NuriProtocol {
+                ID = 0,
+                Protocol = (byte)ProtocolModeRSA.FEEDPing
+            });
+            Debug.WriteLine(string.Format("15 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackPOS(new LibNurirobotV00.Struct.NuriPosSpeedAclCtrl {
+                ID = 0,
+                Direction = LibNurirobotBase.Enum.Direction.CCW,
+                Pos = 179.84f,
+                Speed = 0f,
+                Current = 0
+            });
+            Debug.WriteLine(string.Format("16 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackSpeed(new LibNurirobotV00.Struct.NuriPosSpeedAclCtrl {
+                ID = 0,
+                Direction = LibNurirobotBase.Enum.Direction.CCW,
+                Speed = 10.2f,
+                Pos = 3086.2f,
+                Current = 200
+            });
+            Debug.WriteLine(string.Format("17 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackPosControl(new LibNurirobotV00.Struct.NuriPosSpdCtrl {
+                ID = 0,
+                Kp = 254,
+                Ki = 254,
+                kd = 0,
+                Current = 3200
+            });
+            Debug.WriteLine(string.Format("18 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackSpeedControl(new LibNurirobotV00.Struct.NuriPosSpdCtrl {
+                ID = 0,
+                Kp = 254,
+                Ki = 254,
+                kd = 0,
+                Current = 3200
+            });
+            Debug.WriteLine(string.Format("19 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackResponsetime(new LibNurirobotV00.Struct.NuriResponsetime {
+                ID = 0,
+                Responsetime = 100
+            });
+            Debug.WriteLine(string.Format("20 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackRatio(new LibNurirobotV00.Struct.NuriRatio {
+                ID = 0,
+                Ratio = 2f
+            });
+            Debug.WriteLine(string.Format("21 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackControlOnOff(new LibNurirobotV00.Struct.NuriControlOnOff {
+                ID = 0,
+                IsCtrlOn = true
+            });
+            Debug.WriteLine(string.Format("22 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackPositionControl(new LibNurirobotV00.Struct.NuriPositionCtrl {
+                ID = 0,
+                IsAbsolutePotionCtrl = true
+            });
+            Debug.WriteLine(string.Format("23 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
+            tmpRSA.PROT_FeedbackFirmware(new LibNurirobotV00.Struct.NuriVersion {
+                ID = 0,
+                Version = 0
+            });
+            Debug.WriteLine(string.Format("24 : {0}", BitConverter.ToString(tmpRSA.Data).Replace("-", "")));
+
 
             Thread.Sleep(1000 * 5);
             //isc.Disconnect();
             comdis.Dispose();
 #endif
+
+            var window = new MainWindow(); // { DataContext = mainViewModel };
+            window.Closed += delegate { Shutdown(); };
+            window.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
             _IsRun = false;
+            _Disposables?.Dispose();
             //_IStorage?.Dispose();
         }
     }

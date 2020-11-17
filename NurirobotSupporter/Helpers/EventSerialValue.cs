@@ -24,6 +24,7 @@ namespace NurirobotSupporter.Helpers
         /// 수신데이터 감시
         /// </summary>
         public IObservable<SerialValueArgs> ObsSerialValueObservable => _SerialValue.Retry().Where(x=> {
+            // todo : 리얼타임 항목은 예외처리한다. 예) 그래프 데이터
             bool ret = false;
             try {
                 if (_DictValues.ContainsKey(x.ID)) {
@@ -49,6 +50,8 @@ namespace NurirobotSupporter.Helpers
 
         public void ReciveData(byte[] arg)
         {
+            // todo : 장비 아이디를 이용한 프로토콜과 연결
+            // todo : 수신 데이터 인식 기능 필요
             _SerialValue.OnNext(
                 new SerialValueArgs() { 
                     ValueName = Encoding.ASCII.GetString(arg),

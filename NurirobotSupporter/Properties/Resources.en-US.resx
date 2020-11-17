@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Left_Menu_English" xml:space="preserve">
-    <value>영어</value>
+    <value>English</value>
   </data>
   <data name="Left_Menu_Help" xml:space="preserve">
-    <value>도움말</value>
+    <value>Help</value>
   </data>
   <data name="Left_Menu_Korean" xml:space="preserve">
-    <value>한국어</value>
+    <value>Korean</value>
   </data>
   <data name="Left_Menu_Macro" xml:space="preserve">
-    <value>매크로</value>
+    <value>Macro</value>
   </data>
   <data name="Left_Menu_Multiple_Control" xml:space="preserve">
-    <value>다중 제어</value>
+    <value>Multiple Control</value>
   </data>
   <data name="Left_Menu_Search" xml:space="preserve">
-    <value>장치 조회</value>
+    <value>Device Search</value>
   </data>
   <data name="Left_Menu_Setting" xml:space="preserve">
-    <value>설정</value>
+    <value>Setting</value>
   </data>
   <data name="Left_Menu_Single_Control" xml:space="preserve">
-    <value>단독 제어</value>
+    <value>Single Control</value>
   </data>
 </root>

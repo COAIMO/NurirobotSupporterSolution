@@ -14,9 +14,9 @@ namespace LibNurirobotV00
     
 
     /// <summary>
-    /// Nurirobot Motercontrol-RS485
+    /// Nurirobot RSA-RS485
     /// </summary>
-    public class NurirobotMC : ICommand
+    public class NurirobotRSA : ICommand
     {
         public string PacketName { get; set; }
         public byte[] Data { get; set; }
@@ -160,8 +160,8 @@ namespace LibNurirobotV00
 
         public object GetDataStruch()
         {
-            switch ((ProtocolMode)Data[5]) {
-                case ProtocolMode.CTRLPosSpeed:
+            switch ((ProtocolModeRSA)Data[5]) {
+                case ProtocolModeRSA.CTRLPosSpeed:
                     return new NuriPosSpeedAclCtrl {
                         Protocol = Data[5],
                         ID = Data[2],
@@ -169,7 +169,7 @@ namespace LibNurirobotV00
                         Pos = BitConverter.ToUInt16(Data.Skip(7).Take(2).Reverse().ToArray(), 0) * 0.01f,
                         Speed = BitConverter.ToUInt16(Data.Skip(9).Take(2).Reverse().ToArray(), 0) * 0.1f,
                     };
-                case ProtocolMode.CTRLAccPos:
+                case ProtocolModeRSA.CTRLAccPos:
                     return new NuriPosSpeedAclCtrl {
                         Protocol = Data[5],
                         ID = Data[2],
@@ -177,7 +177,7 @@ namespace LibNurirobotV00
                         Pos = BitConverter.ToUInt16(Data.Skip(7).Take(2).Reverse().ToArray(), 0) * 0.01f,
                         Arrivetime = Data[9] * 0.1f
                     };
-                case ProtocolMode.CTRLAccSpeed:
+                case ProtocolModeRSA.CTRLAccSpeed:
                     return new NuriPosSpeedAclCtrl {
                         Protocol = Data[5],
                         ID = Data[2],
@@ -185,7 +185,7 @@ namespace LibNurirobotV00
                         Speed = BitConverter.ToUInt16(Data.Skip(7).Take(2).Reverse().ToArray(), 0) * 0.1f,
                         Arrivetime = Data[9] * 0.1f
                     };
-                case ProtocolMode.SETPosCtrl:
+                case ProtocolModeRSA.SETPosCtrl:
                     return new NuriPosSpdCtrl {
                         Protocol = Data[5],
                         ID = Data[2],
@@ -194,7 +194,7 @@ namespace LibNurirobotV00
                         kd = Data[8],
                         Current = (short)(Data[9] * 100)
                     };
-                case ProtocolMode.SETSpeedCtrl:
+                case ProtocolModeRSA.SETSpeedCtrl:
                     return new NuriPosSpdCtrl {
                         Protocol = Data[5],
                         ID = Data[2],
@@ -203,141 +203,108 @@ namespace LibNurirobotV00
                         kd = Data[8],
                         Current = (short)(Data[9] * 100)
                     };
-                case ProtocolMode.SETID:
+                case ProtocolModeRSA.SETID:
                     return new NuriID {
                         Protocol = Data[5],
                         ID = Data[2],
                         AfterID = Data[6]
                     };
-                case ProtocolMode.SETBaudrate:
+                case ProtocolModeRSA.SETBaudrate:
                     return new NuriBaudrate {
                         Protocol = Data[5],
                         ID = Data[2],
                         Baudrate = GetBaudrate(Data[6])
                     };
-                case ProtocolMode.SETResptime:
+                case ProtocolModeRSA.SETResptime:
                     return new NuriResponsetime {
                         Protocol = Data[5],
                         ID = Data[2],
                         Responsetime = (short)(Data[6] * 100)
                     };
-                case ProtocolMode.SETRatedSPD:
-                    return new NuriRatedSpeed {
-                        Protocol = Data[5],
-                        ID = Data[2],
-                        Speed = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0)
-                    };
-                case ProtocolMode.SETResolution:
-                    return new NuriResolution {
-                        Protocol = Data[5],
-                        ID = Data[2],
-                        Resolution = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0)
-                    };
-                case ProtocolMode.SETRatio:
+                case ProtocolModeRSA.SETRatio:
                     return new NuriRatio {
                         Protocol = Data[5],
                         ID = Data[2],
                         Ratio = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0) * 0.1f
                     };
-                case ProtocolMode.SETCtrlOnOff:
+                case ProtocolModeRSA.SETCtrlOnOff:
                     return new NuriControlOnOff {
                         Protocol = Data[5],
                         ID = Data[2],
                         IsCtrlOn = Data[6] == 0
                     };
-                case ProtocolMode.SETPosCtrlMode:
+                case ProtocolModeRSA.SETPosCtrlMode:
                     return new NuriPositionCtrl {
                         Protocol = Data[5],
                         ID = Data[2],
                         IsAbsolutePotionCtrl = Data[6] == 0
                     };
-                case ProtocolMode.SETCtrlDirt:
-                    return new NuriCtrlDirection {
-                        Protocol = Data[5],
-                        ID = Data[2],
-                        Direction = (Direction)Data[6]
-                    };
-                case ProtocolMode.RESETPos:
+                case ProtocolModeRSA.RESETPos:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.RESETFactory:
+                case ProtocolModeRSA.RESETFactory:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQPing:
+                case ProtocolModeRSA.REQPing:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQPos:
+                case ProtocolModeRSA.REQPos:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQSpeed:
+                case ProtocolModeRSA.REQSpeed:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQPosCtrl:
+                case ProtocolModeRSA.REQPosCtrl:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQSpdCtrl:
+                case ProtocolModeRSA.REQSpdCtrl:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQResptime:
+                case ProtocolModeRSA.REQResptime:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQRatedSPD:
+                case ProtocolModeRSA.REQRatio:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQResolution:
+                case ProtocolModeRSA.REQCtrlOnOff:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQRatio:
+                case ProtocolModeRSA.REQPosCtrlMode:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQCtrlOnOff:
+                case ProtocolModeRSA.REQFirmware:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQPosCtrlMode:
+                case ProtocolModeRSA.FEEDPing:
                     return new NuriProtocol {
                         ID = Data[2],
                         Protocol = Data[5]
                     };
-                case ProtocolMode.REQCtrlDirt:
-                    return new NuriProtocol {
-                        ID = Data[2],
-                        Protocol = Data[5]
-                    };
-                case ProtocolMode.REQFirmware:
-                    return new NuriProtocol {
-                        ID = Data[2],
-                        Protocol = Data[5]
-                    };
-                case ProtocolMode.FEEDPing:
-                    return new NuriProtocol {
-                        ID = Data[2],
-                        Protocol = Data[5]
-                    };
-                case ProtocolMode.FEEDPos:
+                case ProtocolModeRSA.FEEDPos:
                     return new NuriPosSpeedAclCtrl {
                         ID = Data[2],
                         Protocol = Data[5],
@@ -346,7 +313,7 @@ namespace LibNurirobotV00
                         Speed = BitConverter.ToUInt16(Data.Skip(9).Take(2).Reverse().ToArray(), 0) * 0.1f,
                         Current = (short)(Data[11] * 100)
                     };
-                case ProtocolMode.FEEDSpeed:
+                case ProtocolModeRSA.FEEDSpeed:
                     return new NuriPosSpeedAclCtrl {
                         ID = Data[2],
                         Protocol = Data[5],
@@ -355,7 +322,7 @@ namespace LibNurirobotV00
                         Pos = BitConverter.ToUInt16(Data.Skip(9).Take(2).Reverse().ToArray(), 0) * 0.1f,
                         Current = (short)(Data[11] * 100)
                     };
-                case ProtocolMode.FEEDPosCtrl:
+                case ProtocolModeRSA.FEEDPosCtrl:
                     return new NuriPosSpdCtrl {
                         ID = Data[2],
                         Protocol = Data[5],
@@ -364,7 +331,7 @@ namespace LibNurirobotV00
                         kd = Data[8],
                         Current = (short)(Data[9] * 100)
                     };
-                case ProtocolMode.FEEDSpdCtrl:
+                case ProtocolModeRSA.FEEDSpdCtrl:
                     return new NuriPosSpdCtrl {
                         ID = Data[2],
                         Protocol = Data[5],
@@ -373,49 +340,31 @@ namespace LibNurirobotV00
                         kd = Data[8],
                         Current = (short)(Data[9] * 100)
                     };
-                case ProtocolMode.FEEDResptime:
+                case ProtocolModeRSA.FEEDResptime:
                     return new NuriResponsetime {
                         Protocol = Data[5],
                         ID = Data[2],
                         Responsetime = (short)(Data[6] * 100)
                     };
-                case ProtocolMode.FEEDRatedSPD:
-                    return new NuriRatedSpeed {
-                        Protocol = Data[5],
-                        ID = Data[2],
-                        Speed = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0)
-                    };
-                case ProtocolMode.FEEDResolution:
-                    return new NuriResolution {
-                        Protocol = Data[5],
-                        ID = Data[2],
-                        Resolution = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0)
-                    };
-                case ProtocolMode.FEEDRatio:
+                case ProtocolModeRSA.FEEDRatio:
                     return new NuriRatio {
                         Protocol = Data[5],
                         ID = Data[2],
                         Ratio = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0) * 0.1f
                     };
-                case ProtocolMode.FEEDCtrlOnOff:
+                case ProtocolModeRSA.FEEDCtrlOnOff:
                     return new NuriControlOnOff {
                         Protocol = Data[5],
                         ID = Data[2],
                         IsCtrlOn = Data[6] == 0
                     };
-                case ProtocolMode.FEEDPosCtrlMode:
+                case ProtocolModeRSA.FEEDPosCtrlMode:
                     return new NuriPositionCtrl {
                         Protocol = Data[5],
                         ID = Data[2],
                         IsAbsolutePotionCtrl = Data[6] == 0
                     };
-                case ProtocolMode.FEEDCtrlDirt:
-                    return new NuriCtrlDirection {
-                        Protocol = Data[5],
-                        ID = Data[2],
-                        Direction = (Direction)Data[6]
-                    };
-                case ProtocolMode.FEEDFirmware:
+                case ProtocolModeRSA.FEEDFirmware:
                     return new NuriVersion {
                         ID = Data[2],
                         Version = Data[6]
@@ -681,57 +630,7 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 9. 모터 정격속도 설정(송신)
-        /// </summary>
-        /// <param name="arg"></param>
-        public void PROT_SettingRatedspeed(NuriRatedSpeed arg)
-        {
-            byte[] data = new byte[2];
-            var tmpspd = BitConverter.GetBytes(arg.Speed).Reverse().ToArray();
-            Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
-            BuildProtocol(arg.ID, 0x04, 0x09, data);
-        }
-
-        /// <summary>
-        /// 9. 모터 정격속도 설정(송신)
-        /// </summary>
-        /// <param name="id">장비 아이디</param>
-        /// <param name="spd">모터 정격속도 RPM</param>
-        public void SettingRatedspeed(byte id, ushort spd)
-        {
-            PROT_SettingRatedspeed(new NuriRatedSpeed {
-                ID = id,
-                Speed = spd
-            });
-        }
-
-        /// <summary>
-        /// 10. 분해능 설정(송신)
-        /// </summary>
-        /// <param name="arg"></param>
-        public void PROT_SettingResolution(NuriResolution arg)
-        {
-            byte[] data = new byte[2];
-            var tmpspd = BitConverter.GetBytes(arg.Resolution).Reverse().ToArray();
-            Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
-            BuildProtocol(arg.ID, 0x04, 0x0A, data);
-        }
-
-        /// <summary>
-        /// 10. 분해능 설정(송신
-        /// </summary>
-        /// <param name="id">장비 아이디</param>
-        /// <param name="res">분해능</param>
-        public void SettingResolution (byte id, ushort res)
-        {
-            PROT_SettingResolution(new NuriResolution {
-                ID = id,
-                Resolution = res
-            });
-        }
-
-        /// <summary>
-        /// 11.감속비설정(송신)
+        /// 9.감속비설정(송신)
         /// </summary>
         /// <param name="arg"></param>
         public void PROT_SettingRatio(NuriRatio arg)
@@ -739,11 +638,11 @@ namespace LibNurirobotV00
             byte[] data = new byte[2];
             var tmpspd = BitConverter.GetBytes((ushort)Math.Round(arg.Ratio / 0.1f)).Reverse().ToArray();
             Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
-            BuildProtocol(arg.ID, 0x04, 0x0B, data);
+            BuildProtocol(arg.ID, 0x04, 0x09, data);
         }
 
         /// <summary>
-        /// 11.감속비설정(송신)
+        /// 9.감속비설정(송신)
         /// </summary>
         /// <param name="id">장비 아이디</param>
         /// <param name="ratio">감속비</param>
@@ -756,16 +655,16 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 12. 제어 On/Off 설정(송신)
+        /// 10. 제어 On/Off 설정(송신)
         /// </summary>
         /// <param name="arg"></param>
         public void PROT_SettingControlOnOff(NuriControlOnOff arg)
         {
-            BuildProtocol(arg.ID, 0x03, 0x0C, new byte[1] { (byte)(arg.IsCtrlOn ? 0x00 : 0x01) });
+            BuildProtocol(arg.ID, 0x03, 0x0A, new byte[1] { (byte)(arg.IsCtrlOn ? 0x00 : 0x01) });
         }
 
         /// <summary>
-        /// 12. 제어 On/Off 설정(송신)
+        /// 10. 제어 On/Off 설정(송신)
         /// </summary>
         /// <param name="id">장비 아이디</param>
         /// <param name="isCtrlOn">제어 On/Off</param>
@@ -778,16 +677,16 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 13. 위치제어 모드 설정(송신)
+        /// 11. 위치제어 모드 설정(송신)
         /// </summary>
         /// <param name="arg"></param>
         public void PROT_SettingPositionControl(NuriPositionCtrl arg)
         {
-            BuildProtocol(arg.ID, 0x03, 0x0D, new byte[1] { (byte)(arg.IsAbsolutePotionCtrl ? 0x00 : 0x01) });
+            BuildProtocol(arg.ID, 0x03, 0x0B, new byte[1] { (byte)(arg.IsAbsolutePotionCtrl ? 0x00 : 0x01) });
         }
 
         /// <summary>
-        /// 13. 위치제어 모드 설정(송신)
+        /// 11. 위치제어 모드 설정(송신)
         /// </summary>
         /// <param name="id">장비 아이디</param>
         /// <param name="isAbsolute">절대위치여부</param>
@@ -800,39 +699,16 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 14. 제어 방향 설정(송신)
-        /// </summary>
-        /// <param name="arg"></param>
-        public void PROT_SettingControlDirection(NuriCtrlDirection arg)
-        {
-            BuildProtocol(arg.ID, 0x03, 0x0E, 
-                new byte[1] { (byte)(arg.Direction == Direction.CCW ? 0x00 : 0x01) });
-        }
-
-        /// <summary>
-        /// 14. 제어 방향 설정(송신)
-        /// </summary>
-        /// <param name="id">장비 아이디</param>
-        /// <param name="direction">제어방향</param>
-        public void SettingControlDirection(byte id, Direction direction)
-        {
-            PROT_SettingControlDirection(new NuriCtrlDirection {
-                ID = id,
-                Direction = direction
-            });
-        }
-
-        /// <summary>
-        /// 15. 위치초기화(송신)
+        /// 12. 위치초기화(송신)
         /// </summary>
         /// <param name="id">장비 아이디</param>
         public void PROT_ResetPostion(NuriProtocol arg)
         {
-            BuildProtocol(arg.ID, 0x02, 0x0F , new byte[] { });
+            BuildProtocol(arg.ID, 0x02, 0x0C , new byte[] { });
         }
 
         /// <summary>
-        /// 15. 위치초기화(송신)
+        /// 12. 위치초기화(송신)
         /// </summary>
         /// <param name="id">장비 아이디</param>
         public void ResetPostion(byte id)
@@ -843,16 +719,16 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 16. 공장초기화(송신)
+        /// 13. 공장초기화(송신)
         /// </summary>
         /// <param name="id">장비아이디</param>
         public void PROT_ResetFactory(NuriProtocol arg)
         {
-            BuildProtocol(arg.ID, 0x02, 0x10, new byte[] { });
+            BuildProtocol(arg.ID, 0x02, 0x0D, new byte[] { });
         }
 
         /// <summary>
-        /// 16. 공장초기화(송신)
+        /// 13. 공장초기화(송신)
         /// </summary>
         /// <param name="id">장비아이디</param>
         public void ResetFactory(byte id)
@@ -863,7 +739,7 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 17. 피드백 요청(송신)
+        /// 14. 피드백 요청(송신)
         /// </summary>
         /// <param name="arg"></param>
         public void PROT_Feedback(NuriProtocol arg)
@@ -875,11 +751,11 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 17. 피드백 요청(송신)
+        /// 14. 피드백 요청(송신)
         /// </summary>
         /// <param name="id">장비아이디</param>
         /// <param name="mode">피드백 모드</param>
-        public void Feedback(byte id, ProtocolMode mode)
+        public void Feedback(byte id, ProtocolModeRSA mode)
         {
             PROT_Feedback(new NuriProtocol {
                 ID = id,
@@ -889,18 +765,18 @@ namespace LibNurirobotV00
 
 
         /// <summary>
-        /// 18. Ping(수신)
+        /// 15. Ping(수신)
         /// 테스트 개발용
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend">전송여부 기본은 전송안함</param>
         public void PROT_FeedbackPing(NuriProtocol arg, bool isSend = false)
         {
-            BuildProtocol(arg.ID, 0x02, (byte)ProtocolMode.FEEDPing, new byte[] { }, isSend);
+            BuildProtocol(arg.ID, 0x02, (byte)ProtocolModeRSA.FEEDPing, new byte[] { }, isSend);
         }
 
         /// <summary>
-        /// 19. 위치피드백(수신)
+        /// 16. 위치피드백(수신)
         /// 테스트 개발용
         /// </summary>
         /// <param name="arg"></param>
@@ -918,7 +794,7 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 20. 속도피드백(수신)
+        /// 17. 속도피드백(수신)
         /// 테스트 개발용
         /// </summary>
         /// <param name="arg"></param>
@@ -936,7 +812,7 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 21. 위치제어기 피드백(수신)
+        /// 18. 위치제어기 피드백(수신)
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend"></param>
@@ -951,7 +827,7 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 22. 속도제어기 피드백(수신)
+        /// 19. 속도제어기 피드백(수신)
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend"></param>
@@ -966,7 +842,7 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 23. 통신응답시간 피드백(수신)
+        /// 20. 통신응답시간 피드백(수신)
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend"></param>
@@ -976,33 +852,7 @@ namespace LibNurirobotV00
         }
 
         /// <summary>
-        /// 24. 모터 정격속도 피드백(수신)
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <param name="isSend"></param>
-        public void PROT_FeedbackRatedSpeed(NuriRatedSpeed arg, bool isSend = false)
-        {
-            byte[] data = new byte[2];
-            var tmpspd = BitConverter.GetBytes(arg.Speed).Reverse().ToArray();
-            Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
-            BuildProtocol(arg.ID, 0x04, 0xD6, data, isSend);
-        }
-
-        /// <summary>
-        /// 25. 분해능 피드백(수신)
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <param name="isSend"></param>
-        public void PROT_FeedbackResolution(NuriResolution arg, bool isSend = false)
-        {
-            byte[] data = new byte[2];
-            var tmpspd = BitConverter.GetBytes(arg.Resolution).Reverse().ToArray();
-            Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
-            BuildProtocol(arg.ID, 0x04, 0xD7, data, isSend);
-        }
-
-        /// <summary>
-        /// 26. 감속비 피드백(수신)
+        /// 21. 감속비 피드백(수신)
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend"></param>
@@ -1011,44 +861,33 @@ namespace LibNurirobotV00
             byte[] data = new byte[2];
             var tmpspd = BitConverter.GetBytes((ushort)Math.Round(arg.Ratio / 0.1f)).Reverse().ToArray();
             Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
-            BuildProtocol(arg.ID, 0x04, 0xD8, data, isSend);
+            BuildProtocol(arg.ID, 0x04, 0xD6, data, isSend);
         }
 
         /// <summary>
-        /// 27. 제어 On/Off 피드백(수신)
+        /// 22. 제어 On/Off 피드백(수신)
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend"></param>
         public void PROT_FeedbackControlOnOff(NuriControlOnOff arg, bool isSend = false)
         {
-            BuildProtocol(arg.ID, 0x03, 0xD9, 
+            BuildProtocol(arg.ID, 0x03, 0xD7, 
                 new byte[1] { (byte)(arg.IsCtrlOn ? 0x00 : 0x01) }, isSend);
         }
 
         /// <summary>
-        /// 28. 위치제어 모드 피드백(수신)
+        /// 23. 위치제어 모드 피드백(수신)
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend"></param>
         public void PROT_FeedbackPositionControl(NuriPositionCtrl arg, bool isSend = false)
         {
-            BuildProtocol(arg.ID, 0x03, 0xDA, 
+            BuildProtocol(arg.ID, 0x03, 0xD8, 
                 new byte[1] { (byte)(arg.IsAbsolutePotionCtrl ? 0x00 : 0x01) }, isSend);
         }
 
         /// <summary>
-        /// 29. 제어 방향 피드백(수신)
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <param name="isSend"></param>
-        public void PROT_FeedbackControlDirection(NuriCtrlDirection arg, bool isSend = false)
-        {
-            BuildProtocol(arg.ID, 0x03, 0xDB,
-                new byte[1] { (byte)(arg.Direction == Direction.CCW ? 0x00 : 0x01) }, isSend);
-        }
-
-        /// <summary>
-        /// 30. 펌웨어 버전 피드백(수신)
+        /// 24. 펌웨어 버전 피드백(수신)
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="isSend"></param>

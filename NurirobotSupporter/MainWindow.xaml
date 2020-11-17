@@ -1,12 +1,26 @@
-﻿<Window x:Class="NurirobotSupporter.MainWindow"
+<mah:MetroWindow x:Class="NurirobotSupporter.MainWindow"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NurirobotSupporter"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="ko"
+        lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
+        lex:ResxLocalizationProvider.DefaultDictionary="Resources"        
         mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"
+        NonActiveWindowTitleBrush="{DynamicResource PrimaryHueDarkBrush}"        
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Button x:Name="button" Content="{lex:Loc Left_Menu_English}" HorizontalAlignment="Left" Margin="249,130,0,0" VerticalAlignment="Top" Width="183" Height="54"/>
+        <Viewbox>
+            <TextBlock>asd</TextBlock>
+        </Viewbox>
     </Grid>
-</Window>
+</mah:MetroWindow>

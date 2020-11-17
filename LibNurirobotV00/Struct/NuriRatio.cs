@@ -12,7 +12,7 @@ namespace LibNurirobotV00.Struct
         /// <summary>
         /// 피드백 모드
         /// </summary>
-        public ProtocolMode Protocol { get; set; }
+        public byte Protocol { get; set; }
         public NuriRatio() : base() { }
     }
 }

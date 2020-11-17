@@ -9,7 +9,7 @@ namespace LibNurirobotV00.Struct
         /// <summary>
         /// 모드
         /// </summary>
-        public ProtocolMode Protocol { get; set; }
+        public byte Protocol { get; set; }
         public byte Kp { get; set; }
         public byte Ki { get; set; }
         public byte kd { get; set; }

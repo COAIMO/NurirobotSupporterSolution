@@ -11,7 +11,7 @@ namespace LibNurirobotV00.Struct
         /// <summary>
         ///  프로토콜
         /// </summary>
-        public ProtocolMode Protocol { get; set; }
+        public byte Protocol { get; set; }
         /// <summary>
         /// 진행방향
         /// </summary>
