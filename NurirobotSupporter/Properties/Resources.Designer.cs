@@ -61,6 +61,24 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
+        ///   연결과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_Connect {
+            get {
+                return ResourceManager.GetString("Button_Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   연결해제과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_Disconnect {
+            get {
+                return ResourceManager.GetString("Button_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   영어과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Left_Menu_English {
@@ -79,11 +97,11 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
-        ///   한국어과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   언어설정과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string Left_Menu_Korean {
+        public static string Left_Menu_Language {
             get {
-                return ResourceManager.GetString("Left_Menu_Korean", resourceCulture);
+                return ResourceManager.GetString("Left_Menu_Language", resourceCulture);
             }
         }
         
@@ -106,7 +124,7 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
-        ///   장치 조회과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   장비 조회과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Left_Menu_Search {
             get {
@@ -115,7 +133,7 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
-        ///   설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   장비 설정과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Left_Menu_Setting {
             get {
@@ -129,6 +147,51 @@ namespace NurirobotSupporter.Properties {
         public static string Left_Menu_Single_Control {
             get {
                 return ResourceManager.GetString("Left_Menu_Single_Control", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   메뉴과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Left_Menu_Title {
+            get {
+                return ResourceManager.GetString("Left_Menu_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   처리중입니다. 기다려주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Loading_Text {
+            get {
+                return ResourceManager.GetString("Loading_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   통신속도과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_Baudrate {
+            get {
+                return ResourceManager.GetString("Title_Baudrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   시리얼포트과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_Comport {
+            get {
+                return ResourceManager.GetString("Title_Comport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   시리얼포트에 연결되지 않았습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_NotConnected {
+            get {
+                return ResourceManager.GetString("Title_NotConnected", resourceCulture);
             }
         }
     }

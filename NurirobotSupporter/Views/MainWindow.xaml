@@ -1,0 +1,270 @@
+<mah:MetroWindow x:Name="MainView" 
+    x:Class="NurirobotSupporter.Views.MainWindow"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:NurirobotSupporter.Views"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
+        lex:LocalizeDictionary.DesignCulture="ko"
+        lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
+        lex:ResxLocalizationProvider.DefaultDictionary="Resources"  
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStartupLocation="CenterScreen"
+        SaveWindowPosition="False"
+        ResizeBorderThickness="5"
+        BorderThickness="0"
+        MinHeight="480"
+        MinWidth="800"
+        Height="480"
+        Width="800"
+        d:DataContext="{d:DesignInstance Type=designTime:MainWindowViewModel, IsDesignTimeCreatable=True}"
+        Title="Nurirobot Supporter" >
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <!--  This is the template for all menu items. In this sample we use the glyph items.  -->
+            <DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type mah:HamburgerMenuGlyphItem}">
+                <DockPanel Height="48" LastChildFill="True">
+                    <ContentControl x:Name="IconPart"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=CompactPaneLength}"
+                        Content="{Binding Icon}"
+                        DockPanel.Dock="Left"
+                        Focusable="False"
+                        IsTabStop="False" />
+                    <TextBlock x:Name="TextPart"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Text="{Binding Label}" />
+                </DockPanel>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
+                        <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+                        <Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!--  This is the template for the option menu item  -->
+            <DataTemplate x:Key="HamburgerOptionsMenuItem" DataType="{x:Type mah:HamburgerMenuIconItem}">
+                <DockPanel Height="48" LastChildFill="True">
+                    <ContentControl x:Name="IconPart"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=CompactPaneLength}"
+                        Content="{Binding Icon}"
+                        DockPanel.Dock="Left"
+                        Focusable="False"
+                        IsTabStop="False" />
+                    <TextBlock x:Name="TextPart"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Text="{Binding Label}" />
+                </DockPanel>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
+                        <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+                        <Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+    <mah:HamburgerMenu x:Name="HamburgerMenuControl"
+                          DisplayMode="CompactOverlay"
+                          HamburgerWidth="48"
+                          SelectedIndex="0"
+                          ItemTemplate="{StaticResource HamburgerMenuItem}"
+                          OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}" 
+                        ItemInvoked="HamburgerMenuControl_ItemInvoked">
+        <!--  Header  -->
+        <mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
+            <DataTemplate>
+                <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Foreground="White"
+                   Text="{lex:Loc Left_Menu_Title}" />
+            </DataTemplate>
+        </mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
+
+        <!--  Items  -->
+        <mah:HamburgerMenu.ItemsSource>
+            <mah:HamburgerMenuItemCollection>
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Setting}" Tag="/Views/TestView.xaml">
+                    <mah:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="Cog" />
+                    </mah:HamburgerMenuIconItem.Icon>
+                </mah:HamburgerMenuIconItem>
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Single_Control}" Tag="/Views/TestView.xaml">
+                    <mah:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="AlphaSBoxOutline" />
+                    </mah:HamburgerMenuIconItem.Icon>
+                </mah:HamburgerMenuIconItem>
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Multiple_Control}">
+                    <mah:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="AlphaMBox" />
+                    </mah:HamburgerMenuIconItem.Icon>
+                </mah:HamburgerMenuIconItem>
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Macro}">
+                    <mah:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="LanguageCsharp" />
+                    </mah:HamburgerMenuIconItem.Icon>
+                </mah:HamburgerMenuIconItem>
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Search}">
+                    <mah:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="FeatureSearch" />
+                    </mah:HamburgerMenuIconItem.Icon>
+                </mah:HamburgerMenuIconItem>
+            </mah:HamburgerMenuItemCollection>
+        </mah:HamburgerMenu.ItemsSource>
+
+        <!--  Options  -->
+        <mah:HamburgerMenu.OptionsItemsSource>
+            <mah:HamburgerMenuItemCollection>
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Help}" Tag="/Views/TestView.xaml">
+                    <mah:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="Help" />
+                    </mah:HamburgerMenuIconItem.Icon>
+                </mah:HamburgerMenuIconItem>
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Language}" Tag="/Views/TestView.xaml">
+                    <mah:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="Web" />
+                    </mah:HamburgerMenuIconItem.Icon>
+                </mah:HamburgerMenuIconItem>
+            </mah:HamburgerMenuItemCollection>
+        </mah:HamburgerMenu.OptionsItemsSource>
+
+        <!--  Content  -->
+        <mah:HamburgerMenu.ContentTemplate>
+            <DataTemplate>
+                <Grid x:Name="ContentGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="520"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <!--  상단 통신 연결 정보  -->
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Viewbox Grid.Column="0">
+                                <TextBlock Padding="10" Text="{lex:Loc Title_Comport}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                            </Viewbox>
+                            <Viewbox Grid.Column="2">
+                                <TextBlock Padding="10" Text="{lex:Loc Title_Baudrate}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                            </Viewbox>
+                            <mah:SplitButton Grid.Column="1" x:Name="comboBox" 
+                                      Style="{DynamicResource MahApps.Styles.ComboBox}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                             ItemsSource="{Binding DataContext.SerialPorts, ElementName=MainView}"
+                                             SelectedItem="{Binding DataContext.SelectedPort, ElementName=MainView, Mode=TwoWay}"
+                                             IsEditable="False">
+                            </mah:SplitButton>
+                            <mah:SplitButton Grid.Column="3" 
+                                             Style="{DynamicResource MahApps.Styles.ComboBox}"
+                                             HorizontalAlignment="Stretch" 
+                                             VerticalAlignment="Center"
+                                             ItemsSource="{Binding DataContext.Baudrates, ElementName=MainView}"
+                                             SelectedItem="{Binding DataContext.SelectedBaudrates, ElementName=MainView, Mode=TwoWay}"
+                                             IsEditable="False">
+                            </mah:SplitButton>
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Margin="5"
+                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
+                                    Command="{Binding DataContext.MacroStopRecode, ElementName=MainView}"
+                                    Visibility="{Binding DataContext.IsRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}">
+                                <iconPacks:PackIconModern Width="20"
+                                              Height="20"
+                                              Kind="ControlStop" />
+                            </Button>
+                            <Button Grid.Column="0" Margin="5"
+                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
+                                    Command="{Binding DataContext.MacroRecode, ElementName=MainView}"
+                                    Visibility="{Binding DataContext.IsNotRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}">
+                                <iconPacks:PackIconModern Width="20"
+                                              Height="20"
+                                              Kind="MoonFull" Foreground="Red" />
+                            </Button>
+                            <Button Grid.Column="1" Content="{lex:Loc Button_Connect}" Margin="5"
+                                    Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
+                                    Command="{Binding DataContext.SerialConnect, ElementName=MainView}"
+                                    Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"/>
+                            <Button Grid.Column="1" Content="{lex:Loc Button_Disconnect}" Margin="5"
+                                    Style="{DynamicResource MahApps.Styles.Button.Square}" 
+                                    Command="{Binding DataContext.SerialDisConnect, ElementName=MainView}"
+                                    Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"/>
+                        </Grid>
+                    </Grid>
+                    <Frame Grid.Row="1" x:Name="FrameNavigation" Source="{Binding Tag}" NavigationUIVisibility="Hidden"></Frame>
+                    <!--<Grid Grid.Row="1" Visibility="{Binding IsNotConnect, Converter={StaticResource BooleanToVisibility}}"
+                  Background="{StaticResource MaterialDesignPaper}">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{lex:Loc Title_NotConnected}" FontSize="32"
+                               HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}"
+                  Background="{StaticResource MaterialDesignPaper}">
+                        <StackPanel VerticalAlignment="Center">
+                            <mah:ProgressRing 
+                                Height="250" Width="200" Padding="0, 0, 0, 40"/>
+                            <TextBlock Text="{lex:Loc Loading_Text}" FontSize="32"
+                               HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>-->
+                </Grid>
+            </DataTemplate>
+        </mah:HamburgerMenu.ContentTemplate>
+    </mah:HamburgerMenu>
+</mah:MetroWindow>

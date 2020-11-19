@@ -30,14 +30,18 @@ namespace LibMacroBase
         _TimerSubscribeDispose?.Dispose();
         */
 
-        private const string _Templete = "static void Run() {{\n{0}\n}}\n" ;
+        private const string _Templete = "using System; using System.Threading; using System.Threading.Tasks; using LibNurirobotV00; using LibNurirobotV00.Struct; class tmp {{\nstatic void Run() {{\n{0}\n}}\n}}\n";
+        public bool IsRecoding { get; set; } = false;
 
         /// <summary>
         /// 명령어 레코딩 시작
         /// </summary>
         public void StartRec()
         {
-            _CurrentMacroInfo = new MacroInfo();
+            if (!IsRecoding) {
+                _CurrentMacroInfo = new MacroInfo();
+                IsRecoding = true;
+            }
         }
 
         /// <summary>
@@ -51,6 +55,7 @@ namespace LibMacroBase
 
             _CurrentMacroInfo?.Dispose();
             _CurrentMacroInfo = null;
+            IsRecoding = false;
         }
 
         /// <summary>

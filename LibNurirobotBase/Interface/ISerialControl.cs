@@ -1,11 +1,12 @@
-using LibNurirobotBase.Args;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace LibNurirobotBase.Interface
 {
+    using LibNurirobotBase.Args;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Text;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// 시리얼 포트 컨트롤
     /// </summary>
@@ -24,7 +25,7 @@ namespace LibNurirobotBase.Interface
         /// 데이터 수신
         /// </summary>
         /// <value>수신데이터</value>
-        IObservable<char> ObsDataReceived { get; }
+        IObservable<byte> ObsDataReceived { get; }
 
         /// <summary>
         /// 에러 발생

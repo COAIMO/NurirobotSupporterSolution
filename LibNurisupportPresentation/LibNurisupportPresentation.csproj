@@ -5,13 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DesignTime\" />
-    <Folder Include="ViewModels\" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="ReactiveUI" Version="12.1.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ReactiveUI" Version="12.1.5" />
+    <ProjectReference Include="..\LibMacroBase\LibMacroBase.csproj" />
+    <ProjectReference Include="..\LibNurirobotBase\LibNurirobotBase.csproj" />
+    <ProjectReference Include="..\LibNurirobotV00\LibNurirobotV00.csproj" />
   </ItemGroup>
 
 </Project>
