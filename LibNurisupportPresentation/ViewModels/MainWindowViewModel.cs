@@ -45,9 +45,12 @@ namespace LibNurisupportPresentation.ViewModels
         ISerialControl _ISC;
         ICommandEngine _ICE;
         //CompositeDisposable _CompositeDisposable;
-        public MainWindowViewModel(IDeviceSearch deviceSearch)
+        public MainWindowViewModel(IDeviceSearchViewModel deviceSearch, ILanguageViewModel language)
         {
             DeviceSearch = deviceSearch;
+            Language = language;
+            deviceSearch.MainViewModel = this;
+
             _Connected.OnNext(false);
             _Macro.OnNext(false);
             var deviceInfo = Locator.Current.GetService<IDeviceInfo>();
@@ -214,6 +217,7 @@ namespace LibNurisupportPresentation.ViewModels
             get => _SelectedBaudrates;
             set => this.RaiseAndSetIfChanged(ref _SelectedBaudrates, value);
         }
-        public IDeviceSearch DeviceSearch { get; set; }
+        public IDeviceSearchViewModel DeviceSearch { get; set; }
+        public ILanguageViewModel Language { get; set; }
     }
 }

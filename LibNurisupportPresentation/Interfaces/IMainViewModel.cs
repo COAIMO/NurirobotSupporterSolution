@@ -61,6 +61,10 @@ namespace LibNurisupportPresentation.Interfaces
         /// <summary>
         /// 장치 조회
         /// </summary>
-        IDeviceSearch DeviceSearch { get; set; }
+        IDeviceSearchViewModel DeviceSearch { get; set; }
+        /// <summary>
+        /// 언어설정
+        /// </summary>
+        ILanguageViewModel Language { get; set; }
     }
 }

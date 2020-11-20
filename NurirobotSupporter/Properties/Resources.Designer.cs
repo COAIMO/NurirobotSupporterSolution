@@ -61,7 +61,16 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
-        ///   시리얼포트에 이미 연결되어 있습니다.\n연결을 해제하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   장비를 찾을 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Alert_No_BaudRate {
+            get {
+                return ResourceManager.GetString("Alert_No_BaudRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   시리얼포트에 이미 연결되어 있습니다. 연결을 해제하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Alert_Serial_Connected {
             get {
@@ -84,6 +93,24 @@ namespace NurirobotSupporter.Properties {
         public static string Button_Disconnect {
             get {
                 return ResourceManager.GetString("Button_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   English과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_English {
+            get {
+                return ResourceManager.GetString("Button_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   한국어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_Korean {
+            get {
+                return ResourceManager.GetString("Button_Korean", resourceCulture);
             }
         }
         
@@ -210,6 +237,15 @@ namespace NurirobotSupporter.Properties {
         public static string Title_Comport {
             get {
                 return ResourceManager.GetString("Title_Comport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   언어설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_Language {
+            get {
+                return ResourceManager.GetString("Title_Language", resourceCulture);
             }
         }
         

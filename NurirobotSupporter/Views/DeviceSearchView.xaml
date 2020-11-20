@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NurirobotSupporter.Views"
-xmlns:lex="http://wpflocalizeextension.codeplex.com"
-xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
-d:DataContext="{d:DesignInstance Type=designTime:DeviceSearchViewModel, IsDesignTimeCreatable=True}"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
+             d:DataContext="{d:DesignInstance Type=designTime:DeviceSearchViewModel, IsDesignTimeCreatable=True}"
 lex:LocalizeDictionary.DesignCulture="ko"
 lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
 lex:ResxLocalizationProvider.DefaultDictionary="Resources"              
@@ -24,8 +24,14 @@ lex:ResxLocalizationProvider.DefaultDictionary="Resources"
                 <TextBlock Padding="10" Text="{lex:Loc Title_Search}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
             </Viewbox>
         </Grid>
-        <ScrollViewer Grid.Row="1">
-            <ListView ItemsSource="{Binding Logs}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
+        <ScrollViewer Name="SystemStatusSV" Grid.Row="1">
+            <ListView x:Name="SystemStatusLB" ItemsSource="{Binding Logs}"
+                      Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Height" Value="20" />
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
         </ScrollViewer>
         <Button Grid.Row="2" 

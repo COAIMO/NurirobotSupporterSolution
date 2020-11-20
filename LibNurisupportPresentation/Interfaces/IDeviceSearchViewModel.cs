@@ -10,7 +10,7 @@ namespace LibNurisupportPresentation.Interfaces
     /// <summary>
     /// 장치 조회
     /// </summary>
-    public interface IDeviceSearch: IReactiveObject
+    public interface IDeviceSearchViewModel: IReactiveObject
     {
         /// <summary>
         /// 연결됨
@@ -33,7 +33,14 @@ namespace LibNurisupportPresentation.Interfaces
         /// 처리 중단
         /// </summary>
         ReactiveCommand<Unit, Unit> SearchStop { get; }
+        /// <summary>
+        /// 스크롤처리를 위한 
+        /// </summary>
+        string SelectLog { get; set; }
 
-
+        /// <summary>
+        /// 메인 뷰 모델
+        /// </summary>
+        IMainViewModel MainViewModel { get; set; }
     }
 }

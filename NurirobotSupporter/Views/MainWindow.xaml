@@ -159,7 +159,7 @@
                                         Kind="Help" />
                     </mah:HamburgerMenuIconItem.Icon>
                 </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Language}" Tag="/Views/TestView.xaml">
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Language}" Tag="Language">
                     <mah:HamburgerMenuIconItem.Icon>
                         <iconPacks:PackIconMaterial Width="22"
                                         Height="22"
@@ -280,6 +280,12 @@
                         <local:DeviceSearchView 
                          DataContext="{Binding DataContext.DeviceSearch, Mode=OneWay, ElementName=MainView}" />
                     </Grid>
+                    <Grid
+                        Visibility="{Binding Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Language}"
+                        Grid.Row="1">
+                        <local:LanguageView 
+                         DataContext="{Binding DataContext.Language, Mode=OneWay, ElementName=MainView}" />
+                    </Grid>                    
                 </Grid>
             </DataTemplate>
         </mah:HamburgerMenu.ContentTemplate>

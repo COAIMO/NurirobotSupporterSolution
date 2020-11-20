@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Alert_No_BaudRate" xml:space="preserve">
+    <value>The device cannot be found.</value>
+  </data>
+  <data name="Alert_Serial_Connected" xml:space="preserve">
+    <value>Disconnect device!</value>
+  </data>
+  <data name="Button_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Button_Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
   <data name="Left_Menu_English" xml:space="preserve">
     <value>English</value>
   </data>
@@ -125,6 +137,9 @@
   </data>
   <data name="Left_Menu_Korean" xml:space="preserve">
     <value>Korean</value>
+  </data>
+  <data name="Left_Menu_Language" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="Left_Menu_Macro" xml:space="preserve">
     <value>Macro</value>
@@ -140,5 +155,17 @@
   </data>
   <data name="Left_Menu_Single_Control" xml:space="preserve">
     <value>Single Control</value>
+  </data>
+  <data name="Left_Menu_Title" xml:space="preserve">
+    <value>Menus</value>
+  </data>
+  <data name="Title_Baudrate" xml:space="preserve">
+    <value>Baudrate</value>
+  </data>
+  <data name="Title_Comport" xml:space="preserve">
+    <value>Comport</value>
+  </data>
+  <data name="Title_Language" xml:space="preserve">
+    <value>Choose Language</value>
   </data>
 </root>
