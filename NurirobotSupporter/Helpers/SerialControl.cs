@@ -182,7 +182,6 @@ namespace NurirobotSupporter.Helpers
             int count = iLength == -1 ? baData.Length - iStart : iLength;
             writeByte?.OnNext(new Tuple<byte[], int, int>(baData, iStart, count));
             Thread.Sleep(_SerialPortSetting.WriteTimeout);
-            //Thread.Sleep(100);
         }
 
         public void Dispose()

@@ -6,6 +6,7 @@ namespace LibNurisupportPresentation.Interfaces
 {
     /// <summary>
     /// 네이게이션 서비스
+    /// 사용안함
     /// </summary>
     public interface INavigation
     {

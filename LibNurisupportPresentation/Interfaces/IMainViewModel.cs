@@ -57,5 +57,10 @@ namespace LibNurisupportPresentation.Interfaces
         /// 선택된 연결 속도
         /// </summary>
         string SelectedBaudrates { get; set; }
+
+        /// <summary>
+        /// 장치 조회
+        /// </summary>
+        IDeviceSearch DeviceSearch { get; set; }
     }
 }

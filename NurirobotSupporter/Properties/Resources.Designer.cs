@@ -61,6 +61,15 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
+        ///   시리얼포트에 이미 연결되어 있습니다.\n연결을 해제하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Alert_Serial_Connected {
+            get {
+                return ResourceManager.GetString("Alert_Serial_Connected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   연결과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Button_Connect {
@@ -75,6 +84,24 @@ namespace NurirobotSupporter.Properties {
         public static string Button_Disconnect {
             get {
                 return ResourceManager.GetString("Button_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   조회시작과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_Search_Start {
+            get {
+                return ResourceManager.GetString("Button_Search_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   조회취소과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_Search_Stop {
+            get {
+                return ResourceManager.GetString("Button_Search_Stop", resourceCulture);
             }
         }
         
@@ -192,6 +219,15 @@ namespace NurirobotSupporter.Properties {
         public static string Title_NotConnected {
             get {
                 return ResourceManager.GetString("Title_NotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   장비 조회과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_Search {
+            get {
+                return ResourceManager.GetString("Title_Search", resourceCulture);
             }
         }
     }

@@ -46,5 +46,6 @@ namespace LibNurisupportPresentation.DesignTime
 
         public string SelectedPort { get; set; } = "com1";
         public string SelectedBaudrates { get; set; } = "9600";
+        public IDeviceSearch DeviceSearch { get; set; } = new DeviceSearchViewModel();
     }
 }

@@ -7,6 +7,9 @@ namespace NurirobotSupporter.Helpers
     using System.Threading.Tasks;
     using LibNurisupportPresentation.Interfaces;
 
+    /// <summary>
+    /// 사용 안함
+    /// </summary>
     public class Navigation : INavigation
     {
 

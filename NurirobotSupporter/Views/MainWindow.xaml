@@ -135,7 +135,7 @@
                                         Kind="LanguageCsharp" />
                     </mah:HamburgerMenuIconItem.Icon>
                 </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Search}">
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Search}" Tag="DeviceSearch">
                     <mah:HamburgerMenuIconItem.Icon>
                         <iconPacks:PackIconMaterial Width="22"
                                         Height="22"
@@ -250,7 +250,7 @@
                                     Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
                         </Grid>
                     </Grid>
-                    <Frame Grid.Row="1" x:Name="FrameNavigation" Source="{Binding Tag}" NavigationUIVisibility="Hidden"></Frame>
+                    <!--<Frame Grid.Row="1" x:Name="FrameNavigation" Source="{Binding Tag}" NavigationUIVisibility="Hidden"></Frame>-->
                     <!--<Grid Grid.Row="1" Visibility="{Binding IsNotConnect, Converter={StaticResource BooleanToVisibility}}"
                   Background="{StaticResource MaterialDesignPaper}">
                         <StackPanel VerticalAlignment="Center">
@@ -268,11 +268,17 @@
                         </StackPanel>
                     </Grid>-->
                     <Grid Grid.Row="1" Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"
-                  Background="{StaticResource MaterialDesignPaper}">
+                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{lex:Loc Title_NotConnected}" FontSize="32"
+                            <TextBlock Text="{lex:Loc Title_NotConnected}" FontSize="32" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                HorizontalAlignment="Center" />
                         </StackPanel>
+                    </Grid>
+                    <Grid
+                        Visibility="{Binding Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=DeviceSearch}"
+                        Grid.Row="1">
+                        <local:DeviceSearchView 
+                         DataContext="{Binding DataContext.DeviceSearch, Mode=OneWay, ElementName=MainView}" />
                     </Grid>
                 </Grid>
             </DataTemplate>

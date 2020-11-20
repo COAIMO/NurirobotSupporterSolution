@@ -78,6 +78,8 @@ namespace LibNurirobotBase
 
                         _SerialControl?.Send(tmp);
                         _EventSerialLog?.AddLog(tmp);
+                    } else {
+                        Thread.Sleep(10);
                     }
                 }
             }

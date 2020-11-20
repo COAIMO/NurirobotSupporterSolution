@@ -65,6 +65,8 @@ namespace LibNurirobotBase
 
                         _EventSerialLog?.AddLog(tmp);
                         _EventSerialValue?.ReciveData(tmp);
+                    } else {
+                        Thread.Sleep(10);
                     }
                 }
             }

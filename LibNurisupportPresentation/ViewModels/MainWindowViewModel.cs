@@ -3,6 +3,7 @@ namespace LibNurisupportPresentation.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reactive;
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
@@ -44,21 +45,23 @@ namespace LibNurisupportPresentation.ViewModels
         ISerialControl _ISC;
         ICommandEngine _ICE;
         //CompositeDisposable _CompositeDisposable;
-        public MainWindowViewModel()
+        public MainWindowViewModel(IDeviceSearch deviceSearch)
         {
+            DeviceSearch = deviceSearch;
             _Connected.OnNext(false);
             _Macro.OnNext(false);
             var deviceInfo = Locator.Current.GetService<IDeviceInfo>();
             List<string> ports = new List<string>();
             var deviceports = deviceInfo.GetPorts();
             foreach (var item in deviceports) {
-                if (!item.IsNowUsing)
+                if (!item.IsNowUsing) {
                     ports.Add(item.PortName);
+                }
             }
 
             _SerialPorts = ports.ToArray();
-            if (_SerialPorts.Length > 0)
-                SelectedPort = _SerialPorts[0];
+            //if (_SerialPorts.Length > 0)
+            //    SelectedPort = _SerialPorts[0];
 
             _Baudrates = new string[] {
                 "110",
@@ -80,7 +83,20 @@ namespace LibNurisupportPresentation.ViewModels
                 "500000",
                 "1000000"
             };
-            SelectedBaudrates = "9600";
+            {
+                var state = RxApp.SuspensionHost.GetAppState<AppState>();
+                SelectedBaudrates = state.Baudrate != null ? state.Baudrate : "9600";
+                if (state.Comport != null) {
+                    if (_SerialPorts.Contains(state.Comport)) {
+                        SelectedPort = state.Comport;
+                    }
+                }
+                else {
+                    if (_SerialPorts.Length > 0) {
+                        SelectedPort = _SerialPorts[0];
+                    }
+                }
+            }
 
             _ISC = Locator.Current.GetService<ISerialControl>();
             _ICE = Locator.Current.GetService<ICommandEngine>();
@@ -92,6 +108,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             _IsDisConnected = this
                 .WhenAnyValue(x => x.IsConnect)
+                .ObserveOn(RxApp.MainThreadScheduler)
                 .Select(connected => !connected)
                 .ToProperty(this, x => x.IsNotConnect);
 
@@ -99,8 +116,10 @@ namespace LibNurisupportPresentation.ViewModels
                 .DistinctUntilChanged()
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .ToProperty(this, x => x.IsRecode);
+
             _IsNotRecoded = this
                 .WhenAnyValue(x => x.IsRecode)
+                .ObserveOn(RxApp.MainThreadScheduler)
                 .Select(recorded => !recorded)
                 .ToProperty(this, x => x.IsNotRecode);
 
@@ -147,30 +166,54 @@ namespace LibNurisupportPresentation.ViewModels
             MacroRecode = ReactiveCommand.Create(() => {
                 _ICE?.StartRec();
                 _Macro.OnNext(true);
-            });
+            }, canMacroRec);
 
             // 매크로 녹화 중지
             var canMacroRecstop = this.WhenAnyValue(x => x.IsNotRecode).Select(x => x);
             MacroStopRecode = ReactiveCommand.Create(() => {
                 _ICE?.StopRec();
                 _Macro.OnNext(false);
-            });
+            }, canMacroRecstop);
 
+            this
+                .WhenAnyValue(x => x.SelectedPort)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => {
+                    var state = RxApp.SuspensionHost.GetAppState<AppState>();
+                    state.Comport = x;
+                });
+
+            this
+                .WhenAnyValue(x => x.SelectedBaudrates)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => {
+                    var state = RxApp.SuspensionHost.GetAppState<AppState>();
+                    state.Baudrate = x;
+                });
+
+            this.WhenAnyValue(x => x.IsConnect)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => {
+                    var state = RxApp.SuspensionHost.GetAppState<AppState>();
+                    state.IsConnect = x;
+                });
         }
 
-        public IEnumerable<string> SerialPorts {
-            get => _SerialPorts;
+        public IEnumerable<string> SerialPorts => _SerialPorts;
+
+        public IEnumerable<string> Baudrates => _Baudrates;
+
+        string _SelectedPort;
+        public string SelectedPort {
+            get => _SelectedPort;
+            set => this.RaiseAndSetIfChanged(ref _SelectedPort, value);
         }
 
-        public IEnumerable<string> Baudrates {
-            get => _Baudrates;
+        string _SelectedBaudrates;
+        public string SelectedBaudrates {
+            get => _SelectedBaudrates;
+            set => this.RaiseAndSetIfChanged(ref _SelectedBaudrates, value);
         }
-
-        [Reactive]
-        public string SelectedPort { get; set; }
-
-        [Reactive]
-        public string SelectedBaudrates { get; set; }
-
+        public IDeviceSearch DeviceSearch { get; set; }
     }
 }

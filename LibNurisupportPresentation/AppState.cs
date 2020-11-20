@@ -52,5 +52,34 @@ namespace LibNurisupportPresentation
         /// </summary>
         [DataMember]
         public int WriteTimeout { get; set; } = 10;
+
+
+        /// <summary>
+        /// 선택된 시리얼 포트
+        /// </summary>
+        [DataMember]
+        public string Comport { get; set; }
+        /// <summary>
+        /// 선택된 연결 속도
+        /// </summary>
+        [DataMember]
+        public string Baudrate { get; set; }
+
+        /// <summary>
+        /// 시리얼 연결 상태
+        /// </summary>
+        public bool IsConnect { get; set; }
+
+        /// <summary>
+        /// 프로그램 테마
+        /// </summary>
+        [DataMember]
+        public string ColorTheme { get; set; } = "Dark.Blue";
+
+        /// <summary>
+        /// 언어설정
+        /// </summary>
+        [DataMember]
+        public string Language { get; set; } = "ko";
     }
 }

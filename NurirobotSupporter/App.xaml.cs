@@ -27,6 +27,7 @@ namespace NurirobotSupporter
     using Microsoft.AppCenter.Crashes;
     using LibNurisupportPresentation.ViewModels;
     using System.Threading.Tasks;
+    using LibNurisupportPresentation.Interfaces;
 
     /// <summary>
     /// App.xaml에 대한 상호 작용 논리
@@ -47,7 +48,7 @@ namespace NurirobotSupporter
             RxApp.SuspensionHost.CreateNewAppState = () => new AppState();
             RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver("appstate.json"));
 
-            ThemeManager.Current.ChangeTheme(this, "Light.Green");
+
         }
 
 #if DEBUG
@@ -63,7 +64,9 @@ namespace NurirobotSupporter
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            RxApp.SuspensionHost.GetAppState<AppState>();
+            var tmp = RxApp.SuspensionHost.GetAppState<AppState>();
+            ThemeManager.Current.ChangeTheme(this, tmp.ColorTheme);
+            LocalizeDictionary.Instance.Culture = new System.Globalization.CultureInfo(tmp.Language);
 
             Locator.CurrentMutable.RegisterConstant(new FileHelper(), typeof(IFileHelper));
             Locator.CurrentMutable.RegisterConstant(new DeviceInfo(), typeof(IDeviceInfo));
@@ -73,6 +76,7 @@ namespace NurirobotSupporter
             Locator.CurrentMutable.RegisterConstant(new ReciveProcess(), typeof(IReciveProcess));
             Locator.CurrentMutable.RegisterConstant(new SerialProcess(), typeof(ISerialProcess));
             Locator.CurrentMutable.RegisterConstant(new DeviceProtocolDictionary(), typeof(IDeviceProtocolDictionary));
+            Locator.CurrentMutable.RegisterConstant(new MessageShow(), typeof(IMessageShow));
 
             Locator.Current.GetService<ISerialControl>().AddTo(_Disposables);
             Locator.Current.GetService<IEventSerialLog>().AddTo(_Disposables);
@@ -632,7 +636,7 @@ tmpRSA.PROT_Feedback(new NuriProtocol {
             _Disposables.Add(comdis);
 #endif
 
-            var window = new MainWindow() { DataContext = new MainWindowViewModel() };
+            var window = new MainWindow() { DataContext = new MainWindowViewModel(new DeviceSearchViewModel()) };
             window.Closed += delegate { Shutdown(); };
             window.Show();
 
