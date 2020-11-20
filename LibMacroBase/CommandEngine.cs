@@ -3,11 +3,13 @@ namespace LibMacroBase
     using System;
     using System.Diagnostics;
     using CSScriptLibrary;
+    using LibMacroBase.Interface;
+    using Splat;
 
     /// <summary>
     /// 명령어(매크로) 실행 엔진
     /// </summary>
-    public class CommandEngine : IDisposable
+    public class CommandEngine : ICommandEngine
     {
         /// <summary>
         /// 현재 저장되고 있는 매크로
@@ -16,10 +18,10 @@ namespace LibMacroBase
         /// <summary>
         /// 매크로 저장소
         /// </summary>
-        private Storage _Storage;
-        public Storage Storage {
-            get => _Storage;
-        }
+        //private Storage _Storage;
+        //public Storage Storage {
+        //    get => _Storage;
+        //}
         //private IStorage _Storage = Locator.Current.GetService<IStorage>();
         /*
         IDisposable _TimerSubscribeDispose = null;
@@ -29,6 +31,7 @@ namespace LibMacroBase
         });
         _TimerSubscribeDispose?.Dispose();
         */
+        IStorage _Storage = Locator.Current.GetService<IStorage>();
 
         private const string _Templete = "using System; using System.Threading; using System.Threading.Tasks; using LibNurirobotV00; using LibNurirobotV00.Struct; class tmp {{\nstatic void Run() {{\n{0}\n}}\n}}\n";
         public bool IsRecoding { get; set; } = false;
@@ -50,7 +53,7 @@ namespace LibMacroBase
         public void StopRec()
         {
             if (_CurrentMacroInfo != null) {
-                Storage?.NewMacro(_CurrentMacroInfo);
+                _Storage?.NewMacro(_CurrentMacroInfo);
             }
 
             _CurrentMacroInfo?.Dispose();
@@ -103,11 +106,11 @@ namespace LibMacroBase
             CSScript.GlobalSettings.InMemoryAssembly = true;
             CSScript.EvaluatorConfig.DebugBuild = false;
             CSScript.EvaluatorConfig.Engine = EvaluatorEngine.CodeDom;
-            try {
-                _Storage = new Storage();
-            } catch {
-                _Storage = null;
-            }
+            //try {
+            //    _Storage = new Storage();
+            //} catch {
+            //    _Storage = null;
+            //}
         }
 
         /// <summary>
@@ -116,7 +119,6 @@ namespace LibMacroBase
         public void Dispose()
         {
             StopRec();
-            Storage?.Dispose();
         }
     }
 }

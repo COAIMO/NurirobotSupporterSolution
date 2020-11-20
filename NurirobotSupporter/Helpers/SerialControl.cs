@@ -48,7 +48,7 @@ namespace NurirobotSupporter.Helpers
         /// <summary>
         /// 포트 해제 그룹
         /// </summary>
-        private CompositeDisposable disposablePort = new CompositeDisposable();
+        private CompositeDisposable disposablePort;// = new CompositeDisposable();
 
         /// <summary>
         /// 데이트 수신 연동
@@ -88,8 +88,7 @@ namespace NurirobotSupporter.Helpers
             port.Handshake = (Handshake)(int)_SerialPortSetting.Handshake;
             port.ReadTimeout = _SerialPortSetting.ReadTimeout;
             port.WriteTimeout = _SerialPortSetting.WriteTimeout;
-            //port.Encoding
-
+            
             try {
                 port.Open();
             }
@@ -98,10 +97,14 @@ namespace NurirobotSupporter.Helpers
                 obs.OnCompleted();
             }
 
-            if (port.IsOpen) {
+            isOpen.OnNext(port.IsOpen);
+            IsOpen = port.IsOpen;
+
+            if (IsOpen) {
                 port.DiscardInBuffer();
                 port.DiscardOutBuffer();
             }
+            Thread.Sleep(100);
 
             dis.Add(port.ErrorReceivedObserver().Subscribe(e => obs.OnError(new Exception(e.EventArgs.EventType.ToString()))));
             dis.Add(writeByte.Subscribe(x => {
@@ -112,11 +115,6 @@ namespace NurirobotSupporter.Helpers
                     obs.OnError(ex);
                 }
             }, obs.OnError));
-
-            //var dataStream = from dataR in port.DataReceivedObserver()
-            //                 from data in port.Encoding.GetBytes(port.ReadExisting())
-            //                 select data;
-            //dis.Add(dataStream.Subscribe(dataReceived.OnNext, obs.OnError));
 
             var received = port.DataReceivedObserver()
                 .Subscribe(e => {
@@ -130,7 +128,6 @@ namespace NurirobotSupporter.Helpers
                             for (int i = 0; i < len; i++) {
                                 dataReceived.OnNext(buf[i]);
                             }
-
                         }
                     }
                     catch (Exception ex) {
@@ -139,9 +136,6 @@ namespace NurirobotSupporter.Helpers
                     }
                 });
             dis.Add(received);
-
-            isOpen.OnNext(port.IsOpen);
-            IsOpen = port.IsOpen;
 
             return Disposable.Create(() => {
                 IsOpen = false;
@@ -161,6 +155,8 @@ namespace NurirobotSupporter.Helpers
                 errors.OnNext(new Exception($"{_SerialPortSetting.PortName}이(가) 없습니다."));
                 return Task.CompletedTask;
             }
+            if (disposablePort == null)
+                disposablePort = new CompositeDisposable();
 
             return disposablePort?.Count == 0 ? 
                 Task.Run(
@@ -173,6 +169,7 @@ namespace NurirobotSupporter.Helpers
         public void Disconnect()
         {
             disposablePort?.Dispose();
+            disposablePort = null;
         }
 
         public void Init(SerialPortSetting serialPortSetting)

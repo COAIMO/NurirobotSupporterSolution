@@ -73,6 +73,7 @@ namespace NurirobotSupporter
             Locator.CurrentMutable.RegisterConstant(new ReciveProcess(), typeof(IReciveProcess));
             Locator.CurrentMutable.RegisterConstant(new SerialProcess(), typeof(ISerialProcess));
             Locator.CurrentMutable.RegisterConstant(new DeviceProtocolDictionary(), typeof(IDeviceProtocolDictionary));
+
             Locator.Current.GetService<ISerialControl>().AddTo(_Disposables);
             Locator.Current.GetService<IEventSerialLog>().AddTo(_Disposables);
             Locator.Current.GetService<IEventSerialValue>().AddTo(_Disposables);
@@ -634,6 +635,11 @@ tmpRSA.PROT_Feedback(new NuriProtocol {
             var window = new MainWindow() { DataContext = new MainWindowViewModel() };
             window.Closed += delegate { Shutdown(); };
             window.Show();
+
+            Locator.CurrentMutable.RegisterConstant(new Storage(), typeof(IStorage));
+            Locator.CurrentMutable.RegisterConstant(new CommandEngine(), typeof(ICommandEngine));
+            Locator.Current.GetService<IStorage>().AddTo(_Disposables);
+            Locator.Current.GetService<ICommandEngine>().AddTo(_Disposables);
         }
 
         protected override void OnExit(ExitEventArgs e)

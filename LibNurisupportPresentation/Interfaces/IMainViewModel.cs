@@ -7,7 +7,7 @@ using ReactiveUI;
 
 namespace LibNurisupportPresentation.Interfaces
 {
-    public interface IMainViewModel: INotifyPropertyChanged
+    public interface IMainViewModel: IReactiveObject
     {
         /// <summary>
         /// 연결됨

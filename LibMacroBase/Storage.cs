@@ -8,7 +8,7 @@ namespace LibMacroBase
     /// <summary>
     /// 매크로 저장소
     /// </summary>
-    public class Storage : IDisposable
+    public class Storage : IStorage
     {
         IFileHelper _IFileHelper = Locator.Current.GetService<IFileHelper>();
         LiteDatabase _LiteDatabase;

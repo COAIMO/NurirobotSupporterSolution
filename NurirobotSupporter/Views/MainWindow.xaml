@@ -204,6 +204,7 @@
                                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                              ItemsSource="{Binding DataContext.SerialPorts, ElementName=MainView}"
                                              SelectedItem="{Binding DataContext.SelectedPort, ElementName=MainView, Mode=TwoWay}"
+                                             IsEnabled="{Binding DataContext.IsNotConnect, ElementName=MainView, Mode=OneWay}"
                                              IsEditable="False">
                             </mah:SplitButton>
                             <mah:SplitButton Grid.Column="3" 
@@ -212,6 +213,7 @@
                                              VerticalAlignment="Center"
                                              ItemsSource="{Binding DataContext.Baudrates, ElementName=MainView}"
                                              SelectedItem="{Binding DataContext.SelectedBaudrates, ElementName=MainView, Mode=TwoWay}"
+                                             IsEnabled="{Binding DataContext.IsNotConnect, ElementName=MainView, Mode=OneWay}"
                                              IsEditable="False">
                             </mah:SplitButton>
                         </Grid>
@@ -223,7 +225,8 @@
                             <Button Grid.Column="0" Margin="5"
                                     Style="{StaticResource MahApps.Styles.Button.Circle}"
                                     Command="{Binding DataContext.MacroStopRecode, ElementName=MainView}"
-                                    Visibility="{Binding DataContext.IsRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}">
+                                    Visibility="{Binding DataContext.IsRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"
+                                    IsEnabled="{Binding DataContext.IsConnect, ElementName=MainView}">
                                 <iconPacks:PackIconModern Width="20"
                                               Height="20"
                                               Kind="ControlStop" />
@@ -231,7 +234,8 @@
                             <Button Grid.Column="0" Margin="5"
                                     Style="{StaticResource MahApps.Styles.Button.Circle}"
                                     Command="{Binding DataContext.MacroRecode, ElementName=MainView}"
-                                    Visibility="{Binding DataContext.IsNotRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}">
+                                    Visibility="{Binding DataContext.IsNotRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"
+                                    IsEnabled="{Binding DataContext.IsConnect, ElementName=MainView}">
                                 <iconPacks:PackIconModern Width="20"
                                               Height="20"
                                               Kind="MoonFull" Foreground="Red" />
@@ -239,11 +243,11 @@
                             <Button Grid.Column="1" Content="{lex:Loc Button_Connect}" Margin="5"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
                                     Command="{Binding DataContext.SerialConnect, ElementName=MainView}"
-                                    Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"/>
+                                    Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
                             <Button Grid.Column="1" Content="{lex:Loc Button_Disconnect}" Margin="5"
                                     Style="{DynamicResource MahApps.Styles.Button.Square}" 
                                     Command="{Binding DataContext.SerialDisConnect, ElementName=MainView}"
-                                    Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"/>
+                                    Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
                         </Grid>
                     </Grid>
                     <Frame Grid.Row="1" x:Name="FrameNavigation" Source="{Binding Tag}" NavigationUIVisibility="Hidden"></Frame>
@@ -263,6 +267,13 @@
                                HorizontalAlignment="Center" />
                         </StackPanel>
                     </Grid>-->
+                    <Grid Grid.Row="1" Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"
+                  Background="{StaticResource MaterialDesignPaper}">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{lex:Loc Title_NotConnected}" FontSize="32"
+                               HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
                 </Grid>
             </DataTemplate>
         </mah:HamburgerMenu.ContentTemplate>

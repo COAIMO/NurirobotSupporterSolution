@@ -9,13 +9,12 @@ namespace LibNurisupportPresentation.DesignTime
 
     public class MainWindowViewModel: ReactiveObject, IMainViewModel
     {
-        private bool _IsConnected = true;
-        private bool _IsRecoded = false;
-        public bool IsConnect { get => _IsConnected; }
-        public bool IsNotConnect { get => !_IsConnected; } 
-
-        public bool IsRecode { get => _IsRecoded; }
-        public bool IsNotRecode { get => !_IsRecoded; }
+        //private bool _IsConnected = true;
+        //private bool _IsRecoded = false;
+        public bool IsConnect { get; set; } = false;
+        public bool IsNotConnect { get; set; } = true;
+        public bool IsRecode { get; set; } = false;
+        public bool IsNotRecode { get; set; } = true;
 
         public ReactiveCommand<Unit, Unit> SerialConnect { get; }
         public ReactiveCommand<Unit, Unit> SerialDisConnect { get; }
