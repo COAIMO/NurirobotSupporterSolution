@@ -79,11 +79,29 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
+        ///   취소과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_Cancel {
+            get {
+                return ResourceManager.GetString("Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   연결과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Button_Connect {
             get {
                 return ResourceManager.GetString("Button_Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   장비조회과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Button_DeviceSearch {
+            get {
+                return ResourceManager.GetString("Button_DeviceSearch", resourceCulture);
             }
         }
         
@@ -129,6 +147,42 @@ namespace NurirobotSupporter.Properties {
         public static string Button_Search_Stop {
             get {
                 return ResourceManager.GetString("Button_Search_Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   장비 연결 정보을 찾습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Lable_DeviceSearchDesc {
+            get {
+                return ResourceManager.GetString("Lable_DeviceSearchDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   장비조회과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Lable_PopupTitleDeviceSearch {
+            get {
+                return ResourceManager.GetString("Lable_PopupTitleDeviceSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   끄기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Lable_StartupPopupOff {
+            get {
+                return ResourceManager.GetString("Lable_StartupPopupOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   켜기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Lable_StartupPopupOn {
+            get {
+                return ResourceManager.GetString("Lable_StartupPopupOn", resourceCulture);
             }
         }
         
@@ -241,6 +295,15 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
+        ///   도움말과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_Help {
+            get {
+                return ResourceManager.GetString("Title_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   언어설정과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Title_Language {
@@ -264,6 +327,15 @@ namespace NurirobotSupporter.Properties {
         public static string Title_Search {
             get {
                 return ResourceManager.GetString("Title_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   시작 시 장비조회 팝업 유무과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_StartupPopup {
+            get {
+                return ResourceManager.GetString("Title_StartupPopup", resourceCulture);
             }
         }
     }

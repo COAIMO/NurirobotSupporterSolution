@@ -33,6 +33,6 @@ namespace LibNurirobotBase.Interface
         /// 통신프로토콜 객체 요청
         /// </summary>
         /// <returns>통신프로토콜 객체</returns>
-        object GetDataStruch();
+        object GetDataStruct();
     }
 }

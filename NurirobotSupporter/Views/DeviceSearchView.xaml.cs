@@ -2,6 +2,7 @@ namespace NurirobotSupporter.Views
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -23,12 +24,14 @@ namespace NurirobotSupporter.Views
     {
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty
        .Register(nameof(ViewModel), typeof(IDeviceSearchViewModel), typeof(DeviceSearchView), null);
+
         protected DispatcherTimer UpdateTimer { get; set; }
 
         public DeviceSearchView()
         {
             InitializeComponent();
             DataContextChanged += (sender, args) => ViewModel = DataContext as IDeviceSearchViewModel;
+
             UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
             UpdateTimer.Tick += UpdateTimer_Tick;
             UpdateTimer.Start();
@@ -36,6 +39,9 @@ namespace NurirobotSupporter.Views
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
+            if (!this.IsEnabled)
+                return;
+            //Debug.WriteLine("this.IsEnabled : " + this.IsEnabled);
             try {
                 if (ViewModel == null || ViewModel.Logs == null || ViewModel.Logs.Count == 0)
                     return;
@@ -49,10 +55,6 @@ namespace NurirobotSupporter.Views
             } catch {
 
             }
-
-            //// I have also tried calling
-            //SystemStatusSV.ScrollToVerticalOffset(280); // MaxHeight less one row of pixels
-            //SystemStatusLB.MoveCurrentToLast();
         }
 
         public IDeviceSearchViewModel ViewModel {

@@ -81,5 +81,11 @@ namespace LibNurisupportPresentation
         /// </summary>
         [DataMember]
         public string Language { get; set; } = "ko";
+
+        /// <summary>
+        /// 검색된 연결 장비
+        /// </summary>
+        [DataMember]
+        public List<byte> SearchDevice { get; set; } = new List<byte>();
     }
 }

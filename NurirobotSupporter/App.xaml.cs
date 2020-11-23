@@ -640,7 +640,9 @@ tmpRSA.PROT_Feedback(new NuriProtocol {
             var window = new MainWindow() { 
                 DataContext = new MainWindowViewModel(
                     new DeviceSearchViewModel(),
-                    new LanguageViewModel())
+                    new LanguageViewModel(),
+                    new HelpViewModel()
+                    )
             };
             window.Closed += delegate { Shutdown(); };
             window.Show();

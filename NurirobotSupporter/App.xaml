@@ -20,6 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
             <system:Double x:Key="WindowTitleFontSize">12</system:Double>
             <helpers:ComparisonToVisibleConverter x:Key="ComparisonToVisibleConverter" />
+            <helpers:ComparisonToBooleanConverter x:Key="ComparisonToBooleanConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
             <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource Primary700}"/>
             <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{DynamicResource Primary600}" />

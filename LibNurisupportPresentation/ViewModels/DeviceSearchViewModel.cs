@@ -14,6 +14,7 @@ using System.Diagnostics;
     using LibNurirobotBase;
     using LibNurirobotBase.Interface;
     using LibNurirobotV00;
+    using LibNurirobotV00.Struct;
     using LibNurisupportPresentation.Interfaces;
     using ReactiveUI;
     using ReactiveUI.Fody.Helpers;
@@ -51,8 +52,6 @@ using System.Diagnostics;
         public IMainViewModel MainViewModel { get; set; }
 
         string[] rates = new string[] {
-            //"9600",
-
             "1000000",
             "500000",
             "250000",
@@ -65,7 +64,6 @@ using System.Diagnostics;
             "19200",
             "14400",
             "9600",
-
             "4800",
             "2400",
             "1200",
@@ -95,6 +93,7 @@ using System.Diagnostics;
                 Logs.Clear();
                 IsConnect = true;
                 IsNotConnect = false;
+                state.SearchDevice.Clear();
 
                 Task.Run(() => {
                     Debug.WriteLine("Device find Start =======================");
@@ -104,11 +103,15 @@ using System.Diagnostics;
                     var stx = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
                     bool chkDone = false;
                     ISerialControl isc = Locator.Current.GetService<ISerialControl>();
+                    CompositeDisposable comdis = null;
+                    List<string> searchBaud = new List<string>();
                     try {
-                        foreach (var item in rates) {
+                        int addv = Array.IndexOf(rates, state.Baudrate);
+                        for (int j = 0; j < rates.Length; j++)
+                        {
+                            var item = rates[(j + addv) % rates.Length];
                             mCTS.Token.ThrowIfCancellationRequested();
-                            var comdis = new CompositeDisposable();
-
+                            comdis = new CompositeDisposable();
                             _Log.OnNext(string.Format("Baudrate : {0} Test :", item));
                             Debug.WriteLine(string.Format("Baudrate : {0} Test :", item));
                             isc.Init(new LibNurirobotBase.SerialPortSetting {
@@ -117,12 +120,11 @@ using System.Diagnostics;
                                 Handshake = (LibNurirobotBase.Enum.Handshake)state.Handshake,
                                 Parity = (LibNurirobotBase.Enum.Parity)state.Parity,
                                 PortName = state.Comport,
-                                ReadTimeout = 100,
+                                ReadTimeout = 500,
                                 StopBits = (LibNurirobotBase.Enum.StopBits)state.StopBits,
                                 WriteTimeout = 100
                             });
                             isc.Connect().Wait();
-
                             if (isc.IsOpen) {
                                 _Log.OnNext("Connect...");
                                 ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
@@ -131,36 +133,43 @@ using System.Diagnostics;
                                 .BufferUntilSTXtoByteArray(stx, 5)
                                 .Subscribe(data => {
                                     Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                                    _Log.OnNext(BitConverter.ToString(data).Replace("-", ""));
-                                    mStopWaitHandle.Set();
+                                    var tmp = new NurirobotRSA();
+                                    if (tmp.Parse(data)) {
+                                        if (string.Equals(tmp.PacketName, "FEEDPing")) {
+                                            var obj = (NuriProtocol)tmp.GetDataStruct();
+                                            if (!state.SearchDevice.Contains(obj.ID)) {
+                                                _Log.OnNext(string.Format("Device Index : {0} ===========", obj.ID));
+                                                state.SearchDevice.Add(obj.ID);
+                                            }
+                                            mStopWaitHandle.Set();
+                                        }
+                                    }
                                 })
                                 .AddTo(comdis);
 
                                 NurirobotRSA tmpRSA = new NurirobotRSA();
-                                for (int i = 0; i < 3; i++) {
+                                for (int i = 0; i < 255; i++) {
                                     mCTS.Token.ThrowIfCancellationRequested();
-                                    tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                                        ID = 0xff,
-                                        Protocol = 0xa0
-                                    });
-
-                                    if (mStopWaitHandle.WaitOne(200)) {
-                                        Debug.WriteLine("Search Done =================");
-                                        _Log.OnNext("Search Done =================");
-                                        chkDone = true;
-                                        MainViewModel.SelectedBaudrates = item;
-                                        break;
-                                    } else {
-                                        _Log.OnNext("Fail!");
-                                        Debug.WriteLine("Fail!");
+                                    for (int k = 0; k < 2; k++) {
+                                        tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
+                                            ID = (byte)i,
+                                            Protocol = 0xa0
+                                        });
+                                        if (mStopWaitHandle.WaitOne(100)) {
+                                            chkDone = true;
+                                            MainViewModel.SelectedBaudrates = item;
+                                            if (!searchBaud.Contains(item))
+                                                searchBaud.Add(item);
+                                        }
                                     }
                                 }
 
-                                if (chkDone) {
-                                    comdis.Dispose();
-                                    isc.Disconnect();
-                                    break;
-                                }
+                                //if (chkDone) {
+                                //    comdis.Dispose();
+                                //    isc.Disconnect();
+                                //    sp.Stop();
+                                //    break;
+                                //}
                                 sp.Stop();
                             }
                             else {
@@ -169,17 +178,47 @@ using System.Diagnostics;
                             }
                             comdis.Dispose();
                             isc.Disconnect();
+                            Task.Delay(1000);
                         }
 
-                        MainViewModel.SelectedBaudrates = "110";
-                        var msg = Locator.Current.GetService<IMessageShow>();
-                        msg?.Show("Alert_No_BaudRate");
+                        if (!chkDone) {
+                            MainViewModel.SelectedBaudrates = "110";
+                            var msg = Locator.Current.GetService<IMessageShow>();
+                            msg?.Show("Alert_No_BaudRate");
+                        }
                     }
                     catch {
                         isc.Disconnect();
+                        comdis?.Dispose();
                     }
                     IsConnect = false;
                     IsNotConnect = true;
+                    if (searchBaud.Count == 0) {
+                        MainViewModel.Baudrates = new string[] {
+                "110",
+                "300",
+                "600",
+                "1200",
+                "2400",
+                "4800",
+                "9600",
+                "14400",
+                "19200",
+                "28800",
+                "38400",
+                "57600",
+                "76800",
+                "115200",
+                "230400",
+                "250000",
+                "500000",
+                "1000000"
+            };
+                        MainViewModel.SelectedBaudrates = "9600";
+                    } else {
+                        MainViewModel.Baudrates = searchBaud.ToArray();
+                        MainViewModel.SelectedBaudrates = searchBaud.ToArray()[0];
+                    }
                 });
             });
             SearchStop = ReactiveCommand.Create(() => {

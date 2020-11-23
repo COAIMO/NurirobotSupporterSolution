@@ -158,7 +158,7 @@ namespace LibNurirobotV00
             }
         }
 
-        public object GetDataStruch()
+        public object GetDataStruct()
         {
             switch ((ProtocolMode)Data[5]) {
                 case ProtocolMode.CTRLPosSpeed:

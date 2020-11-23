@@ -38,6 +38,12 @@ namespace LibNurisupportPresentation.ViewModels
         public bool IsRecode => _IsRecoded.Value;
         public bool IsNotRecode => _IsNotRecoded.Value;
 
+        private bool _IsDeviceSearchPopup = false;
+        public bool IsDeviceSearchPopup {
+            get => _IsDeviceSearchPopup;
+            set => this.RaiseAndSetIfChanged(ref _IsDeviceSearchPopup, value);
+        }
+
         public ReactiveCommand<Unit, Unit> SerialConnect { get; }
         public ReactiveCommand<Unit, Unit> SerialDisConnect { get; }
         public ReactiveCommand<Unit, Unit> MacroRecode { get; }
@@ -45,10 +51,14 @@ namespace LibNurisupportPresentation.ViewModels
         ISerialControl _ISC;
         ICommandEngine _ICE;
         //CompositeDisposable _CompositeDisposable;
-        public MainWindowViewModel(IDeviceSearchViewModel deviceSearch, ILanguageViewModel language)
+        public MainWindowViewModel(
+            IDeviceSearchViewModel deviceSearch, 
+            ILanguageViewModel language,
+            IHelpViewModel help)
         {
             DeviceSearch = deviceSearch;
             Language = language;
+            Help = help;
             deviceSearch.MainViewModel = this;
 
             _Connected.OnNext(false);
@@ -66,26 +76,26 @@ namespace LibNurisupportPresentation.ViewModels
             //if (_SerialPorts.Length > 0)
             //    SelectedPort = _SerialPorts[0];
 
-            _Baudrates = new string[] {
-                "110",
-                "300",
-                "600",
-                "1200",
-                "2400",
-                "4800",
-                "9600",
-                "14400",
-                "19200",
-                "28800",
-                "38400",
-                "57600",
-                "76800",
-                "115200",
-                "230400",
-                "250000",
-                "500000",
-                "1000000"
-            };
+            //_Baudrates = new string[] {
+            //    "110",
+            //    "300",
+            //    "600",
+            //    "1200",
+            //    "2400",
+            //    "4800",
+            //    "9600",
+            //    "14400",
+            //    "19200",
+            //    "28800",
+            //    "38400",
+            //    "57600",
+            //    "76800",
+            //    "115200",
+            //    "230400",
+            //    "250000",
+            //    "500000",
+            //    "1000000"
+            //};
             {
                 var state = RxApp.SuspensionHost.GetAppState<AppState>();
                 SelectedBaudrates = state.Baudrate != null ? state.Baudrate : "9600";
@@ -99,6 +109,7 @@ namespace LibNurisupportPresentation.ViewModels
                         SelectedPort = _SerialPorts[0];
                     }
                 }
+                IsDeviceSearchPopup = state.IsUseStartPopup;
             }
 
             _ISC = Locator.Current.GetService<ISerialControl>();
@@ -204,7 +215,34 @@ namespace LibNurisupportPresentation.ViewModels
 
         public IEnumerable<string> SerialPorts => _SerialPorts;
 
-        public IEnumerable<string> Baudrates => _Baudrates;
+        IEnumerable<string> _BaudratesEnum { get; set; } = new string[] {
+                "110",
+                "300",
+                "600",
+                "1200",
+                "2400",
+                "4800",
+                "9600",
+                "14400",
+                "19200",
+                "28800",
+                "38400",
+                "57600",
+                "76800",
+                "115200",
+                "230400",
+                "250000",
+                "500000",
+                "1000000"
+            };
+        public IEnumerable<string> Baudrates {
+            get => _BaudratesEnum;
+            set {
+                _BaudratesEnum = value;
+                this.RaisePropertyChanged("Baudrates");
+            }
+        }
+
 
         string _SelectedPort;
         public string SelectedPort {
@@ -219,5 +257,6 @@ namespace LibNurisupportPresentation.ViewModels
         }
         public IDeviceSearchViewModel DeviceSearch { get; set; }
         public ILanguageViewModel Language { get; set; }
+        public IHelpViewModel Help { get; set; }
     }
 }

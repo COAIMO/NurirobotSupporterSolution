@@ -47,5 +47,16 @@ namespace NurirobotSupporter.Views
         {
             HamburgerMenuControl.Content = args.InvokedItem;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            HamburgerMenuControl.SelectedIndex = 4;
+            ViewModel.IsDeviceSearchPopup = false;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ViewModel.IsDeviceSearchPopup = false;
+        }
     }
 }

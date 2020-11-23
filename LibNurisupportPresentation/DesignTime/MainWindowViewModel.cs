@@ -47,6 +47,10 @@ namespace LibNurisupportPresentation.DesignTime
         public string SelectedPort { get; set; } = "com1";
         public string SelectedBaudrates { get; set; } = "9600";
         public IDeviceSearchViewModel DeviceSearch { get; set; } = new DeviceSearchViewModel();
-        public ILanguageViewModel Language { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ILanguageViewModel Language { get; set; }
+        public IHelpViewModel Help { get; set; }
+
+        public bool IsDeviceSearchPopup { get; set; } = false;
+        IEnumerable<string> IMainViewModel.Baudrates { get; set; }
     }
 }

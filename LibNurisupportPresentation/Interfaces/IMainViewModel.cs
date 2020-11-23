@@ -48,7 +48,7 @@ namespace LibNurisupportPresentation.Interfaces
         /// <summary>
         /// 연결 속도
         /// </summary>
-        IEnumerable<string> Baudrates { get; }
+        IEnumerable<string> Baudrates { get; set; }
         /// <summary>
         /// 선택된 시리얼 포트
         /// </summary>
@@ -66,5 +66,13 @@ namespace LibNurisupportPresentation.Interfaces
         /// 언어설정
         /// </summary>
         ILanguageViewModel Language { get; set; }
+        /// <summary>
+        /// 도움말
+        /// </summary>
+        IHelpViewModel Help { get; set; }
+        /// <summary>
+        /// 장치조회 팝업
+        /// </summary>
+        bool IsDeviceSearchPopup { get; set; }
     }
 }
