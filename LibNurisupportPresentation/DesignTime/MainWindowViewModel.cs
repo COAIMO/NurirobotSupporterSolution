@@ -49,6 +49,7 @@ namespace LibNurisupportPresentation.DesignTime
         public IDeviceSearchViewModel DeviceSearch { get; set; } = new DeviceSearchViewModel();
         public ILanguageViewModel Language { get; set; }
         public IHelpViewModel Help { get; set; }
+        public ISettingViewModel Setting { get; set; }
 
         public bool IsDeviceSearchPopup { get; set; } = false;
         IEnumerable<string> IMainViewModel.Baudrates { get; set; }

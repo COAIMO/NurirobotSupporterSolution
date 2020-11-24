@@ -54,11 +54,13 @@ namespace LibNurisupportPresentation.ViewModels
         public MainWindowViewModel(
             IDeviceSearchViewModel deviceSearch, 
             ILanguageViewModel language,
-            IHelpViewModel help)
+            IHelpViewModel help,
+            ISettingViewModel setting)
         {
             DeviceSearch = deviceSearch;
             Language = language;
             Help = help;
+            Setting = setting;
             deviceSearch.MainViewModel = this;
 
             _Connected.OnNext(false);
@@ -168,6 +170,10 @@ namespace LibNurisupportPresentation.ViewModels
             // 시리얼 해제
             var canDisconnect = this.WhenAnyValue(x => x.IsConnect).Select(connect => connect);
             SerialDisConnect = ReactiveCommand.Create(() => {
+                var run = Locator.Current.GetService<IRunning>();
+                if (run.IsRun)
+                    return;
+
                 _ISC.Disconnect();
                 if (IsRecode) {
                     _ICE?.StopRec();
@@ -183,7 +189,7 @@ namespace LibNurisupportPresentation.ViewModels
             }, canMacroRec);
 
             // 매크로 녹화 중지
-            var canMacroRecstop = this.WhenAnyValue(x => x.IsNotRecode).Select(x => x);
+            var canMacroRecstop = this.WhenAnyValue(x => x.IsRecode).Select(x => x);
             MacroStopRecode = ReactiveCommand.Create(() => {
                 _ICE?.StopRec();
                 _Macro.OnNext(false);
@@ -258,5 +264,6 @@ namespace LibNurisupportPresentation.ViewModels
         public IDeviceSearchViewModel DeviceSearch { get; set; }
         public ILanguageViewModel Language { get; set; }
         public IHelpViewModel Help { get; set; }
+        public ISettingViewModel Setting { get; set; }
     }
 }

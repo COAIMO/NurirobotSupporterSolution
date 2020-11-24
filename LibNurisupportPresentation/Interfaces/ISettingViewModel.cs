@@ -28,7 +28,7 @@ namespace LibNurisupportPresentation.Interfaces
         bool IsShowPosreset { get; set; }
         bool IsShowFactoryreset { get; set; }
 
-        ObservableCollection<byte> TargetIDs { get; set; }
+        IEnumerable<byte> TargetIDs { get; set; }
         /// <summary>
         /// 요청대상
         /// </summary>
@@ -41,6 +41,10 @@ namespace LibNurisupportPresentation.Interfaces
         /// ID 조회중이냐?
         /// </summary>
         bool IsSearchingID { get; set; }
+        /// <summary>
+        /// ID조회
+        /// </summary>
+        ReactiveCommand<Unit, Unit> CMDIDSearch { get; }
 
         /// <summary>
         /// 변경할 ID
@@ -54,14 +58,17 @@ namespace LibNurisupportPresentation.Interfaces
         /// <summary>
         /// 적용할 통신속도
         /// </summary>
-        string SelectedBaudrate { get; set; }
+        int SelectedBaudrate { get; set; }
         /// <summary>
         /// 통신속도 변경
         /// </summary>
         ReactiveCommand<Unit, Unit> CMDChangeBaudrate { get; }
 
+        ushort ResponseTime { get; set; }
+        ReactiveCommand<Unit, Unit> CMDResponseTime { get; }
+
         /// <summary>
-        /// 전대위치인가?
+        /// 절대위치인가?
         /// </summary>
         bool IsAbsolutePosCtrl { get; set; }
         /// <summary>
@@ -102,5 +109,11 @@ namespace LibNurisupportPresentation.Interfaces
         ReactiveCommand<Unit, Unit> CMDChangeFactoryReset { get; }
 
         ReactiveCommand<Unit, Unit> Refresh { get; }
+        bool IsRunningPage { get; set; }
+        IEnumerable<byte> ChangeIDs { get; set; }
+        IEnumerable<int> Baudrates { get; set; }
+        double ControlWidth { get; set; }
+        double PannelWidth { get; set; }
+        ObservableCollection<string> Logs { get; }
     }
 }

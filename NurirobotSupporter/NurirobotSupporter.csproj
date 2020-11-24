@@ -330,11 +330,15 @@
     <Compile Include="Helpers\DeviceInfo.cs" />
     <Compile Include="Helpers\EventSerialLog.cs" />
     <Compile Include="Helpers\EventSerialValue.cs" />
+    <Compile Include="Helpers\InvertableBooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\Language.cs" />
     <Compile Include="Helpers\MessageShow.cs" />
     <Compile Include="Helpers\Navigation.cs" />
     <Compile Include="Helpers\SerialControl.cs" />
     <Compile Include="Helpers\SerialportReactiveExt.cs" />
+    <Compile Include="SettingControls\TargetDevice.xaml.cs">
+      <DependentUpon>TargetDevice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DeviceSearchView.xaml.cs">
       <DependentUpon>DeviceSearchView.xaml</DependentUpon>
     </Compile>
@@ -359,6 +363,10 @@
     <Compile Include="Views\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
+    <Page Include="SettingControls\TargetDevice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DeviceSearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -412,6 +420,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include=".editorconfig" />
+    <Resource Include="Fonts\NanumBarunGothic.ttf" />
+    <Resource Include="Fonts\NanumPen.ttf" />
     <None Include="NurirobotSupporter_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

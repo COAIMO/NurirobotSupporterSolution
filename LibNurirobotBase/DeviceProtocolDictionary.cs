@@ -14,6 +14,9 @@ namespace LibNurirobotBase
 
         public void AddDeviceProtocol(byte id, ICommand command)
         {
+            if (_Dict.ContainsKey(id))
+                _Dict.Remove(id);
+
             _Dict.Add(id, new DeviceProtocol(id, command));
         }
 

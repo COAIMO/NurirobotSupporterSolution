@@ -21,6 +21,7 @@
             <system:Double x:Key="WindowTitleFontSize">12</system:Double>
             <helpers:ComparisonToVisibleConverter x:Key="ComparisonToVisibleConverter" />
             <helpers:ComparisonToBooleanConverter x:Key="ComparisonToBooleanConverter" />
+            <helpers:InvertableBooleanToVisibilityConverter x:Key="InvertableBooleanToVisibilityConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
             <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource Primary700}"/>
             <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{DynamicResource Primary600}" />
@@ -41,6 +42,24 @@
             <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10" Color="{DynamicResource Primary500}" />
             <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10" Color="{DynamicResource Primary400}" />
             <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{DynamicResource Primary500Foreground}" />
+            <!--<Style TargetType="{x:Type Control}" x:Key="baseStyle">
+                <Setter Property="FontFamily" Value="/NurirobotSupporter;component/Fonts/#NanumBarunGothic" />
+            </Style>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}"></Style>
+            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}"></Style>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}"></Style>
+            <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource baseStyle}"></Style>-->
+            <FontFamily x:Key="MahApps.Fonts.Family.SymbolTheme">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <FontFamily x:Key="MahApps.Fonts.Family.Button">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <FontFamily x:Key="MahApps.Fonts.Family.Header">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <FontFamily x:Key="MahApps.Fonts.Family.Window.Title">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <FontFamily x:Key="MahApps.Fonts.Family.Control">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <FontFamily x:Key="MahApps.Fonts.Family.ToggleSwitch">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <FontFamily x:Key="MahApps.Fonts.Family.ToggleSwitch.Header">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <FontFamily x:Key="System.Windows.Media.FontFamily">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="/NurirobotSupporter;component/Fonts/#NanumBarunGothic" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

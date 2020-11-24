@@ -79,6 +79,42 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
+        ///   해당 기능은 일괄 적용할 수 없습니다.\r[전체 적용] 체크를 해제하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Alert_Setting_Broadcast {
+            get {
+                return ResourceManager.GetString("Alert_Setting_Broadcast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   변경하려는 ID가 이미 있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Alert_Setting_ExistID {
+            get {
+                return ResourceManager.GetString("Alert_Setting_ExistID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   사용이 불가능한 장비입니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Alert_Setting_NotFoundProtocol {
+            get {
+                return ResourceManager.GetString("Alert_Setting_NotFoundProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   변경하려는 ID와 현재의 ID가 동일합니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Alert_Setting_SameID {
+            get {
+                return ResourceManager.GetString("Alert_Setting_SameID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   취소과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Button_Cancel {
@@ -151,38 +187,335 @@ namespace NurirobotSupporter.Properties {
         }
         
         /// <summary>
-        ///   장비 연결 정보을 찾습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   설정과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string Lable_DeviceSearchDesc {
+        public static string Button_Set {
             get {
-                return ResourceManager.GetString("Lable_DeviceSearchDesc", resourceCulture);
+                return ResourceManager.GetString("Button_Set", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   장비조회과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   절대 위치제어과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string Lable_PopupTitleDeviceSearch {
+        public static string Label_Absolute {
             get {
-                return ResourceManager.GetString("Lable_PopupTitleDeviceSearch", resourceCulture);
+                return ResourceManager.GetString("Label_Absolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   통신속도 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Baudrate {
+            get {
+                return ResourceManager.GetString("Label_Baudrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   전체 적용과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Broadcast {
+            get {
+                return ResourceManager.GetString("Label_Broadcast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   변경할 아이디과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_ChangeID {
+            get {
+                return ResourceManager.GetString("Label_ChangeID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   제어 On/Off 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_ControlOnOff {
+            get {
+                return ResourceManager.GetString("Label_ControlOnOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   정격전류과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Current {
+            get {
+                return ResourceManager.GetString("Label_Current", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   장비 연결 정보을 찾습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_DeviceSearchDesc {
+            get {
+                return ResourceManager.GetString("Label_DeviceSearchDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   반시계방향과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_DirectCCW {
+            get {
+                return ResourceManager.GetString("Label_DirectCCW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   시계방향과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_DirectCW {
+            get {
+                return ResourceManager.GetString("Label_DirectCW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   제어 방향 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Direction {
+            get {
+                return ResourceManager.GetString("Label_Direction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   분해능 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_EncorderPulsePole {
+            get {
+                return ResourceManager.GetString("Label_EncorderPulsePole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   공장 초기화과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_FactoryReset {
+            get {
+                return ResourceManager.GetString("Label_FactoryReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   아이디과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_ID {
+            get {
+                return ResourceManager.GetString("Label_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   적용 하시겠습니까?과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_IsOk {
+            get {
+                return ResourceManager.GetString("Label_IsOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   로그닫기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_LogOff {
+            get {
+                return ResourceManager.GetString("Label_LogOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   로그보기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_LogOn {
+            get {
+                return ResourceManager.GetString("Label_LogOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   로그뷰어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Logview {
+            get {
+                return ResourceManager.GetString("Label_Logview", resourceCulture);
             }
         }
         
         /// <summary>
         ///   끄기과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string Lable_StartupPopupOff {
+        public static string Label_Off {
             get {
-                return ResourceManager.GetString("Lable_StartupPopupOff", resourceCulture);
+                return ResourceManager.GetString("Label_Off", resourceCulture);
             }
         }
         
         /// <summary>
         ///   켜기과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string Lable_StartupPopupOn {
+        public static string Label_On {
             get {
-                return ResourceManager.GetString("Lable_StartupPopupOn", resourceCulture);
+                return ResourceManager.GetString("Label_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   장비조회과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_PopupTitleDeviceSearch {
+            get {
+                return ResourceManager.GetString("Label_PopupTitleDeviceSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치제어기 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_PosGain {
+            get {
+                return ResourceManager.GetString("Label_PosGain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치 초기화과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_PostionReset {
+            get {
+                return ResourceManager.GetString("Label_PostionReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치제어 모드 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_PostrionCtrl {
+            get {
+                return ResourceManager.GetString("Label_PostrionCtrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   모터 정격속도 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_RatedSpeed {
+            get {
+                return ResourceManager.GetString("Label_RatedSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   감속비 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Ratio {
+            get {
+                return ResourceManager.GetString("Label_Ratio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   감속비과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Ratio_Title {
+            get {
+                return ResourceManager.GetString("Label_Ratio_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   상대 위치제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Relative {
+            get {
+                return ResourceManager.GetString("Label_Relative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   분해능과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Resolution {
+            get {
+                return ResourceManager.GetString("Label_Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   통신 응답시간 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Responsetime {
+            get {
+                return ResourceManager.GetString("Label_Responsetime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   RPM과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_RPM {
+            get {
+                return ResourceManager.GetString("Label_RPM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   끄기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_StartupPopupOff {
+            get {
+                return ResourceManager.GetString("Label_StartupPopupOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   켜기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_StartupPopupOn {
+            get {
+                return ResourceManager.GetString("Label_StartupPopupOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   대상 장비과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_Targetdevice {
+            get {
+                return ResourceManager.GetString("Label_Targetdevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   통신속도과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_UnitBaudrate {
+            get {
+                return ResourceManager.GetString("Label_UnitBaudrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   응답시간(us)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_usTime {
+            get {
+                return ResourceManager.GetString("Label_usTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   속도제어기 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Label_VelocityGain {
+            get {
+                return ResourceManager.GetString("Label_VelocityGain", resourceCulture);
             }
         }
         
@@ -300,6 +633,15 @@ namespace NurirobotSupporter.Properties {
         public static string Title_Help {
             get {
                 return ResourceManager.GetString("Title_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   설정 적용과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Title_IsOk {
+            get {
+                return ResourceManager.GetString("Title_IsOk", resourceCulture);
             }
         }
         

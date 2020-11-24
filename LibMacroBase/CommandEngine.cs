@@ -33,7 +33,20 @@ namespace LibMacroBase
         */
         IStorage _Storage = Locator.Current.GetService<IStorage>();
 
-        private const string _Templete = "using System; using System.Threading; using System.Threading.Tasks; using LibNurirobotV00; using LibNurirobotV00.Struct; class tmp {{\nstatic void Run() {{\n{0}\n}}\n}}\n";
+        private const string _Templete = "using System;\n" +
+            "using System.Threading;\n" +
+            "using System.Threading.Tasks;\n" +
+            "using LibNurirobotBase;\n" +
+            "using LibNurirobotBase.Interface;\n" +
+            "using LibNurirobotV00;\n" +
+            "using LibNurirobotV00.Struct;\n" +
+            "class RunTask {{\n" +
+            "public static void Run(object obj) {{\n" +
+            "NurirobotRSA tmpRSA = obj as NurirobotRSA;\n" +
+            "NurirobotMC tmpMC = obj as NurirobotMC;\n" +
+            "{0}\n" +
+            "}}\n" +
+            "}}\n";
         public bool IsRecoding { get; set; } = false;
 
         /// <summary>
@@ -66,12 +79,12 @@ namespace LibMacroBase
         /// </summary>
         /// <param name="arg">명령어 문자열</param>
         /// <returns>true : 정상</returns>
-        public bool RunScript(string arg)
+        public bool RunScript(string arg, object obj)
         {
             bool ret = false;
             // 매크로 내역에 추가한다.
             _CurrentMacroInfo?.Macro.Add(arg);
-            ret = RunScripts(arg);
+            ret = RunScripts(arg, obj);
             //ret = RunScriptsCSharpScript(arg);
 
             return ret;
@@ -81,15 +94,16 @@ namespace LibMacroBase
         /// 텍스트를 변환하여 실행시킨다.
         /// </summary>
         /// <param name="arg">실행할 명령어 문자열</param>
-        public bool RunScripts(string arg)
+        public bool RunScripts(string arg, object obj)
         {
             bool ret = false;
             try {
                 string code = string.Format(_Templete, arg);
                 dynamic script = CSScript
                     .Evaluator
-                    .CompileMethod(code).GetStaticMethodWithArgs("*.Run");
-                script();
+                    .CompileMethod(code)
+                    .GetStaticMethodWithArgs("*.Run", new Type[] { typeof(object) });
+                script(obj);
                 ret = true;
             }
             catch (Exception ex) {
@@ -106,11 +120,6 @@ namespace LibMacroBase
             CSScript.GlobalSettings.InMemoryAssembly = true;
             CSScript.EvaluatorConfig.DebugBuild = false;
             CSScript.EvaluatorConfig.Engine = EvaluatorEngine.CodeDom;
-            //try {
-            //    _Storage = new Storage();
-            //} catch {
-            //    _Storage = null;
-            //}
         }
 
         /// <summary>

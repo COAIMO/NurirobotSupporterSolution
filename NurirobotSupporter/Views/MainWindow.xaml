@@ -26,7 +26,7 @@
         BorderThickness="0"
         MinHeight="480"
         MinWidth="800"
-        Height="480"
+        Height="600"
         Width="800"
         d:DataContext="{d:DesignInstance Type=designTime:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="Nurirobot Supporter" >
@@ -173,7 +173,7 @@
 
         <!--  Content  -->
         <mah:HamburgerMenu.ContentTemplate>
-            <DataTemplate >
+            <DataTemplate>
                 <Grid x:Name="ContentGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="48" />
@@ -267,6 +267,10 @@
                                HorizontalAlignment="Center" />
                         </StackPanel>
                     </Grid>-->
+                    <local:SettingView Grid.Row="1"
+                            Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
+                            IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
+                         DataContext="{Binding DataContext.Setting, Mode=OneWay, ElementName=MainView}"/>
                     <Grid Grid.Row="1" Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"
                   Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
                         <StackPanel VerticalAlignment="Center">
@@ -279,7 +283,6 @@
                         Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=DeviceSearch, ElementName=HamburgerMenuControl}"
                         IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=DeviceSearch, ElementName=HamburgerMenuControl}"
                         DataContext="{Binding DataContext.DeviceSearch, Mode=OneWay, ElementName=MainView}" />
-                        
                     <local:LanguageView Grid.Row="1"
                             Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Language, ElementName=HamburgerMenuControl}"
                             IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Language, ElementName=HamburgerMenuControl}"
@@ -288,11 +291,7 @@
                             Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
                             IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
                          DataContext="{Binding DataContext.Help, Mode=OneWay, ElementName=MainView}" />
-                    <Grid
-                        Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
-                        Grid.Row="1">
-                        <!--세팅화면-->
-                    </Grid>
+
                     <Grid Visibility="{Binding DataContext.IsDeviceSearchPopup, Converter={StaticResource BooleanToVisibility}, Mode=OneWay, ElementName=MainView}"
                           Grid.Row="1"
                           Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
@@ -311,50 +310,19 @@
                         <Grid Grid.Row="1" Grid.Column="1"
                                     Background="{DynamicResource MahApps.Brushes.Accent2}">
                             <Viewbox Margin="10">
-                                <TextBlock Text="{lex:Loc Lable_PopupTitleDeviceSearch}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
+                                <TextBlock Text="{lex:Loc Label_PopupTitleDeviceSearch}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
                             </Viewbox>
                         </Grid>
                         <Grid Grid.Row="2" Grid.Column="1"
                               Background="{DynamicResource MahApps.Brushes.Accent4}">
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Margin="30" Text="{lex:Loc Lable_DeviceSearchDesc}" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
+                                <TextBlock Margin="30" Text="{lex:Loc Label_DeviceSearchDesc}" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button Content="{lex:Loc Button_DeviceSearch}" Margin="10, 0" Click="Button_Click"/>
                                     <Button Content="{lex:Loc Button_Cancel}" Margin="10, 0" Style="{DynamicResource MahApps.Styles.Button.Square}" Click="Button_Click_1" />
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
-                    </Grid>
-                    <Grid Grid.Row="1">
-                        <!--<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                            <WrapPanel Orientation="Vertical" >
-                                <Button Width="100" Content="1" />
-                                <Button Width="100" Content="2" />
-                                <Button Width="100" Content="3" />
-                                <Button Width="100" Content="4" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                                <Button Width="100" Content="5" />
-                            </WrapPanel>
-                        </ScrollViewer>-->
-                        <!--<mah:NumericUpDown  Minimum="0" Value="0.11"
-                   Maximum="10000.99"
-                   Interval="0.1" />-->
                     </Grid>
                 </Grid>
             </DataTemplate>

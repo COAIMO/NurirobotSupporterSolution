@@ -78,8 +78,8 @@ using System.Diagnostics;
         {
             Logs = new ObservableCollection<string>();
             this.ObsLog.ObserveOn(RxApp.MainThreadScheduler).Subscribe(x => {
-                Logs.Add(string.Format("{0}\t{1}",Logs.Count + 1,x));
-                SelectLog = Logs[Logs.Count-1];
+                Logs.Add(string.Format("{0}\t{1}", Logs.Count + 1, x));
+                //SelectLog = Logs[Logs.Count - 1];
             });
 
             Search = ReactiveCommand.Create(() => {
@@ -155,11 +155,12 @@ using System.Diagnostics;
                                             ID = (byte)i,
                                             Protocol = 0xa0
                                         });
-                                        if (mStopWaitHandle.WaitOne(100)) {
-                                            chkDone = true;
-                                            MainViewModel.SelectedBaudrates = item;
-                                            if (!searchBaud.Contains(item))
-                                                searchBaud.Add(item);
+                                        if (mStopWaitHandle.WaitOne(200)) {
+                                            break;
+                                            //chkDone = true;
+                                            //MainViewModel.SelectedBaudrates = item;
+                                            //if (!searchBaud.Contains(item))
+                                            //    searchBaud.Add(item);
                                         }
                                     }
                                 }

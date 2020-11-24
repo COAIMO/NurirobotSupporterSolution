@@ -2,7 +2,10 @@ namespace NurirobotSupporter.Views
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
+    using System.Reactive.Disposables;
+    using System.Reactive.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows;
@@ -33,17 +36,52 @@ namespace NurirobotSupporter.Views
             InitializeComponent();
             DataContextChanged += (sender, args) => ViewModel = DataContext as ISettingViewModel;
 
-            UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 5) };
+            this.WhenActivated(disposable => {
+                this.WhenAnyValue(x => x.ActualWidth)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => {
+                    Debug.WriteLine(x);
+                    if (ViewModel != null)
+                        ViewModel.PannelWidth = x;
+                }).DisposeWith(disposable);
+                //    this.OneWayBind(ViewModel,
+                //        viewModel => viewModel.IsShowTarget,
+                //        view => view.TargetDevice.Visibility,
+                //        isVisible => isVisible ? Visibility.Visible : Visibility.Collapsed)
+                //        .DisposeWith(disposable);
+                //    //this.OneWayBind(ViewModel,
+                //    //    vm => vm.TargetIDs,
+                //    //    vw => vw.splitButton.ItemsSource)
+                //    //.DisposeWith(disposable);
+            });
+
+            UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 500) };
             UpdateTimer.Tick += UpdateTimer_Tick;
             UpdateTimer.Start();
         }
 
+        long beforecount = -1;
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             if (!this.IsEnabled)
                 return;
 
-            ViewModel.Refresh.Execute();
+            if (ViewModel != null) {
+                ViewModel.Refresh?.Execute();
+
+                if (ViewModel.IsOnLog) {
+                    if (beforecount != ViewModel.Logs.Count) {
+                        if (SystemStatusLB.ItemContainerGenerator.ContainerFromIndex(ViewModel.Logs.Count - 1) is FrameworkElement container) {
+                            var transform = container.TransformToVisual(SystemStatusSV);
+                            var elementLocation = transform.Transform(new Point(0, 0));
+                            double newVerticalOffset = elementLocation.Y + SystemStatusSV.VerticalOffset;
+                            SystemStatusSV.ScrollToVerticalOffset(newVerticalOffset);
+                        }
+                        beforecount = ViewModel.Logs.Count;
+                    }
+                }
+            }
+
         }
 
         public ISettingViewModel ViewModel {
@@ -54,6 +92,12 @@ namespace NurirobotSupporter.Views
         object IViewFor.ViewModel {
             get => ViewModel;
             set => ViewModel = (ISettingViewModel)value;
+        }
+
+        private void UserControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (ViewModel != null)
+                ViewModel.IsRunningPage = (bool)e.NewValue;
         }
     }
 }

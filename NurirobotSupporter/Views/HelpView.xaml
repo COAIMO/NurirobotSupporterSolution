@@ -29,8 +29,8 @@
             <TextBlock HorizontalAlignment="Center" ><Span xml:space="preserve"><Run Text="&#xA;"/><Hyperlink NavigateUri="https://support.nurirobot.info/help.htm" RequestNavigate="Hyperlink_RequestNavigate"><InlineUIContainer><TextBlock Text="{lex:Loc Title_Help}"/></InlineUIContainer></Hyperlink></Span></TextBlock>
             <mah:ToggleSwitch Margin="20"  Header="{lex:Loc Title_StartupPopup}" HorizontalAlignment="Center" 
                               VerticalAlignment="Stretch" 
-                              OffContent="{lex:Loc Lable_StartupPopupOff}"
-                              OnContent="{lex:Loc Lable_StartupPopupOn}"
+                              OffContent="{lex:Loc Label_StartupPopupOff}"
+                              OnContent="{lex:Loc Label_StartupPopupOn}"
                               IsOn="{Binding IsStartupPopupSearch}"/>
         </StackPanel>
     </Grid>

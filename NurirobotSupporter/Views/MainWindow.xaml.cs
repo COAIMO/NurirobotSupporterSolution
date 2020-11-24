@@ -29,6 +29,8 @@ namespace NurirobotSupporter.Views
         public MainWindow()
         {
             InitializeComponent();
+            this.FontFamily = new FontFamily("Fonts/#NanumPen");
+
             DataContextChanged += (sender, args) => ViewModel = DataContext as IMainViewModel;
             this.WhenActivated(disposable => { });
         }

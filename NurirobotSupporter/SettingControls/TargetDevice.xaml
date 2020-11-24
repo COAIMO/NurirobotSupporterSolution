@@ -1,0 +1,33 @@
+<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NurirobotSupporter.SettingControls"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" x:Class="NurirobotSupporter.SettingControls.TargetDevice"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="300" MaxWidth="300" MaxHeight="120" MinHeight="120" MinWidth="300">
+    <Grid Background="{DynamicResource MahApps.Brushes.Gray}">
+        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+            <StackPanel Margin="10, 2, 10, 2" >
+                <Viewbox Height="30" HorizontalAlignment="Left">
+                    <TextBlock Text="{lex:Loc Label_Targetdevice}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                </Viewbox>
+                <Grid Margin="10" Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0">
+                        <TextBlock Text="{lex:Loc Label_ID}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                    </Viewbox>
+                    <mah:SplitButton x:Name="splitButton" Grid.Column="2"/>
+                </Grid>
+                <Viewbox Height="30" HorizontalAlignment="Left">
+                    <CheckBox x:Name="checkBox" Content="{lex:Loc Label_Broadcast}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                </Viewbox>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

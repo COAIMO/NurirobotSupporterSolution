@@ -21,5 +21,17 @@ namespace NurirobotSupporter.Helpers
                 MessageBox.Show(result);
         }
 
+        public bool ShowSettingConfirm(string arg)
+        {
+            //throw new NotImplementedException();
+            var result = LocExtension.GetLocalizedValue<string>("Label_IsOk");
+            var result1 = LocExtension.GetLocalizedValue<string>("Title_IsOk") ;
+            if (result != null && result1 != null) {
+                var message = string.Format("{0}\r{1}", arg, result);
+                return MessageBox.Show(message, result1, MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+            }
+            else
+                return false;
+        }
     }
 }

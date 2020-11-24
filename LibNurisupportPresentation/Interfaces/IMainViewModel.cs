@@ -74,5 +74,9 @@ namespace LibNurisupportPresentation.Interfaces
         /// 장치조회 팝업
         /// </summary>
         bool IsDeviceSearchPopup { get; set; }
+        /// <summary>
+        /// 설정
+        /// </summary>
+        ISettingViewModel Setting { get; set; }
     }
 }
