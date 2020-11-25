@@ -155,7 +155,7 @@ using System.Diagnostics;
                                             ID = (byte)i,
                                             Protocol = 0xa0
                                         });
-                                        if (mStopWaitHandle.WaitOne(200)) {
+                                        if (mStopWaitHandle.WaitOne(GetTimeout(item))) {
                                             break;
                                             //chkDone = true;
                                             //MainViewModel.SelectedBaudrates = item;
@@ -228,6 +228,57 @@ using System.Diagnostics;
                 }
             });
             //Logs.Add("Start ================= ");
+        }
+
+        private int GetTimeout(string baud)
+        {
+            int ret = 30;
+            // 처리지연에 의한 대기시간 보정상수
+            float constWait = 1f;
+
+            switch (baud) {
+                case "110":
+                    ret = 3000;
+                    break;
+                case "300":
+                    ret = 1500;
+                    break;
+                case "600":
+                    ret = 1000;
+                    break;
+                case "1200":
+                    ret = 500;
+                    break;
+                case "2400":
+                    ret = 250;
+                    break;
+                case "4800":
+                    ret = 125;
+                    break;
+                case "9600":
+                    ret = 60;
+                    break;
+                case "14400":
+                    ret = 50;
+                    break;
+                case "19200":
+                    ret = 50;
+                    break;
+                case "28800":
+                    ret = 50;
+                    break;
+                case "38400":
+                    ret = 50;
+                    break;
+                case "57600":
+                    ret = 50;
+                    break;
+                default:
+                    ret = 50;
+                    break;
+            }
+
+            return (int)(ret * constWait);
         }
     }
 }

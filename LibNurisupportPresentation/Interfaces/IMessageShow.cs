@@ -15,10 +15,16 @@ namespace LibNurisupportPresentation.Interfaces
         /// <param name="arg"></param>
         void Show(string arg);
         /// <summary>
-        /// 설정 확인
+        /// 설정 변경 확인
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
         bool ShowSettingConfirm(string arg);
+        /// <summary>
+        /// 설정 변경 확인
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        bool ShowSettingConfirmTemplete(string arg);
     }
 }

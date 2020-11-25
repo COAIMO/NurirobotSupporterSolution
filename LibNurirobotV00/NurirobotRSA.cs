@@ -755,11 +755,11 @@ namespace LibNurirobotV00
         /// </summary>
         /// <param name="id">장비아이디</param>
         /// <param name="mode">피드백 모드</param>
-        public void Feedback(byte id, ProtocolModeRSA mode)
+        public void Feedback(byte id, byte mode)
         {
             PROT_Feedback(new NuriProtocol {
                 ID = id,
-                Protocol = (byte)mode
+                Protocol = mode
             });
         }
 

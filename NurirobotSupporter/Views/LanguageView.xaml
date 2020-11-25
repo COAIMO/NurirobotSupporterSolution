@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:NurirobotSupporter.Views"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
-             lex:LocalizeDictionary.DesignCulture="ko"
-lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
-lex:ResxLocalizationProvider.DefaultDictionary="Resources"     
+        lex:LocalizeDictionary.DesignCulture="ko"
+        lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"    
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">

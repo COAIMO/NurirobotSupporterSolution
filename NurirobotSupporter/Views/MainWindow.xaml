@@ -12,7 +12,7 @@
     xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
         lex:LocalizeDictionary.DesignCulture="ko"
         lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
-        lex:ResxLocalizationProvider.DefaultDictionary="Resources"  
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"  
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"

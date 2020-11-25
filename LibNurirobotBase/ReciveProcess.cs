@@ -8,6 +8,7 @@ namespace LibNurirobotBase
     using LibNurirobotBase.Interface;
     using Splat;
 
+
     public class ReciveProcess : IReciveProcess
     {
         /// <summary>

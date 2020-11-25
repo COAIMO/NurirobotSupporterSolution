@@ -29,6 +29,7 @@ namespace NurirobotSupporter
     using System.Threading.Tasks;
     using LibNurisupportPresentation.Interfaces;
     using CSScriptLibrary;
+    using WPFLocalizeExtension.Providers;
 
     /// <summary>
     /// App.xaml에 대한 상호 작용 논리
@@ -49,27 +50,27 @@ namespace NurirobotSupporter
             RxApp.SuspensionHost.CreateNewAppState = () => new AppState();
             RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver("appstate.json"));
 
-//            dynamic script = CSScript
-//                    .Evaluator
-//                    .CompileMethod(
-//                           @"using System;
-//using LibNurirobotBase;
-//using LibNurirobotBase.Interface;
-//using System.Threading;
-//using System.Threading.Tasks;
-//using LibNurirobotV00;
-//using LibNurirobotV00.Struct;
-//using System.Diagnostics;
-//class RunTask {
-//public static void Run(object obj) {
-//Console.WriteLine(1111);
-//NurirobotRSA tmpRSA = obj as NurirobotRSA;
-//NurirobotMC tmpMC = obj as NurirobotMC;
-//tmpRSA.PROT_SettingID(new NuriID {ID = 0x00, AfterID = 0x01 });
-//Console.WriteLine(2222);
-//}
-//}").GetStaticMethodWithArgs("*.Run", new Type[] { typeof(object)});
-//            script(new NurirobotRSA());
+            Locator.CurrentMutable.RegisterConstant(new DeviceProtocolDictionary(), typeof(IDeviceProtocolDictionary));
+            Locator.CurrentMutable.RegisterConstant(new FileHelper(), typeof(IFileHelper));
+            Locator.CurrentMutable.RegisterConstant(new DeviceInfo(), typeof(IDeviceInfo));
+            Locator.CurrentMutable.RegisterConstant(new SerialControl(), typeof(ISerialControl));
+            Locator.CurrentMutable.RegisterConstant(new EventSerialLog(), typeof(IEventSerialLog));
+            Locator.CurrentMutable.RegisterConstant(new EventSerialValue(), typeof(IEventSerialValue));
+            Locator.CurrentMutable.RegisterConstant(new ReciveProcess(), typeof(IReciveProcess));
+            Locator.CurrentMutable.RegisterConstant(new SerialProcess(), typeof(ISerialProcess));
+            Locator.CurrentMutable.RegisterConstant(new MessageShow(), typeof(IMessageShow));
+            Locator.CurrentMutable.RegisterConstant(new Language(), typeof(ILanguage));
+            Locator.CurrentMutable.RegisterConstant(new Running(), typeof(IRunning));
+            Locator.CurrentMutable.RegisterConstant(new Storage(), typeof(IStorage));
+            Locator.CurrentMutable.RegisterConstant(new CommandEngine(), typeof(ICommandEngine));
+
+            Locator.Current.GetService<ISerialControl>().AddTo(_Disposables);
+            Locator.Current.GetService<IEventSerialLog>().AddTo(_Disposables);
+            Locator.Current.GetService<IEventSerialValue>().AddTo(_Disposables);
+            Locator.Current.GetService<IReciveProcess>().AddTo(_Disposables);
+            Locator.Current.GetService<ISerialProcess>().AddTo(_Disposables);
+            Locator.Current.GetService<IStorage>().AddTo(_Disposables);
+            Locator.Current.GetService<ICommandEngine>().AddTo(_Disposables);
         }
 
 #if DEBUG
@@ -87,36 +88,46 @@ namespace NurirobotSupporter
             base.OnStartup(e);
             var tmp = RxApp.SuspensionHost.GetAppState<AppState>();
             ThemeManager.Current.ChangeTheme(this, tmp.ColorTheme);
-            
+
+            (LocalizeDictionary.Instance.DefaultProvider as ResxLocalizationProvider).SearchCultures =
+                new List<System.Globalization.CultureInfo>()
+                {
+                    System.Globalization.CultureInfo.GetCultureInfo("ko"),
+                    System.Globalization.CultureInfo.GetCultureInfo("ko-KR"),
+                    System.Globalization.CultureInfo.GetCultureInfo("en"),
+                    System.Globalization.CultureInfo.GetCultureInfo("en-US"),
+                };
             LocalizeDictionary.Instance.Culture = new System.Globalization.CultureInfo(tmp.Language);
 
-            Locator.CurrentMutable.RegisterConstant(new FileHelper(), typeof(IFileHelper));
-            Locator.CurrentMutable.RegisterConstant(new DeviceInfo(), typeof(IDeviceInfo));
-            Locator.CurrentMutable.RegisterConstant(new SerialControl(), typeof(ISerialControl));
-            Locator.CurrentMutable.RegisterConstant(new EventSerialLog(), typeof(IEventSerialLog));
-            Locator.CurrentMutable.RegisterConstant(new EventSerialValue(), typeof(IEventSerialValue));
-            Locator.CurrentMutable.RegisterConstant(new ReciveProcess(), typeof(IReciveProcess));
-            Locator.CurrentMutable.RegisterConstant(new SerialProcess(), typeof(ISerialProcess));
-            Locator.CurrentMutable.RegisterConstant(new DeviceProtocolDictionary(), typeof(IDeviceProtocolDictionary));
-            Locator.CurrentMutable.RegisterConstant(new MessageShow(), typeof(IMessageShow));
-            Locator.CurrentMutable.RegisterConstant(new Language(), typeof(ILanguage));
-            Locator.CurrentMutable.RegisterConstant(new Running(), typeof(IRunning));
-
-            Locator.Current.GetService<ISerialControl>().AddTo(_Disposables);
-            Locator.Current.GetService<IEventSerialLog>().AddTo(_Disposables);
-            Locator.Current.GetService<IEventSerialValue>().AddTo(_Disposables);
-            Locator.Current.GetService<IReciveProcess>().AddTo(_Disposables);
-            Locator.Current.GetService<ISerialProcess>().AddTo(_Disposables);
-
-            Locator.CurrentMutable.RegisterConstant(new Storage(), typeof(IStorage));
-            Locator.Current.GetService<IStorage>().AddTo(_Disposables);
             
-            Locator.CurrentMutable.RegisterConstant(new CommandEngine(), typeof(ICommandEngine));
-            Locator.Current.GetService<ICommandEngine>().AddTo(_Disposables);
+
             // 한영 설정
             //LocalizeDictionary.Instance.Culture = new System.Globalization.CultureInfo("en-US");
 
             //_IStorage = Locator.Current.GetService<IStorage>();
+            var window = new MainWindow() { 
+                DataContext = new MainWindowViewModel(
+                    new DeviceSearchViewModel(),
+                    new LanguageViewModel(),
+                    new HelpViewModel(),
+                    new SettingViewModel()
+                    )
+            };
+            window.Closed += delegate { Shutdown(); };
+
+            window.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            _IsRun = false;
+            _Disposables?.Dispose();
+            //_IStorage?.Dispose();
+        }
+
+        void tmp()
+        {
 #if DEBUG_Test
             AllocConsole();
 
@@ -664,26 +675,6 @@ tmpRSA.PROT_Feedback(new NuriProtocol {
             //comdis.Dispose();
             _Disposables.Add(comdis);
 #endif
-
-            var window = new MainWindow() { 
-                DataContext = new MainWindowViewModel(
-                    new DeviceSearchViewModel(),
-                    new LanguageViewModel(),
-                    new HelpViewModel(),
-                    new SettingViewModel()
-                    )
-            };
-            window.Closed += delegate { Shutdown(); };
-
-            window.Show();
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-            _IsRun = false;
-            _Disposables?.Dispose();
-            //_IStorage?.Dispose();
         }
     }
 }

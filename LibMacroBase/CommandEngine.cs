@@ -41,9 +41,12 @@ namespace LibMacroBase
             "using LibNurirobotV00;\n" +
             "using LibNurirobotV00.Struct;\n" +
             "class RunTask {{\n" +
-            "public static void Run(object obj) {{\n" +
-            "NurirobotRSA tmpRSA = obj as NurirobotRSA;\n" +
-            "NurirobotMC tmpMC = obj as NurirobotMC;\n" +
+            //"public static void Run(object obj) {{\n" +
+            //"NurirobotRSA tmpRSA = obj as NurirobotRSA;\n" +
+            //"NurirobotMC tmpMC = obj as NurirobotMC;\n" +
+            "public static void Run() {{\n" +
+            "NurirobotRSA nuriRSA = new NurirobotRSA();\n" +
+            "NurirobotMC nuriMC = new NurirobotMC();\n" +
             "{0}\n" +
             "}}\n" +
             "}}\n";
@@ -79,12 +82,12 @@ namespace LibMacroBase
         /// </summary>
         /// <param name="arg">명령어 문자열</param>
         /// <returns>true : 정상</returns>
-        public bool RunScript(string arg, object obj)
+        public bool RunScript(string arg)
         {
             bool ret = false;
             // 매크로 내역에 추가한다.
             _CurrentMacroInfo?.Macro.Add(arg);
-            ret = RunScripts(arg, obj);
+            ret = RunScripts(arg);
             //ret = RunScriptsCSharpScript(arg);
 
             return ret;
@@ -94,16 +97,20 @@ namespace LibMacroBase
         /// 텍스트를 변환하여 실행시킨다.
         /// </summary>
         /// <param name="arg">실행할 명령어 문자열</param>
-        public bool RunScripts(string arg, object obj)
+        public bool RunScripts(string arg)
         {
             bool ret = false;
             try {
                 string code = string.Format(_Templete, arg);
+                //dynamic script = CSScript
+                //    .Evaluator
+                //    .CompileMethod(code)
+                //    .GetStaticMethodWithArgs("*.Run", new Type[] { typeof(object) });
                 dynamic script = CSScript
                     .Evaluator
                     .CompileMethod(code)
-                    .GetStaticMethodWithArgs("*.Run", new Type[] { typeof(object) });
-                script(obj);
+                    .GetStaticMethodWithArgs("*.Run");
+                script();
                 ret = true;
             }
             catch (Exception ex) {

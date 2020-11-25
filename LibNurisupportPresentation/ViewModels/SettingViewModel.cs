@@ -339,17 +339,27 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDIDSearch { get; }
         readonly ISubject<string> _Log = new Subject<string>();
         IObservable<string> ObsLog => _Log.Retry().Publish().RefCount();
-        AutoResetEvent _StopWaitHandle = new AutoResetEvent(false);
+        //AutoResetEvent _StopWaitHandle = new AutoResetEvent(false);
         CancellationTokenSource _CTSFindSearch;
-        IObservable<byte[]> stx = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
+        private readonly IObservable<byte[]> STX = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
+        //AppState _AppState = RxApp.SuspensionHost.GetAppState<AppState>();
+        int _WaitTime = 100;
+        string _LastBaud = "0";
+
+        bool IsRunning {
+            get;
+            set;
+        } = false;
 
         public SettingViewModel()
         {
             Logs = new ObservableCollection<string>();
             this.ObsLog.ObserveOn(RxApp.MainThreadScheduler).Subscribe(x => {
+                var tmp = string.Format("{0}\t{1}", Logs.Count + 1, x);
                 if (IsOnLog) {
-                    Logs.Add(string.Format("{0}\t{1}", Logs.Count + 1, x));
+                    Logs.Add(tmp);
                 }
+                Debug.WriteLine(tmp);
             });
 
             // 공통 표시
@@ -402,22 +412,42 @@ namespace LibNurisupportPresentation.ViewModels
             }
             ChangeIDs = ch.ToArray();
 
+            // 통신속도에 따른 응답 속도를 계산한다.
+            Observable.Interval(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
+                .Where(x => !string.Equals(state.Baudrate, _LastBaud))
+                .Subscribe(x => {
+                    _LastBaud = state.Baudrate;
+                    _WaitTime = GetTimeout(state.Baudrate);
+                    Debug.WriteLine(_WaitTime);
+                });
+
             //Changed.Subscribe(x => {
             //    Debug.WriteLine(x.PropertyName + " " + this.IsRunningPage);
             //});
 
-            var isNowIDSearch = this.WhenAnyValue(x => x.IsSearchingID)
+            //var isNowIDSearch = this.WhenAnyValue(x => x.IsSearchingID)
+            //    .ObserveOn(RxApp.MainThreadScheduler)
+            //    .Select(search => {
+            //        var run = Locator.Current.GetService<IRunning>();
+            //        run.IsRun = search;
+            //        return !search;
+            //        });
+
+            var IsNowRunning = this.WhenAnyValue(x => x.IsRunning, x => x.IsSearchingID)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Select(search => !search);
+                .Select(r => {
+                    var run = Locator.Current.GetService<IRunning>();
+                    var chk = (r.Item1 || r.Item2);
+                    run.IsRun = chk;
+                    return !chk;
+                });
 
             // 조회기능 추가
             CMDIDSearch = ReactiveCommand.Create(() => {
                 if (!IsSearchingID) {
                     IsSearchingID = true;
-                    var run = Locator.Current.GetService<IRunning>();
-                    run.IsRun = true;
                     Task.Run(() => {
-                        SearchID(run);
+                        SearchID();
                     });
                 }
                 else {
@@ -427,26 +457,27 @@ namespace LibNurisupportPresentation.ViewModels
 
             // 아이디 변경
             CMDChangeID = ReactiveCommand.Create(() => {
+                IsRunning = true;
                 var msg = Locator.Current.GetService<IMessageShow>();
                 // 동일 여부 확인
                 if (SelectedId == SelectedChangeID) {
                     msg?.Show("Alert_Setting_SameID");
+                    IsRunning = false;
                     return;
                 }
 
                 // 일괄적용 불가 항목
                 if (IsBroadcast) {
                     msg?.Show("Alert_Setting_Broadcast");
+                    IsRunning = false;
                     return;
                 }
 
                 // 프로토콜 확인
-                var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
-                if (dpd.GetDeviceProtocol(SelectedId) == null) {
-                    if (!AssignCommand(SelectedId)) {
-                        msg?.Show("Alert_Setting_NotFoundProtocol");
-                        return;
-                    }
+                if (!CheckProtocol(SelectedId)) {
+                    msg?.Show("Alert_Setting_NotFoundProtocol");
+                    IsRunning = false;
+                    return;
                 }
 
                 // 진행여부 문의
@@ -455,102 +486,485 @@ namespace LibNurisupportPresentation.ViewModels
                         "{0} to {1}",
                         SelectedId,
                         SelectedChangeID)) == true) {
-                    var run = Locator.Current.GetService<IRunning>();
-                    run.IsRun = true;
-                    CompositeDisposable comdis = new CompositeDisposable();
-                    var isc = Locator.Current.GetService<ISerialControl>();
-                    var sp = Locator.Current.GetService<ISerialProcess>();
-                    sp.Start();
-                    isc.ObsDataReceived
-                        .BufferUntilSTXtoByteArray(stx, 5)
-                        .Subscribe(data => {
-                            Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                            var tmp = new NurirobotRSA();
-                            if (tmp.Parse(data)) {
-                                if (string.Equals(tmp.PacketName, "FEEDPing")) {
-                                    var obj = (NuriProtocol)tmp.GetDataStruct();
-                                    _Log.OnNext(string.Format("Feedback Index : {0} ===========", obj.ID));
-                                    if (SelectedChangeID == obj.ID) {
-                                        _StopWaitHandle.Set();
-                                    }
-                                }
-                            }
-                        })
-                        .AddTo(comdis);
 
-                    // 변경 대상이 존재하는지 확인
-                    NurirobotMC tmpcmd = new NurirobotMC();
-                    bool existID = false;
-                    for (int k = 0; k < 3; k++) {
-                        tmpcmd.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                            ID = SelectedChangeID,
-                            Protocol = 0xa0
-                        });
-                        _Log.OnNext(string.Format("Target : {0}", SelectedChangeID));
-                        if (_StopWaitHandle.WaitOne(500)) {
-                            existID = true;
-                            break;
-                        }
-                    }
-
-                    if (existID) {
-                        // 이미 있음
+                    // 0. 처리 상태로 변경
+                    // 1. 변경 대상이 존재하는지 확인
+                    if (CheckPing(SelectedChangeID) || !CheckPing(SelectedId)) {
+                        // 이미 있음을 알림
+                        // 변경하려는 ID가 이미 있거나, 변경할 ID가 없습니다.
                         msg?.Show("Alert_Setting_ExistID");
                     }
                     else {
-                        // 변경 가능
-                        var tmp = dpd.GetDeviceProtocol(SelectedId);
-                        var ICE = Locator.Current.GetService<ICommandEngine>();
-                        _Log.OnNext(string.Format("Change ID : {0}", SelectedChangeID));
-                        if (tmp.Command is NurirobotMC) {
-                            // 모터 컨트롤인가?
-                            var str = string.Format(
-                                "tmpMC.SettingID( 0x{0:X2}, 0x{1:X2});",
-                                SelectedId,
-                                SelectedChangeID
-                                );
-                            ICE.RunScript(str, new NurirobotMC());
-                        }
-                        else {
-                            // 스마트 모터인가?
-                            var rsa = new NurirobotRSA();
-                            for (int i = 0; i < 5; i++) {
-                                var str = string.Format(
-                                    "tmpRSA.SettingID(0x{0:X2}, 0x{1:X2});",
-                                    SelectedId,
-                                    SelectedChangeID
-                                    );
-                                ICE.RunScript(str, rsa);
-
-                                tmpcmd.Feedback( SelectedChangeID, ProtocolMode.REQPing);
-                                _Log.OnNext(string.Format("Check ID : {0}", SelectedChangeID));
-                                if (_StopWaitHandle.WaitOne(500)) {
-                                    break;
+                        // 2. 변경 & 3. 변경 확인
+                        if (ChangeID(SelectedId, SelectedChangeID)) {
+                            // 변경 완료
+                            // 4. 장치별 프로토콜 갱신
+                            AssignCommand(SelectedChangeID);
+                            var list = new List<byte>();
+                            foreach (var item in TargetIDs) {
+                                if (item != SelectedId) {
+                                    list.Add(item);
                                 }
                             }
+                            if (!list.Contains(SelectedChangeID)) {
+                                list.Add(SelectedChangeID);
+                            }
 
+                            TargetIDs = list.ToArray();
+                            SelectedId = SelectedChangeID;
+                            msg?.Show("PopupDone");
+                        }
+                        else {
+                            // 변경 실패
+                            msg?.Show("Alert_DoNotChange");
                         }
                     }
 
-                    sp.Stop();
-                    comdis.Dispose();
-                    run.IsRun = false;
+                    // 5. 중지 상태로 변경
+                    IsRunning = false;
                 }
-            }, isNowIDSearch);
+            }, IsNowRunning);
+
+            // 통신속도 변경
+            CMDChangeBaudrate = ReactiveCommand.Create(() => {
+                IsRunning = true;
+
+                if (!IsBroadcast) {
+                    if (!CheckBaseLogic()) {
+                        IsRunning = false;
+                        return;
+                    }
+                }
+
+                ChangeBaud(SelectedId, SelectedBaudrate, IsBroadcast);
+                IsRunning = false;
+            }, IsNowRunning);
+
+            // 응답시간 변경
+            CMDResponseTime = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                _Log.OnNext("ResponseTime Change");
+                var msg = Locator.Current.GetService<IMessageShow>();
+                if (!IsBroadcast) {
+                    if (!CheckBaseLogic()) {
+                        IsRunning = false;
+                        return;
+                    }
+                }
+                else {
+                    if (msg?.ShowSettingConfirmTemplete("Alert_Broadcast") != true) {
+                        return;
+                    }
+                }
+
+                if (IsBroadcast) {
+                    _Log.OnNext("Target Lists ================");
+                    foreach (var item in TargetIDs) {
+                        if (CheckPing(item)) {
+                            _Log.OnNext(string.Format("Setting {0} Set : {1}", item, ChangeResponsetime(item, ResponseTime)));
+                        } else {
+                            _Log.OnNext(string.Format("Not found : {0}", item));
+                        }
+                    }
+                } else {
+                    if (ChangeResponsetime(SelectedId, ResponseTime)) {
+                        msg?.Show("PopupDone");
+                    } else {
+                        msg?.Show("Alert_DoNotChange");
+                    }
+                }
+
+                IsRunning = false;
+            }, IsNowRunning);
+
+            var esv = Locator.Current.GetService<IEventSerialValue>();
+            Refresh = ReactiveCommand.Create(() => {
+                IsRunning = true;
+
+                if (state.IsConnect) {
+                    esv.ClearDictionary();
+                    SelectedBaudrate = int.Parse(state.Baudrate);
+                    GetResponseTime(SelectedId);
+                }
+
+                IsRunning = false;
+            }, IsNowRunning);
+
+            // 신규 데이터 반영
+            esv.ObsSerialValueObservable
+                .Where(x => x.ID == SelectedId)
+                .Subscribe(x => {
+                    if (string.Equals(x.ValueName, "FEEDResptime")) {
+                        ResponseTime = (ushort)(x.Object as NuriResponsetime).Responsetime;
+                        _Log.OnNext(string.Format("New GetResponseTime Feedback Index {0} {1}", x.ID, ResponseTime));
+                    }
+                });
 
         }
 
-        private bool AssignCommand(byte id)
+        #region ==== 로직 ====
+
+        /// <summary>
+        /// 응답시간 호출
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSpControl"></param>
+        private void GetResponseTime(byte id, bool isSpControl = true)
+        {
+            //ushort ret = 0;
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var rcv = Locator.Current.GetService<IReciveProcess>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            ISerialProcess sp = null;
+            if (isSpControl) {
+                sp = Locator.Current.GetService<ISerialProcess>();
+                sp.Start();
+            }
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            isc.ObsDataReceived
+                    .BufferUntilSTXtoByteArray(STX, 5)
+                    .Subscribe(data => {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        rcv.AddReciveData(data);
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDResptime")) {
+                                var obj = (NuriResponsetime)command.GetDataStruct();
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    _Log.OnNext(string.Format("GetResponseTime Feedback Index {0} {1}", obj.ID, obj.Responsetime));
+                                    //ret = (ushort)obj.Responsetime;
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    })
+                    .AddTo(comdis);
+
+            NurirobotMC tmpcmd = new NurirobotMC();
+            _Log.OnNext(string.Format("GetResponseTime : {0}", id));
+            for (int k = 0; k < 2; k++) {
+                tmpcmd.Feedback(id, 0xa5);
+                if (stopWaitHandle.WaitOne(_WaitTime)) {
+                    break;
+                }
+            }
+
+            if (isSpControl) {
+                sp?.Stop();
+            }
+            comdis.Dispose();
+        }
+
+        /// <summary>
+        /// 응답시간 변경
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        private bool ChangeResponsetime(byte id, ushort response)
         {
             bool ret = false;
-            ISerialControl isc = Locator.Current.GetService<ISerialControl>();
-            ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
-            sp.Start();
-            CompositeDisposable comdis = new CompositeDisposable();
 
-            // 응답 확인
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var rcv = Locator.Current.GetService<IReciveProcess>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
             isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(stx, 5)
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                    rcv.AddReciveData(data);
+                    if (command.Parse(data)) {
+                        if (string.Equals(command.PacketName, "FEEDResptime")) {
+                            var obj = (NuriResponsetime)command.GetDataStruct();
+                            _Log.OnNext(string.Format("Feedback Index : {0} ResponseTime : {1} ===========", obj.ID, obj.Responsetime));
+
+                            // 동일해야만 의미가 있다.
+                            if (id == obj.ID && response == obj.Responsetime) {
+                                stopWaitHandle.Set();
+                            }
+                        }
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingResponsetime( 0x{0:X2}, {1});",
+                                id,
+                                response
+                                );
+            }
+            else {
+                commandStr = string.Format(
+                                "nuriRSA.SettingResponsetime( 0x{0:X2}, {1});",
+                                id,
+                                response
+                                );
+            }
+
+            for (int i = 0; i < 5; i++) {
+                ICE.RunScript(commandStr);
+                if (isMc) {
+                    (command as NurirobotMC).Feedback(id, 0xA5);
+                }
+                else {
+                    (command as NurirobotRSA).Feedback(id, 0xA5);
+                }
+
+                if (stopWaitHandle.WaitOne(_WaitTime)) {
+                    ret = true;
+                    break;
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 설정 적용가능성 확인
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckBaseLogic()
+        {
+            bool ret = true;
+
+            var msg = Locator.Current.GetService<IMessageShow>();
+
+            // 대상 장비 존재여부 확인
+            if (!CheckPing(SelectedId)) {
+                msg?.Show("Alert_NotFound");
+                return false;
+            }
+
+            // 프로토콜 확인
+            if (!CheckProtocol(SelectedId)) {
+                msg?.Show("Alert_Setting_NotFoundProtocol");
+                return false;
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 통신속도 변경
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="bps"></param>
+        /// <returns></returns>
+        private void ChangeBaud(byte id, int bps, bool isBroadcast = false)
+        {
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            sp.Start();
+
+            bool isMc = tmp.Command is NurirobotMC;
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+
+            if (!isBroadcast) {
+                if (isMc) {
+                    commandStr = string.Format(
+                                    "nuriMC.SettingBaudrate( 0x{0:X2}, {1});",
+                                    id,
+                                    bps
+                                    );
+                }
+                else {
+                    commandStr = string.Format(
+                                        "nuriRSA.SettingBaudrate(0x{0:X2}, {1});",
+                                        id,
+                                        bps
+                                        );
+                }
+            }
+            else {
+                commandStr = string.Format(
+                                "nuriMC.SettingBaudrate( 0x{0:X2}, {1});",
+                                255,
+                                bps
+                                );
+            }
+            ICE.RunScript(commandStr);
+            ICE.RunScript(commandStr);
+
+            sp.Stop();
+        }
+
+        /// <summary>
+        /// 아이디 변경
+        /// </summary>
+        /// <param name="oldid"></param>
+        /// <param name="newid"></param>
+        private bool ChangeID(byte oldid, byte newid)
+        {
+            bool ret = false;
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            bool isMc = tmp.Command is NurirobotMC;
+
+            sp.Start();
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+            isc.ObsDataReceived
+                    .BufferUntilSTXtoByteArray(STX, 5)
+                    .Subscribe(data => {
+                        Debug.WriteLine("ChangeID : " + BitConverter.ToString(data).Replace("-", ""));
+                        if (tmp.Command.Parse(data)) {
+                            if (string.Equals(tmp.Command.PacketName, "FEEDPing")) {
+                                var obj = (NuriProtocol)tmp.Command.GetDataStruct();
+
+                                // 신규 동일해야만 의미가 있다.
+                                if (newid == obj.ID) {
+                                    _Log.OnNext(string.Format("Ping Feedback New Index : {0} ===========", obj.ID));
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    })
+                    .AddTo(comdis);
+
+            _Log.OnNext(string.Format("ChangeID : {0} to {1}", oldid, newid));
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingID( 0x{0:X2}, 0x{1:X2});",
+                                SelectedId,
+                                SelectedChangeID
+                                );
+            }
+            else {
+                commandStr = string.Format(
+                                    "nuriRSA.SettingID(0x{0:X2}, 0x{1:X2});",
+                                    SelectedId,
+                                    SelectedChangeID
+                                    );
+            }
+
+            for (int i = 0; i < 5; i++) {
+                ICE.RunScript(commandStr);
+
+                if (isMc) {
+                    (tmp.Command as NurirobotMC).Feedback(newid, 0xa0);
+                }
+                else {
+                    (tmp.Command as NurirobotRSA).Feedback(newid, 0xa0);
+                }
+                if (stopWaitHandle.WaitOne(_WaitTime)) {
+                    ret = true;
+                    break;
+                }
+            }
+
+            sp.Stop();
+            comdis.Dispose();
+            return ret;
+        }
+        /// <summary>
+        /// 처리속도별 응답대기 시간
+        /// </summary>
+        /// <param name="baud"></param>
+        /// <returns></returns>
+        private int GetTimeout(string baud)
+        {
+            int ret = 30;
+            // 처리지연에 의한 대기시간 보정상수
+            float constWait = 1f;
+
+            switch (baud) {
+                case "110":
+                    ret = 3000;
+                    break;
+                case "300":
+                    ret = 1500;
+                    break;
+                case "600":
+                    ret = 1000;
+                    break;
+                case "1200":
+                    ret = 500;
+                    break;
+                case "2400":
+                    ret = 250;
+                    break;
+                case "4800":
+                    ret = 125;
+                    break;
+                case "9600":
+                    ret = 60;
+                    break;
+                case "14400":
+                    ret = 50;
+                    break;
+                case "19200":
+                    ret = 50;
+                    break;
+                case "28800":
+                    ret = 50;
+                    break;
+                case "38400":
+                    ret = 50;
+                    break;
+                case "57600":
+                    ret = 50;
+                    break;
+                default:
+                    ret = 50;
+                    break;
+            }
+
+            return (int)(ret * constWait);
+        }
+
+        /// <summary>
+        /// 대상이 존재하는 지를 확인한다.
+        /// </summary>
+        /// <param name="id">대상</param>
+        /// <returns></returns>
+        private bool CheckPing(byte id, bool isSpControl = true)
+        {
+            bool ret = false;
+            var isc = Locator.Current.GetService<ISerialControl>();
+            ISerialProcess sp = null;
+            if (isSpControl) {
+                sp = Locator.Current.GetService<ISerialProcess>();
+                sp.Start();
+            }
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            isc.ObsDataReceived
+                    .BufferUntilSTXtoByteArray(STX, 5)
                     .Subscribe(data => {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
                         var tmp = new NurirobotRSA();
@@ -560,48 +974,101 @@ namespace LibNurisupportPresentation.ViewModels
 
                                 // 동일해야만 의미가 있다.
                                 if (id == obj.ID) {
-                                    Debug.WriteLine(string.Format("Feedback Index : {0} ===========", obj.ID));
-                                    _StopWaitHandle.Set();
-                                }
-                            }
-                            else if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
-                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
-
-                                // 동일해야만 의미가 있다.
-                                if (id == obj.ID) {
-                                    _StopWaitHandle.Set();
+                                    Debug.WriteLine(string.Format("Ping Feedback Index : {0} ===========", obj.ID));
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
                     })
                     .AddTo(comdis);
-            NurirobotMC tmpMC = new NurirobotMC();
-            bool chk = false;
-            for (int k = 0; k < 3; k++) {
-                tmpMC.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                    ID = id,
-                    Protocol = 0xa0
-                });
 
-                if (_StopWaitHandle.WaitOne(500)) {
-                    chk = true;
+            NurirobotMC tmpcmd = new NurirobotMC();
+            _Log.OnNext(string.Format("Ping Target : {0}", id));
+            for (int k = 0; k < 2; k++) {
+                tmpcmd.Feedback(id, 0xa0);
+                if (stopWaitHandle.WaitOne(_WaitTime)) {
+                    ret = true;
                     break;
                 }
             }
 
-            if (chk) {
+            if (isSpControl) {
+                sp?.Stop();
+            }
+            comdis.Dispose();
+            return ret;
+        }
+
+        /// <summary>
+        /// 아이디와 프로토콜이 매핑되어 있는지 확인하고
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private bool CheckProtocol(byte id)
+        {
+            bool ret = false;
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            if (dpd.GetDeviceProtocol(SelectedId) == null) {
+                if (AssignCommand(SelectedId)) {
+                    ret = true;
+                }
+            }
+            else {
+                ret = true;
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 프로토콜을 찾아서 매핑한다.
+        /// -. 아이디 변경 시 호출되어야 한다.
+        /// -. 프로토콜 매핑이 되어 있지 않은 경우 호출되어야 한다.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private bool AssignCommand(byte id)
+        {
+            bool ret = false;
+            ISerialControl isc = Locator.Current.GetService<ISerialControl>();
+            CompositeDisposable comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 응답 확인
+            isc.ObsDataReceived
+                    .BufferUntilSTXtoByteArray(STX, 5)
+                    .Subscribe(data => {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        var tmp = new NurirobotRSA();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
+                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    })
+                    .AddTo(comdis);
+
+            // 1. 존재하는 지 확인
+            if (CheckPing(id)) {
+                // 2. MC의 제어방향 전문 응답 확인
+                var sp = Locator.Current.GetService<ISerialProcess>();
+                sp.Start();
+                var tmpMC = new NurirobotMC();
                 bool isMC = false;
                 for (int i = 0; i < 2; i++) {
-                    tmpMC.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                        ID = id,
-                        Protocol = 0xab
-                    });
-                    if (_StopWaitHandle.WaitOne(1000)) {
+                    tmpMC.Feedback(id, 0xab);
+                    if (stopWaitHandle.WaitOne(_WaitTime)) {
                         isMC = true;
                         break;
                     }
                 }
 
+                // 3. 지정
                 var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
                 if (isMC) {
                     dpd.AddDeviceProtocol(id, new NurirobotMC());
@@ -610,9 +1077,8 @@ namespace LibNurisupportPresentation.ViewModels
                     dpd.AddDeviceProtocol(id, new NurirobotRSA());
                 }
                 ret = true;
+                sp.Stop();
             }
-
-            sp.Stop();
             comdis.Dispose();
             return ret;
         }
@@ -620,110 +1086,37 @@ namespace LibNurisupportPresentation.ViewModels
         /// <summary>
         /// 아이디 검색
         /// </summary>
-        /// <param name="run"></param>
-        private void SearchID(IRunning run)
+        private void SearchID()
         {
             _CTSFindSearch = new CancellationTokenSource();
-            Debug.WriteLine("ID 검색 시작 =======================");
-            ISerialControl isc = Locator.Current.GetService<ISerialControl>();
-            ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
-            sp.Start();
-            CompositeDisposable comdis = null;
+            Debug.WriteLine("ID Search Start =======================");
             List<byte> searchIDs = new List<byte>();
-            List<byte> searchMonterControls = new List<byte>();
             try {
-                comdis = new CompositeDisposable();
-                //var stx = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
-
-                // 응답 확인
-                isc.ObsDataReceived
-                        .BufferUntilSTXtoByteArray(stx, 5)
-                        .Subscribe(data => {
-                            Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                            var tmp = new NurirobotRSA();
-                            if (tmp.Parse(data)) {
-                                if (string.Equals(tmp.PacketName, "FEEDPing")) {
-                                    var obj = (NuriProtocol)tmp.GetDataStruct();
-                                    if (!searchIDs.Contains(obj.ID)) {
-                                        Debug.WriteLine(string.Format("Feedback Index : {0} ===========", obj.ID));
-                                        _Log.OnNext(string.Format("Feedback Index : {0} ===========", obj.ID));
-                                        searchIDs.Add(obj.ID);
-                                    }
-                                    _StopWaitHandle.Set();
-                                }
-                                else if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
-                                    var obj = (NuriPositionCtrl)tmp.GetDataStruct();
-                                    if (!searchIDs.Contains(obj.ID)) {
-                                        Debug.WriteLine(string.Format("IsMC : {0} ===========", obj.ID));
-                                        _Log.OnNext(string.Format("IsMC : {0} ===========", obj.ID));
-                                        searchMonterControls.Add(obj.ID);
-                                    }
-                                    _StopWaitHandle.Set();
-                                }
-                            }
-                        })
-                        .AddTo(comdis);
-
                 // 아이디별 핑테스트
-                _Log.OnNext("아이디별 핑테스트 =======================");
-                NurirobotMC tmpMC = new NurirobotMC();
+                _Log.OnNext("Device Ping Test =======================");
                 for (int i = 0; i < 255; i++) {
                     _CTSFindSearch.Token.ThrowIfCancellationRequested();
-                    for (int k = 0; k < 2; k++) {
-                        tmpMC.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                            ID = (byte)i,
-                            Protocol = 0xa0
-                        });
-                        _Log.OnNext(string.Format("Target : {0}", i));
-                        //if (_StopWaitHandle.WaitOne(200)) {
-                        //    //break;
-                        //}
-                        _StopWaitHandle.WaitOne(200);
-                    }
-                }
-
-                // 아이디별 장비 종류 확인
-                _Log.OnNext("아이디별 장비 종류 확인 =======================");
-                IDeviceProtocolDictionary dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
-                foreach (var item in searchIDs) {
-                    _CTSFindSearch.Token.ThrowIfCancellationRequested();
-                    for (int i = 0; i < 2; i++) {
-                        tmpMC.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                            ID = item,
-                            Protocol = 0xab
-                        });
-
-                        if (_StopWaitHandle.WaitOne(1000)) {
-                            break;
-                        }
-                    }
-                }
-
-                // 아이디별 프로토콜 구분 저장
-                _Log.OnNext("아이디별 프로토콜 구분 저장 =======================");
-                foreach (var item in searchIDs) {
-                    _CTSFindSearch.Token.ThrowIfCancellationRequested();
-                    if (searchMonterControls.Contains(item)) {
-                        dpd.AddDeviceProtocol(item, new NurirobotMC());
+                    if (CheckPing((byte)i)) {
+                        _Log.OnNext(string.Format("Device {0} Checked!", i));
+                        searchIDs.Add((byte)i);
+                        AssignCommand((byte)i);
                     }
                     else {
-                        dpd.AddDeviceProtocol(item, new NurirobotRSA());
+                        _Log.OnNext(string.Format("Device {0} not Found", i));
                     }
                 }
-
-                _CTSFindSearch.Token.ThrowIfCancellationRequested();
-
-                _Log.OnNext("아이디 리스트 변경 =======================");
-                TargetIDs = searchIDs.ToArray();
-                comdis?.Dispose();
             }
             catch (Exception ex) {
-                comdis?.Dispose();
+                Debug.WriteLine(ex);
             }
-            sp.Stop();
+            _Log.OnNext("ID List Change =======================");
             TargetIDs = searchIDs.ToArray();
+            if (searchIDs.Count > 0) {
+                SelectedId = (byte)~searchIDs[0];
+                SelectedId = searchIDs[0];
+            }
             IsSearchingID = false;
-            run.IsRun = false;
         }
+        #endregion
     }
 }

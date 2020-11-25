@@ -22,14 +22,14 @@ namespace LibMacroBase.Interface
         /// </summary>
         /// <param name="arg">명령어 문자열</param>
         /// <returns>true : 정상</returns>
-        bool RunScript(string arg, object obj);
+        bool RunScript(string arg);
         /// <summary>
         /// 명령어 실행요청
         /// 매크로 등록 무시
         /// </summary>
         /// <param name="arg">명령어 문자열</param>
         /// <returns>true : 정상</returns>
-        bool RunScripts(string arg, object obj);
+        bool RunScripts(string arg);
 
     }
 }

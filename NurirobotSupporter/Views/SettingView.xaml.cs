@@ -67,7 +67,9 @@ namespace NurirobotSupporter.Views
                 return;
 
             if (ViewModel != null) {
-                ViewModel.Refresh?.Execute();
+                //if (((ICommand)ViewModel.Refresh).CanExecute(null))
+                //    ViewModel.Refresh.Execute().Subscribe();
+                //ViewModel.Refresh?.Execute();
 
                 if (ViewModel.IsOnLog) {
                     if (beforecount != ViewModel.Logs.Count) {

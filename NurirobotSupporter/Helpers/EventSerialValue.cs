@@ -2,6 +2,7 @@ namespace NurirobotSupporter.Helpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
@@ -9,9 +10,14 @@ namespace NurirobotSupporter.Helpers
     using System.Threading.Tasks;
     using LibNurirobotBase.Args;
     using LibNurirobotBase.Interface;
+    using LibNurirobotV00;
+    using ReactiveUI;
+    using Splat;
 
     public class EventSerialValue : IEventSerialValue
     {
+        IDeviceProtocolDictionary _DPD = Locator.Current.GetService<IDeviceProtocolDictionary>();
+
         /// <summary>
         /// 최종 데이터 사전
         /// </summary>
@@ -24,15 +30,20 @@ namespace NurirobotSupporter.Helpers
         /// 수신데이터 감시
         /// </summary>
         public IObservable<SerialValueArgs> ObsSerialValueObservable => _SerialValue.Retry().Where(x=> {
-            // todo : 리얼타임 항목은 예외처리한다. 예) 그래프 데이터
             bool ret = false;
             try {
+                if (string.Equals(x.ValueName, "FEEDPing") 
+                || string.Equals(x.ValueName, "FEEDPos") 
+                || string.Equals(x.ValueName, "FEEDSpeed"))
+                    return true;
+
                 if (_DictValues.ContainsKey(x.ID)) {
                     var d = _DictValues[x.ID];
                     if (d.ContainsKey(x.ValueName)) {
                         var data = d[x.ValueName].ReciveData;
                         ret = !data.SequenceEqual(x.ReciveData);
-                    } else {
+                    }
+                    else {
                         d.Add(x.ValueName, x);
                         ret = true;
                     }
@@ -48,17 +59,37 @@ namespace NurirobotSupporter.Helpers
             return ret;
         }).Publish().RefCount();
 
+        public void ClearDictionary()
+        {
+            _DictValues.Clear();
+        }
+
+        public EventSerialValue()
+        {
+
+        }
+
         public void ReciveData(byte[] arg)
         {
             // todo : 장비 아이디를 이용한 프로토콜과 연결
             // todo : 수신 데이터 인식 기능 필요
-            _SerialValue.OnNext(
-                new SerialValueArgs() { 
-                    ValueName = Encoding.ASCII.GetString(arg),
-                    ID = arg[2],
-                    ReciveData = arg,
-                    Object = new object()
-                });
+            try {
+                byte id = arg[2];
+                var prot = _DPD.GetDeviceProtocol(id);
+                var command = prot != null ? prot.Command : new NurirobotRSA();
+                if (command.Parse(arg)) {
+                    _SerialValue.OnNext(
+                    new SerialValueArgs() {
+                        ValueName = command.PacketName,
+                        ID = id,
+                        ReciveData = arg,
+                        Object = command.GetDataStruct()
+                    });
+                }
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
         }
 
         #region IDisposable 구현
