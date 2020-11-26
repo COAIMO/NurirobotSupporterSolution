@@ -180,7 +180,7 @@
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
                                                    Value="{Binding ResponseTime, Mode=TwoWay}"
                                                    Minimum="0"
-                                                   Maximum="25400"
+                                                   Maximum="20000"
                                                    Interval="100"
                                                    />
                                 </Grid>

@@ -86,11 +86,13 @@ namespace NurirobotSupporter.Helpers
             dis.Add(port);
             port.Close();
             port.Handshake = (Handshake)(int)_SerialPortSetting.Handshake;
-            port.ReadTimeout = _SerialPortSetting.ReadTimeout;
-            port.WriteTimeout = _SerialPortSetting.WriteTimeout;
+            //port.ReadTimeout = _SerialPortSetting.ReadTimeout;
+            //port.WriteTimeout = _SerialPortSetting.WriteTimeout;
 
             Debug.WriteLine(string.Format("Connect Baud : {0}", _SerialPortSetting.Baudrate));
-            
+            Debug.WriteLine(string.Format("port.ReadTimeout : {0}", port.ReadTimeout));
+            Debug.WriteLine(string.Format("port.WriteTimeout : {0}", port.WriteTimeout));
+
             try {
                 port.Open();
             }

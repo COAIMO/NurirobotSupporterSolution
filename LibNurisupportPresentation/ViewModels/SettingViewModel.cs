@@ -746,12 +746,10 @@ namespace LibNurisupportPresentation.ViewModels
             StopTask = ReactiveCommand.Create(() => {
                 _CTSFindSearch?.Cancel();
             }, IsCheckRun);
-
             // 신규 데이터 반영
             esv.ObsSerialValueObservable
                 .Where(x => x.ID == SelectedId)
                 .Subscribe(x => {
-
                     try {
                         switch (x.ValueName) {
                             //case "FEEDPos":
@@ -843,6 +841,8 @@ namespace LibNurisupportPresentation.ViewModels
                     }
                     catch (Exception ex) {
                         Debug.WriteLine(ex.Message);
+                        var msg = Locator.Current.GetService<IMessageShow>();
+                        msg.Show("Alert_Refresh");
                     }
                 });
 

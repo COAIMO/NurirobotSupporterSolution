@@ -97,6 +97,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   통신 중에 문제가 발생하였습니다.\r잠시 후 다시 시도 바랍니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Alert_Refresh {
+            get {
+                return ResourceManager.GetString("Alert_Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   시리얼포트에 이미 연결되어 있습니다. 연결을 해제하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Alert_Serial_Connected {
