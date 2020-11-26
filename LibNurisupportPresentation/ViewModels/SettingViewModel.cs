@@ -340,6 +340,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
         }
         public ReactiveCommand<Unit, Unit> CMDIDSearch { get; }
+        public ReactiveCommand<Unit, Unit> StopTask { get; }
         readonly ISubject<string> _Log = new Subject<string>();
         IObservable<string> ObsLog => _Log.Retry().Publish().RefCount();
         //AutoResetEvent _StopWaitHandle = new AutoResetEvent(false);
@@ -463,7 +464,7 @@ namespace LibNurisupportPresentation.ViewModels
             //        });
 
 
-            var IsNowRunning = this.WhenAnyValue(x => x.IsRunning, x => x.IsSearchingID)
+            var IsNotRunning = this.WhenAnyValue(x => x.IsRunning, x => x.IsSearchingID)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Select(r => {
                     var run = Locator.Current.GetService<IRunning>();
@@ -471,12 +472,21 @@ namespace LibNurisupportPresentation.ViewModels
                     run.IsRun = chk;
                     return !chk;
                 });
+
+            var IsCheckRun = this.WhenAnyValue(x => x.IsRunning, x => x.IsSearchingID)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Select(r => {
+                    var run = Locator.Current.GetService<IRunning>();
+                    var chk = (r.Item1 || r.Item2);
+                    return chk;
+                });
+
             var canSearch = this.WhenAnyValue(x => x.IsRunning)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Select(x => {
                     Debug.WriteLine("cansearch : " + !x);
                     return !x;
-                    });
+                });
 
             // 조회기능 추가
             CMDIDSearch = ReactiveCommand.Create(() => {
@@ -538,9 +548,7 @@ namespace LibNurisupportPresentation.ViewModels
                             AssignCommand(SelectedChangeID);
                             var list = new List<byte>();
                             foreach (var item in TargetIDs) {
-                                if (item != SelectedId) {
-                                    list.Add(item);
-                                }
+                                list.Add(item);
                             }
                             if (!list.Contains(SelectedChangeID)) {
                                 list.Add(SelectedChangeID);
@@ -559,7 +567,7 @@ namespace LibNurisupportPresentation.ViewModels
                     // 5. 중지 상태로 변경
                     IsRunning = false;
                 }
-            }, IsNowRunning);
+            }, IsNotRunning);
 
             // 통신속도 변경
             CMDChangeBaudrate = ReactiveCommand.Create(() => {
@@ -574,191 +582,267 @@ namespace LibNurisupportPresentation.ViewModels
 
                 ChangeBaud(SelectedId, SelectedBaudrate, IsBroadcast);
                 IsRunning = false;
-            }, IsNowRunning);
+            }, IsNotRunning);
 
             // 응답시간 변경
             CMDResponseTime = ReactiveCommand.Create(() => {
                 IsRunning = true;
                 Task.Run(() => {
                     _Log.OnNext("ResponseTime Change");
-                    var msg = Locator.Current.GetService<IMessageShow>();
-                    if (!IsBroadcast) {
-                        if (!CheckBaseLogic()) {
-                            IsRunning = false;
-                            return;
-                        }
-                    }
-                    else {
-                        if (msg?.ShowSettingConfirmTemplete("Alert_Broadcast") != true) {
-                            IsRunning = false;
-                            return;
-                        }
-                    }
-
-                    if (IsBroadcast) {
-                        _Log.OnNext("Target Lists ================");
-                        foreach (var item in TargetIDs) {
-                            if (CheckPing(item)) {
-                                _Log.OnNext(string.Format("Setting {0} Set : {1}", item, ChangeResponsetime(item, ResponseTime)));
-                            }
-                            else {
-                                _Log.OnNext(string.Format("Not found : {0}", item));
-                            }
-                        }
-                    }
-                    else {
-                        if (ChangeResponsetime(SelectedId, ResponseTime)) {
-                            msg?.Show("PopupDone");
-                        }
-                        else {
-                            msg?.Show("Alert_DoNotChange");
-                        }
-                    }
+                    BaseSetting((p) => {
+                        return ChangeResponsetime(p, ResponseTime);
+                    });
 
                     IsRunning = false;
                 });
-            }, IsNowRunning);
+            }, IsNotRunning);
+
 
             // 위치제어 모드 설정
             CMDChangePosCtrl = ReactiveCommand.Create(() => {
                 IsRunning = true;
-                _Log.OnNext("Postion Control Change");
-                var msg = Locator.Current.GetService<IMessageShow>();
-                if (!IsBroadcast) {
-                    if (!CheckBaseLogic()) {
-                        IsRunning = false;
-                        return;
-                    }
-                }
-                else {
-                    if (msg?.ShowSettingConfirmTemplete("Alert_Broadcast") != true) {
-                        IsRunning = false;
-                        return;
-                    }
-                }
+                Task.Run(() => {
+                    _Log.OnNext("Postion Control Change");
+                    BaseSetting((p) => {
+                        return ChangePositionControl(p, IsAbsolutePosCtrl);
+                    });
 
-                if (IsBroadcast) {
-                    _Log.OnNext("Target Lists ================");
-                    foreach (var item in TargetIDs) {
-                        if (CheckPing(item)) {
-                            _Log.OnNext(string.Format("Setting {0} Set : {1}", item, ChangePositionControl(item, IsAbsolutePosCtrl)));
-                        }
-                        else {
-                            _Log.OnNext(string.Format("Not found : {0}", item));
-                        }
-                    }
-                }
-                else {
-                    if (ChangePositionControl(SelectedId, IsAbsolutePosCtrl)) {
-                        msg?.Show("PopupDone");
-                    }
-                    else {
-                        msg?.Show("Alert_DoNotChange");
-                    }
-                }
-                IsRunning = false;
-            }, IsNowRunning);
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
 
+            // 위치제어기 설정
+            CMDChangePosGain = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Postion Control Change");
+                    BaseSetting((p) => {
+                        return ChangeChangePosGain(p, PosGainKp, PosGainKi, PosGainKd, PosCurrent);
+                    });
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            //모터 정격속도 설정
+            CMDChangeRatedSpeed = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Rated Speed Change");
+                    BaseSetting((p) => {
+                        return ChangeRatedSpeed(p, RatedSpeedRPM);
+                    });
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            // 분해능 설정
+            CMDChangeEncoderResolution = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("EncorderPulsePole Change");
+                    BaseSetting((p) => {
+                        return ChangeResolution(p, Resolution);
+                    });
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            //제어 방향 설정
+            CMDChangeDirection = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Direction Change");
+                    BaseSetting((p) => {
+                        return ChangeDirection(p, IsCCW);
+                    });
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            // 속도제어기 설정
+            CMDChangeSpeedGain = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Velocity gain Chenge");
+                    BaseSetting((p) => {
+                        return ChangeChangeSpeedGain(p, SpeedGainKp, SpeedGainKi, SpeedGainKd, SpeedCurrent);
+                    });
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            // 감속비 설정
+            CMDChangeRatio = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Ratio Chenge");
+                    BaseSetting((p) => {
+                        return ChangeRatio(p, ChooseRatio);
+                    });
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            //제어 On/Off 설정
+            CMDChangeControlOnOff = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("ControlOnOff Chenge");
+                    BaseSetting((p) => {
+                        return ChangeCtrlOnOff(p, IsCtrlOn);
+                    });
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            //위치 초기화
+            CMDChangePosReset = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Position Reset Run");
+                    BaseSetting((p) => {
+                        return ResetPosition(p);
+                    });
+                    RefreshFeedback(state, esv);
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            //공장 초기화
+            CMDChangeFactoryReset = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Factory Reset Run");
+                    BaseCall((p) => {
+                        return ResetFactory(p);
+                    });
+                    InitValue();
+                    Task.Delay(1000);
+                    RefreshFeedback(state, esv);
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            // 리플래쉬
             Refresh = ReactiveCommand.Create(() => {
                 IsRunning = true;
 
                 Task.Run(() => {
+                    InitValue();
                     RefreshFeedback(state, esv);
                     IsRunning = false;
                 });
-            }, IsNowRunning);
+            }, IsNotRunning);
+
+            StopTask = ReactiveCommand.Create(() => {
+                _CTSFindSearch?.Cancel();
+            }, IsCheckRun);
 
             // 신규 데이터 반영
             esv.ObsSerialValueObservable
                 .Where(x => x.ID == SelectedId)
                 .Subscribe(x => {
 
-                    switch (x.ValueName) {
-                        //case "FEEDPos":
-                        //    var tmppos = (x.Object as NuriPosSpeedAclCtrl);
-                        //    break;
-                        //case "FEEDSpeed":
-                        //    break;
-                        case "FEEDPosCtrl":
-                            var tmppctrl = (x.Object as NuriPosSpdCtrl);
-                            PosGainKp = tmppctrl.Kp;
-                            PosGainKi = tmppctrl.Ki;
-                            PosGainKd = tmppctrl.kd;
-                            PosCurrent = (ushort)tmppctrl.Current;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Postion Gain Feedback Index : {0} kp : {1} ki : {2} kd : {3} current: {4}", 
-                                    x.ID, PosGainKp, PosGainKi, PosGainKd, PosCurrent));
-                            break;
-                        case "FEEDSpdCtrl":
-                            var tmpssctrl = (x.Object as NuriPosSpdCtrl);
-                            SpeedGainKp = tmpssctrl.Kp;
-                            SpeedGainKi = tmpssctrl.Ki;
-                            SpeedGainKd = tmpssctrl.kd;
-                            SpeedCurrent = (ushort)tmpssctrl.Current;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Velocity Gain Feedback Index : {0} kp : {1} ki : {2} kd : {3} current: {4}", 
-                                    x.ID, SpeedGainKp, SpeedGainKi, SpeedGainKd, SpeedCurrent));
-                            break;
-                        case "FEEDResptime":
-                            ResponseTime = (ushort)(x.Object as NuriResponsetime).Responsetime;
-                            _Log.OnNext(
-                                string.Format(
-                                    "New GetResponseTime Feedback Index : {0} Value : {1}", 
-                                    x.ID, ResponseTime));
-                            break;
-                        case "FEEDRatedSPD":
-                            RatedSpeedRPM = (x.Object as NuriRatedSpeed).Speed;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Rated Speed Feedback Index : {0} Value : {1}", 
-                                    x.ID, RatedSpeedRPM));
-                            break;
-                        case "FEEDResolution":
-                            Resolution = (x.Object as NuriResolution).Resolution;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Encorder Pulse Feedback Index : {0} Value : {1}", 
-                                    x.ID, Resolution));
-                            break;
-                        case "FEEDRatio":
-                            ChooseRatio = (x.Object as NuriRatio).Ratio;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Ratio Feedback  Index : {0} Value : {1}", 
-                                    x.ID, ChooseRatio));
-                            break;
-                        case "FEEDCtrlOnOff":
-                            IsCtrlOn = (x.Object as NuriControlOnOff).IsCtrlOn;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Control On/Off Feedback  Index : {0} Value : {1}",
-                                    x.ID, IsCtrlOn));
-                            break;
-                        case "FEEDPosCtrlMode":
-                            IsAbsolutePosCtrl = (x.Object as NuriPositionCtrl).IsAbsolutePotionCtrl;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Position Control Feedback  Index : {0} Value : {1}", 
-                                    x.ID, IsAbsolutePosCtrl));
-                            break;
-                        case "FEEDCtrlDirt":
-                            IsCCW = (x.Object as NuriCtrlDirection).Direction == LibNurirobotBase.Enum.Direction.CCW;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Control Direction Feedback  Index : {0} Value : {1}", 
-                                    x.ID, IsCCW));
-                            break;
-                        case "FEEDFirmware":
-                            var version = (x.Object as NuriVersion).Version;
-                            _Log.OnNext(
-                                string.Format(
-                                    "Firmware version Feedback  Index : {0} Value : {1}", 
-                                    x.ID, version));
-                            break;
-                        default:
-                            break;
+                    try {
+                        switch (x.ValueName) {
+                            //case "FEEDPos":
+                            //    var tmppos = (x.Object as NuriPosSpeedAclCtrl);
+                            //    break;
+                            //case "FEEDSpeed":
+                            //    break;
+                            case "FEEDPosCtrl":
+                                var tmppctrl = (x.Object as NuriPosSpdCtrl);
+                                PosGainKp = tmppctrl.Kp;
+                                PosGainKi = tmppctrl.Ki;
+                                PosGainKd = tmppctrl.kd;
+                                PosCurrent = (ushort)tmppctrl.Current;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Postion Gain Feedback Index : {0} kp : {1} ki : {2} kd : {3} current: {4}",
+                                        x.ID, PosGainKp, PosGainKi, PosGainKd, PosCurrent));
+                                break;
+                            case "FEEDSpdCtrl":
+                                var tmpssctrl = (x.Object as NuriPosSpdCtrl);
+                                SpeedGainKp = tmpssctrl.Kp;
+                                SpeedGainKi = tmpssctrl.Ki;
+                                SpeedGainKd = tmpssctrl.kd;
+                                SpeedCurrent = (ushort)tmpssctrl.Current;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Velocity Gain Feedback Index : {0} kp : {1} ki : {2} kd : {3} current: {4}",
+                                        x.ID, SpeedGainKp, SpeedGainKi, SpeedGainKd, SpeedCurrent));
+                                break;
+                            case "FEEDResptime":
+                                ResponseTime = (ushort)(x.Object as NuriResponsetime).Responsetime;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "New GetResponseTime Feedback Index : {0} Value : {1}",
+                                        x.ID, ResponseTime));
+                                break;
+                            case "FEEDRatedSPD":
+                                RatedSpeedRPM = (x.Object as NuriRatedSpeed).Speed;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Rated Speed Feedback Index : {0} Value : {1}",
+                                        x.ID, RatedSpeedRPM));
+                                break;
+                            case "FEEDResolution":
+                                Resolution = (x.Object as NuriResolution).Resolution;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Encorder Pulse Feedback Index : {0} Value : {1}",
+                                        x.ID, Resolution));
+                                break;
+                            case "FEEDRatio":
+                                ChooseRatio = (x.Object as NuriRatio).Ratio;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Ratio Feedback  Index : {0} Value : {1}",
+                                        x.ID, ChooseRatio));
+                                break;
+                            case "FEEDCtrlOnOff":
+                                IsCtrlOn = (x.Object as NuriControlOnOff).IsCtrlOn;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Control On/Off Feedback  Index : {0} Value : {1}",
+                                        x.ID, IsCtrlOn));
+                                break;
+                            case "FEEDPosCtrlMode":
+                                IsAbsolutePosCtrl = (x.Object as NuriPositionCtrl).IsAbsolutePotionCtrl;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Position Control Feedback  Index : {0} Value : {1}",
+                                        x.ID, IsAbsolutePosCtrl));
+                                break;
+                            case "FEEDCtrlDirt":
+                                IsCCW = (x.Object as NuriCtrlDirection).Direction == LibNurirobotBase.Enum.Direction.CCW;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Control Direction Feedback  Index : {0} Value : {1}",
+                                        x.ID, IsCCW));
+                                break;
+                            case "FEEDFirmware":
+                                var version = (x.Object as NuriVersion).Version;
+                                _Log.OnNext(
+                                    string.Format(
+                                        "Firmware version Feedback  Index : {0} Value : {1}",
+                                        x.ID, version));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
                     }
                 });
 
@@ -784,6 +868,95 @@ namespace LibNurisupportPresentation.ViewModels
 
         #region ==== 로직 ====
 
+        /// <summary>
+        /// 설정을 반영한다.
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        private bool BaseSetting(Func<byte, bool> func)
+        {
+            bool ret = false;
+            _CTSFindSearch = new CancellationTokenSource();
+            var msg = Locator.Current.GetService<IMessageShow>();
+            if (!IsBroadcast) {
+                if (!CheckBaseLogic()) {
+                    return ret;
+                }
+            }
+            else {
+                if (msg?.ShowSettingConfirmTemplete("Alert_Broadcast") != true) {
+                    return ret;
+                }
+            }
+
+            if (IsBroadcast) {
+                _Log.OnNext("Target Lists ================");
+                try {
+                    foreach (var item in TargetIDs) {
+                        _CTSFindSearch.Token.ThrowIfCancellationRequested();
+                        if (CheckPing(item)) {
+                            _Log.OnNext(string.Format("Setting {0} Sucess : {1}", item, func(item)));
+                        }
+                        else {
+                            _Log.OnNext(string.Format("Not found : {0}", item));
+                        }
+                    }
+                }
+                catch {
+                }
+            }
+            else {
+                if (func(SelectedId)) {
+                    msg?.Show("PopupDone");
+                }
+                else {
+                    msg?.Show("Alert_DoNotChange");
+                }
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 확인 과정없이 호출한다.
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        private bool BaseCall(Func<byte, bool> func)
+        {
+            bool ret = false;
+
+            _CTSFindSearch = new CancellationTokenSource();
+            var msg = Locator.Current.GetService<IMessageShow>();
+            if (IsBroadcast) {
+                if (msg?.ShowSettingConfirmTemplete("Alert_Broadcast") != true) {
+                    return ret;
+                }
+            }
+
+            if (IsBroadcast) {
+                _Log.OnNext("Target Lists ================");
+                try {
+                    foreach (var item in TargetIDs) {
+                        _CTSFindSearch.Token.ThrowIfCancellationRequested();
+                        _Log.OnNext(string.Format("Setting {0} Sucess : {1}", item, func(item)));
+                    }
+                }
+                catch {
+
+                }
+            }
+            else {
+                func(SelectedId);
+            }
+
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 설정 값 초기화
+        /// </summary>
         private void InitValue()
         {
             PosGainKp = 0;
@@ -803,6 +976,11 @@ namespace LibNurisupportPresentation.ViewModels
             IsCCW = false;
         }
 
+        /// <summary>
+        /// 설정 갱신
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="esv"></param>
         private void RefreshFeedback(AppState state, IEventSerialValue esv)
         {
             if (state.IsConnect) {
@@ -829,7 +1007,8 @@ namespace LibNurisupportPresentation.ViewModels
                         IsShowEncoderpulse = true;
                         IsShowDirection = true;
                     }
-                } else {
+                }
+                else {
                     IsShowRatedspeed = true;
                     IsShowEncoderpulse = true;
                     IsShowDirection = true;
@@ -837,6 +1016,7 @@ namespace LibNurisupportPresentation.ViewModels
                 }
             }
         }
+
         /// <summary>
         /// 피드백 요청
         /// </summary>
@@ -878,7 +1058,7 @@ namespace LibNurisupportPresentation.ViewModels
                                 }
                             }
                         }
-                        catch (Exception ex){
+                        catch (Exception ex) {
                             Debug.WriteLine(ex.Message);
                         }
                     })
@@ -1054,6 +1234,190 @@ namespace LibNurisupportPresentation.ViewModels
         }
 
         /// <summary>
+        /// 위치제어기 설정
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isabs"></param>
+        /// <returns></returns>
+        private bool ChangeChangePosGain(byte id, byte kp, byte ki, byte kd, ushort current)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDPosCtrl")) {
+                                var obj = (NuriPosSpdCtrl)command.GetDataStruct();
+                                _Log.OnNext(string.Format("PositionController Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && ki == obj.Ki && kp == obj.Kp && kd == obj.kd && current == obj.Current) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingPositionController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
+                                id,
+                                kp,
+                                ki,
+                                kd,
+                                current
+                                ); ;
+            }
+            else {
+                commandStr = string.Format(
+                                "nuriRSA.SettingPositionController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
+                                id,
+                                kp,
+                                ki,
+                                kd,
+                                current
+                                );
+            }
+
+            for (int i = 0; i < 5; i++) {
+                ICE.RunScript(commandStr);
+                if (isMc) {
+                    (command as NurirobotMC).Feedback(id, 0xA3);
+                }
+                else {
+                    (command as NurirobotRSA).Feedback(id, 0xA3);
+                }
+
+                if (stopWaitHandle.WaitOne(_WaitTime)) {
+                    ret = true;
+                    break;
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 속도제어기 설정
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="kp"></param>
+        /// <param name="ki"></param>
+        /// <param name="kd"></param>
+        /// <param name="current"></param>
+        /// <returns></returns>
+        private bool ChangeChangeSpeedGain(byte id, byte kp, byte ki, byte kd, ushort current)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDSpdCtrl")) {
+                                var obj = (NuriPosSpdCtrl)command.GetDataStruct();
+                                _Log.OnNext(string.Format("SpeedController Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && ki == obj.Ki && kp == obj.Kp && kd == obj.kd && current == obj.Current) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingSpeedController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
+                                id,
+                                kp,
+                                ki,
+                                kd,
+                                current
+                                ); ;
+            }
+            else {
+                commandStr = string.Format(
+                                "nuriRSA.SettingSpeedController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
+                                id,
+                                kp,
+                                ki,
+                                kd,
+                                current
+                                );
+            }
+
+            for (int i = 0; i < 5; i++) {
+                ICE.RunScript(commandStr);
+                if (isMc) {
+                    (command as NurirobotMC).Feedback(id, 0xA4);
+                }
+                else {
+                    (command as NurirobotRSA).Feedback(id, 0xA4);
+                }
+
+                if (stopWaitHandle.WaitOne(_WaitTime)) {
+                    ret = true;
+                    break;
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+
+        /// <summary>
         /// 응답시간 변경
         /// </summary>
         /// <param name="id"></param>
@@ -1135,6 +1499,486 @@ namespace LibNurisupportPresentation.ViewModels
             sp.Stop();
 
             return ret;
+        }
+
+        /// <summary>
+        /// 모터정격속도
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="rated"></param>
+        /// <returns></returns>
+        private bool ChangeRatedSpeed(byte id, ushort rated)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDRatedSPD")) {
+                                var obj = (NuriRatedSpeed)command.GetDataStruct();
+                                _Log.OnNext(string.Format("RatedSpeed Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && rated == obj.Speed) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingRatedspeed( 0x{0:X2}, {1});",
+                                id,
+                                rated
+                                );
+            }
+
+            if (!string.IsNullOrEmpty(commandStr)) {
+                for (int i = 0; i < 5; i++) {
+                    ICE.RunScript(commandStr);
+                    if (isMc) {
+                        (command as NurirobotMC).Feedback(id, 0xA6);
+                    }
+
+                    if (stopWaitHandle.WaitOne(_WaitTime)) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 분해능 설정
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="res"></param>
+        /// <returns></returns>
+        private bool ChangeResolution(byte id, ushort res)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDResolution")) {
+                                var obj = (NuriResolution)command.GetDataStruct();
+                                _Log.OnNext(string.Format("Resolution Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && res == obj.Resolution) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingResolution( 0x{0:X2}, {1});",
+                                id,
+                                res
+                                );
+            }
+
+            if (!string.IsNullOrEmpty(commandStr)) {
+                for (int i = 0; i < 5; i++) {
+                    ICE.RunScript(commandStr);
+                    if (isMc) {
+                        (command as NurirobotMC).Feedback(id, 0xA6);
+                    }
+
+                    if (stopWaitHandle.WaitOne(_WaitTime)) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 제어방향 설정
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isccw"></param>
+        /// <returns></returns>
+        private bool ChangeDirection(byte id, bool isccw)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDCtrlDirt")) {
+                                var obj = (NuriCtrlDirection)command.GetDataStruct();
+                                _Log.OnNext(string.Format("Control Direction Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && isccw == (obj.Direction == LibNurirobotBase.Enum.Direction.CCW)) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingControlDirection( 0x{0:X2}, (LibNurirobotBase.Enum.Direction){1});",
+                                id,
+                                isccw ? 0 : 1
+                                );
+            }
+
+            if (!string.IsNullOrEmpty(commandStr)) {
+                for (int i = 0; i < 5; i++) {
+                    ICE.RunScript(commandStr);
+                    if (isMc) {
+                        (command as NurirobotMC).Feedback(id, 0xAB);
+                    }
+
+                    if (stopWaitHandle.WaitOne(_WaitTime)) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 제어 On/Off
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isctrlOn"></param>
+        /// <returns></returns>
+        private bool ChangeCtrlOnOff(byte id, bool isctrlOn)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDCtrlOnOff")) {
+                                var obj = (NuriControlOnOff)command.GetDataStruct();
+                                _Log.OnNext(string.Format("CtrlOnOff Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && isctrlOn == obj.IsCtrlOn) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingControlOnOff( 0x{0:X2}, {1});",
+                                id,
+                                isctrlOn.ToString().ToLower()
+                                );
+            }
+            else {
+                commandStr = string.Format(
+                "nuriRSA.SettingControlOnOff( 0x{0:X2}, {1});",
+                id,
+                isctrlOn.ToString().ToLower()
+                );
+            }
+
+            if (!string.IsNullOrEmpty(commandStr)) {
+                for (int i = 0; i < 5; i++) {
+                    ICE.RunScript(commandStr);
+                    if (isMc) {
+                        (command as NurirobotMC).Feedback(id, 0xA9);
+                    }
+                    else {
+                        (command as NurirobotRSA).Feedback(id, 0xA7);
+                    }
+
+                    if (stopWaitHandle.WaitOne(_WaitTime)) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+        /// <summary>
+        /// 감속비 설정 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ratio"></param>
+        /// <returns></returns>
+        private bool ChangeRatio(byte id, float ratio)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDRatio")) {
+                                var obj = (NuriRatio)command.GetDataStruct();
+                                _Log.OnNext(string.Format("Ratio Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && ratio == obj.Ratio) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.SettingRatio( 0x{0:X2}, {1}f);",
+                                id,
+                                ratio
+                                );
+            }
+            else {
+                commandStr = string.Format(
+                                "nuriRSA.SettingRatio( 0x{0:X2}, {1}f);",
+                                id,
+                                ratio
+                                );
+            }
+
+            if (!string.IsNullOrEmpty(commandStr)) {
+                for (int i = 0; i < 5; i++) {
+                    ICE.RunScript(commandStr);
+                    if (isMc) {
+                        (command as NurirobotMC).Feedback(id, 0xA8);
+                    }
+                    else {
+                        (command as NurirobotRSA).Feedback(id, 0xA6);
+                    }
+
+                    if (stopWaitHandle.WaitOne(_WaitTime)) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+
+            comdis.Dispose();
+            sp.Stop();
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 위치초기화
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSpControl"></param>
+        private bool ResetPosition(byte id, bool isSpControl = true)
+        {
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            ISerialProcess sp = null;
+            if (isSpControl) {
+                sp = Locator.Current.GetService<ISerialProcess>();
+                sp.Start();
+            }
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.ResetPostion( 0x{0:X2});",
+                                id);
+            }
+            else {
+                commandStr = string.Format(
+                "nuriRSA.ResetPostion( 0x{0:X2});",
+                id);
+            }
+
+            ICE.RunScript(commandStr);
+            ICE.RunScript(commandStr);
+
+            if (isSpControl) {
+                sp?.Stop();
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 공장초기화
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSpControl"></param>
+        private bool ResetFactory(byte id, bool isSpControl = true)
+        {
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            ISerialProcess sp = null;
+            if (isSpControl) {
+                sp = Locator.Current.GetService<ISerialProcess>();
+                sp.Start();
+            }
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.ResetFactory( 0x{0:X2});",
+                                id);
+            }
+            else {
+                commandStr = string.Format(
+                "nuriRSA.ResetFactory( 0x{0:X2});",
+                id);
+            }
+
+            ICE.RunScript(commandStr);
+            ICE.RunScript(commandStr);
+
+            if (isSpControl) {
+                sp?.Stop();
+            }
+            return true;
         }
 
         /// <summary>
@@ -1288,6 +2132,7 @@ namespace LibNurisupportPresentation.ViewModels
             comdis.Dispose();
             return ret;
         }
+
         /// <summary>
         /// 처리속도별 응답대기 시간
         /// </summary>
@@ -1388,7 +2233,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             NurirobotMC tmpcmd = new NurirobotMC();
             _Log.OnNext(string.Format("Ping Target : {0}", id));
-            for (int k = 0; k < 2; k++) {
+            for (int k = 0; k < 5; k++) {
                 tmpcmd.Feedback(id, 0xa0);
                 if (stopWaitHandle.WaitOne(_WaitTime)) {
                     ret = true;

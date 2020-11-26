@@ -297,6 +297,7 @@ namespace LibNurisupportPresentation.DesignTime
             }
         }
         public ReactiveCommand<Unit, Unit> CMDIDSearch { get; }
+        public ReactiveCommand<Unit, Unit> StopTask { get; }
 
         public SettingViewModel()
         {

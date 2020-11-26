@@ -24,8 +24,17 @@
             <RowDefinition Height="auto" MaxHeight="200"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
             <Viewbox HorizontalAlignment="Left">
                 <TextBlock Padding="10" Text="{lex:Loc Title_Search}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+            </Viewbox>
+            <Viewbox Width="120" HorizontalAlignment="Right" Grid.Column="1">
+                <Button Content="{lex:Loc Button_Cancel}" Width="120" Height="40"
+                                        Command="{Binding StopTask}"
+                                    Style="{DynamicResource MahApps.Styles.Button.Square}"/>
             </Viewbox>
         </Grid>
         <Grid Grid.Row="1" >
@@ -267,7 +276,7 @@
                                                 Value="{Binding PosCurrent, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="25400"
-                                                Interval="1"
+                                                Interval="100"
                                                 />
                                 </Grid>
                                 <Viewbox Width="120" HorizontalAlignment="Right">
@@ -447,7 +456,7 @@
                                                 Value="{Binding SpeedCurrent, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="25400"
-                                                Interval="1"
+                                                Interval="100"
                                                 />
                                 </Grid>
                                 <Viewbox Width="120" HorizontalAlignment="Right">

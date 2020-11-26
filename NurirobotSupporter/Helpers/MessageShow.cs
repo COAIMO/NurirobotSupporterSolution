@@ -16,9 +16,16 @@ namespace NurirobotSupporter.Helpers
     {
         public void Show(string arg)
         {
+            /*
+Dispatcher.BeginInvoke(new Action(() =>
+{
+      MessageBox.Show("Lost focus");
+}), DispatcherPriority.ApplicationIdle);
+             */
             var result = LocExtension.GetLocalizedValue<string>(arg);
-            if (result != null)
-                MessageBox.Show(result.Replace("\\r", "\r"));
+            if (result != null) {
+                Application.Current.Dispatcher.Invoke(() => MessageBox.Show(result.Replace("\\r", "\r")));
+            }
         }
 
         public bool ShowSettingConfirm(string arg)
@@ -28,7 +35,11 @@ namespace NurirobotSupporter.Helpers
             var result1 = LocExtension.GetLocalizedValue<string>("Title_IsOk") ;
             if (result != null && result1 != null) {
                 var message = string.Format("{0}\r{1}", arg, result.Replace("\\r", "\r"));
-                return MessageBox.Show(message, result1, MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+                bool r = false;
+                Application.Current.Dispatcher.Invoke(() => {
+                    r = MessageBox.Show(message, result1, MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+                });
+                return r;
             }
             else
                 return false;
@@ -38,8 +49,13 @@ namespace NurirobotSupporter.Helpers
         {
             var result = LocExtension.GetLocalizedValue<string>(arg);
             var result1 = LocExtension.GetLocalizedValue<string>("Title_IsOk");
-            if (result != null)
-                return MessageBox.Show(result.Replace("\\r", "\r"), result1, MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+            if (result != null) {
+                bool r = false;
+                Application.Current.Dispatcher.Invoke(() => {
+                    r = MessageBox.Show(result.Replace("\\r", "\r"), result1, MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+                });
+                return r;
+            }
             else
                 return false;
         }

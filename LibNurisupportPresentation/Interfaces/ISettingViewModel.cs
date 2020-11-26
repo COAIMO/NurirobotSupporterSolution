@@ -115,5 +115,9 @@ namespace LibNurisupportPresentation.Interfaces
         double ControlWidth { get; set; }
         double PannelWidth { get; set; }
         ObservableCollection<string> Logs { get; }
+        /// <summary>
+        /// 일괄적용 중단하기
+        /// </summary>
+        ReactiveCommand<Unit, Unit> StopTask { get; }
     }
 }
