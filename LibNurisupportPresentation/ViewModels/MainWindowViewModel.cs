@@ -54,13 +54,12 @@ namespace LibNurisupportPresentation.ViewModels
         public MainWindowViewModel(
             IDeviceSearchViewModel deviceSearch, 
             ILanguageViewModel language,
-            IHelpViewModel help,
-            ISettingViewModel setting)
+            IHelpViewModel help)
         {
             DeviceSearch = deviceSearch;
             Language = language;
             Help = help;
-            Setting = setting;
+            Setting = new SettingViewModel(this);
             deviceSearch.MainViewModel = this;
 
             _Connected.OnNext(false);
@@ -265,5 +264,6 @@ namespace LibNurisupportPresentation.ViewModels
         public ILanguageViewModel Language { get; set; }
         public IHelpViewModel Help { get; set; }
         public ISettingViewModel Setting { get; set; }
+        public string CurrentPageName { get; set; }
     }
 }

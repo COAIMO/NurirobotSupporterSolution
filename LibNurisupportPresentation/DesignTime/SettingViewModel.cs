@@ -277,8 +277,6 @@ namespace LibNurisupportPresentation.DesignTime
         public double PannelWidth {
             get => _PannelWidth;
             set {
-                if (_PannelWidth != value)
-                    ControlWidth = _PannelWidth * 0.28 ;
                 this.RaiseAndSetIfChanged(ref _PannelWidth, value);
             }
         }
@@ -317,19 +315,6 @@ namespace LibNurisupportPresentation.DesignTime
             IsShowVelocityGain = true;
             IsShowCtrlOnOff = true;
             IsShowRatio = true;
-
-            var state = RxApp.SuspensionHost.GetAppState<AppState>();
-
-            /*
-            전문에 따라 다름
-            IsShowRatedspeed = false;
-            IsShowEncoderpulse = false;
-            IsShowDirection = false;
-            */
-
-            //Changed.Subscribe(x => {
-            //    Debug.WriteLine(x.PropertyName + " " + this.IsRunningPage);
-            //});
         }
     }
 }

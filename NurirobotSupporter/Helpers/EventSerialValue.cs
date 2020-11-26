@@ -78,13 +78,16 @@ namespace NurirobotSupporter.Helpers
                 var prot = _DPD.GetDeviceProtocol(id);
                 var command = prot != null ? prot.Command : new NurirobotMC();
                 if (command.Parse(arg)) {
-                    _SerialValue.OnNext(
-                    new SerialValueArgs() {
-                        ValueName = command.PacketName,
-                        ID = id,
-                        ReciveData = arg,
-                        Object = command.GetDataStruct()
-                    });
+                    var obj = command.GetDataStruct();
+                    if (obj != null) {
+                        _SerialValue.OnNext(
+                        new SerialValueArgs() {
+                            ValueName = command.PacketName,
+                            ID = id,
+                            ReciveData = arg,
+                            Object = obj
+                        });
+                    }
                 }
             }
             catch (Exception ex) {

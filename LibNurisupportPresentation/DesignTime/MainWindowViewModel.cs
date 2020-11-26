@@ -53,5 +53,6 @@ namespace LibNurisupportPresentation.DesignTime
 
         public bool IsDeviceSearchPopup { get; set; } = false;
         IEnumerable<string> IMainViewModel.Baudrates { get; set; }
+        public string CurrentPageName { get; set; }
     }
 }

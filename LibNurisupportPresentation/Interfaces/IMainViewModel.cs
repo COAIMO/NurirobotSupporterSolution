@@ -78,5 +78,9 @@ namespace LibNurisupportPresentation.Interfaces
         /// 설정
         /// </summary>
         ISettingViewModel Setting { get; set; }
+        /// <summary>
+        /// 현재 표시 페이지
+        /// </summary>
+        string CurrentPageName { get; set; }
     }
 }

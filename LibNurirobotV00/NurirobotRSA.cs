@@ -378,6 +378,9 @@ namespace LibNurirobotV00
         {
             bool ret = false;
             try {
+                if (data.Length <= 5)
+                    return ret;
+
                 Data = new byte[data.Length];
                 Buffer.BlockCopy(data, 0, Data, 0, Data.Length);
 

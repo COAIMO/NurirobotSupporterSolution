@@ -46,6 +46,9 @@ namespace NurirobotSupporter.Views
         private void HamburgerMenuControl_ItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs args)
         {
             HamburgerMenuControl.Content = args.InvokedItem;
+            if (ViewModel != null) {
+                ViewModel.CurrentPageName = (string)((HamburgerMenuIconItem)args.InvokedItem).Tag;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

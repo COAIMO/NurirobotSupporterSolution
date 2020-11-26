@@ -8,7 +8,7 @@
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
-             d:DataContext="{d:DesignInstance Type=designTime:SettingViewModel, IsDesignTimeCreatable=True}"
+             
              mc:Ignorable="d" 
         lex:LocalizeDictionary.DesignCulture="ko"
         lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
@@ -153,7 +153,7 @@
                     <!--통신응답시간-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowResponsetime, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="140">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -186,7 +186,7 @@
                     <!--위치제어 모드 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowPosition, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="155">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -212,7 +212,7 @@
                     <!--위치제어기 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowPosGain, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="275">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -266,7 +266,7 @@
                                     <mah:NumericUpDown Grid.Row="3" Grid.Column="1" Margin="2"
                                                 Value="{Binding PosCurrent, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
-                                                Maximum="254"
+                                                Maximum="25400"
                                                 Interval="1"
                                                 />
                                 </Grid>
@@ -281,7 +281,7 @@
                     <!--모터 정격속도 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowRatedspeed, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="140">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -313,7 +313,7 @@
                     <!--분해능 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowEncoderpulse, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="140">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -345,7 +345,7 @@
                     <!--제어 방향 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowDirection, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="155">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -371,7 +371,7 @@
                     <!--로그뷰어-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowLogView, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="100">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -392,7 +392,7 @@
                     <!--속도제어기 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowVelocityGain, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="275">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -446,7 +446,7 @@
                                     <mah:NumericUpDown Grid.Row="3" Grid.Column="1" Margin="2"
                                                 Value="{Binding SpeedCurrent, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
-                                                Maximum="254"
+                                                Maximum="25400"
                                                 Interval="1"
                                                 />
                                 </Grid>
@@ -461,7 +461,7 @@
                     <!--감속비 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowRatio, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="140">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -493,7 +493,7 @@
                     <!--제어 On/Off 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowCtrlOnOff, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="155">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -519,7 +519,7 @@
                     <!--위치 초기화-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowPosreset, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="85">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -537,7 +537,7 @@
                     <!--공장 초기화-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowBaudrate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding IsShowFactoryreset, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="85">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
