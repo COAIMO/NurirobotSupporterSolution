@@ -16,7 +16,7 @@ namespace NurirobotSupporter.Helpers
 
     public class EventSerialValue : IEventSerialValue
     {
-        IDeviceProtocolDictionary _DPD = Locator.Current.GetService<IDeviceProtocolDictionary>();
+        IDeviceProtocolDictionary _DPD;// = Locator.Current.GetService<IDeviceProtocolDictionary>();
 
         /// <summary>
         /// 최종 데이터 사전
@@ -66,7 +66,7 @@ namespace NurirobotSupporter.Helpers
 
         public EventSerialValue()
         {
-
+            _DPD = Locator.Current.GetService<IDeviceProtocolDictionary>();
         }
 
         public void ReciveData(byte[] arg)
@@ -76,7 +76,7 @@ namespace NurirobotSupporter.Helpers
             try {
                 byte id = arg[2];
                 var prot = _DPD.GetDeviceProtocol(id);
-                var command = prot != null ? prot.Command : new NurirobotRSA();
+                var command = prot != null ? prot.Command : new NurirobotMC();
                 if (command.Parse(arg)) {
                     _SerialValue.OnNext(
                     new SerialValueArgs() {

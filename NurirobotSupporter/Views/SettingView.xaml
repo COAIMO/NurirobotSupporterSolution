@@ -50,7 +50,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
-                                        <TextBlock Margin="2" Text="{lex:Loc Label_ID}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 5" Text="{lex:Loc Label_ID}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:SplitButton Grid.Column="2" HorizontalContentAlignment="Right"
                                                  Style="{DynamicResource MahApps.Styles.ComboBox}"
@@ -102,7 +102,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
-                                        <TextBlock Margin="2" Text="{lex:Loc Label_ID}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 5" Text="{lex:Loc Label_ID}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:SplitButton Grid.Column="2" HorizontalContentAlignment="Right"
                                                  Style="{DynamicResource MahApps.Styles.ComboBox}"
@@ -134,7 +134,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
-                                        <TextBlock Margin="2" Text="{lex:Loc Label_UnitBaudrate}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 5" Text="{lex:Loc Label_UnitBaudrate}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:SplitButton Grid.Column="2" HorizontalContentAlignment="Right"
                                                  Style="{DynamicResource MahApps.Styles.ComboBox}"
@@ -166,7 +166,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
-                                        <TextBlock Margin="2" Text="{lex:Loc Label_usTime}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 5" Text="{lex:Loc Label_usTime}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
                                                    Value="{Binding ResponseTime, Mode=TwoWay}"
@@ -191,7 +191,7 @@
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
                                 <Viewbox Height="30" HorizontalAlignment="Left">
-                                    <TextBlock Margin="2" Text="{lex:Loc Label_PostrionCtrl}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    <TextBlock Margin="2, 5" Text="{lex:Loc Label_PostrionCtrl}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                 </Viewbox>
                                 <Grid Margin="10" Height="50">
                                     <Viewbox>
@@ -231,7 +231,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0" Grid.Row="0">
-                                        <TextBlock Margin="5" Text="Kp" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="Kp" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="2"
                                                 Value="{Binding PosGainKp, Mode=TwoWay}"
@@ -241,7 +241,7 @@
                                                 />
 
                                     <Viewbox Grid.Column="0" Grid.Row="1">
-                                        <TextBlock Margin="5" Text="Ki" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="Ki" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="2"
                                                 Value="{Binding PosGainKi, Mode=TwoWay}"
@@ -251,7 +251,7 @@
                                                 />
 
                                     <Viewbox Grid.Column="0" Grid.Row="2">
-                                        <TextBlock Margin="5" Text="Kd" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="Kd" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="2" Grid.Column="1" Margin="2"
                                                 Value="{Binding PosGainKd, Mode=TwoWay}"
@@ -261,7 +261,7 @@
                                                 />
 
                                     <Viewbox Grid.Column="0" Grid.Row="3">
-                                        <TextBlock Margin="5" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="3" Grid.Column="1" Margin="2"
                                                 Value="{Binding PosCurrent, Mode=TwoWay}"
@@ -294,7 +294,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
-                                        <TextBlock Margin="2" Text="{lex:Loc Label_RPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 5" Text="{lex:Loc Label_RPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
                                                    Value="{Binding RatedSpeedRPM, Mode=TwoWay}"
@@ -326,7 +326,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
-                                        <TextBlock Margin="2" Text="{lex:Loc Label_Resolution}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 5" Text="{lex:Loc Label_Resolution}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
                                                    Value="{Binding Resolution, Mode=TwoWay}"
@@ -411,7 +411,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0" Grid.Row="0">
-                                        <TextBlock Margin="5" Text="Kp" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="Kp" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="2"
                                                 Value="{Binding SpeedGainKp, Mode=TwoWay}"
@@ -421,7 +421,7 @@
                                                 />
 
                                     <Viewbox Grid.Column="0" Grid.Row="1">
-                                        <TextBlock Margin="5" Text="Ki" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="Ki" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="2"
                                                 Value="{Binding SpeedGainKi, Mode=TwoWay}"
@@ -431,7 +431,7 @@
                                                 />
 
                                     <Viewbox Grid.Column="0" Grid.Row="2">
-                                        <TextBlock Margin="5" Text="Kd" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="Kd" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="2" Grid.Column="1" Margin="2"
                                                 Value="{Binding SpeedGainKd, Mode=TwoWay}"
@@ -441,7 +441,7 @@
                                                 />
 
                                     <Viewbox Grid.Column="0" Grid.Row="3">
-                                        <TextBlock Margin="5" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="3" Grid.Column="1" Margin="2"
                                                 Value="{Binding SpeedCurrent, Mode=TwoWay}"
@@ -474,7 +474,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
-                                        <TextBlock Margin="2" Text="{lex:Loc Label_Ratio_Title}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 5" Text="{lex:Loc Label_Ratio_Title}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
                                                    Value="{Binding ChooseRatio, Mode=TwoWay}"

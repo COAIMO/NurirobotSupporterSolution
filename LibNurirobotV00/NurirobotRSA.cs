@@ -383,7 +383,7 @@ namespace LibNurirobotV00
 
                 var chksum = GetCheckSum();
                 if (Data[4] == chksum) {
-                    PacketName = ((ProtocolMode)Data[5]).ToString("G");
+                    PacketName = ((ProtocolModeRSA)Data[5]).ToString("G");
                     if (PacketName == null) {
                         ret = false;
                     }
