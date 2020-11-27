@@ -384,6 +384,9 @@ namespace LibNurirobotV00
                 Data = new byte[data.Length];
                 Buffer.BlockCopy(data, 0, Data, 0, Data.Length);
 
+                if (Data[3] + 4 != data.Length)
+                    return ret;
+
                 var chksum = GetCheckSum();
                 if (Data[4] == chksum) {
                     PacketName = ((ProtocolModeRSA)Data[5]).ToString("G");
@@ -490,7 +493,7 @@ namespace LibNurirobotV00
         /// <param name="direction">위치방향</param>
         /// <param name="speed">속도</param>
         /// <param name="arrive">도달시간(second)</param>
-        public void PROT_ControlAcceleratedSpeed(byte id, byte direction, float speed, float arrive)
+        public void ControlAcceleratedSpeed(byte id, byte direction, float speed, float arrive)
         {
             PROT_ControlAcceleratedSpeed(new NuriPosSpeedAclCtrl {
                 ID = id,

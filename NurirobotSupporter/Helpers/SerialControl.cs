@@ -17,6 +17,7 @@ namespace NurirobotSupporter.Helpers
     using System.Reactive.Concurrency;
     using System.Threading.Tasks;
     using Splat;
+    using ReactiveUI;
 
     public class SerialControl : ISerialControl
     {
@@ -86,12 +87,13 @@ namespace NurirobotSupporter.Helpers
             dis.Add(port);
             port.Close();
             port.Handshake = (Handshake)(int)_SerialPortSetting.Handshake;
+            
             //port.ReadTimeout = _SerialPortSetting.ReadTimeout;
             //port.WriteTimeout = _SerialPortSetting.WriteTimeout;
 
             Debug.WriteLine(string.Format("Connect Baud : {0}", _SerialPortSetting.Baudrate));
-            Debug.WriteLine(string.Format("port.ReadTimeout : {0}", port.ReadTimeout));
-            Debug.WriteLine(string.Format("port.WriteTimeout : {0}", port.WriteTimeout));
+            Debug.WriteLine(string.Format("port.WriteBufferSize : {0}", port.WriteBufferSize));
+            Debug.WriteLine(string.Format("port.ReadBufferSize : {0}", port.ReadBufferSize));
 
             try {
                 port.Open();
@@ -113,9 +115,11 @@ namespace NurirobotSupporter.Helpers
             dis.Add(port.ErrorReceivedObserver().Subscribe(e => obs.OnError(new Exception(e.EventArgs.EventType.ToString()))));
             dis.Add(writeByte.Subscribe(x => {
                 try {
-                    port?.Write(x.Item1, x.Item2, x.Item3);
+                    if (port?.IsOpen == true)
+                        port?.Write(x.Item1, x.Item2, x.Item3);
                 }
                 catch (Exception ex) {
+                    Debug.WriteLine(ex);
                     obs.OnError(ex);
                 }
             }, obs.OnError));
@@ -127,11 +131,13 @@ namespace NurirobotSupporter.Helpers
                             dataReceived.OnCompleted();
                         }
                         else {
-                            var buf = new byte[port.BytesToRead];
+                            var buf = new byte[4096];
                             var len = port.Read(buf, 0, buf.Length);
-                            for (int i = 0; i < len; i++) {
-                                dataReceived.OnNext(buf[i]);
-                            }
+                            Task.Run(() => {
+                                for (int i = 0; i < len; i++) {
+                                    dataReceived.OnNext(buf[i]);
+                                }
+                            });
                         }
                     }
                     catch (Exception ex) {
@@ -141,12 +147,19 @@ namespace NurirobotSupporter.Helpers
                 });
             dis.Add(received);
 
+            //var STX = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
+            //ObsDataReceived
+            //    .BufferUntilSTXtoByteArray(STX, 5)
+            //    .Subscribe(data => {
+            //        Debug.WriteLine("SerialControl : " + BitConverter.ToString(data).Replace("-", ""));
+            //    }).AddTo(dis);
+
             return Disposable.Create(() => {
                 IsOpen = false;
                 isOpen.OnNext(false);
                 dis.Dispose();
             });
-        }).OnErrorRetry((Exception ex) => errors.OnNext(ex), 5).Publish().RefCount();
+        }).OnErrorRetry((Exception ex) => errors.OnNext(ex)).Publish().RefCount();
 
         public Task Connect()
         {
@@ -158,6 +171,11 @@ namespace NurirobotSupporter.Helpers
             if (!SerialPort.GetPortNames().Any(name => name.Equals(_SerialPortSetting.PortName))) {
                 errors.OnNext(new Exception($"{_SerialPortSetting.PortName}이(가) 없습니다."));
                 return Task.CompletedTask;
+            }
+
+            if (disposablePort?.Count > 0) {
+                disposablePort?.Dispose();
+                disposablePort = null;
             }
             if (disposablePort == null)
                 disposablePort = new CompositeDisposable();
@@ -185,7 +203,7 @@ namespace NurirobotSupporter.Helpers
         {
             int count = iLength == -1 ? baData.Length - iStart : iLength;
             writeByte?.OnNext(new Tuple<byte[], int, int>(baData, iStart, count));
-            Thread.Sleep(_SerialPortSetting.WriteTimeout);
+
         }
 
         public void Dispose()

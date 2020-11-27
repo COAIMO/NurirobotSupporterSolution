@@ -12,6 +12,7 @@ namespace LibNurisupportPresentation.ViewModels
     using System.Text;
     using LibMacroBase;
     using LibMacroBase.Interface;
+    using LibNurirobotBase;
     using LibNurirobotBase.Interface;
     using LibNurisupportPresentation.Interfaces;
     using ReactiveUI;
@@ -51,6 +52,8 @@ namespace LibNurisupportPresentation.ViewModels
         ISerialControl _ISC;
         ICommandEngine _ICE;
         //CompositeDisposable _CompositeDisposable;
+
+        private readonly IObservable<byte[]> STX = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
         public MainWindowViewModel(
             IDeviceSearchViewModel deviceSearch, 
             ILanguageViewModel language,
@@ -60,6 +63,7 @@ namespace LibNurisupportPresentation.ViewModels
             Language = language;
             Help = help;
             Setting = new SettingViewModel(this);
+            Single = new SingleViewModel(this);
             deviceSearch.MainViewModel = this;
 
             _Connected.OnNext(false);
@@ -216,6 +220,19 @@ namespace LibNurisupportPresentation.ViewModels
                     var state = RxApp.SuspensionHost.GetAppState<AppState>();
                     state.IsConnect = x;
                 });
+
+
+            // 전체 데이터 수신
+            var rcv = Locator.Current.GetService<IReciveProcess>();
+            var isc = Locator.Current.GetService<ISerialControl>();
+            isc.ObsDataReceived
+                .BufferUntilSTXtoByteArray(STX, 5)
+                .Subscribe(data => {
+                    rcv.AddReciveData(data);
+                });
+
+            ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
+            sp.Start();
         }
 
         public IEnumerable<string> SerialPorts => _SerialPorts;
@@ -265,5 +282,6 @@ namespace LibNurisupportPresentation.ViewModels
         public IHelpViewModel Help { get; set; }
         public ISettingViewModel Setting { get; set; }
         public string CurrentPageName { get; set; }
+        public ISingleViewModel Single { get; set; }
     }
 }

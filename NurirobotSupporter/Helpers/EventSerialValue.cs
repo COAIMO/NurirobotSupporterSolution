@@ -55,7 +55,9 @@ namespace NurirobotSupporter.Helpers
                     ret = true;
                 }
             }
-            catch { }
+            catch (Exception ex){
+                Debug.WriteLine(ex);
+            }
             return ret;
         }).Publish().RefCount();
 
@@ -74,6 +76,14 @@ namespace NurirobotSupporter.Helpers
             // todo : 장비 아이디를 이용한 프로토콜과 연결
             // todo : 수신 데이터 인식 기능 필요
             try {
+                if (arg.Length <= 4)
+                    return;
+
+                if (arg[3] + 4 != arg.Length) {
+                    //Debug.WriteLine("EventSerialValue : error!!!!!error!!!!!error!!!!!error!!!!!error!!!!!error!!!!!error!!!!!");
+                    return;
+                }
+
                 byte id = arg[2];
                 var prot = _DPD.GetDeviceProtocol(id);
                 var command = prot != null ? prot.Command : new NurirobotMC();

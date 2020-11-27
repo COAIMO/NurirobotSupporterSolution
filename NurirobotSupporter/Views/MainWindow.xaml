@@ -28,7 +28,6 @@
         MinWidth="800"
         Height="600"
         Width="800"
-        d:DataContext="{d:DesignInstance Type=designTime:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="Nurirobot Supporter" >
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
@@ -108,7 +107,7 @@
                                         Kind="Cog" />
                     </mah:HamburgerMenuIconItem.Icon>
                 </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Single_Control}" Tag="/Views/TestView.xaml">
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Single_Control}" Tag="Single">
                     <mah:HamburgerMenuIconItem.Icon>
                         <iconPacks:PackIconMaterial Width="22"
                                         Height="22"
@@ -250,23 +249,10 @@
                                     Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
                         </Grid>
                     </Grid>
-                    <!--<Frame Grid.Row="1" x:Name="FrameNavigation" Source="{Binding Tag}" NavigationUIVisibility="Hidden"></Frame>-->
-                    <!--<Grid Grid.Row="1" Visibility="{Binding IsNotConnect, Converter={StaticResource BooleanToVisibility}}"
-                  Background="{StaticResource MaterialDesignPaper}">
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{lex:Loc Title_NotConnected}" FontSize="32"
-                               HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Grid>
-                    <Grid Grid.Row="1" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibility}}"
-                  Background="{StaticResource MaterialDesignPaper}">
-                        <StackPanel VerticalAlignment="Center">
-                            <mah:ProgressRing 
-                                Height="250" Width="200" Padding="0, 0, 0, 40"/>
-                            <TextBlock Text="{lex:Loc Loading_Text}" FontSize="32"
-                               HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Grid>-->
+                    <local:SingleView Grid.Row="1"
+                            Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Single, ElementName=HamburgerMenuControl}"
+                            IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Single, ElementName=HamburgerMenuControl}"
+                         DataContext="{Binding DataContext.Single, Mode=OneWay, ElementName=MainView}"/>
                     <local:SettingView Grid.Row="1"
                             Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
                             IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"

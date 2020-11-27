@@ -8,7 +8,6 @@
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
-             
              mc:Ignorable="d" 
         lex:LocalizeDictionary.DesignCulture="ko"
         lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
@@ -29,7 +28,7 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Viewbox HorizontalAlignment="Left">
-                <TextBlock Padding="10" Text="{lex:Loc Title_Search}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+                <TextBlock Padding="10" Text="{lex:Loc Title_Setting}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
             </Viewbox>
             <Viewbox Width="120" HorizontalAlignment="Right" Grid.Column="1">
                 <Button Content="{lex:Loc Button_Cancel}" Width="120" Height="40"

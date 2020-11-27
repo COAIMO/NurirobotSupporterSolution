@@ -1,6 +1,7 @@
 namespace LibNurirobotBase
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Text;
     using LibNurirobotBase.Interface;
@@ -10,14 +11,17 @@ namespace LibNurirobotBase
     /// </summary>
     public class DeviceProtocolDictionary : IDeviceProtocolDictionary
     {
-        Dictionary<byte, DeviceProtocol> _Dict = new Dictionary<byte, DeviceProtocol>();
+        ConcurrentDictionary<byte, DeviceProtocol> _Dict = new ConcurrentDictionary<byte, DeviceProtocol>();
 
         public void AddDeviceProtocol(byte id, ICommand command)
         {
-            if (_Dict.ContainsKey(id))
-                _Dict.Remove(id);
+            //if (_Dict.ContainsKey(id))
+            //    _Dict.Remove(id);
 
-            _Dict.Add(id, new DeviceProtocol(id, command));
+            //_Dict.Add(id, new DeviceProtocol(id, command));
+            _Dict.AddOrUpdate(id, new DeviceProtocol(id, command), (k, v) => {
+                return new DeviceProtocol(id, command);
+            });
         }
 
         public DeviceProtocol GetDeviceProtocol(byte id)

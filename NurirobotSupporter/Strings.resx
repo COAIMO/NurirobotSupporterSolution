@@ -123,6 +123,9 @@
   <data name="Alert_DoNotChange" xml:space="preserve">
     <value>변경이 실패하였습니다.\r변경된 설정이 있는지 확인 바랍니다.</value>
   </data>
+  <data name="Alert_IsGraphOn" xml:space="preserve">
+    <value>그래프 사용 중에 조회할 수 없습니다.</value>
+  </data>
   <data name="Alert_NotFound" xml:space="preserve">
     <value>대상 장비를 찾을 수 없습니다.</value>
   </data>
@@ -165,6 +168,12 @@
   <data name="Button_Korean" xml:space="preserve">
     <value>한국어</value>
   </data>
+  <data name="Button_PosReset" xml:space="preserve">
+    <value>위치 리셋</value>
+  </data>
+  <data name="Button_Run" xml:space="preserve">
+    <value>실행</value>
+  </data>
   <data name="Button_Search_Start" xml:space="preserve">
     <value>조회시작</value>
   </data>
@@ -174,8 +183,14 @@
   <data name="Button_Set" xml:space="preserve">
     <value>설정</value>
   </data>
+  <data name="Button_Stop" xml:space="preserve">
+    <value>정지</value>
+  </data>
   <data name="Label_Absolute" xml:space="preserve">
     <value>절대 위치제어</value>
+  </data>
+  <data name="Label_Arrival" xml:space="preserve">
+    <value>도달시간(초)</value>
   </data>
   <data name="Label_Baudrate" xml:space="preserve">
     <value>통신속도 설정</value>
@@ -213,6 +228,9 @@
   <data name="Label_ID" xml:space="preserve">
     <value>아이디</value>
   </data>
+  <data name="Label_Intervalsecond" xml:space="preserve">
+    <value>수집주기(초)</value>
+  </data>
   <data name="Label_IsOk" xml:space="preserve">
     <value>적용 하시겠습니까?</value>
   </data>
@@ -234,14 +252,23 @@
   <data name="Label_PopupTitleDeviceSearch" xml:space="preserve">
     <value>장비조회</value>
   </data>
+  <data name="Label_POS" xml:space="preserve">
+    <value>위치제어</value>
+  </data>
   <data name="Label_PosGain" xml:space="preserve">
     <value>위치제어기 설정</value>
+  </data>
+  <data name="Label_Position" xml:space="preserve">
+    <value>위치</value>
   </data>
   <data name="Label_PostionReset" xml:space="preserve">
     <value>위치 초기화</value>
   </data>
   <data name="Label_PostrionCtrl" xml:space="preserve">
     <value>위치제어 모드 설정</value>
+  </data>
+  <data name="Label_POSVEL" xml:space="preserve">
+    <value>위치, 속도제어</value>
   </data>
   <data name="Label_RatedSpeed" xml:space="preserve">
     <value>모터 정격속도 설정</value>
@@ -278,6 +305,12 @@
   </data>
   <data name="Label_usTime" xml:space="preserve">
     <value>응답시간(us)</value>
+  </data>
+  <data name="Label_VEL" xml:space="preserve">
+    <value>속도제어</value>
+  </data>
+  <data name="Label_Velocity" xml:space="preserve">
+    <value>속도</value>
   </data>
   <data name="Label_VelocityGain" xml:space="preserve">
     <value>속도제어기 설정</value>
@@ -321,6 +354,9 @@
   <data name="Title_Comport" xml:space="preserve">
     <value>시리얼포트</value>
   </data>
+  <data name="Title_Graph" xml:space="preserve">
+    <value>그래프 표시</value>
+  </data>
   <data name="Title_Help" xml:space="preserve">
     <value>도움말</value>
   </data>
@@ -330,13 +366,28 @@
   <data name="Title_Language" xml:space="preserve">
     <value>언어설정</value>
   </data>
+  <data name="Title_Macro" xml:space="preserve">
+    <value>매크로</value>
+  </data>
+  <data name="Title_Multiple" xml:space="preserve">
+    <value>다중 제어</value>
+  </data>
   <data name="Title_NotConnected" xml:space="preserve">
     <value>시리얼포트에 연결되지 않았습니다.</value>
   </data>
   <data name="Title_Search" xml:space="preserve">
     <value>장비 조회</value>
   </data>
+  <data name="Title_Setting" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="Title_Single" xml:space="preserve">
+    <value>단독 제어</value>
+  </data>
   <data name="Title_StartupPopup" xml:space="preserve">
     <value>시작 시 장비조회 팝업 유무</value>
+  </data>
+  <data name="Title_Tool" xml:space="preserve">
+    <value>제어기능</value>
   </data>
 </root>

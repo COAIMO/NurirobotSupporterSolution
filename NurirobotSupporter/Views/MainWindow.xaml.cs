@@ -4,6 +4,7 @@ namespace NurirobotSupporter.Views
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
@@ -14,6 +15,7 @@ namespace NurirobotSupporter.Views
     using System.Windows.Media.Imaging;
     using System.Windows.Navigation;
     using System.Windows.Shapes;
+    using System.Windows.Threading;
     using LibNurisupportPresentation.Interfaces;
     using MahApps.Metro.Controls;
     using ReactiveUI;
@@ -26,11 +28,23 @@ namespace NurirobotSupporter.Views
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty
             .Register(nameof(ViewModel), typeof(IMainViewModel), typeof(MainWindow), null);
 
+        protected DispatcherTimer UpdateTimer { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
             DataContextChanged += (sender, args) => ViewModel = DataContext as IMainViewModel;
             this.WhenActivated(disposable => { });
+
+            UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1, 0) };
+            UpdateTimer.Tick += UpdateTimer_Tick; ;
+            
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateTimer.Stop();
+            HamburgerMenuControl.IsEnabled = true;
         }
 
         public IMainViewModel ViewModel {
@@ -45,6 +59,11 @@ namespace NurirobotSupporter.Views
 
         private void HamburgerMenuControl_ItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs args)
         {
+            if (ViewModel?.IsConnect == true) {
+                HamburgerMenuControl.IsEnabled = false;
+                UpdateTimer.Start();
+            }
+
             HamburgerMenuControl.Content = args.InvokedItem;
             if (ViewModel != null) {
                 ViewModel.CurrentPageName = (string)((HamburgerMenuIconItem)args.InvokedItem).Tag;

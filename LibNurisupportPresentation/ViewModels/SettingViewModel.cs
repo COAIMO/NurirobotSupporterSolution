@@ -750,6 +750,9 @@ namespace LibNurisupportPresentation.ViewModels
             esv.ObsSerialValueObservable
                 .Where(x => x.ID == SelectedId)
                 .Subscribe(x => {
+                    if (!string.Equals(mainViewModel.CurrentPageName, "Setting"))
+                        return;
+
                     try {
                         switch (x.ValueName) {
                             //case "FEEDPos":
@@ -845,13 +848,6 @@ namespace LibNurisupportPresentation.ViewModels
                         msg.Show("Alert_Refresh");
                     }
                 });
-
-            // 전체 데이터 수신
-            var rcv = Locator.Current.GetService<IReciveProcess>();
-            var isc = Locator.Current.GetService<ISerialControl>();
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
-                .Subscribe(data => rcv.AddReciveData(data));
 
             var idchangeserarch = this.WhenAnyValue(x => x.SelectedId)
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -1030,11 +1026,11 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            ISerialProcess sp = null;
-            if (isSpControl) {
-                sp = Locator.Current.GetService<ISerialProcess>();
-                sp.Start();
-            }
+            //ISerialProcess sp = null;
+            //if (isSpControl) {
+            //    sp = Locator.Current.GetService<ISerialProcess>();
+            //    sp.Start();
+            //}
 
             var comdis = new CompositeDisposable();
             var stopWaitHandle = new AutoResetEvent(false);
@@ -1044,13 +1040,13 @@ namespace LibNurisupportPresentation.ViewModels
                     .Subscribe(data => {
                         try {
                             if (command.Parse(data)) {
-                                var protocol = ((ProtocolMode)feedback).ToString();
+                                var protocol = ((ProtocolMode)feedback + 48).ToString();
                                 if (!isMc) {
-                                    protocol = ((ProtocolModeRSA)feedback).ToString();
+                                    protocol = ((ProtocolModeRSA)feedback + 48).ToString();
                                 }
 
                                 if (string.Equals(command.PacketName, protocol)) {
-                                    var obj = (NuriResponsetime)command.GetDataStruct();
+                                    var obj = (BaseStruct)command.GetDataStruct();
 
                                     if (id == obj.ID) {
                                         stopWaitHandle.Set();
@@ -1082,9 +1078,9 @@ namespace LibNurisupportPresentation.ViewModels
                 }
             }
 
-            if (isSpControl) {
-                sp?.Stop();
-            }
+            //if (isSpControl) {
+            //    sp?.Stop();
+            //}
             comdis.Dispose();
         }
 
@@ -1101,11 +1097,11 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            ISerialProcess sp = null;
-            if (isSpControl) {
-                sp = Locator.Current.GetService<ISerialProcess>();
-                sp.Start();
-            }
+            //ISerialProcess sp = null;
+            //if (isSpControl) {
+            //    sp = Locator.Current.GetService<ISerialProcess>();
+            //    sp.Start();
+            //}
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
@@ -1143,9 +1139,9 @@ namespace LibNurisupportPresentation.ViewModels
                 }
             }
 
-            if (isSpControl) {
-                sp?.Stop();
-            }
+            //if (isSpControl) {
+            //    sp?.Stop();
+            //}
             comdis.Dispose();
         }
 
@@ -1160,12 +1156,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1228,7 +1224,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1244,12 +1240,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1318,7 +1314,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1338,12 +1334,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1412,7 +1408,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1428,12 +1424,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1496,7 +1492,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1512,12 +1508,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1572,7 +1568,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1589,12 +1585,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1649,7 +1645,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1665,12 +1661,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1725,7 +1721,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1741,12 +1737,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1811,7 +1807,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1826,12 +1822,12 @@ namespace LibNurisupportPresentation.ViewModels
             bool ret = false;
 
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            sp.Start();
+            //sp.Start();
 
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -1896,7 +1892,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
 
             comdis.Dispose();
-            sp.Stop();
+            //sp.Stop();
 
             return ret;
         }
@@ -1913,11 +1909,11 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            ISerialProcess sp = null;
-            if (isSpControl) {
-                sp = Locator.Current.GetService<ISerialProcess>();
-                sp.Start();
-            }
+            //ISerialProcess sp = null;
+            //if (isSpControl) {
+            //    sp = Locator.Current.GetService<ISerialProcess>();
+            //    sp.Start();
+            //}
 
             var ICE = Locator.Current.GetService<ICommandEngine>();
             string commandStr = string.Empty;
@@ -1935,9 +1931,9 @@ namespace LibNurisupportPresentation.ViewModels
             ICE.RunScript(commandStr);
             ICE.RunScript(commandStr);
 
-            if (isSpControl) {
-                sp?.Stop();
-            }
+            //if (isSpControl) {
+            //    sp?.Stop();
+            //}
             return true;
         }
 
@@ -1953,11 +1949,11 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            ISerialProcess sp = null;
-            if (isSpControl) {
-                sp = Locator.Current.GetService<ISerialProcess>();
-                sp.Start();
-            }
+            //ISerialProcess sp = null;
+            //if (isSpControl) {
+            //    sp = Locator.Current.GetService<ISerialProcess>();
+            //    sp.Start();
+            //}
 
             var ICE = Locator.Current.GetService<ICommandEngine>();
             string commandStr = string.Empty;
@@ -1975,9 +1971,9 @@ namespace LibNurisupportPresentation.ViewModels
             ICE.RunScript(commandStr);
             ICE.RunScript(commandStr);
 
-            if (isSpControl) {
-                sp?.Stop();
-            }
+            //if (isSpControl) {
+            //    sp?.Stop();
+            //}
             return true;
         }
 
@@ -2014,10 +2010,10 @@ namespace LibNurisupportPresentation.ViewModels
         /// <returns></returns>
         private void ChangeBaud(byte id, int bps, bool isBroadcast = false)
         {
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
-            sp.Start();
+            //sp.Start();
 
             bool isMc = tmp.Command is NurirobotMC;
             var ICE = Locator.Current.GetService<ICommandEngine>();
@@ -2049,7 +2045,7 @@ namespace LibNurisupportPresentation.ViewModels
             ICE.RunScript(commandStr);
             ICE.RunScript(commandStr);
 
-            sp.Stop();
+            //sp.Stop();
         }
 
         /// <summary>
@@ -2061,12 +2057,12 @@ namespace LibNurisupportPresentation.ViewModels
         {
             bool ret = false;
             var isc = Locator.Current.GetService<ISerialControl>();
-            var sp = Locator.Current.GetService<ISerialProcess>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             bool isMc = tmp.Command is NurirobotMC;
 
-            sp.Start();
+            //sp.Start();
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
@@ -2128,7 +2124,7 @@ namespace LibNurisupportPresentation.ViewModels
                 }
             }
 
-            sp.Stop();
+            //sp.Stop();
             comdis.Dispose();
             return ret;
         }
@@ -2140,8 +2136,9 @@ namespace LibNurisupportPresentation.ViewModels
         /// <returns></returns>
         private int GetTimeout(string baud)
         {
-            int ret = 30;
-            // 처리지연에 의한 대기시간 보정상수
+            int ret = 150;
+            //int ret = 30;
+            //// 처리지연에 의한 대기시간 보정상수
             float constWait = 1f;
 
             switch (baud) {
@@ -2160,29 +2157,29 @@ namespace LibNurisupportPresentation.ViewModels
                 case "2400":
                     ret = 250;
                     break;
-                case "4800":
-                    ret = 125;
-                    break;
-                case "9600":
-                    ret = 60;
-                    break;
-                case "14400":
-                    ret = 50;
-                    break;
-                case "19200":
-                    ret = 50;
-                    break;
-                case "28800":
-                    ret = 50;
-                    break;
-                case "38400":
-                    ret = 50;
-                    break;
-                case "57600":
-                    ret = 50;
-                    break;
+                //case "4800":
+                //    ret = 125;
+                //    break;
+                //case "9600":
+                //    ret = 60;
+                //    break;
+                //case "14400":
+                //    ret = 50;
+                //    break;
+                //case "19200":
+                //    ret = 50;
+                //    break;
+                //case "28800":
+                //    ret = 50;
+                //    break;
+                //case "38400":
+                //    ret = 50;
+                //    break;
+                //case "57600":
+                //    ret = 50;
+                //    break;
                 default:
-                    ret = 50;
+                    ret = 150;
                     break;
             }
 
@@ -2198,11 +2195,11 @@ namespace LibNurisupportPresentation.ViewModels
         {
             bool ret = false;
             var isc = Locator.Current.GetService<ISerialControl>();
-            ISerialProcess sp = null;
-            if (isSpControl) {
-                sp = Locator.Current.GetService<ISerialProcess>();
-                sp.Start();
-            }
+            //ISerialProcess sp = null;
+            //if (isSpControl) {
+            //    sp = Locator.Current.GetService<ISerialProcess>();
+            //    sp.Start();
+            //}
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
@@ -2241,9 +2238,9 @@ namespace LibNurisupportPresentation.ViewModels
                 }
             }
 
-            if (isSpControl) {
-                sp?.Stop();
-            }
+            //if (isSpControl) {
+            //    sp?.Stop();
+            //}
             comdis.Dispose();
             return ret;
         }
@@ -2310,8 +2307,8 @@ namespace LibNurisupportPresentation.ViewModels
             // 1. 존재하는 지 확인
             if (CheckPing(id)) {
                 // 2. MC의 제어방향 전문 응답 확인
-                var sp = Locator.Current.GetService<ISerialProcess>();
-                sp.Start();
+                //var sp = Locator.Current.GetService<ISerialProcess>();
+                //sp.Start();
                 var tmpMC = new NurirobotMC();
                 bool isMC = false;
                 for (int i = 0; i < 2; i++) {
@@ -2331,7 +2328,7 @@ namespace LibNurisupportPresentation.ViewModels
                     dpd.AddDeviceProtocol(id, new NurirobotRSA());
                 }
                 ret = true;
-                sp.Stop();
+                //sp.Stop();
             }
             comdis.Dispose();
             return ret;

@@ -13,8 +13,13 @@ namespace NurirobotSupporter.Helpers
         public void AddLog(byte[] arg)
         {
             //throw new NotImplementedException();
-            string data = String.Format("[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF"), BitConverter.ToString(arg).Replace("-", ""));
-            Debug.WriteLine(data);
+            try {
+                string data = String.Format("[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF"), BitConverter.ToString(arg).Replace("-", ""));
+                Debug.WriteLine(data);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
         }
 
         #region IDisposable 구현

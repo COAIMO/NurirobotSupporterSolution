@@ -125,7 +125,7 @@ namespace LibMacroBase
         public CommandEngine()
         {
             CSScript.GlobalSettings.InMemoryAssembly = true;
-            CSScript.EvaluatorConfig.DebugBuild = false;
+            CSScript.EvaluatorConfig.DebugBuild = true;
             CSScript.EvaluatorConfig.Engine = EvaluatorEngine.CodeDom;
         }
 

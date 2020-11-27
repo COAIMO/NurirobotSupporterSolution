@@ -43,7 +43,7 @@ namespace NurirobotSupporter
         {
             AppCenter.Start("16e2720a-8d68-4cef-a163-ebfd2277578f",
                    typeof(Analytics), typeof(Crashes));
-
+            //AllocConsole();
             InitializeComponent();
             _autoSuspendHelper = new AutoSuspendHelper(this);
             _Disposables = new CompositeDisposable();

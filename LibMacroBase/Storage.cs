@@ -13,7 +13,7 @@ namespace LibMacroBase
         IFileHelper _IFileHelper = Locator.Current.GetService<IFileHelper>();
         LiteDatabase _LiteDatabase;
         ILiteCollection<MacroInfo> _MacroInfo;
-
+        bool IsReadOnly = false;
         /// <summary>
         /// 생성자
         /// </summary>
@@ -21,7 +21,13 @@ namespace LibMacroBase
         /// <exception cref="System.IO.IOException">파일을 IO처리가 불가능할 경우 </exception>
         public Storage()
         {
-            _LiteDatabase = new LiteDatabase(_IFileHelper.GetLocalFilePath("Macro.db"));
+            try {
+                _LiteDatabase = new LiteDatabase(_IFileHelper.GetLocalFilePath("Macro.db"));
+            }
+            catch {
+                IsReadOnly = true;
+                _LiteDatabase = new LiteDatabase(string.Format("Filename={0};ReadOnly=true;", _IFileHelper.GetLocalFilePath("Macro.db")));
+            }
             _MacroInfo = _LiteDatabase.GetCollection<MacroInfo>("macroinfo");
         }
         ~Storage()
@@ -62,7 +68,8 @@ namespace LibMacroBase
         /// <param name="macroInfo">등록할 매크로</param>
         public void NewMacro(MacroInfo macroInfo)
         {
-            _MacroInfo?.Insert(macroInfo);
+            if (!IsReadOnly)
+                _MacroInfo?.Insert(macroInfo);
         }
 
         /// <summary>

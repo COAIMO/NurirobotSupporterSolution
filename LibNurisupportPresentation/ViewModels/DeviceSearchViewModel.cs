@@ -127,22 +127,27 @@ using System.Diagnostics;
                             isc.Connect().Wait();
                             if (isc.IsOpen) {
                                 _Log.OnNext("Connect...");
-                                ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
-                                sp.Start();
+                                //ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
+                                //sp.Start();
                                 isc.ObsDataReceived
                                 .BufferUntilSTXtoByteArray(stx, 5)
                                 .Subscribe(data => {
-                                    Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                                    var tmp = new NurirobotRSA();
-                                    if (tmp.Parse(data)) {
-                                        if (string.Equals(tmp.PacketName, "FEEDPing")) {
-                                            var obj = (NuriProtocol)tmp.GetDataStruct();
-                                            if (!state.SearchDevice.Contains(obj.ID)) {
-                                                _Log.OnNext(string.Format("Device Index : {0} ===========", obj.ID));
-                                                state.SearchDevice.Add(obj.ID);
+                                    try {
+                                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                                        var tmp = new NurirobotRSA();
+                                        if (tmp.Parse(data)) {
+                                            if (string.Equals(tmp.PacketName, "FEEDPing")) {
+                                                var obj = (NuriProtocol)tmp.GetDataStruct();
+                                                if (!state.SearchDevice.Contains(obj.ID)) {
+                                                    _Log.OnNext(string.Format("Device Index : {0} ===========", obj.ID));
+                                                    state.SearchDevice.Add(obj.ID);
+                                                }
+                                                mStopWaitHandle.Set();
                                             }
-                                            mStopWaitHandle.Set();
                                         }
+                                    }
+                                    catch (Exception ex) {
+                                        Debug.WriteLine(ex);
                                     }
                                 })
                                 .AddTo(comdis);
@@ -171,7 +176,7 @@ using System.Diagnostics;
                                 //    sp.Stop();
                                 //    break;
                                 //}
-                                sp.Stop();
+                                //sp.Stop();
                             }
                             else {
                                 _Log.OnNext("Fail!");
@@ -252,29 +257,29 @@ using System.Diagnostics;
                 case "2400":
                     ret = 250;
                     break;
-                case "4800":
-                    ret = 125;
-                    break;
-                case "9600":
-                    ret = 60;
-                    break;
-                case "14400":
-                    ret = 50;
-                    break;
-                case "19200":
-                    ret = 50;
-                    break;
-                case "28800":
-                    ret = 50;
-                    break;
-                case "38400":
-                    ret = 50;
-                    break;
-                case "57600":
-                    ret = 50;
-                    break;
+                //case "4800":
+                //    ret = 125;
+                //    break;
+                //case "9600":
+                //    ret = 60;
+                //    break;
+                //case "14400":
+                //    ret = 50;
+                //    break;
+                //case "19200":
+                //    ret = 50;
+                //    break;
+                //case "28800":
+                //    ret = 50;
+                //    break;
+                //case "38400":
+                //    ret = 50;
+                //    break;
+                //case "57600":
+                //    ret = 50;
+                //    break;
                 default:
-                    ret = 50;
+                    ret = 150;
                     break;
             }
 

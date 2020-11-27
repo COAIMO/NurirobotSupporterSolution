@@ -79,6 +79,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   그래프 사용 중에 조회할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Alert_IsGraphOn {
+            get {
+                return ResourceManager.GetString("Alert_IsGraphOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   통신속도를 찾을 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Alert_No_BaudRate {
@@ -205,6 +214,24 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   위치 리셋과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_PosReset {
+            get {
+                return ResourceManager.GetString("Button_PosReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   실행과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Run {
+            get {
+                return ResourceManager.GetString("Button_Run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   조회시작과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_Search_Start {
@@ -232,11 +259,29 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   정지과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Stop {
+            get {
+                return ResourceManager.GetString("Button_Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   절대 위치제어과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_Absolute {
             get {
                 return ResourceManager.GetString("Label_Absolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   도달시간(초)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Arrival {
+            get {
+                return ResourceManager.GetString("Label_Arrival", resourceCulture);
             }
         }
         
@@ -349,6 +394,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   수집주기(초)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Intervalsecond {
+            get {
+                return ResourceManager.GetString("Label_Intervalsecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   적용 하시겠습니까?과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_IsOk {
@@ -412,11 +466,29 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   위치제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_POS {
+            get {
+                return ResourceManager.GetString("Label_POS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   위치제어기 설정과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_PosGain {
             get {
                 return ResourceManager.GetString("Label_PosGain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Position {
+            get {
+                return ResourceManager.GetString("Label_Position", resourceCulture);
             }
         }
         
@@ -435,6 +507,15 @@ namespace NurirobotSupporter {
         internal static string Label_PostrionCtrl {
             get {
                 return ResourceManager.GetString("Label_PostrionCtrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치, 속도제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_POSVEL {
+            get {
+                return ResourceManager.GetString("Label_POSVEL", resourceCulture);
             }
         }
         
@@ -543,6 +624,24 @@ namespace NurirobotSupporter {
         internal static string Label_usTime {
             get {
                 return ResourceManager.GetString("Label_usTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   속도제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_VEL {
+            get {
+                return ResourceManager.GetString("Label_VEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   속도과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Velocity {
+            get {
+                return ResourceManager.GetString("Label_Velocity", resourceCulture);
             }
         }
         
@@ -673,6 +772,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   그래프 표시과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Graph {
+            get {
+                return ResourceManager.GetString("Title_Graph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   도움말과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Title_Help {
@@ -700,6 +808,24 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   매크로과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Macro {
+            get {
+                return ResourceManager.GetString("Title_Macro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   다중 제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Multiple {
+            get {
+                return ResourceManager.GetString("Title_Multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   시리얼포트에 연결되지 않았습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Title_NotConnected {
@@ -718,11 +844,38 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Setting {
+            get {
+                return ResourceManager.GetString("Title_Setting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   단독 제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Single {
+            get {
+                return ResourceManager.GetString("Title_Single", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   시작 시 장비조회 팝업 유무과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Title_StartupPopup {
             get {
                 return ResourceManager.GetString("Title_StartupPopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   제어기능과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Tool {
+            get {
+                return ResourceManager.GetString("Title_Tool", resourceCulture);
             }
         }
     }

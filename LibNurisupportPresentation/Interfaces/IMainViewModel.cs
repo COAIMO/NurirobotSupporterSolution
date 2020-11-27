@@ -82,5 +82,11 @@ namespace LibNurisupportPresentation.Interfaces
         /// 현재 표시 페이지
         /// </summary>
         string CurrentPageName { get; set; }
+
+        /// <summary>
+        /// 단독제어
+        /// </summary>
+        ISingleViewModel Single { get; set; }
+             
     }
 }
