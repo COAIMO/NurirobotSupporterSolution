@@ -376,7 +376,7 @@ namespace LibNurisupportPresentation.ViewModels
 
                     IsRunning = false;
                 });
-            }, canRun);
+            }, IsNotRunning);
 
             // 중지
             CMDStop = ReactiveCommand.Create(() => {
@@ -389,7 +389,7 @@ namespace LibNurisupportPresentation.ViewModels
 
                     IsRunning = false;
                 });
-            }, canRun);
+            }, IsNotRunning);
 
             //위치 초기화
             CMDChangePosReset = ReactiveCommand.Create(() => {
@@ -403,7 +403,7 @@ namespace LibNurisupportPresentation.ViewModels
 
                     IsRunning = false;
                 });
-            }, canRun);
+            }, IsNotRunning);
 
             // 리플래쉬
             Refresh = ReactiveCommand.Create(() => {
@@ -496,7 +496,7 @@ namespace LibNurisupportPresentation.ViewModels
         private bool Stop(byte id)
         {
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
-            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var tmp = dpd.GetDeviceProtocol(id);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
 
@@ -532,7 +532,7 @@ namespace LibNurisupportPresentation.ViewModels
         {
             var isc = Locator.Current.GetService<ISerialControl>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
-            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var tmp = dpd.GetDeviceProtocol(id);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
 
@@ -803,7 +803,7 @@ namespace LibNurisupportPresentation.ViewModels
         {
             var isc = Locator.Current.GetService<ISerialControl>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
-            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var tmp = dpd.GetDeviceProtocol(id);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
 
@@ -839,7 +839,7 @@ namespace LibNurisupportPresentation.ViewModels
         {
             var isc = Locator.Current.GetService<ISerialControl>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
-            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var tmp = dpd.GetDeviceProtocol(id);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
 
@@ -874,7 +874,7 @@ namespace LibNurisupportPresentation.ViewModels
         private bool RunVelocity(byte id)
         {
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
-            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var tmp = dpd.GetDeviceProtocol(id);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
 
@@ -1075,29 +1075,20 @@ namespace LibNurisupportPresentation.ViewModels
                 case "2400":
                     ret = 250;
                     break;
-                //case "4800":
-                //    ret = 125;
-                //    break;
-                //case "9600":
-                //    ret = 60;
-                //    break;
-                //case "14400":
-                //    ret = 50;
-                //    break;
-                //case "19200":
-                //    ret = 50;
-                //    break;
-                //case "28800":
-                //    ret = 50;
-                //    break;
-                //case "38400":
-                //    ret = 50;
-                //    break;
-                //case "57600":
-                //    ret = 50;
-                //    break;
+                case "4800":
+                    ret = 125;
+                    break;
+                case "9600":
+                    ret = 40;
+                    break;
+                case "14400":
+                    ret = 40;
+                    break;
+                case "19200":
+                    ret = 30;
+                    break;
                 default:
-                    ret = 150;
+                    ret = 30;
                     break;
             }
 

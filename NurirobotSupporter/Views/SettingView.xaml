@@ -12,7 +12,7 @@
         lex:LocalizeDictionary.DesignCulture="ko"
         lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
-             d:DesignHeight="800" d:DesignWidth="1100" IsEnabledChanged="UserControl_IsEnabledChanged" >
+             d:DesignHeight="800" d:DesignWidth="1600" IsEnabledChanged="UserControl_IsEnabledChanged" >
     <!--lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"-->
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
@@ -90,6 +90,27 @@
                                             Visibility="{Binding IsSearchingID, Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Command="{Binding CMDIDSearch}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <!--로그뷰어-->
+                    <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
+                      Margin="0, 0, 5, 5"
+                      Visibility="{Binding IsShowLogView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Width="{Binding ControlWidth}" Height="100">
+                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+                            <StackPanel Margin="10, 2, 10, 2" >
+                                <Viewbox Height="30" HorizontalAlignment="Left">
+                                    <TextBlock Margin="2" Text="{lex:Loc Label_Logview}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                </Viewbox>
+                                <Grid Margin="10" Height="50">
+                                    <Viewbox>
+                                        <mah:ToggleSwitch Margin="2"
+                              OffContent="{lex:Loc Label_LogOff}"
+                              OnContent="{lex:Loc Label_LogOn}"
+                              IsOn="{Binding IsOnLog, Mode=TwoWay}"/>
+                                    </Viewbox>
                                 </Grid>
                             </StackPanel>
                         </Border>
@@ -376,27 +397,7 @@
                             </StackPanel>
                         </Border>
                     </Grid>
-                    <!--로그뷰어-->
-                    <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
-                      Margin="0, 0, 5, 5"
-                      Visibility="{Binding IsShowLogView, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      Width="{Binding ControlWidth}" Height="100">
-                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
-                            <StackPanel Margin="10, 2, 10, 2" >
-                                <Viewbox Height="30" HorizontalAlignment="Left">
-                                    <TextBlock Margin="2" Text="{lex:Loc Label_Logview}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
-                                </Viewbox>
-                                <Grid Margin="10" Height="50">
-                                    <Viewbox>
-                                        <mah:ToggleSwitch Margin="2"
-                              OffContent="{lex:Loc Label_LogOff}"
-                              OnContent="{lex:Loc Label_LogOn}"
-                              IsOn="{Binding IsOnLog, Mode=TwoWay}"/>
-                                    </Viewbox>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
+                    
                     <!--속도제어기 설정-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"

@@ -87,6 +87,7 @@ namespace LibNurisupportPresentation.Interfaces
         /// 단독제어
         /// </summary>
         ISingleViewModel Single { get; set; }
+        IMultiViewModel Multiple { get; set; }
              
     }
 }

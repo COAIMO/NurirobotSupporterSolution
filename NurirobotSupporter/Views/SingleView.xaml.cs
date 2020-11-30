@@ -49,49 +49,51 @@ namespace NurirobotSupporter.Views
         public SingleView()
         {
             InitializeComponent();
-            DataContextChanged += (sender, args) => ViewModel = DataContext as ISingleViewModel;
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) {
+                DataContextChanged += (sender, args) => ViewModel = DataContext as ISingleViewModel;
 
-            this.WhenActivated(disposable => {
-                this.WhenAnyValue(x => x.ActualWidth)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(x => {
-                    if (ViewModel != null)
-                        ViewModel.PannelWidth = x;
-                }).DisposeWith(disposable);
-            });
+                this.WhenActivated(disposable => {
+                    this.WhenAnyValue(x => x.ActualWidth)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(x => {
+                        if (ViewModel != null)
+                            ViewModel.PannelWidth = x;
+                    }).DisposeWith(disposable);
+                });
 
-            PosPlot.Configure(middleClickMarginX: 0);
-            VelocityPlot.Configure(middleClickMarginX: 0);
-            CurrentPlot.Configure(middleClickMarginX: 0);
+                PosPlot.Configure(middleClickMarginX: 0);
+                VelocityPlot.Configure(middleClickMarginX: 0);
+                CurrentPlot.Configure(middleClickMarginX: 0);
 
-            PosPlot.plt.PlotSignalXY(posx, posy);
-            PosPlot.plt.Axis(x1: -1f, x2: 1200f);
-            PosPlot.plt.Axis(y1: -1f, y2: 700f);
-            PosPlot.plt.XLabel("100 Milliseconds");
-            PosPlot.plt.YLabel("Postion");
+                PosPlot.plt.PlotSignalXY(posx, posy);
+                PosPlot.plt.Axis(x1: -1f, x2: 1200f);
+                PosPlot.plt.Axis(y1: -1f, y2: 700f);
+                PosPlot.plt.XLabel("100 Milliseconds");
+                PosPlot.plt.YLabel("Postion");
 
-            VelocityPlot.plt.PlotSignalXY(posx, speedy);
-            VelocityPlot.plt.Axis(x1: -1f, x2: 1200f);
-            VelocityPlot.plt.Axis(y1: -1f, y2: 50f);
-            //VelocityPlot.plt.AxisAutoY();
-            VelocityPlot.plt.XLabel("100 Milliseconds");
-            VelocityPlot.plt.YLabel("RPM");
+                VelocityPlot.plt.PlotSignalXY(posx, speedy);
+                VelocityPlot.plt.Axis(x1: -1f, x2: 1200f);
+                VelocityPlot.plt.Axis(y1: -1f, y2: 50f);
+                //VelocityPlot.plt.AxisAutoY();
+                VelocityPlot.plt.XLabel("100 Milliseconds");
+                VelocityPlot.plt.YLabel("RPM");
 
-            CurrentPlot.plt.PlotSignalXY(posx, currenty);
-            CurrentPlot.plt.Axis(x1: -1f, x2: 1200f);
-            CurrentPlot.plt.AxisAutoY();
-            CurrentPlot.plt.XLabel("100 Milliseconds");
-            CurrentPlot.plt.YLabel("mA");
+                CurrentPlot.plt.PlotSignalXY(posx, currenty);
+                CurrentPlot.plt.Axis(x1: -1f, x2: 1200f);
+                CurrentPlot.plt.AxisAutoY();
+                CurrentPlot.plt.XLabel("100 Milliseconds");
+                CurrentPlot.plt.YLabel("mA");
 
 
-            UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 500) };
-            UpdateTimer.Tick += UpdateTimer_Tick;
-            UpdateTimer.Start();
+                UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 500) };
+                UpdateTimer.Tick += UpdateTimer_Tick;
+                UpdateTimer.Start();
 
-            DispatcherTimer renderTimer = new DispatcherTimer();
-            renderTimer.Interval = TimeSpan.FromMilliseconds(10);
-            renderTimer.Tick += Render;
-            renderTimer.Start();
+                DispatcherTimer renderTimer = new DispatcherTimer();
+                renderTimer.Interval = TimeSpan.FromMilliseconds(10);
+                renderTimer.Tick += Render;
+                renderTimer.Start();
+            }
         }
 
         void UpdateData()

@@ -29,7 +29,9 @@ namespace NurirobotSupporter.Views
         public HelpView()
         {
             InitializeComponent();
-            DataContextChanged += (sender, args) => ViewModel = DataContext as IHelpViewModel;
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) {
+                DataContextChanged += (sender, args) => ViewModel = DataContext as IHelpViewModel;
+            }
         }
 
         public IHelpViewModel ViewModel {

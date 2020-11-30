@@ -33,11 +33,13 @@ namespace NurirobotSupporter.Views
         public MainWindow()
         {
             InitializeComponent();
-            DataContextChanged += (sender, args) => ViewModel = DataContext as IMainViewModel;
-            this.WhenActivated(disposable => { });
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) {
+                DataContextChanged += (sender, args) => ViewModel = DataContext as IMainViewModel;
+                this.WhenActivated(disposable => { });
 
-            UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1, 0) };
-            UpdateTimer.Tick += UpdateTimer_Tick; ;
+                UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1, 0) };
+                UpdateTimer.Tick += UpdateTimer_Tick;
+            }
             
         }
 

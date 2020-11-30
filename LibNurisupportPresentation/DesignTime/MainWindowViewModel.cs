@@ -55,5 +55,6 @@ namespace LibNurisupportPresentation.DesignTime
         IEnumerable<string> IMainViewModel.Baudrates { get; set; }
         public string CurrentPageName { get; set; }
         public ISingleViewModel Single { get; set; }
+        public IMultiViewModel Multiple { get; set; }
     }
 }

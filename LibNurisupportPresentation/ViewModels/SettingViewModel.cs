@@ -2122,8 +2122,7 @@ namespace LibNurisupportPresentation.ViewModels
         private int GetTimeout(string baud)
         {
             int ret = 150;
-            //int ret = 30;
-            //// 처리지연에 의한 대기시간 보정상수
+            // 처리지연에 의한 대기시간 보정상수
             float constWait = 1f;
 
             switch (baud) {
@@ -2142,29 +2141,20 @@ namespace LibNurisupportPresentation.ViewModels
                 case "2400":
                     ret = 250;
                     break;
-                //case "4800":
-                //    ret = 125;
-                //    break;
-                //case "9600":
-                //    ret = 60;
-                //    break;
-                //case "14400":
-                //    ret = 50;
-                //    break;
-                //case "19200":
-                //    ret = 50;
-                //    break;
-                //case "28800":
-                //    ret = 50;
-                //    break;
-                //case "38400":
-                //    ret = 50;
-                //    break;
-                //case "57600":
-                //    ret = 50;
-                //    break;
+                case "4800":
+                    ret = 125;
+                    break;
+                case "9600":
+                    ret = 40;
+                    break;
+                case "14400":
+                    ret = 40;
+                    break;
+                case "19200":
+                    ret = 30;
+                    break;
                 default:
-                    ret = 150;
+                    ret = 30;
                     break;
             }
 

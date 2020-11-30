@@ -340,11 +340,15 @@
     <Compile Include="Helpers\EventSerialLog.cs" />
     <Compile Include="Helpers\EventSerialValue.cs" />
     <Compile Include="Helpers\InvertableBooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\InvertBooleanConverter.cs" />
     <Compile Include="Helpers\Language.cs" />
     <Compile Include="Helpers\MessageShow.cs" />
     <Compile Include="Helpers\Navigation.cs" />
     <Compile Include="Helpers\SerialControl.cs" />
     <Compile Include="Helpers\SerialportReactiveExt.cs" />
+    <Compile Include="SettingControls\DeviceControl.xaml.cs">
+      <DependentUpon>DeviceControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -371,6 +375,9 @@
     </Compile>
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Views\MultiView.xaml.cs">
+      <DependentUpon>MultiView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
@@ -380,6 +387,10 @@
     <Compile Include="Views\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
+    <Page Include="SettingControls\DeviceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SettingControls\TargetDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -397,6 +408,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MultiView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -484,6 +499,9 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Themes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

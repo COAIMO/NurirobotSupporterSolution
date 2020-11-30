@@ -1,0 +1,111 @@
+<UserControl x:Class="NurirobotSupporter.Views.MultiView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NurirobotSupporter.Views"
+             mc:Ignorable="d" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
+             lex:LocalizeDictionary.DesignCulture="ko"
+             lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             BorderThickness="0"
+             d:DesignHeight="1100" d:DesignWidth="1500" IsEnabledChanged="UserControl_IsEnabledChanged">
+    <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" MaxHeight="200"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Viewbox HorizontalAlignment="Left">
+                <TextBlock Padding="10" Text="{lex:Loc Title_Multiple}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+            </Viewbox>
+        </Grid>
+        <Grid Grid.Row="1" >
+            <ScrollViewer 
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="5">
+                <WrapPanel x:Name="WrapPanel" Orientation="Vertical" >
+                    <!--장비조회-->
+                    <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
+                      Margin="0, 0, 5, 5"
+                      Visibility="{Binding IsShowFactoryreset, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Width="{Binding ControlWidth}" Height="85">
+                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+                            <StackPanel Margin="10, 2, 10, 2" >
+                                <Viewbox Height="30" HorizontalAlignment="Left">
+                                    <TextBlock Margin="2" Text="{lex:Loc Label_Targetdevice}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                </Viewbox>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width=".7*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="1"
+                                        Content="{lex:Loc Button_Search_Start}"  Height="40"
+                                            Visibility="{Binding IsSearchingID, Converter={StaticResource InvertableBooleanToVisibilityConverter}}"
+                                        Command="{Binding CMDIDSearch}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
+                                    <Button Grid.Column="1" Content="{lex:Loc Button_Search_Stop}" Height="40"
+                                            Visibility="{Binding IsSearchingID, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Command="{Binding CMDIDSearch}"
+                                    Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <!--로그뷰어-->
+                    <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
+                      Margin="0, 0, 5, 5"
+                      Visibility="{Binding IsShowLogView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Width="{Binding ControlWidth}" Height="100">
+                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+                            <StackPanel Margin="10, 2, 10, 2" >
+                                <Viewbox Height="30" HorizontalAlignment="Left">
+                                    <TextBlock Margin="2" Text="{lex:Loc Label_Logview}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                </Viewbox>
+                                <Grid Margin="10" Height="50">
+                                    <Viewbox>
+                                        <mah:ToggleSwitch Margin="2"
+                              OffContent="{lex:Loc Label_LogOff}"
+                              OnContent="{lex:Loc Label_LogOn}"
+                              IsOn="{Binding IsOnLog, Mode=TwoWay}"/>
+                                    </Viewbox>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </WrapPanel>
+            </ScrollViewer>
+        </Grid>
+        <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
+        <Grid Grid.Row="3" Visibility="{Binding IsOnLog, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ScrollViewer Name="SystemStatusSV" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="200">
+                <ListView x:Name="SystemStatusLB" ItemsSource="{Binding Logs}"
+                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                      Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Height" Value="20" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

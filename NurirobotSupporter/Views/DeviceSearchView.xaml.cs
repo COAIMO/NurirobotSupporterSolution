@@ -30,11 +30,13 @@ namespace NurirobotSupporter.Views
         public DeviceSearchView()
         {
             InitializeComponent();
-            DataContextChanged += (sender, args) => ViewModel = DataContext as IDeviceSearchViewModel;
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) {
+                DataContextChanged += (sender, args) => ViewModel = DataContext as IDeviceSearchViewModel;
 
-            UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
-            UpdateTimer.Tick += UpdateTimer_Tick;
-            UpdateTimer.Start();
+                UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
+                UpdateTimer.Tick += UpdateTimer_Tick;
+                UpdateTimer.Start();
+            }
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)

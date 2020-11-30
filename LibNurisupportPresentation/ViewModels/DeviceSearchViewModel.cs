@@ -152,6 +152,7 @@ using System.Diagnostics;
                                 .AddTo(comdis);
                                 
                                 NurirobotRSA tmpRSA = new NurirobotRSA();
+                                chkDone = false;
                                 for (int i = 0; i < 255; i++) {
                                     mCTS.Token.ThrowIfCancellationRequested();
                                     for (int k = 0; k < 2; k++) {
@@ -160,11 +161,15 @@ using System.Diagnostics;
                                             Protocol = 0xa0
                                         });
                                         if (mStopWaitHandle.WaitOne(GetTimeout(item))) {
+                                            if (!searchBaud.Contains(item)) 
+                                                searchBaud.Add(item);
                                             break;
-                                            //chkDone = true;
+
                                             //MainViewModel.SelectedBaudrates = item;
-                                            //if (!searchBaud.Contains(item))
+                                            //if (!searchBaud.Contains(item)) {
                                             //    searchBaud.Add(item);
+                                            //    break;
+                                            //}
                                         }
                                     }
                                 }
@@ -236,7 +241,7 @@ using System.Diagnostics;
 
         private int GetTimeout(string baud)
         {
-            int ret = 30;
+            int ret = 150;
             // 처리지연에 의한 대기시간 보정상수
             float constWait = 1f;
 
@@ -256,29 +261,20 @@ using System.Diagnostics;
                 case "2400":
                     ret = 250;
                     break;
-                //case "4800":
-                //    ret = 125;
-                //    break;
-                //case "9600":
-                //    ret = 60;
-                //    break;
-                //case "14400":
-                //    ret = 50;
-                //    break;
-                //case "19200":
-                //    ret = 50;
-                //    break;
-                //case "28800":
-                //    ret = 50;
-                //    break;
-                //case "38400":
-                //    ret = 50;
-                //    break;
-                //case "57600":
-                //    ret = 50;
-                //    break;
+                case "4800":
+                    ret = 125;
+                    break;
+                case "9600":
+                    ret = 40;
+                    break;
+                case "14400":
+                    ret = 40;
+                    break;
+                case "19200":
+                    ret = 30;
+                    break;
                 default:
-                    ret = 150;
+                    ret = 30;
                     break;
             }
 

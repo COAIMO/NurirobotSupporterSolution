@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <system:Double x:Key="WindowTitleFontSize">12</system:Double>
+            <helpers:InvertBooleanConverter x:Key="InvertBooleanConverter" />
             <helpers:ComparisonToVisibleConverter x:Key="ComparisonToVisibleConverter" />
             <helpers:ComparisonToBooleanConverter x:Key="ComparisonToBooleanConverter" />
             <helpers:InvertableBooleanToVisibilityConverter x:Key="InvertableBooleanToVisibilityConverter" />
