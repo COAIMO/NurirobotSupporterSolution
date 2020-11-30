@@ -25,7 +25,7 @@ namespace LibNurirobotBase.Interface
         /// 데이터 수신
         /// </summary>
         /// <value>수신데이터</value>
-        IObservable<byte> ObsDataReceived { get; }
+        //IObservable<byte> ObsDataReceived { get; }
 
         /// <summary>
         /// 에러 발생
@@ -62,5 +62,8 @@ namespace LibNurirobotBase.Interface
         /// <param name="iStart">데이터 시작위치</param>
         /// <param name="iLength">데이터 크기</param>
         void Send(byte[] baData, int iStart = 0, int iLength = -1);
+
+
+        IObservable<byte[]> ObsProtocolReceived { get; }
     }
 }

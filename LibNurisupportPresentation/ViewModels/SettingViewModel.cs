@@ -1035,30 +1035,29 @@ namespace LibNurisupportPresentation.ViewModels
             var comdis = new CompositeDisposable();
             var stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            if (command.Parse(data)) {
-                                var protocol = ((ProtocolMode)feedback + 48).ToString();
-                                if (!isMc) {
-                                    protocol = ((ProtocolModeRSA)feedback + 48).ToString();
-                                }
 
-                                if (string.Equals(command.PacketName, protocol)) {
-                                    var obj = (BaseStruct)command.GetDataStruct();
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        if (command.Parse(data)) {
+                            var protocol = ((ProtocolMode)feedback + 48).ToString();
+                            if (!isMc) {
+                                protocol = ((ProtocolModeRSA)feedback + 48).ToString();
+                            }
 
-                                    if (id == obj.ID) {
-                                        stopWaitHandle.Set();
-                                    }
+                            if (string.Equals(command.PacketName, protocol)) {
+                                var obj = (BaseStruct)command.GetDataStruct();
+
+                                if (id == obj.ID) {
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                }).AddTo(comdis);
 
             // 스마트 모터의 경우 필요없는 호출을 제한
             if (!(!isMc
@@ -1106,29 +1105,27 @@ namespace LibNurisupportPresentation.ViewModels
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
 
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                            if (command.Parse(data)) {
-                                if (string.Equals(command.PacketName, "FEEDResptime")) {
-                                    var obj = (NuriResponsetime)command.GetDataStruct();
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDResptime")) {
+                                var obj = (NuriResponsetime)command.GetDataStruct();
 
-                                    // 동일해야만 의미가 있다.
-                                    if (id == obj.ID) {
-                                        _Log.OnNext(string.Format("GetResponseTime Feedback Index {0} {1}", obj.ID, obj.Responsetime));
-                                        //ret = (ushort)obj.Responsetime;
-                                        stopWaitHandle.Set();
-                                    }
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    _Log.OnNext(string.Format("GetResponseTime Feedback Index {0} {1}", obj.ID, obj.Responsetime));
+                                    //ret = (ushort)obj.Responsetime;
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                }).AddTo(comdis);
 
             NurirobotMC tmpcmd = new NurirobotMC();
             _Log.OnNext(string.Format("GetResponseTime : {0}", id));
@@ -1168,8 +1165,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1188,8 +1184,7 @@ namespace LibNurisupportPresentation.ViewModels
                     catch (Exception ex) {
                         Debug.WriteLine(ex.Message);
                     }
-                })
-                .AddTo(comdis);
+                }).AddTo(comdis);
 
             var ICE = Locator.Current.GetService<ICommandEngine>();
             string commandStr = string.Empty;
@@ -1252,8 +1247,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1272,8 +1266,7 @@ namespace LibNurisupportPresentation.ViewModels
                     catch (Exception ex) {
                         Debug.WriteLine(ex.Message);
                     }
-                })
-                .AddTo(comdis);
+                }).AddTo(comdis);
 
             var ICE = Locator.Current.GetService<ICommandEngine>();
             string commandStr = string.Empty;
@@ -1346,8 +1339,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1436,8 +1428,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1520,8 +1511,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1597,8 +1587,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1673,8 +1662,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1749,8 +1737,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -1834,8 +1821,7 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 일괄적용일 경우 수정사항을 체크하지 않는다.
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
+            isc.ObsProtocolReceived
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
@@ -2066,28 +2052,27 @@ namespace LibNurisupportPresentation.ViewModels
             var comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            Debug.WriteLine("ChangeID : " + BitConverter.ToString(data).Replace("-", ""));
-                            if (tmp.Command.Parse(data)) {
-                                if (string.Equals(tmp.Command.PacketName, "FEEDPing")) {
-                                    var obj = (NuriProtocol)tmp.Command.GetDataStruct();
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine("ChangeID : " + BitConverter.ToString(data).Replace("-", ""));
+                        if (tmp.Command.Parse(data)) {
+                            if (string.Equals(tmp.Command.PacketName, "FEEDPing")) {
+                                var obj = (NuriProtocol)tmp.Command.GetDataStruct();
 
-                                    // 신규 동일해야만 의미가 있다.
-                                    if (newid == obj.ID) {
-                                        _Log.OnNext(string.Format("Ping Feedback New Index : {0} ===========", obj.ID));
-                                        stopWaitHandle.Set();
-                                    }
+                                // 신규 동일해야만 의미가 있다.
+                                if (newid == obj.ID) {
+                                    _Log.OnNext(string.Format("Ping Feedback New Index : {0} ===========", obj.ID));
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
 
             _Log.OnNext(string.Format("ChangeID : {0} to {1}", oldid, newid));
 
@@ -2204,29 +2189,28 @@ namespace LibNurisupportPresentation.ViewModels
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
 
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                            var tmp = new NurirobotRSA();
-                            if (tmp.Parse(data)) {
-                                if (string.Equals(tmp.PacketName, "FEEDPing")) {
-                                    var obj = (NuriProtocol)tmp.GetDataStruct();
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        var tmp = new NurirobotRSA();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDPing")) {
+                                var obj = (NuriProtocol)tmp.GetDataStruct();
 
-                                    // 동일해야만 의미가 있다.
-                                    if (id == obj.ID) {
-                                        Debug.WriteLine(string.Format("Ping Feedback Index : {0} ===========", obj.ID));
-                                        stopWaitHandle.Set();
-                                    }
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    Debug.WriteLine(string.Format("Ping Feedback Index : {0} ===========", obj.ID));
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
 
             NurirobotMC tmpcmd = new NurirobotMC();
             _Log.OnNext(string.Format("Ping Target : {0}", id));
@@ -2281,28 +2265,27 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 응답 확인
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                            var tmp = new NurirobotRSA();
-                            if (tmp.Parse(data)) {
-                                if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
-                                    var obj = (NuriPositionCtrl)tmp.GetDataStruct();
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        var tmp = new NurirobotRSA();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
+                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
 
-                                    // 동일해야만 의미가 있다.
-                                    if (id == obj.ID) {
-                                        stopWaitHandle.Set();
-                                    }
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
 
             // 1. 존재하는 지 확인
             if (CheckPing(id)) {

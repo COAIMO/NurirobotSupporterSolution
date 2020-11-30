@@ -48,11 +48,7 @@ namespace LibNurisupportPresentation.DesignTime
 
         public ReactiveCommand<Unit, Unit> CMDChangePosReset { get;}
 
-        public ObservableCollection<KeyValuePair<long, float>> GraphPos { get;}
-
-        public ObservableCollection<KeyValuePair<long, float>> GraphCurrent { get;}
-
-        public ObservableCollection<KeyValuePair<long, float>> GraphVelocity { get;}
+        public ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> GraphData { get; }
         public ReactiveCommand<Unit, Unit> CMDStop { get; }
         public ReactiveCommand<Unit, Unit> CMDRun { get; }
 

@@ -34,6 +34,8 @@ namespace LibMacroBase
         IStorage _Storage = Locator.Current.GetService<IStorage>();
 
         private const string _Templete = "using System;\n" +
+            "using System.Diagnostics;\n" +
+            "using System.Runtime;\n" +
             "using System.Threading;\n" +
             "using System.Threading.Tasks;\n" +
             "using LibNurirobotBase;\n" +
@@ -47,7 +49,9 @@ namespace LibMacroBase
             "public static void Run() {{\n" +
             "NurirobotRSA nuriRSA = new NurirobotRSA();\n" +
             "NurirobotMC nuriMC = new NurirobotMC();\n" +
+            "try {{\n" +
             "{0}\n" +
+            "}} catch (Exception ex) {{ Debug.WriteLine(ex); }}\n" +
             "}}\n" +
             "}}\n";
         public bool IsRecoding { get; set; } = false;

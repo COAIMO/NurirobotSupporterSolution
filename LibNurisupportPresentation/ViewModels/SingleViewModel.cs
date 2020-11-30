@@ -4,6 +4,7 @@ namespace LibNurisupportPresentation.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reactive;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
@@ -175,8 +176,8 @@ namespace LibNurisupportPresentation.ViewModels
                     var tmp = value * 0.24;
                     if (tmp > 440)
                         tmp = 440;
-                    else if (tmp < 210)
-                        tmp = 210;
+                    else if (tmp < 260)
+                        tmp = 260;
                     ControlWidth = tmp;
                 }
                 this.RaiseAndSetIfChanged(ref _PannelWidth, value);
@@ -193,11 +194,7 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDStop { get; }
         public ReactiveCommand<Unit, Unit> CMDRun { get; }
 
-        public ObservableCollection<KeyValuePair<long, float>> GraphPos { get; }
-
-        public ObservableCollection<KeyValuePair<long, float>> GraphCurrent { get; }
-
-        public ObservableCollection<KeyValuePair<long, float>> GraphVelocity { get; }
+        public ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> GraphData { get; } = new ObservableCollection<KeyValuePair<long, PosVelocityCurrent>>();
 
         readonly ISubject<string> _Log = new Subject<string>();
         IObservable<string> ObsLog => _Log.Retry().Publish().RefCount();
@@ -210,11 +207,17 @@ namespace LibNurisupportPresentation.ViewModels
             get => _IsRunning;
             set => this.RaiseAndSetIfChanged(ref _IsRunning, value);
         }
+
+        
+
         bool _LastConnect = false;
         string _LastPage = "";
         CancellationTokenSource _CTSFindSearch;
         long _LastGraphInt = 0;
         IMainViewModel _IMainViewModel;
+
+        AutoResetEvent _StopWaitHandle = new AutoResetEvent(false);
+
         public SingleViewModel(IMainViewModel mainvm)
         {
             _IMainViewModel = mainvm;
@@ -346,6 +349,7 @@ namespace LibNurisupportPresentation.ViewModels
                 }
             }, canSearch);
 
+            // 실행
             CMDRun = ReactiveCommand.Create(() => {
                 IsRunning = true;
                 Task.Run(() => {
@@ -374,6 +378,33 @@ namespace LibNurisupportPresentation.ViewModels
                 });
             }, canRun);
 
+            // 중지
+            CMDStop = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Stop ======== ");
+                    BaseCall((p) => {
+                        return Stop(p);
+                    });
+
+                    IsRunning = false;
+                });
+            }, canRun);
+
+            //위치 초기화
+            CMDChangePosReset = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Position Reset Run");
+                    BaseSetting((p) => {
+                        return ResetPosition(p);
+                    });
+                    RefreshFeedback(state, esv);
+
+                    IsRunning = false;
+                });
+            }, canRun);
+
             // 리플래쉬
             Refresh = ReactiveCommand.Create(() => {
                 IsRunning = true;
@@ -385,6 +416,11 @@ namespace LibNurisupportPresentation.ViewModels
                 });
             }, IsNotRunning);
 
+            this.WhenAnyValue(x => x.SelectedId)
+                .Subscribe(x => {
+                    GraphData.Clear();
+                });
+
             StopTask = ReactiveCommand.Create(() => {
                 _CTSFindSearch?.Cancel();
             }, IsCheckRun);
@@ -395,16 +431,33 @@ namespace LibNurisupportPresentation.ViewModels
                     if (!string.Equals(mainvm.CurrentPageName, "Single"))
                         return;
 
+                    if (!IsOnGraph)
+                        return;
+
                     try {
+                        var now = DateTime.Now;
+                        long tick = now.Ticks;
+                        long bftwomin = now.AddMinutes(-2).Ticks;
+                        Delete2Min(GraphData, bftwomin);
+
                         switch (x.ValueName) {
                             case "FEEDPos":
                                 var tmppos = (x.Object as NuriPosSpeedAclCtrl);
                                 Debug.WriteLine(string.Format("{0} {1} {2} {3}", tmppos.Speed, tmppos.Pos, tmppos.Current, tmppos.Direction));
+                                var data = new PosVelocityCurrent { Current = tmppos.Current, Pos = tmppos.Pos, Velocity = tmppos.Speed };
+                                GraphData.Add(new KeyValuePair<long, PosVelocityCurrent>(tick, data));
 
                                 break;
                             case "FEEDSpeed":
                                 var tmpspd = (x.Object as NuriPosSpeedAclCtrl);
                                 Debug.WriteLine(string.Format("{0} {1} {2} {3}", tmpspd.Speed, tmpspd.Pos, tmpspd.Current, tmpspd.Direction));
+
+                                var dataspd = new PosVelocityCurrent { 
+                                    Current = tmpspd.Current, 
+                                    Pos = tmpspd.Pos, 
+                                    Velocity = tmpspd.Speed };
+                                GraphData.Add(new KeyValuePair<long, PosVelocityCurrent>(tick, dataspd));
+
                                 break;
                             default:
                                 break;
@@ -412,8 +465,6 @@ namespace LibNurisupportPresentation.ViewModels
                     }
                     catch (Exception ex) {
                         Debug.WriteLine(ex.Message);
-                        //
-                        //msg.Show("Alert_Refresh");
                     }
                 });
 
@@ -429,6 +480,153 @@ namespace LibNurisupportPresentation.ViewModels
                         });
                     }
                 });
+        }
+
+        private void Delete2Min(ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> datas, long bftwomin)
+        {
+            var tmps = from tmp in datas
+                       where tmp.Key < bftwomin
+                       select tmp;
+
+            for (int i = 0; i < tmps.Count(); i++) {
+                datas.Remove(tmps.ElementAt(i));
+            }
+        }
+
+        private bool Stop(byte id)
+        {
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.ControlAcceleratedSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
+                                id,
+                                IsCCW ? 0x00 : 0x01,
+                                0,
+                                0.1f);
+            }
+            else {
+                commandStr = string.Format(
+                "nuriRSA.ControlAcceleratedSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
+                                id,
+                                IsCCW ? 0x00 : 0x01,
+                                0,
+                                0.1f);
+            }
+
+            ICE.RunScript(commandStr);
+            return true;
+        }
+
+        /// <summary>
+        /// 위치초기화
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSpControl"></param>
+        private bool ResetPosition(byte id, bool isSpControl = true)
+        {
+            var isc = Locator.Current.GetService<ISerialControl>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isMc) {
+                commandStr = string.Format(
+                                "nuriMC.ResetPostion( 0x{0:X2});",
+                                id);
+            }
+            else {
+                commandStr = string.Format(
+                "nuriRSA.ResetPostion( 0x{0:X2});",
+                id);
+            }
+
+            ICE.RunScript(commandStr);
+            ICE.RunScript(commandStr);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 설정을 반영한다.
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        private bool BaseSetting(Func<byte, bool> func)
+        {
+            bool ret = false;
+            _CTSFindSearch = new CancellationTokenSource();
+            var msg = Locator.Current.GetService<IMessageShow>();
+            if (!IsBroadcast) {
+                if (!CheckBaseLogic()) {
+                    return ret;
+                }
+            }
+            else {
+                if (msg?.ShowSettingConfirmTemplete("Alert_Broadcast") != true) {
+                    return ret;
+                }
+            }
+
+            if (IsBroadcast) {
+                _Log.OnNext("Target Lists ================");
+                try {
+                    foreach (var item in TargetIDs) {
+                        _CTSFindSearch.Token.ThrowIfCancellationRequested();
+                        if (CheckPing(item)) {
+                            _Log.OnNext(string.Format("Setting {0} Sucess : {1}", item, func(item)));
+                        }
+                        else {
+                            _Log.OnNext(string.Format("Not found : {0}", item));
+                        }
+                    }
+                }
+                catch {
+                }
+            }
+            else {
+                if (func(SelectedId)) {
+                    msg?.Show("PopupDone");
+                }
+                else {
+                    msg?.Show("Alert_DoNotChange");
+                }
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 설정 적용가능성 확인
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckBaseLogic()
+        {
+            bool ret = true;
+
+            var msg = Locator.Current.GetService<IMessageShow>();
+
+            // 대상 장비 존재여부 확인
+            if (!CheckPing(SelectedId)) {
+                msg?.Show("Alert_NotFound");
+                return false;
+            }
+
+            // 프로토콜 확인
+            if (!CheckProtocol(SelectedId)) {
+                msg?.Show("Alert_Setting_NotFoundProtocol");
+                return false;
+            }
+
+            return ret;
         }
 
         /// <summary>
@@ -519,39 +717,33 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            //ISerialProcess sp = null;
-            //if (isSpControl) {
-            //    sp = Locator.Current.GetService<ISerialProcess>();
-            //    sp.Start();
-            //}
-
+            
             var comdis = new CompositeDisposable();
             var stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            if (command.Parse(data)) {
-                                var protocol = ((ProtocolMode)feedback + 48).ToString();
-                                if (!isMc) {
-                                    protocol = ((ProtocolModeRSA)feedback + 48).ToString();
-                                }
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        if (command.Parse(data)) {
+                            var protocol = ((ProtocolMode)feedback + 48).ToString();
+                            if (!isMc) {
+                                protocol = ((ProtocolModeRSA)feedback + 48).ToString();
+                            }
 
-                                if (string.Equals(command.PacketName, protocol)) {
-                                    var obj = (BaseStruct)command.GetDataStruct();
+                            if (string.Equals(command.PacketName, protocol)) {
+                                var obj = (BaseStruct)command.GetDataStruct();
 
-                                    if (id == obj.ID) {
-                                        stopWaitHandle.Set();
-                                    }
+                                if (id == obj.ID) {
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
 
             // 스마트 모터의 경우 필요없는 호출을 제한
             if (!(!isMc
@@ -569,11 +761,9 @@ namespace LibNurisupportPresentation.ViewModels
                         break;
                     }
                 }
+
             }
 
-            //if (isSpControl) {
-            //    sp?.Stop();
-            //}
             comdis.Dispose();
         }
 
@@ -683,7 +873,6 @@ namespace LibNurisupportPresentation.ViewModels
         /// <param name="id"></param>
         private bool RunVelocity(byte id)
         {
-            var isc = Locator.Current.GetService<ISerialControl>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
@@ -731,29 +920,28 @@ namespace LibNurisupportPresentation.ViewModels
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
 
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                            var tmp = new NurirobotRSA();
-                            if (tmp.Parse(data)) {
-                                if (string.Equals(tmp.PacketName, "FEEDPing")) {
-                                    var obj = (NuriProtocol)tmp.GetDataStruct();
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        var tmp = new NurirobotRSA();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDPing")) {
+                                var obj = (NuriProtocol)tmp.GetDataStruct();
 
-                                    // 동일해야만 의미가 있다.
-                                    if (id == obj.ID) {
-                                        Debug.WriteLine(string.Format("Ping Feedback Index : {0} ===========", obj.ID));
-                                        stopWaitHandle.Set();
-                                    }
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    Debug.WriteLine(string.Format("Ping Feedback Index : {0} ===========", obj.ID));
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
 
             NurirobotMC tmpcmd = new NurirobotMC();
             _Log.OnNext(string.Format("Ping Target : {0}", id));
@@ -808,28 +996,27 @@ namespace LibNurisupportPresentation.ViewModels
             stopWaitHandle.AddTo(comdis);
 
             // 응답 확인
-            isc.ObsDataReceived
-                    .BufferUntilSTXtoByteArray(STX, 5)
-                    .Subscribe(data => {
-                        try {
-                            Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                            var tmp = new NurirobotRSA();
-                            if (tmp.Parse(data)) {
-                                if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
-                                    var obj = (NuriPositionCtrl)tmp.GetDataStruct();
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        var tmp = new NurirobotRSA();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
+                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
 
-                                    // 동일해야만 의미가 있다.
-                                    if (id == obj.ID) {
-                                        stopWaitHandle.Set();
-                                    }
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle.Set();
                                 }
                             }
                         }
-                        catch (Exception ex) {
-                            Debug.WriteLine(ex.Message);
-                        }
-                    })
-                    .AddTo(comdis);
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
 
             // 1. 존재하는 지 확인
             if (CheckPing(id)) {

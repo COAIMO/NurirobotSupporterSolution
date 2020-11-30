@@ -225,11 +225,14 @@ namespace LibNurisupportPresentation.ViewModels
             // 전체 데이터 수신
             var rcv = Locator.Current.GetService<IReciveProcess>();
             var isc = Locator.Current.GetService<ISerialControl>();
-            isc.ObsDataReceived
-                .BufferUntilSTXtoByteArray(STX, 5)
-                .Subscribe(data => {
-                    rcv.AddReciveData(data);
-                });
+            //isc.ObsDataReceived
+            //    .ObserveOn(RxApp.TaskpoolScheduler)
+            //    .BufferUntilSTXtoByteArray(STX, 5)
+            //    .Retry()
+            //    .Subscribe(data => {
+            //        rcv.AddReciveData(data);
+            //    });
+            isc.ObsProtocolReceived.Subscribe(rcv.AddReciveData);
 
             ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
             sp.Start();

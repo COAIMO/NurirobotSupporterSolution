@@ -63,9 +63,10 @@ namespace LibNurisupportPresentation.Interfaces
         ReactiveCommand<Unit, Unit> CMDStop { get; }
         ReactiveCommand<Unit, Unit> CMDRun { get; }
 
-        ObservableCollection<KeyValuePair<long, float>> GraphPos { get; }
-        ObservableCollection<KeyValuePair<long, float>> GraphCurrent { get; }
-        ObservableCollection<KeyValuePair<long, float>> GraphVelocity { get; }
+        //ObservableCollection<KeyValuePair<long, float>> GraphPos { get; }
+        //ObservableCollection<KeyValuePair<long, float>> GraphCurrent { get; }
+        //ObservableCollection<KeyValuePair<long, float>> GraphVelocity { get; }
 
+        ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> GraphData { get; }
     }
 }

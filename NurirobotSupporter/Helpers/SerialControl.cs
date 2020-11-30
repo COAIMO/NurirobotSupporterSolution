@@ -18,6 +18,7 @@ namespace NurirobotSupporter.Helpers
     using System.Threading.Tasks;
     using Splat;
     using ReactiveUI;
+    using System.Collections.Concurrent;
 
     public class SerialControl : ISerialControl
     {
@@ -26,10 +27,14 @@ namespace NurirobotSupporter.Helpers
         /// </summary>
         internal readonly ISubject<bool> isOpen = new ReplaySubject<bool>(1);
 
+
+        readonly ISubject<byte[]> rawRecviced = new Subject<byte[]>();
+        IObservable<byte[]> ObsrawReceived => rawRecviced.Retry().Publish().RefCount();
+
         /// <summary>
         /// 주제 : 데이트 수신
         /// </summary>
-        private readonly ISubject<byte> dataReceived = new Subject<byte>();
+        //private readonly ISubject<byte> dataReceived = new Subject<byte>();
 
         /// <summary>
         /// 주제 : 발생 에러
@@ -54,7 +59,7 @@ namespace NurirobotSupporter.Helpers
         /// <summary>
         /// 데이트 수신 연동
         /// </summary>
-        public IObservable<byte> ObsDataReceived => dataReceived.Retry().Publish().RefCount();
+        //public IObservable<byte> ObsDataReceived => dataReceived.Retry().Publish().RefCount();
 
         /// <summary>
         /// 에러 발생 연동
@@ -75,7 +80,7 @@ namespace NurirobotSupporter.Helpers
         /// </summary>
         private IObservable<Unit> ObsConnect => Observable.Create<Unit>(obs => {
             var dis = new CompositeDisposable();
-            
+
             // 포트 존재 확인
             // 포트 설정
             var port = new SerialPort(
@@ -87,7 +92,7 @@ namespace NurirobotSupporter.Helpers
             dis.Add(port);
             port.Close();
             port.Handshake = (Handshake)(int)_SerialPortSetting.Handshake;
-            
+
             //port.ReadTimeout = _SerialPortSetting.ReadTimeout;
             //port.WriteTimeout = _SerialPortSetting.WriteTimeout;
 
@@ -112,7 +117,11 @@ namespace NurirobotSupporter.Helpers
             }
             Thread.Sleep(100);
 
-            dis.Add(port.ErrorReceivedObserver().Subscribe(e => obs.OnError(new Exception(e.EventArgs.EventType.ToString()))));
+            dis.Add(port
+                .ErrorReceivedObserver()
+                .Where(x => x.EventArgs.EventType != SerialError.Frame)
+                .Subscribe(e => obs.OnError(new Exception(e.EventArgs.EventType.ToString()))));
+
             dis.Add(writeByte.Subscribe(x => {
                 try {
                     if (port?.IsOpen == true)
@@ -124,21 +133,16 @@ namespace NurirobotSupporter.Helpers
                 }
             }, obs.OnError));
 
+            ConcurrentQueue<byte[]> recvBuffs = new ConcurrentQueue<byte[]>();
             var received = port.DataReceivedObserver()
                 .Subscribe(e => {
                     try {
-                        if (e.EventArgs.EventType == SerialData.Eof) {
-                            dataReceived.OnCompleted();
-                        }
-                        else {
-                            var buf = new byte[4096];
-                            var len = port.Read(buf, 0, buf.Length);
-                            Task.Run(() => {
-                                for (int i = 0; i < len; i++) {
-                                    dataReceived.OnNext(buf[i]);
-                                }
-                            });
-                        }
+                        var buf = new byte[4096];
+                        var len = port.Read(buf, 0, buf.Length);
+
+                        var newbuff = new byte[len];
+                        Buffer.BlockCopy(buf, 0, newbuff, 0, newbuff.Length);
+                        recvBuffs.Enqueue(newbuff);
                     }
                     catch (Exception ex) {
                         Debug.WriteLine(ex);
@@ -147,19 +151,134 @@ namespace NurirobotSupporter.Helpers
                 });
             dis.Add(received);
 
-            //var STX = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
-            //ObsDataReceived
-            //    .BufferUntilSTXtoByteArray(STX, 5)
-            //    .Subscribe(data => {
-            //        Debug.WriteLine("SerialControl : " + BitConverter.ToString(data).Replace("-", ""));
-            //    }).AddTo(dis);
+            byte[] baSTX = new byte[] { 0xFF, 0xFE };
+            CancellationTokenSource source = new CancellationTokenSource();
+            source.AddTo(dis);
+            Task.Run(() => {
+                int idx = 0;
+                byte[] buffPattern = new byte[4096];
+                Stopwatch stopwatch = new Stopwatch();
+                try {
+                    while (!source.Token.IsCancellationRequested) {
+                        try {
+                            if (recvBuffs.TryDequeue(out byte[] result)) {
+                                Buffer.BlockCopy(result, 0, buffPattern, idx, result.Length);
+                                idx += result.Length;
+
+                                var pos = SerialportReactiveExt.PatternAt(buffPattern, baSTX, 0, idx);
+                                if (pos == 0) {
+                                    var possec = SerialportReactiveExt.PatternAt(buffPattern, baSTX, 2, idx);
+                                    if (possec == -1) {
+                                        if (buffPattern[3] + 4 == idx) {
+                                            byte[] segment = new byte[idx];
+                                            Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
+                                            ProtocolReceived.OnNext(segment);
+                                            idx = 0;
+                                            stopwatch.Stop();
+                                            stopwatch.Reset();
+                                            continue;
+                                        }
+                                    }
+                                }
+                                stopwatch.Reset();
+                                stopwatch.Restart();
+                            }
+
+                            if (idx > 3) {
+                                if (buffPattern[0] == baSTX[0] && buffPattern[1] == baSTX[1]) {
+                                    var pos = SerialportReactiveExt.PatternAt(buffPattern, baSTX, 2, idx);
+                                    if (pos >= 0) {
+                                        byte[] segment = new byte[pos];
+                                        Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
+
+                                        if (pos > 3
+                                        && segment[3] + 4 == pos)
+                                            ProtocolReceived.OnNext(segment);
+#if DEBUG
+                                        else {
+                                            Debug.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t" + BitConverter.ToString(segment).Replace("-", ""));
+                                        }
+#endif
+
+                                        Buffer.BlockCopy(buffPattern, pos, buffPattern, 0, idx - pos);
+                                        idx -= pos;
+                                        stopwatch.Reset();
+                                        stopwatch.Restart();
+                                    }
+                                    else {
+                                        var lenprotocol = buffPattern[3] + 4;
+                                        if (lenprotocol < idx) {
+                                            byte[] segment = new byte[lenprotocol];
+                                            Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
+                                            ProtocolReceived.OnNext(segment);
+
+                                            Buffer.BlockCopy(buffPattern, lenprotocol, buffPattern, 0, idx - lenprotocol);
+                                            idx -= lenprotocol;
+                                            stopwatch.Reset();
+                                            stopwatch.Restart();
+                                        }
+                                    }
+                                }
+                                else {
+                                    var pos = SerialportReactiveExt.PatternAt(buffPattern, baSTX, 1, idx);
+                                    if (pos > 0) {
+#if DEBUG
+                                        byte[] segment = new byte[pos];
+                                        Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
+                                        Debug.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t" + BitConverter.ToString(segment).Replace("-", ""));
+#endif
+
+                                        Buffer.BlockCopy(buffPattern, pos, buffPattern, 0, idx - pos);
+                                        idx -= pos;
+                                    }
+                                }
+                            }
+
+                            if (idx > 0
+                            && stopwatch.ElapsedMilliseconds > 50) {
+                                if (idx > 3
+                                && buffPattern[0] == baSTX[0] && buffPattern[1] == baSTX[1]) {
+                                    byte[] segment = new byte[idx];
+                                    Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
+                                    if (idx > 3
+                                    && segment[3] + 4 == idx)
+                                        ProtocolReceived.OnNext(segment);
+                                }
+#if DEBUG
+                                else {
+                                    byte[] segment = new byte[idx];
+                                    Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
+                                    Debug.WriteLine("Timeout : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t" + BitConverter.ToString(segment).Replace("-", ""));
+                                }
+#endif
+
+                                idx = 0;
+                                stopwatch.Stop();
+                                stopwatch.Reset();
+                            }
+                            Thread.Sleep(5);
+                        }
+                        catch (Exception ex) {
+                            Debug.WriteLine(ex);
+                        }
+                    }
+                }
+                catch (Exception ex) {
+                    Debug.WriteLine(ex.Message);
+                }
+            }, source.Token);
 
             return Disposable.Create(() => {
                 IsOpen = false;
                 isOpen.OnNext(false);
+                source.Cancel();
                 dis.Dispose();
             });
         }).OnErrorRetry((Exception ex) => errors.OnNext(ex)).Publish().RefCount();
+
+
+        readonly ISubject<byte[]> ProtocolReceived = new Subject<byte[]>();
+        public IObservable<byte[]> ObsProtocolReceived => ProtocolReceived.Retry().Publish().RefCount();
 
         public Task Connect()
         {
@@ -180,11 +299,11 @@ namespace NurirobotSupporter.Helpers
             if (disposablePort == null)
                 disposablePort = new CompositeDisposable();
 
-            return disposablePort?.Count == 0 ? 
+            return disposablePort?.Count == 0 ?
                 Task.Run(
                     () => ObsConnect
                         .Subscribe()
-                        .AddTo(disposablePort)) : 
+                        .AddTo(disposablePort)) :
                 Task.CompletedTask;
         }
 

@@ -11,6 +11,7 @@ namespace NurirobotSupporter.Helpers
     using LibNurirobotBase.Args;
     using LibNurirobotBase.Interface;
     using LibNurirobotV00;
+    using LibNurirobotV00.Struct;
     using ReactiveUI;
     using Splat;
 
@@ -69,6 +70,24 @@ namespace NurirobotSupporter.Helpers
         public EventSerialValue()
         {
             _DPD = Locator.Current.GetService<IDeviceProtocolDictionary>();
+
+            //Observable.Interval(TimeSpan.FromMilliseconds(100), RxApp.TaskpoolScheduler)
+            //    .Subscribe(x => {
+            //        _SerialValue.OnNext(
+            //            new SerialValueArgs() {
+            //                ValueName = "FEEDPos",
+            //                ID = 0,
+            //                ReciveData = new byte[10],
+            //                Object = new NuriPosSpeedAclCtrl {
+            //                    ID = 0,
+            //                    Protocol = 0xD1,
+            //                    Direction = LibNurirobotBase.Enum.Direction.CCW,
+            //                    Pos = (x % short.MaxValue) * 0.01f,
+            //                    Speed = (x % short.MaxValue) * 0.1f,
+            //                    Current = ((short)(x % byte.MaxValue))
+            //                }
+            //            });
+            //    });
         }
 
         public void ReciveData(byte[] arg)

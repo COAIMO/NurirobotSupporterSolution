@@ -129,9 +129,8 @@ using System.Diagnostics;
                                 _Log.OnNext("Connect...");
                                 //ISerialProcess sp = Locator.Current.GetService<ISerialProcess>();
                                 //sp.Start();
-                                isc.ObsDataReceived
-                                .BufferUntilSTXtoByteArray(stx, 5)
-                                .Subscribe(data => {
+                                isc.ObsProtocolReceived
+                                .Subscribe(data=> {
                                     try {
                                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
                                         var tmp = new NurirobotRSA();
@@ -151,7 +150,7 @@ using System.Diagnostics;
                                     }
                                 })
                                 .AddTo(comdis);
-
+                                
                                 NurirobotRSA tmpRSA = new NurirobotRSA();
                                 for (int i = 0; i < 255; i++) {
                                     mCTS.Token.ThrowIfCancellationRequested();
