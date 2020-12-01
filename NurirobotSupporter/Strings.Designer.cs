@@ -214,6 +214,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   새로 만들기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_New {
+            get {
+                return ResourceManager.GetString("Button_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   위치 리셋과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_PosReset {
@@ -516,6 +525,15 @@ namespace NurirobotSupporter {
         internal static string Label_POSVEL {
             get {
                 return ResourceManager.GetString("Label_POSVEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   처리 중단과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_ProcessStop {
+            get {
+                return ResourceManager.GetString("Label_ProcessStop", resourceCulture);
             }
         }
         

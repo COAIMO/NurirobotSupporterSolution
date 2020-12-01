@@ -168,6 +168,9 @@
   <data name="Button_Korean" xml:space="preserve">
     <value>한국어</value>
   </data>
+  <data name="Button_New" xml:space="preserve">
+    <value>새로 만들기</value>
+  </data>
   <data name="Button_PosReset" xml:space="preserve">
     <value>위치 리셋</value>
   </data>
@@ -269,6 +272,9 @@
   </data>
   <data name="Label_POSVEL" xml:space="preserve">
     <value>위치, 속도제어</value>
+  </data>
+  <data name="Label_ProcessStop" xml:space="preserve">
+    <value>처리 중단</value>
   </data>
   <data name="Label_RatedSpeed" xml:space="preserve">
     <value>모터 정격속도 설정</value>

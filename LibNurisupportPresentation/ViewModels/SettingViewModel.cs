@@ -405,6 +405,16 @@ namespace LibNurisupportPresentation.ViewModels
 
             var state = RxApp.SuspensionHost.GetAppState<AppState>();
             var esv = Locator.Current.GetService<IEventSerialValue>();
+            var esl = Locator.Current.GetService<IEventSerialLog>();
+
+            esl.ObsLog
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => {
+                    if (IsOnLog) {
+                        Logs.Add(x);
+                    }
+                });
+
             List<byte> ttt = new List<byte>();
             if (state.SearchDevice.Count > 0) {
                 foreach (var item in state.SearchDevice) {

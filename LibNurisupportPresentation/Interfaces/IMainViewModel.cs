@@ -88,6 +88,7 @@ namespace LibNurisupportPresentation.Interfaces
         /// </summary>
         ISingleViewModel Single { get; set; }
         IMultiViewModel Multiple { get; set; }
+        IMacroViewModel Macro { get; set; }
              
     }
 }

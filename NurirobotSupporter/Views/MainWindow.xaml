@@ -125,7 +125,7 @@
                                         Kind="AlphaMBox" />
                     </mah:HamburgerMenuIconItem.Icon>
                 </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Macro}">
+                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Macro}" Tag="Macro">
                     <mah:HamburgerMenuIconItem.Icon>
                         <iconPacks:PackIconMaterial Width="22"
                                         Height="22"
@@ -249,6 +249,12 @@
                                     Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
                         </Grid>
                     </Grid>
+                    <local:MacroView 
+                        Grid.Row="1"
+                        Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Macro, ElementName=HamburgerMenuControl}"
+                        IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Macro, ElementName=HamburgerMenuControl}"
+                        DataContext="{Binding DataContext.Macro, Mode=OneWay, ElementName=MainView}"
+                        />
                     <local:MultiView Grid.Row="1"
                             Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Multiple, ElementName=HamburgerMenuControl}"
                             IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Multiple, ElementName=HamburgerMenuControl}"
@@ -268,6 +274,7 @@
                                HorizontalAlignment="Center" />
                         </StackPanel>
                     </Grid>
+                    
                     <local:DeviceSearchView 
                         Grid.Row="1"
                         Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=DeviceSearch, ElementName=HamburgerMenuControl}"

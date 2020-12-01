@@ -65,6 +65,7 @@ namespace LibNurisupportPresentation.ViewModels
             Setting = new SettingViewModel(this);
             Single = new SingleViewModel(this);
             Multiple = new MultiViewModel(this);
+            Macro = new MacroViewModel(this);
             deviceSearch.MainViewModel = this;
 
             _Connected.OnNext(false);
@@ -288,5 +289,6 @@ namespace LibNurisupportPresentation.ViewModels
         public string CurrentPageName { get; set; }
         public ISingleViewModel Single { get; set; }
         public IMultiViewModel Multiple { get; set; }
+        public IMacroViewModel Macro { get; set; }
     }
 }

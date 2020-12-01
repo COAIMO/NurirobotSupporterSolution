@@ -8,7 +8,12 @@ namespace LibNurisupportPresentation.Interfaces
     using ReactiveUI;
 
     /// <summary>
-    /// 매크로 편집
+    /// 매크로 편집 및 실행 화면
+    /// 매크로를 보여준다
+    /// 매크로를 수정한다.
+    /// 매크로를 실행한다.
+    /// 단축키를 인식하여 매크로를 실행한다.
+    /// 매크로를 단계별로 실행하다. 중지 신호를 받으면 정지한다.
     /// </summary>
     public interface IMacroViewModel : IReactiveObject
     {
@@ -24,6 +29,10 @@ namespace LibNurisupportPresentation.Interfaces
 
         ReactiveCommand<Unit, Unit> CMDNew { get; }
         ReactiveCommand<Unit, Unit> CMDStop { get; }
-
+        /// <summary>
+        /// 매크로 키 입력
+        /// </summary>
+        /// <param name="arg"></param>
+        void KeyIn(string arg);
     }
 }

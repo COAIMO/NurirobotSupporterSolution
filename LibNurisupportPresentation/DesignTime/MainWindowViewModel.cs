@@ -7,7 +7,7 @@ namespace LibNurisupportPresentation.DesignTime
     using LibNurisupportPresentation.Interfaces;
     using ReactiveUI;
 
-    public class MainWindowViewModel: ReactiveObject, IMainViewModel
+    public class MainWindowViewModel : ReactiveObject, IMainViewModel
     {
         //private bool _IsConnected = true;
         //private bool _IsRecoded = false;
@@ -56,5 +56,6 @@ namespace LibNurisupportPresentation.DesignTime
         public string CurrentPageName { get; set; }
         public ISingleViewModel Single { get; set; }
         public IMultiViewModel Multiple { get; set; }
+        public IMacroViewModel Macro { get; set; }
     }
 }
