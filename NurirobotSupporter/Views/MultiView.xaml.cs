@@ -128,5 +128,12 @@ namespace NurirobotSupporter.Views
             if (ViewModel != null)
                 ViewModel.IsRunningPage = (bool)e.NewValue;
         }
+
+        private void SystemStatusSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
     }
 }

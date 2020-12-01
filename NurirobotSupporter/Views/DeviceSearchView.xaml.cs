@@ -68,5 +68,12 @@ namespace NurirobotSupporter.Views
             get => ViewModel;
             set => ViewModel = (IDeviceSearchViewModel)value;
         }
+
+        private void SystemStatusSV_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
     }
 }

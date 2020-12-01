@@ -226,12 +226,13 @@ namespace LibNurisupportPresentation.ViewModels
             this.ObsLog
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(x => {
-                    var tmp = string.Format("{0}\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), x);
+                    var tmp = string.Format("[{0}]\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), x);
                     if (IsOnLog) {
                         Logs.Add(tmp);
                     }
                     Debug.WriteLine(tmp);
                 });
+
             this.WhenAnyValue(x => x.IsOnLog)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Where(x => x == false)
@@ -242,6 +243,15 @@ namespace LibNurisupportPresentation.ViewModels
             var state = RxApp.SuspensionHost.GetAppState<AppState>();
             var esv = Locator.Current.GetService<IEventSerialValue>();
             var msg = Locator.Current.GetService<IMessageShow>();
+            var esl = Locator.Current.GetService<IEventSerialLog>();
+
+            esl.ObsLog
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => {
+                if (IsOnLog) {
+                    Logs.Add(x);
+                }
+            });
 
             IsShowTarget = true;
             IsShowLogView = true;

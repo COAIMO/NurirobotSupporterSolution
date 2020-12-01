@@ -24,7 +24,7 @@
                 <TextBlock Padding="10" Text="{lex:Loc Title_Search}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
             </Viewbox>
         </Grid>
-        <ScrollViewer Name="SystemStatusSV" Grid.Row="1">
+        <ScrollViewer Name="SystemStatusSV" Grid.Row="1" PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
             <ListView x:Name="SystemStatusLB" ItemsSource="{Binding Logs}"
                       Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
                 <ListView.ItemContainerStyle>

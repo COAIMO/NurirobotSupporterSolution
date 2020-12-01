@@ -95,7 +95,7 @@
         </Grid>
         <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
         <Grid Grid.Row="3" Visibility="{Binding IsOnLog, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ScrollViewer Name="SystemStatusSV" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="200">
+            <ScrollViewer Name="SystemStatusSV" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="200" PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
                 <ListView x:Name="SystemStatusLB" ItemsSource="{Binding Logs}"
                           VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                       Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">

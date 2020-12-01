@@ -101,7 +101,7 @@ namespace LibNurisupportPresentation.ViewModels
             this.ObsLog
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(x => {
-                    var tmp = string.Format("{0}\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), x);
+                    var tmp = string.Format("[{0}]\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), x);
                     if (IsOnLog) {
                         Logs.Add(tmp);
                     }
