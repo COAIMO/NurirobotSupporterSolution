@@ -43,8 +43,8 @@ namespace NurirobotSupporter.Views
         DataGen.Electrocardiogram ecg = new DataGen.Electrocardiogram();
         Stopwatch sw = Stopwatch.StartNew();
 
-        PlottableSignal sig;
-        Timer _timer;
+        //PlottableSignal sig;
+        //Timer _timer;
 
         public SingleView()
         {

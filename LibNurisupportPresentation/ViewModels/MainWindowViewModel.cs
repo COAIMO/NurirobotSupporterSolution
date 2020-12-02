@@ -32,7 +32,6 @@ namespace LibNurisupportPresentation.ViewModels
         private ObservableAsPropertyHelper<bool> _IsRecoded;
         private ObservableAsPropertyHelper<bool> _IsNotRecoded;
         private string[] _SerialPorts;
-        private string[] _Baudrates;
 
         public bool IsConnect {
             get {

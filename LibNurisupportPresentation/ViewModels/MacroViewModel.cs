@@ -136,8 +136,6 @@ namespace LibNurisupportPresentation.ViewModels
                 .Where(x => {
                     if (mainvm == null)
                         return false;
-                    if (mainvm.IsConnect == null)
-                        return false;
 
                     return mainvm.IsConnect == true && !_IsSchdule && _MacroQueue.Count > 0;
                     })
