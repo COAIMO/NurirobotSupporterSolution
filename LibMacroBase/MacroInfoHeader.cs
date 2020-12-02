@@ -1,14 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace LibMacroBase
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using LiteDB;
+
     /// <summary>
     /// 매크로 정보 헤더
     /// </summary>
     public class MacroInfoHeader
     {
+        [BsonId]
+        public Guid Id { get; set; }
         /// <summary>
         /// 생성 시간 Ticks
         /// </summary>

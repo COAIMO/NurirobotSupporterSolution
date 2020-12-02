@@ -1,6 +1,7 @@
 namespace LibMacroBase
 {
     using System;
+    using System.Diagnostics;
     using LibMacroBase.Interface;
     using LiteDB;
     using Splat;
@@ -68,8 +69,13 @@ namespace LibMacroBase
         /// <param name="macroInfo">등록할 매크로</param>
         public void NewMacro(MacroInfo macroInfo)
         {
-            if (!IsReadOnly)
-                _MacroInfo?.Insert(macroInfo);
+            try {
+                if (!IsReadOnly)
+                    _MacroInfo?.Insert(macroInfo);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
         }
 
         /// <summary>
@@ -78,7 +84,12 @@ namespace LibMacroBase
         /// <param name="macroInfo">변경할 매크로</param>
         public void UpdateMacro(MacroInfo macroInfo)
         {
-            throw new NotImplementedException();
+            try {
+                _MacroInfo?.Update(macroInfo);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
         }
     }
 }

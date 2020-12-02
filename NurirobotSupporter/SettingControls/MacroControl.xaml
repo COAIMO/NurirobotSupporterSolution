@@ -1,0 +1,65 @@
+<UserControl x:Class="NurirobotSupporter.SettingControls.MacroControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NurirobotSupporter.SettingControls"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="ko"
+             lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"   
+             mc:Ignorable="d" d:DesignWidth="800" Height="274">
+    <Grid Background="{DynamicResource MahApps.Brushes.Gray}">
+        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+            <StackPanel Margin="10, 2, 10, 2" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0" Height="34" HorizontalAlignment="Left">
+                        <TextBlock Margin="2" Text="{lex:Loc Label_Macro}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1" Height="34" HorizontalAlignment="Right">
+                        <TextBlock Margin="2" Text="{Binding ShortCut}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                    </Viewbox>
+                </Grid>
+                <Viewbox Height="32" HorizontalAlignment="Center">
+                    <TextBlock Margin="2" Text="{Binding MacroName}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                </Viewbox>
+                <ScrollViewer Height="140" HorizontalScrollBarVisibility="Hidden" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                    <ListView ItemsSource="{Binding Macro}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Height" Value="16" />
+                                <Setter Property="FontSize" Value="10" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </ScrollViewer>
+                <Grid Height="45" Margin="0, 5, 0, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="cmdposreset" Grid.Column="0" Margin="2"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square}"
+                                            Content="{lex:Loc Button_Edit}"
+                                            Command="{Binding CMDEdit}"
+                                            />
+                    <Button x:Name="cmdrun"  Grid.Column="1" Margin="2" 
+                                            Content="{lex:Loc Button_Run}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
+                                            Command="{Binding CMDRun}"
+                                            />
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

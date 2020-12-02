@@ -259,9 +259,9 @@ namespace LibNurisupportPresentation.ViewModels
                 .Subscribe(data => {
                     try {
                         Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
-                        var tmp = new NurirobotRSA();
+                        var tmp = new NurirobotMC();
                         if (tmp.Parse(data)) {
-                            if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
+                            if (string.Equals(tmp.PacketName, "FEEDPosCtrlMode")) {
                                 var obj = (NuriPositionCtrl)tmp.GetDataStruct();
 
                                 // 동일해야만 의미가 있다.
@@ -285,7 +285,7 @@ namespace LibNurisupportPresentation.ViewModels
                 var tmpMC = new NurirobotMC();
                 bool isMC = false;
                 for (int i = 0; i < 2; i++) {
-                    tmpMC.Feedback(id, 0xab);
+                    tmpMC.Feedback(id, 0xaa);
                     if (stopWaitHandle.WaitOne(_WaitTime)) {
                         isMC = true;
                         break;

@@ -34,7 +34,14 @@ namespace LibNurisupportPresentation.ViewModels
         private string[] _SerialPorts;
         private string[] _Baudrates;
 
-        public bool IsConnect => _IsConnected.Value;
+        public bool IsConnect {
+            get {
+                if (_IsConnected == null)
+                    return false;
+
+                return _IsConnected.Value;
+            }
+        }
         public bool IsNotConnect => _IsDisConnected.Value;
         public bool IsRecode => _IsRecoded.Value;
         public bool IsNotRecode => _IsNotRecoded.Value;

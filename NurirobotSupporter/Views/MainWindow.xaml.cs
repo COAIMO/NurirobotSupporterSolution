@@ -18,6 +18,9 @@ namespace NurirobotSupporter.Views
     using System.Windows.Threading;
     using LibNurisupportPresentation.Interfaces;
     using MahApps.Metro.Controls;
+    using MahApps.Metro.Controls.Dialogs;
+    using MahApps.Metro.ValueBoxes;
+    using NurirobotSupporter.SettingControls;
     using ReactiveUI;
 
     /// <summary>
@@ -40,7 +43,6 @@ namespace NurirobotSupporter.Views
                 UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1, 0) };
                 UpdateTimer.Tick += UpdateTimer_Tick;
             }
-            
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
@@ -81,6 +83,59 @@ namespace NurirobotSupporter.Views
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             ViewModel.IsDeviceSearchPopup = false;
+        }
+
+        private void MainView_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            bool isctrl = false;
+            bool isalt = false;
+            bool iswin = false;
+            bool isshift = false;
+
+            if (Keyboard.Modifiers == ModifierKeys.Control) {
+                isctrl = true;
+            }
+            if (Keyboard.Modifiers == ModifierKeys.Alt) {
+                isalt = true;
+            }
+            if (Keyboard.Modifiers == ModifierKeys.Shift) {
+                isshift = true;
+            }
+            if (Keyboard.Modifiers == ModifierKeys.Windows) {
+                iswin = true;
+            }
+
+            List<string> keys = new List<string>();
+            if (isctrl)
+                keys.Add("CTRL");
+            if (isalt)
+                keys.Add("ALT");
+            if (isshift)
+                keys.Add("SHIFT");
+            if (iswin)
+                keys.Add("WIN");
+
+            KeyConverter k = new KeyConverter();
+            string pressK = k.ConvertToString(e.Key);
+            if (!string.IsNullOrEmpty(pressK)) {
+                if (!string.Equals(pressK, "System")
+                    && !string.Equals(pressK, "LeftShift")
+                    && !string.Equals(pressK, "RightShift")
+                    && !string.Equals(pressK, "LeftCtrl")
+                    && !string.Equals(pressK, "RightCtrl")) {
+                    keys.Add(pressK);
+                }
+                else {
+                    return;
+                }
+            }
+            else {
+                return;
+            }
+
+            //ViewModel.ShortCut = string.Join("+", keys);
+            //Debug.WriteLine(string.Join("+", keys));
+            ViewModel?.Macro?.KeyIn(string.Join("+", keys));
         }
     }
 }

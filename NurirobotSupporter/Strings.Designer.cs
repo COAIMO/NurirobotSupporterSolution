@@ -178,6 +178,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   매크로 삭제과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Delete {
+            get {
+                return ResourceManager.GetString("Button_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   장비조회과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_DeviceSearch {
@@ -192,6 +201,15 @@ namespace NurirobotSupporter {
         internal static string Button_Disconnect {
             get {
                 return ResourceManager.GetString("Button_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   편집과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Edit {
+            get {
+                return ResourceManager.GetString("Button_Edit", resourceCulture);
             }
         }
         
@@ -214,11 +232,29 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   매크로 삽입과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_MacroCall {
+            get {
+                return ResourceManager.GetString("Button_MacroCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   새로 만들기과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_New {
             get {
                 return ResourceManager.GetString("Button_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   반영과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Ok {
+            get {
+                return ResourceManager.GetString("Button_Ok", resourceCulture);
             }
         }
         
@@ -268,11 +304,29 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   지연시간 추가과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Sleep {
+            get {
+                return ResourceManager.GetString("Button_Sleep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   정지과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_Stop {
             get {
                 return ResourceManager.GetString("Button_Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   테스트과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Test {
+            get {
+                return ResourceManager.GetString("Button_Test", resourceCulture);
             }
         }
         
@@ -318,6 +372,15 @@ namespace NurirobotSupporter {
         internal static string Label_ChangeID {
             get {
                 return ResourceManager.GetString("Label_ChangeID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   선택과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Choose {
+            get {
+                return ResourceManager.GetString("Label_Choose", resourceCulture);
             }
         }
         
@@ -444,6 +507,15 @@ namespace NurirobotSupporter {
         internal static string Label_Logview {
             get {
                 return ResourceManager.GetString("Label_Logview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   매크로과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Macro {
+            get {
+                return ResourceManager.GetString("Label_Macro", resourceCulture);
             }
         }
         
@@ -601,6 +673,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   단축키과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Shortcut {
+            get {
+                return ResourceManager.GetString("Label_Shortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   끄기과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_StartupPopupOff {
@@ -624,6 +705,15 @@ namespace NurirobotSupporter {
         internal static string Label_Targetdevice {
             get {
                 return ResourceManager.GetString("Label_Targetdevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   제목과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Title {
+            get {
+                return ResourceManager.GetString("Label_Title", resourceCulture);
             }
         }
         
@@ -786,6 +876,15 @@ namespace NurirobotSupporter {
         internal static string Title_Comport {
             get {
                 return ResourceManager.GetString("Title_Comport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   매크로 편집과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_EditMacro {
+            get {
+                return ResourceManager.GetString("Title_EditMacro", resourceCulture);
             }
         }
         

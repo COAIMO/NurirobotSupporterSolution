@@ -73,8 +73,8 @@ namespace NurirobotSupporter.Views
 
                 VelocityPlot.plt.PlotSignalXY(posx, speedy);
                 VelocityPlot.plt.Axis(x1: -1f, x2: 1200f);
-                VelocityPlot.plt.Axis(y1: -1f, y2: 50f);
-                //VelocityPlot.plt.AxisAutoY();
+                //VelocityPlot.plt.Axis(y1: -1f, y2: 6600f);
+                VelocityPlot.plt.AxisAutoY();
                 VelocityPlot.plt.XLabel("100 Milliseconds");
                 VelocityPlot.plt.YLabel("RPM");
 
@@ -153,6 +153,7 @@ namespace NurirobotSupporter.Views
                 && ViewModel.GraphData.Count() > 0) {
                 PosPlot.Render(skipIfCurrentlyRendering: true);
                 CurrentPlot.plt.AxisAutoY();
+                VelocityPlot.plt.AxisAutoY();
                 VelocityPlot.Render(skipIfCurrentlyRendering: true);
                 CurrentPlot.Render(skipIfCurrentlyRendering: true);
             }

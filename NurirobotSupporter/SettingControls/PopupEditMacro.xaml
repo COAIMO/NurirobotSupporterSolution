@@ -1,0 +1,126 @@
+<UserControl x:Class="NurirobotSupporter.SettingControls.PopupEditMacro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NurirobotSupporter.SettingControls"
+             mc:Ignorable="d" 
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             lex:LocalizeDictionary.DesignCulture="ko"
+             lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"   
+             d:DesignHeight="450" d:DesignWidth="800" >
+    <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent}">
+            <Viewbox Grid.Column="0" HorizontalAlignment="Left">
+                <TextBlock Padding="10" Text="{lex:Loc Title_EditMacro}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+            </Viewbox>
+        </Grid>
+        <Grid Grid.Row="1" Background="{DynamicResource MahApps.Brushes.Accent2}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Column="0" HorizontalAlignment="Left">
+                    <TextBlock Padding="10" Text="{lex:Loc Label_Macro}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+                </Viewbox>
+                <TextBox Grid.Column="1" HorizontalAlignment="Stretch" Height="23" Margin="0,0,10,0" Text="{Binding MacroName, Mode=TwoWay}" VerticalAlignment="Center"/>
+                <Viewbox Grid.Column="2" HorizontalAlignment="Left">
+                    <TextBlock Padding="10" Text="{lex:Loc Label_Shortcut}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+                </Viewbox>
+                <TextBox Grid.Column="3" Height="23" Text="{Binding ShortCut}" IsReadOnly="True" Margin="0,0,20,0">
+                    <TextBox.InputBindings>
+                        <MouseBinding Command="{Binding CMDEditShortcut}" MouseAction="LeftClick" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button Grid.Column="4" Margin="5"
+                        Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
+                        Command="{Binding CMDEditTest}"
+                        Content="{lex:Loc Button_Test}"
+                        />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <avalonEdit:TextEditor
+                Background="White"
+                Name="textEditor"
+                FontFamily="Consolas"
+                SyntaxHighlighting="C#"
+                FontSize="10pt" TextChanged="textEditor_TextChanged" />
+        </Grid>
+        <Grid Grid.Row="3" Background="{DynamicResource MahApps.Brushes.Accent4}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width=".8*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="{lex:Loc Button_Delete}" Command="{Binding CMDEditDelete}" Style="{DynamicResource MahApps.Styles.Button.Square}" Background="PaleVioletRed" Margin="5"/>
+            <Button Grid.Column="1" Content="{lex:Loc Button_Sleep}" Style="{DynamicResource MahApps.Styles.Button.Square}" Background="LightSkyBlue" Margin="5" Click="Button_Click"/>
+            <Button Grid.Column="3" Content="{lex:Loc Button_Cancel}" Command="{Binding CMDEditCancel}" Style="{DynamicResource MahApps.Styles.Button.Square}" Margin="5"/>
+            <Button Grid.Column="4" Content="{lex:Loc Button_Ok}"  Command="{Binding CMDEditOk}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Margin="5" />
+        </Grid>
+        <Grid Grid.Row="0" Grid.RowSpan="4" 
+              Visibility="{Binding IsShowShortCut, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Background="#7F464646">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1" Background="{DynamicResource MahApps.Brushes.ThemeBackground}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.Accent}">
+                    <Viewbox Grid.Column="0" HorizontalAlignment="Left">
+                        <TextBlock Padding="10" Text="{lex:Loc Label_Shortcut}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+                    </Viewbox>
+                </Grid>
+                <Viewbox Grid.Row="2" Margin="5" Grid.ColumnSpan="2">
+                    <TextBlock Text="{lex:Loc Label_Choose}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
+                </Viewbox>
+                <Viewbox Grid.Row="3" Margin="5"  Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBox KeyDown="TextBox_KeyDown" IsReadOnly="True" Text="{Binding ShortCut, Mode=OneWay}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Width="150"></TextBox>
+                </Viewbox>
+                
+                <Button Grid.Row="5" Grid.Column="0" Content="{lex:Loc Button_Cancel}" Command="{Binding CMDShortCutCancel}" Style="{DynamicResource MahApps.Styles.Button.Square}" Margin="5"/>
+                <Button Grid.Row="5" Grid.Column="1" Content="{lex:Loc Button_Ok}"  Command="{Binding CMDShortCutOk}" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Margin="5" />
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

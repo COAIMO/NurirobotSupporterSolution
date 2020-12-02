@@ -1,7 +1,9 @@
 namespace NurirobotSupporter.Views
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
@@ -18,6 +20,8 @@ namespace NurirobotSupporter.Views
     using System.Windows.Shapes;
     using System.Windows.Threading;
     using LibNurisupportPresentation.Interfaces;
+    using LibNurisupportPresentation.ViewModels;
+    using NurirobotSupporter.SettingControls;
     using ReactiveUI;
 
     /// <summary>
@@ -29,6 +33,7 @@ namespace NurirobotSupporter.Views
             .Register(nameof(ViewModel), typeof(IMacroViewModel), typeof(MacroView), null);
 
         protected DispatcherTimer UpdateTimer { get; set; }
+        ConcurrentDictionary<long, MacroControl> _dictControl = new ConcurrentDictionary<long, MacroControl>();
 
         public MacroView()
         {
@@ -42,6 +47,40 @@ namespace NurirobotSupporter.Views
                         .Subscribe(x => {
                             if (ViewModel != null)
                                 ViewModel.PannelWidth = x;
+                        }).DisposeWith(disposable);
+
+                    this.WhenAnyValue(x => x.ViewModel.MacroInfos)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Where(x => x != null)
+                    .Subscribe(x => {
+                        List<long> keys = new List<long>();
+                        foreach (var item in x) {
+                            //Debug.WriteLine(item.MacroName);
+                            if (!_dictControl.ContainsKey(item.Ticks)) {
+                                var tmp = new MacroControl(new MacroControlViewModel(item, ViewModel));
+                                tmp.Width = ViewModel.ControlWidth;
+                                tmp.Margin = new Thickness(0, 0, 5, 5);
+                                if (_dictControl.TryAdd(item.Ticks, tmp)) {
+                                    WrapPanel.Children.Add(_dictControl[item.Ticks]);
+                                    Debug.WriteLine(item);
+                                }
+                            }
+                            keys.Add(item.Ticks);
+                        }
+                        foreach (var item in _dictControl.Keys) {
+                            if (!keys.Contains(item)) {
+                                _dictControl.TryRemove(item, out MacroControl macro);
+                            }
+
+                        }
+                    }).DisposeWith(disposable);
+
+                    this.WhenAnyValue(x => x.ViewModel.ControlWidth)
+                        .ObserveOn(RxApp.MainThreadScheduler)
+                        .Subscribe(x => {
+                            foreach (var item in _dictControl) {
+                                item.Value.Width = ViewModel.ControlWidth;
+                            }
                         }).DisposeWith(disposable);
                 });
 
@@ -93,6 +132,57 @@ namespace NurirobotSupporter.Views
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
+        }
+
+        private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            bool isctrl = false;
+                bool isalt = false;
+                bool iswin = false;
+                bool isshift = false;
+
+                if (Keyboard.Modifiers == ModifierKeys.Control) {
+                    isctrl = true;
+                }
+                if (Keyboard.Modifiers == ModifierKeys.Alt) {
+                    isalt = true;
+                }
+                if (Keyboard.Modifiers == ModifierKeys.Shift) {
+                    isshift = true;
+                }
+                if (Keyboard.Modifiers == ModifierKeys.Windows) {
+                    iswin = true;
+                }
+
+                List<string> keys = new List<string>();
+                if (isctrl)
+                    keys.Add("CTRL");
+                if (isalt)
+                    keys.Add("ALT");
+                if (isshift)
+                    keys.Add("SHIFT");
+                if (iswin)
+                    keys.Add("WIN");
+
+                KeyConverter k = new KeyConverter();
+                string pressK = k.ConvertToString(e.Key);
+                if (!string.IsNullOrEmpty(pressK)) {
+                    if (!string.Equals(pressK, "System") 
+                        && !string.Equals(pressK, "LeftShift")
+                        && !string.Equals(pressK, "RightShift")
+                        && !string.Equals(pressK, "LeftCtrl")
+                        && !string.Equals(pressK, "RightCtrl")) {
+                        keys.Add(pressK);
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+
+            //ViewModel.ShortCut = string.Join("+", keys);
+            //Debug.WriteLine(string.Join("+", keys));
+            ViewModel?.KeyIn(string.Join("+", keys));
         }
     }
 }

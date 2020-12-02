@@ -116,7 +116,7 @@
                             <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="3"
                                                 Value="{Binding Velocity, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
-                                                Maximum="655.33" StringFormat="0.0" ParsingNumberStyle="Float"
+                                                Maximum="6553.3" StringFormat="0.0" ParsingNumberStyle="Float"
                                                 />
                             <Viewbox Grid.Column="0" Grid.Row="1" Margin="2">
                                 <TextBlock Margin="2, 8" Text="{lex:Loc Label_Arrival}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>

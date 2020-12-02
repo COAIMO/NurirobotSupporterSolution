@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NurirobotSupporter.Views"
+             xmlns:localCtrl="clr-namespace:NurirobotSupporter.SettingControls"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              lex:LocalizeDictionary.DesignCulture="ko"
@@ -16,7 +17,7 @@
              TextOptions.TextRenderingMode="Auto"        
              BorderThickness="0"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" IsEnabledChanged="UserControl_IsEnabledChanged">
+             d:DesignHeight="450" d:DesignWidth="800" IsEnabledChanged="UserControl_IsEnabledChanged" >
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
@@ -34,7 +35,7 @@
             </Viewbox>
             <Viewbox Width="120" HorizontalAlignment="Right" Grid.Column="1">
                 <Button Content="{lex:Loc Button_New}" Width="120" Height="40"
-                                        Command="{Binding CMDStop}"
+                                        Command="{Binding CMDNew}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square}"/>
             </Viewbox>
         </Grid>
@@ -103,6 +104,11 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
             </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="0" Grid.RowSpan="4"
+              Background="#7F464646"
+              Visibility="{Binding IsPopupEdit, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <localCtrl:PopupEditMacro Margin="50" DataContext="{Binding EditMacroInfo}"/>
         </Grid>
     </Grid>
 </UserControl>

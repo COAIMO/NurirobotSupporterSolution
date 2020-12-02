@@ -35,7 +35,8 @@ namespace NurirobotSupporter.Helpers
             try {
                 if (string.Equals(x.ValueName, "FEEDPing") 
                 || string.Equals(x.ValueName, "FEEDPos") 
-                || string.Equals(x.ValueName, "FEEDSpeed"))
+                || string.Equals(x.ValueName, "FEEDSpeed")
+                || string.Equals(x.ValueName, "FEEDPosCtrlMode"))
                     return true;
 
                 if (_DictValues.ContainsKey(x.ID)) {

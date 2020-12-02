@@ -5,6 +5,7 @@ namespace LibNurisupportPresentation.Interfaces
     using System.Collections.ObjectModel;
     using System.Reactive;
     using System.Text;
+    using LibMacroBase;
     using ReactiveUI;
 
     /// <summary>
@@ -26,13 +27,24 @@ namespace LibNurisupportPresentation.Interfaces
         double ControlWidth { get; set; }
         double PannelWidth { get; set; }
         bool IsRunning { get; set; }
+        bool IsPopupEdit { get; set; }
 
         ReactiveCommand<Unit, Unit> CMDNew { get; }
         ReactiveCommand<Unit, Unit> CMDStop { get; }
         /// <summary>
-        /// 매크로 키 입력
+        /// 매크로 키 입력을 이용한 실행
         /// </summary>
         /// <param name="arg"></param>
         void KeyIn(string arg);
+        /// <summary>
+        /// Tick을 이용한 실행
+        /// </summary>
+        /// <param name="arg"></param>
+        void RunID(long arg);
+
+        void RunTest(string[] args);
+
+        IEnumerable<MacroInfo> MacroInfos { get; set; }
+        IMacroControlViewModel EditMacroInfo { get; set; }
     }
 }

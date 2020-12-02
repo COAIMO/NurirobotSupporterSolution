@@ -156,11 +156,17 @@
   <data name="Button_Connect" xml:space="preserve">
     <value>연결</value>
   </data>
+  <data name="Button_Delete" xml:space="preserve">
+    <value>매크로 삭제</value>
+  </data>
   <data name="Button_DeviceSearch" xml:space="preserve">
     <value>장비조회</value>
   </data>
   <data name="Button_Disconnect" xml:space="preserve">
     <value>연결해제</value>
+  </data>
+  <data name="Button_Edit" xml:space="preserve">
+    <value>편집</value>
   </data>
   <data name="Button_English" xml:space="preserve">
     <value>English</value>
@@ -168,8 +174,14 @@
   <data name="Button_Korean" xml:space="preserve">
     <value>한국어</value>
   </data>
+  <data name="Button_MacroCall" xml:space="preserve">
+    <value>매크로 삽입</value>
+  </data>
   <data name="Button_New" xml:space="preserve">
     <value>새로 만들기</value>
+  </data>
+  <data name="Button_Ok" xml:space="preserve">
+    <value>반영</value>
   </data>
   <data name="Button_PosReset" xml:space="preserve">
     <value>위치 리셋</value>
@@ -186,8 +198,14 @@
   <data name="Button_Set" xml:space="preserve">
     <value>설정</value>
   </data>
+  <data name="Button_Sleep" xml:space="preserve">
+    <value>지연시간 추가</value>
+  </data>
   <data name="Button_Stop" xml:space="preserve">
     <value>정지</value>
+  </data>
+  <data name="Button_Test" xml:space="preserve">
+    <value>테스트</value>
   </data>
   <data name="Label_Absolute" xml:space="preserve">
     <value>절대 위치제어</value>
@@ -203,6 +221,9 @@
   </data>
   <data name="Label_ChangeID" xml:space="preserve">
     <value>변경할 아이디</value>
+  </data>
+  <data name="Label_Choose" xml:space="preserve">
+    <value>선택</value>
   </data>
   <data name="Label_ControlOnOff" xml:space="preserve">
     <value>제어 On/Off 설정</value>
@@ -245,6 +266,9 @@
   </data>
   <data name="Label_Logview" xml:space="preserve">
     <value>로그뷰어</value>
+  </data>
+  <data name="Label_Macro" xml:space="preserve">
+    <value>매크로</value>
   </data>
   <data name="Label_Off" xml:space="preserve">
     <value>끄기</value>
@@ -297,6 +321,9 @@
   <data name="Label_RPM" xml:space="preserve">
     <value>RPM</value>
   </data>
+  <data name="Label_Shortcut" xml:space="preserve">
+    <value>단축키</value>
+  </data>
   <data name="Label_StartupPopupOff" xml:space="preserve">
     <value>끄기</value>
   </data>
@@ -305,6 +332,9 @@
   </data>
   <data name="Label_Targetdevice" xml:space="preserve">
     <value>대상 장비</value>
+  </data>
+  <data name="Label_Title" xml:space="preserve">
+    <value>제목</value>
   </data>
   <data name="Label_UnitBaudrate" xml:space="preserve">
     <value>통신속도</value>
@@ -359,6 +389,9 @@
   </data>
   <data name="Title_Comport" xml:space="preserve">
     <value>시리얼포트</value>
+  </data>
+  <data name="Title_EditMacro" xml:space="preserve">
+    <value>매크로 편집</value>
   </data>
   <data name="Title_Graph" xml:space="preserve">
     <value>그래프 표시</value>
