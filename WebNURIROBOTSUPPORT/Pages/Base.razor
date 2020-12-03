@@ -1,0 +1,26 @@
+@page "/help/{id}"
+@inject IJSRuntime JS
+<div id="viewer"></div>
+
+@code
+{
+        private string IdString;
+        [Parameter] public string Id { get; set; }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            try
+            {
+                // copy par value somewhere
+                IdString = Id?.ToString() ?? "";
+
+                // rest parm (set to null) by yourself
+                Id = null;
+                await JS.InvokeVoidAsync("page", IdString);
+            } catch (Exception ex){
+#if DEBUG
+            Console.WriteLine(ex);
+#endif
+        }
+    }
+}

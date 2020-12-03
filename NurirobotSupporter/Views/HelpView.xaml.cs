@@ -14,6 +14,8 @@ namespace NurirobotSupporter.Views
     using System.Windows.Media.Imaging;
     using System.Windows.Navigation;
     using System.Windows.Shapes;
+    using ControlzEx.Theming;
+    using LibNurisupportPresentation;
     using LibNurisupportPresentation.Interfaces;
     using ReactiveUI;
 
@@ -47,6 +49,20 @@ namespace NurirobotSupporter.Views
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var state = RxApp.SuspensionHost.GetAppState<AppState>();
+            state.ColorTheme = "Dark.Blue";
+            ThemeManager.Current.ChangeTheme(Application.Current, state.ColorTheme);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var state = RxApp.SuspensionHost.GetAppState<AppState>();
+            state.ColorTheme = "Light.Blue";
+            ThemeManager.Current.ChangeTheme(Application.Current, state.ColorTheme);
         }
     }
 }

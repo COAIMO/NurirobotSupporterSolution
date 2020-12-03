@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibNurirobotV00", "LibNurir
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NurirobotSupporterSetup", "NurirobotSupporterSetup\NurirobotSupporterSetup.vdproj", "{4D2FFDCE-6749-4598-A19B-ECCDA9884621}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebNURIROBOTSUPPORT", "WebNURIROBOTSUPPORT\WebNURIROBOTSUPPORT.csproj", "{C093BF7B-E84D-4D8C-B7D8-A09C4070BF31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{D9B9DFE3-30FA-4CD3-82DD-2074031F3FD3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D2FFDCE-6749-4598-A19B-ECCDA9884621}.Debug|Any CPU.ActiveCfg = Debug
 		{4D2FFDCE-6749-4598-A19B-ECCDA9884621}.Release|Any CPU.ActiveCfg = Release
+		{C093BF7B-E84D-4D8C-B7D8-A09C4070BF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C093BF7B-E84D-4D8C-B7D8-A09C4070BF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C093BF7B-E84D-4D8C-B7D8-A09C4070BF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C093BF7B-E84D-4D8C-B7D8-A09C4070BF31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

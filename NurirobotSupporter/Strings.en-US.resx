@@ -117,26 +117,245 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Alert_Broadcast" xml:space="preserve">
+    <value>Set individually for all devices on the target list.</value>
+  </data>
+  <data name="Alert_DoNotChange" xml:space="preserve">
+    <value>Change failed.\rPlease check if there are any changed settings.</value>
+  </data>
+  <data name="Alert_IsGraphOn" xml:space="preserve">
+    <value>You cannot query while using the graph.</value>
+  </data>
+  <data name="Alert_NotFound" xml:space="preserve">
+    <value>The target equipment could not be found.</value>
+  </data>
   <data name="Alert_No_BaudRate" xml:space="preserve">
     <value>The device cannot be found.</value>
+  </data>
+  <data name="Alert_Refresh" xml:space="preserve">
+    <value>The problem occurred during communication.\rPlease try again later.</value>
   </data>
   <data name="Alert_Serial_Connected" xml:space="preserve">
     <value>Disconnect device!</value>
   </data>
+  <data name="Alert_Setting_Broadcast" xml:space="preserve">
+    <value>This function cannot be applied in bulk.\rUncheck [Apply to all].</value>
+  </data>
+  <data name="Alert_Setting_ExistID" xml:space="preserve">
+    <value>It cannot be changed.\rThe ID you want to change already exists, or there is no ID to change.</value>
+  </data>
+  <data name="Alert_Setting_NotFoundProtocol" xml:space="preserve">
+    <value>The equipment is unavailable.</value>
+  </data>
+  <data name="Alert_Setting_SameID" xml:space="preserve">
+    <value>The ID you want to change and the current ID are the same.</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Button_Connect" xml:space="preserve">
     <value>Connect</value>
   </data>
+  <data name="Button_Delete" xml:space="preserve">
+    <value>Delete macro</value>
+  </data>
+  <data name="Button_DeviceSearch" xml:space="preserve">
+    <value>Device Search</value>
+  </data>
   <data name="Button_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
+  </data>
+  <data name="Button_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Button_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Button_Korean" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="Button_MacroCall" xml:space="preserve">
+    <value>Insert macro</value>
+  </data>
+  <data name="Button_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Button_Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Button_PosReset" xml:space="preserve">
+    <value>Position reset</value>
+  </data>
+  <data name="Button_Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Button_Search_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Button_Search_Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Button_Set" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="Button_Sleep" xml:space="preserve">
+    <value>Add delay time</value>
+  </data>
+  <data name="Button_Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Button_Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Label_Absolute" xml:space="preserve">
+    <value>Absolute position control</value>
+  </data>
+  <data name="Label_Arrival" xml:space="preserve">
+    <value>Arrival time (seconds)</value>
+  </data>
+  <data name="Label_Baudrate" xml:space="preserve">
+    <value>Baudrate</value>
+  </data>
+  <data name="Label_Broadcast" xml:space="preserve">
+    <value>Apply to all</value>
+  </data>
+  <data name="Label_ChangeID" xml:space="preserve">
+    <value>ID to change</value>
+  </data>
+  <data name="Label_Choose" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Label_ControlOnOff" xml:space="preserve">
+    <value>Control On/Off setting</value>
+  </data>
+  <data name="Label_Current" xml:space="preserve">
+    <value>Rated current</value>
+  </data>
+  <data name="Label_DeviceSearchDesc" xml:space="preserve">
+    <value>Find equipment connection information.</value>
+  </data>
+  <data name="Label_DirectCCW" xml:space="preserve">
+    <value>Counterclockwise</value>
+  </data>
+  <data name="Label_DirectCW" xml:space="preserve">
+    <value>Clockwise</value>
+  </data>
+  <data name="Label_Direction" xml:space="preserve">
+    <value>Control direction setting</value>
+  </data>
+  <data name="Label_EncorderPulsePole" xml:space="preserve">
+    <value>Resolution settings</value>
+  </data>
+  <data name="Label_FactoryReset" xml:space="preserve">
+    <value>Factory reset</value>
+  </data>
+  <data name="Label_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Label_Intervalsecond" xml:space="preserve">
+    <value>Collection cycle (seconds)</value>
+  </data>
+  <data name="Label_IsOk" xml:space="preserve">
+    <value>Do you want to apply?</value>
+  </data>
+  <data name="Label_LogOff" xml:space="preserve">
+    <value>Close log</value>
+  </data>
+  <data name="Label_LogOn" xml:space="preserve">
+    <value>View log</value>
+  </data>
+  <data name="Label_Logview" xml:space="preserve">
+    <value>Log Viewer</value>
+  </data>
+  <data name="Label_Macro" xml:space="preserve">
+    <value>Macro</value>
+  </data>
+  <data name="Label_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Label_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Label_PopupTitleDeviceSearch" xml:space="preserve">
+    <value>Device Search</value>
+  </data>
+  <data name="Label_POS" xml:space="preserve">
+    <value>Position control</value>
+  </data>
+  <data name="Label_PosGain" xml:space="preserve">
+    <value>Adjusting the position controller</value>
+  </data>
+  <data name="Label_Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Label_PostionReset" xml:space="preserve">
+    <value>Position Reset</value>
+  </data>
+  <data name="Label_PostrionCtrl" xml:space="preserve">
+    <value>Position Control Mode</value>
+  </data>
+  <data name="Label_POSVEL" xml:space="preserve">
+    <value>Position &amp; speed control</value>
+  </data>
+  <data name="Label_ProcessStop" xml:space="preserve">
+    <value>Stop processing</value>
+  </data>
+  <data name="Label_RatedSpeed" xml:space="preserve">
+    <value>Motor rated speed setting</value>
+  </data>
+  <data name="Label_Ratio" xml:space="preserve">
+    <value>Ratio Settings</value>
+  </data>
+  <data name="Label_Ratio_Title" xml:space="preserve">
+    <value>Reduction ratio</value>
+  </data>
+  <data name="Label_Relative" xml:space="preserve">
+    <value>Relative position control</value>
+  </data>
+  <data name="Label_Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="Label_Responsetime" xml:space="preserve">
+    <value>Response time setting</value>
+  </data>
+  <data name="Label_RPM" xml:space="preserve">
+    <value>RPM</value>
+  </data>
+  <data name="Label_Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="Label_StartupPopupOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Label_StartupPopupOn" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Label_Targetdevice" xml:space="preserve">
+    <value>Target Equipment</value>
+  </data>
+  <data name="Label_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Label_UnitBaudrate" xml:space="preserve">
+    <value>Baudrate(bps)</value>
+  </data>
+  <data name="Label_usTime" xml:space="preserve">
+    <value>Response time (us)</value>
+  </data>
+  <data name="Label_VEL" xml:space="preserve">
+    <value>Speed control</value>
+  </data>
+  <data name="Label_Velocity" xml:space="preserve">
+    <value>Velocity</value>
+  </data>
+  <data name="Label_VelocityGain" xml:space="preserve">
+    <value>Adjusting the Speed controller</value>
   </data>
   <data name="Left_Menu_English" xml:space="preserve">
     <value>English</value>
   </data>
   <data name="Left_Menu_Help" xml:space="preserve">
     <value>Help</value>
-  </data>
-  <data name="Left_Menu_Korean" xml:space="preserve">
-    <value>Korean</value>
   </data>
   <data name="Left_Menu_Language" xml:space="preserve">
     <value>Language</value>
@@ -159,13 +378,55 @@
   <data name="Left_Menu_Title" xml:space="preserve">
     <value>Menus</value>
   </data>
+  <data name="Loading_Text" xml:space="preserve">
+    <value>It is being processed. Please wait.</value>
+  </data>
+  <data name="PopupDone" xml:space="preserve">
+    <value>It has been processed.</value>
+  </data>
   <data name="Title_Baudrate" xml:space="preserve">
     <value>Baudrate</value>
   </data>
   <data name="Title_Comport" xml:space="preserve">
     <value>Comport</value>
   </data>
+  <data name="Title_EditMacro" xml:space="preserve">
+    <value>Edit Macro</value>
+  </data>
+  <data name="Title_Graph" xml:space="preserve">
+    <value>Show Graph</value>
+  </data>
+  <data name="Title_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Title_IsOk" xml:space="preserve">
+    <value>Apply settings</value>
+  </data>
   <data name="Title_Language" xml:space="preserve">
-    <value>Choose Language</value>
+    <value>Language setting</value>
+  </data>
+  <data name="Title_Macro" xml:space="preserve">
+    <value>Macro</value>
+  </data>
+  <data name="Title_Multiple" xml:space="preserve">
+    <value>Multiple control</value>
+  </data>
+  <data name="Title_NotConnected" xml:space="preserve">
+    <value>Not connected to the serial port.</value>
+  </data>
+  <data name="Title_Search" xml:space="preserve">
+    <value>Search Device</value>
+  </data>
+  <data name="Title_Setting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="Title_Single" xml:space="preserve">
+    <value>Single control</value>
+  </data>
+  <data name="Title_StartupPopup" xml:space="preserve">
+    <value>Is pop-up at startup</value>
+  </data>
+  <data name="Title_Tool" xml:space="preserve">
+    <value>Control function</value>
   </data>
 </root>

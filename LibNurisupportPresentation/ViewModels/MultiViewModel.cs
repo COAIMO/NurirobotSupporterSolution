@@ -198,7 +198,6 @@ namespace LibNurisupportPresentation.ViewModels
 
         }
 
-        int count = 3;
         /// <summary>
         /// 아이디 검색
         /// </summary>
@@ -230,10 +229,6 @@ namespace LibNurisupportPresentation.ViewModels
                 Debug.WriteLine(ex);
             }
             _Log.OnNext("ID List Change =======================");
-            for (int i = 1; i < count; i++) {
-                searchIDs.Add((byte)i);
-            }
-            count--;
 
             TargetIDs = searchIDs.ToArray();
             IsSearchingID = false;

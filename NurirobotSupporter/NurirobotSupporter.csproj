@@ -88,7 +88,7 @@
     <StartupObject>NurirobotSupporter.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>images.ico</ApplicationIcon>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
@@ -552,7 +552,7 @@
     <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images.ico" />
+    <Resource Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

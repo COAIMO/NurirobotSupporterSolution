@@ -27,12 +27,14 @@
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
             <TextBlock HorizontalAlignment="Center" ><Span xml:space="preserve"><Run Text="&#xA;"/><Hyperlink NavigateUri="http://www.nurirobot.com/" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Homepage"/></Hyperlink></Span></TextBlock>
             <TextBlock HorizontalAlignment="Center" ><Span xml:space="preserve"><Run Text="&#xA;"/><Hyperlink NavigateUri="mainto:nurirobot@nurirobot.com" RequestNavigate="Hyperlink_RequestNavigate" ><Run Text="mainto:nurirobot@nurirobot.com"/></Hyperlink></Span></TextBlock>
-            <TextBlock HorizontalAlignment="Center" ><Span xml:space="preserve"><Run Text="&#xA;"/><Hyperlink NavigateUri="https://support.nurirobot.info/help.htm" RequestNavigate="Hyperlink_RequestNavigate"><InlineUIContainer><TextBlock Text="{lex:Loc Title_Help}"/></InlineUIContainer></Hyperlink></Span></TextBlock>
+            <TextBlock HorizontalAlignment="Center" ><Span xml:space="preserve"><Run Text="&#xA;"/><Hyperlink NavigateUri="https://support.nurirobot.info" RequestNavigate="Hyperlink_RequestNavigate"><InlineUIContainer><TextBlock Text="{lex:Loc Title_Help}"/></InlineUIContainer></Hyperlink></Span></TextBlock>
             <mah:ToggleSwitch Margin="20"  Header="{lex:Loc Title_StartupPopup}" HorizontalAlignment="Center" 
                               VerticalAlignment="Stretch" 
                               OffContent="{lex:Loc Label_StartupPopupOff}"
                               OnContent="{lex:Loc Label_StartupPopupOn}"
                               IsOn="{Binding IsStartupPopupSearch}"/>
+            <Button Content="Dark" Margin="5" Width="200" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Click="Button_Click"/>
+            <Button Content="Light" Margin="5" Width="200" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Click="Button_Click_1"/>
         </StackPanel>
     </Grid>
 </UserControl>

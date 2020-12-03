@@ -1,0 +1,11 @@
+@page "/locale"
+@inject IJSRuntime JS
+
+<div id="viewer"></div>
+
+@code
+{ protected override async Task OnInitializedAsync()
+    {
+        await JS.InvokeVoidAsync("localepage", null);
+        await Task.CompletedTask;
+    } }

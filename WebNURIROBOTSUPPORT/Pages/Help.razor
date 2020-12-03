@@ -1,0 +1,11 @@
+@page "/help"
+@inject IJSRuntime JS
+
+<div id="viewer"></div>
+
+@code
+{ protected override async Task OnInitializedAsync()
+    {
+        await JS.InvokeVoidAsync("helppage", null);
+        await Task.CompletedTask;
+    } }
