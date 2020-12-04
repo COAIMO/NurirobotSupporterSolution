@@ -120,7 +120,7 @@ namespace LibNurisupportPresentation.ViewModels
         }
 
         bool _LastConnect = false;
-        string _LastPage = "";
+        public string _LastPage = "";
         int _WaitTime = 100;
 
         bool _IsSchdule = false;

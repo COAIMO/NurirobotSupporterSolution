@@ -31,5 +31,10 @@ namespace LibMacroBase.Interface
         /// </summary>
         /// <param name="macroInfo">변경할 매크로</param>
         void UpdateMacro(MacroInfo macroInfo);
+        /// <summary>
+        /// 매크로 제거
+        /// </summary>
+        /// <param name="lTicks"></param>
+        void DeleteMacro(MacroInfo macroInfo);
     }
 }

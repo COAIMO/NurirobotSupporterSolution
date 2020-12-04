@@ -1,6 +1,7 @@
 # 설정
-![Start_popup](./Images/02_Setting.png)
 제품의 기본 환경정보를 설정합니다.
+![Start_popup](./Images/02_Setting.png)
+
 
 ### 대상장비
 ![target](./Images/12_Target.png)
@@ -46,29 +47,37 @@
 절대 혹은 상대위치를 결정합니다.
 <br>
 ### 위치제어기 설정
-![response](./Images/17_poscontrolSet.png)
+![17_poscontrolSet](./Images/17_poscontrolSet.png)
 위치제어기의 p,i,d 및 전류를 설정할 수 있습니다.
 <br>
 ### 모터 정격속도 설정(모터제어기)
+![18_rated](./Images/18_rated.png)
 모터의 정격속도 RPM 을 설정합니다.
 <br>
 ### 분해능 설정(모터제어기)
+![19_resolution](./Images/19_resolution.png)
 엔코더 및 홀센서의 분해능을 설정합니다.
 <br>
 ### 제어 방향 설정(모터제어기)
+![20_flow](./Images/20_flow.png)
 엔코더 및 홀센서의 설치 형태를 결정합니다.
 <br>
 ### 속도제어기 설정
+![21_speed](./Images/21_speed.png)
 속도 제어기의 p,i,d 및 전류를 설정할 수 있습니다.
 <br>
 ### 감속비 설정
+![22_rate](./Images/22_rate.png)
 외장 감속기의 감속비유를 설정합니다.
 <br>
 ### 제어 On/Off 설정
+![23_ctrl](./Images/23_ctrl.png)
 > 제어의 On/Off 여부를 설정합니다.
 <br>
 ### 위치 초기화
+![24_pos](./Images/24_pos.png)
 현재 모터의 위치를 기준위치로 설정합니다.
 <br>
 ### 공장 초기화
+![25_factory](./Images/25_factory.png)
 출하 시 설정한 데이터로 초기화합니다.

@@ -67,9 +67,11 @@ namespace NurirobotSupporter.Views
                             }
                             keys.Add(item.Ticks);
                         }
+
                         foreach (var item in _dictControl.Keys) {
                             if (!keys.Contains(item)) {
                                 _dictControl.TryRemove(item, out MacroControl macro);
+                                WrapPanel.Children.Remove(macro);
                             }
 
                         }

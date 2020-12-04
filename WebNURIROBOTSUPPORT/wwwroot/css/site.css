@@ -181,3 +181,7 @@ app {
         display: block;
     }
 }
+
+.tui-editor-contents {
+    font-size : 1.1rem;
+}

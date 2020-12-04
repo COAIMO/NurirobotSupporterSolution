@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NurirobotSupporter", "NurirobotSupporter\NurirobotSupporter.csproj", "{58AF218A-46CA-41C7-972C-FA5B512D3C64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NurirobotSupportPublishWeb", "NurirobotSupportPublishWeb\NurirobotSupportPublishWeb.csproj", "{1152A7C8-127B-44B4-8D09-03B4C438E983}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{8EA3BF0A-0FC3-4853-ABB9-839B4CB002CE}"
 	ProjectSection(SolutionItems) = preProject
 		deploy.bat = deploy.bat
@@ -45,10 +43,6 @@ Global
 		{58AF218A-46CA-41C7-972C-FA5B512D3C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58AF218A-46CA-41C7-972C-FA5B512D3C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58AF218A-46CA-41C7-972C-FA5B512D3C64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1152A7C8-127B-44B4-8D09-03B4C438E983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1152A7C8-127B-44B4-8D09-03B4C438E983}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1152A7C8-127B-44B4-8D09-03B4C438E983}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1152A7C8-127B-44B4-8D09-03B4C438E983}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D88D1DC-E8E5-4C00-A995-3D0FA0249DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D88D1DC-E8E5-4C00-A995-3D0FA0249DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D88D1DC-E8E5-4C00-A995-3D0FA0249DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU

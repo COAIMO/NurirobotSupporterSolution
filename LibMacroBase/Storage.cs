@@ -36,6 +36,16 @@ namespace LibMacroBase
             Dispose();
         }
 
+        public void DeleteMacro(MacroInfo macroInfo)
+        {
+            try {
+                _MacroInfo?.Delete(macroInfo.Id);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
+        }
+
         /// <summary>
         /// 해제
         /// </summary>

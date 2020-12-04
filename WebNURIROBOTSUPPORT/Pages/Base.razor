@@ -4,23 +4,37 @@
 
 @code
 {
-        private string IdString;
-        [Parameter] public string Id { get; set; }
+    private string IdString;
+    [Parameter] public string Id { get; set; }
 
-        protected override async Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
+    {
+        try
         {
-            try
-            {
-                // copy par value somewhere
-                IdString = Id?.ToString() ?? "";
+            // copy par value somewhere
+            IdString = Id?.ToString() ?? "";
 
-                // rest parm (set to null) by yourself
-                Id = null;
-                await JS.InvokeVoidAsync("page", IdString);
-            } catch (Exception ex){
+            // rest parm (set to null) by yourself
+            Id = null;
+        } catch (Exception ex){
 #if DEBUG
             Console.WriteLine(ex);
 #endif
         }
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            JS.InvokeVoidAsync("page", IdString);
+        }
+        catch ( Exception ex)
+        {
+#if DEBUG
+            Console.WriteLine(ex);
+#endif
+        }
+        return base.OnAfterRenderAsync(firstRender);
     }
 }

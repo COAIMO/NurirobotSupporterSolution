@@ -151,6 +151,17 @@ namespace LibNurisupportPresentation.ViewModels
                     }
                     MacroInfo.ShortCut = ShortCut;
                     storage.UpdateMacro(MacroInfo);
+                    _MacroViewModel._LastPage = "";
+                    _MacroViewModel.IsPopupEdit = false;
+                    IsRunning = false;
+                });
+            }, canRun);
+
+            CMDEditDelete = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    storage.DeleteMacro(MacroInfo);
+                    _MacroViewModel._LastPage = "";
                     _MacroViewModel.IsPopupEdit = false;
                     IsRunning = false;
                 });
