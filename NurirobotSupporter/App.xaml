@@ -4,6 +4,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:NurirobotSupporter"
              xmlns:helpers="clr-namespace:NurirobotSupporter.Helpers"
+             xmlns:avalonEdit="clr-namespace:ICSharpCode.AvalonEdit.CodeCompletion;assembly=ICSharpCode.AvalonEdit"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
@@ -60,6 +61,54 @@
             <FontFamily x:Key="System.Windows.Media.FontFamily">/NurirobotSupporter;component/Fonts/#NanumBarunGothic</FontFamily>
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="FontFamily" Value="/NurirobotSupporter;component/Fonts/#NanumBarunGothic" />
+            </Style>
+            <Style TargetType="{x:Type avalonEdit:CompletionWindow}">
+                <Setter Property="WindowStyle" Value="None"></Setter>
+                <Setter Property="ResizeMode" Value="CanResize"></Setter>
+                <Setter Property="BorderThickness" Value="0"></Setter>
+            </Style>
+            <Style x:Key="CompletionListBoxItem" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.ThemeBackground}" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Grid Margin="2 0 2 2" >
+                                <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                SnapsToDevicePixels="True" />
+                                <ContentPresenter Margin="2 5" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type avalonEdit:CompletionList}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type avalonEdit:CompletionList}">
+                            <avalonEdit:CompletionListBox x:Name="PART_ListBox" ItemContainerStyle="{StaticResource CompletionListBoxItem}" Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,2,0"/>
+                                            <TextBlock Text="{Binding Content}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </avalonEdit:CompletionListBox>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <title>NURI ROBOT Support Help</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/toast-ui/editor/dist/toastui-editor-viewer.min.js"></script>
+    <script src="https://uicdn.toast.com/editor-plugin-chart/latest/toastui-editor-plugin-chart.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="/lib/toast-ui/editor/dist/toastui-editor-viewer.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <app>
+        <div class="sidebar">
+            <div class="top-row pl-1 navbar navbar-dark">
+                <a class="navbar-brand" href="">NURI ROBOT Supporter Help</a>
+                <button id="menutoggle" class="navbar-toggler">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div id="menu" class="collapse">
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <a id="home" class="nav-link active">
+                            <span class="oi oi-home" aria-hidden="true"></span> Home
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('base');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 기본
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('setting');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 설정
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('single');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 단독제어
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('multiple');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 다중 제어
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('macro');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 매크로
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('search');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 장비조회
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('help');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 도움말
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" onclick="clickmenu('locale');">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> 언어설정
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="main">
+            <div class="top-row px-4">
+            </div>
+
+            <div class="content px-4">
+                <div id="viewer"></div>
+            </div>
+        </div>
+    </app>
+</body>
+</html>
+<script type="text/babel" class="code-js">
+
+    const Viewer = toastui.Editor;
+    const { chart } = Viewer.plugin;
+
+    const chartOptions = {
+        width: 600,
+        height: 600,
+        minWidth: 600,
+        maxWidth: 600,
+        minHeight: 600,
+        maxHeight: 600,
+        usageStatistics: false
+    };
+
+    function page(arg) {
+        $.get(arg + ".md", function (data) {
+            var tmp = data == "" ? "# " + arg : data;
+            new toastui.Editor({
+                el: document.querySelector('#viewer'),
+                initialValue: tmp,
+                viewer: true,
+                plugins: [[chart, chartOptions]]
+            });
+        });
+    }
+
+    function index() {
+        $.get("index.md", function (data) {
+            var tmp = data == "" ? "# index" : data;
+            new toastui.Editor({
+                el: document.querySelector('#viewer'),
+                viewer: true,
+                initialValue: tmp,
+                plugins: [[chart, chartOptions]]
+            });
+        });
+    }
+
+    function removeActive() {
+        $('#home').removeClass('active');
+        $('#base').removeClass('active');
+        $('#setting').removeClass('active');
+        $('#single').removeClass('active');
+        $('#multiple').removeClass('active');
+        $('#macro').removeClass('active');
+        $('#search').removeClass('active');
+        $('#help').removeClass('active');
+        $('#locale').removeClass('active');
+    }
+
+    function clickmenu(arg) {
+        removeActive();
+        $('#' + arg).addClass('active');
+        page(arg);
+    }
+
+    $(function () {
+        $('#menutoggle').click(function () {
+            $('#menu').toggleClass('collapse');
+        });
+
+        $('#home').click(function () {
+            removeActive();
+            $('#home').addClass('active');
+            index();
+        });
+
+        index();
+    });
+</script>

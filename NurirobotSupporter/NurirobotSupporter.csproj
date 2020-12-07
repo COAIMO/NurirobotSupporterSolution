@@ -377,6 +377,7 @@
     <Compile Include="SettingControls\MacroControl.xaml.cs">
       <DependentUpon>MacroControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingControls\MyCompletionData.cs" />
     <Compile Include="SettingControls\PopupEditMacro.xaml.cs">
       <DependentUpon>PopupEditMacro.xaml</DependentUpon>
     </Compile>
@@ -501,7 +502,9 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include=".editorconfig" />
+    <EmbeddedResource Include="SettingControls\CustomHighlighting.xshd" />
     <Resource Include="Fonts\NanumBarunGothic.ttf" />
+    <Resource Include="Fonts\D2Coding.ttc" />
     <None Include="mykey.snk" />
     <None Include="NurirobotSupporter_TemporaryKey.pfx" />
     <None Include="packages.config" />

@@ -47,8 +47,10 @@ namespace NurirobotSupporter
             InitializeComponent();
             _autoSuspendHelper = new AutoSuspendHelper(this);
             _Disposables = new CompositeDisposable();
+
             RxApp.SuspensionHost.CreateNewAppState = () => new AppState();
-            RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver("appstate.json"));
+            FileHelper fh = new FileHelper();
+            RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver(fh.GetLocalFilePath("appstate.json")));
 
             Locator.CurrentMutable.RegisterConstant(new DeviceProtocolDictionary(), typeof(IDeviceProtocolDictionary));
             Locator.CurrentMutable.RegisterConstant(new FileHelper(), typeof(IFileHelper));

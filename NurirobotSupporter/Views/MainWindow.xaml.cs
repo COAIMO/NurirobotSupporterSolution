@@ -85,7 +85,7 @@ namespace NurirobotSupporter.Views
             ViewModel.IsDeviceSearchPopup = false;
         }
 
-        private void MainView_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void MainView_KeyDown(object sender, KeyEventArgs e)
         {
             bool isctrl = false;
             bool isalt = false;

@@ -207,6 +207,63 @@
   <data name="Button_Test" xml:space="preserve">
     <value>테스트</value>
   </data>
+  <data name="Desc_ControlAcceleratedPos" xml:space="preserve">
+    <value>가감속 위치 제어</value>
+  </data>
+  <data name="Desc_ControlAcceleratedSpeed" xml:space="preserve">
+    <value>가감속 속도 제어</value>
+  </data>
+  <data name="Desc_ControlPosSpeed" xml:space="preserve">
+    <value>위치, 속도제어</value>
+  </data>
+  <data name="Desc_NuriMC" xml:space="preserve">
+    <value>모터 컨트롤러 제어 객체</value>
+  </data>
+  <data name="Desc_NuriRSA" xml:space="preserve">
+    <value>스마트모터 제어 객체</value>
+  </data>
+  <data name="Desc_ResetFactory" xml:space="preserve">
+    <value>공장 초기화</value>
+  </data>
+  <data name="Desc_ResetPostion" xml:space="preserve">
+    <value>위치 초기화</value>
+  </data>
+  <data name="Desc_SettingBaudrate" xml:space="preserve">
+    <value>통신속도 설정</value>
+  </data>
+  <data name="Desc_SettingControlDirection" xml:space="preserve">
+    <value>제어 방향 설정</value>
+  </data>
+  <data name="Desc_SettingControlOnOff" xml:space="preserve">
+    <value>제어 On/Off 설정</value>
+  </data>
+  <data name="Desc_SettingID" xml:space="preserve">
+    <value>ID 설정</value>
+  </data>
+  <data name="Desc_SettingPositionControl" xml:space="preserve">
+    <value>위치제어 모드 설정</value>
+  </data>
+  <data name="Desc_SettingPositionController" xml:space="preserve">
+    <value>위치제어기 설정</value>
+  </data>
+  <data name="Desc_SettingRatedspeed" xml:space="preserve">
+    <value>모터 정격속도 설정</value>
+  </data>
+  <data name="Desc_SettingRatio" xml:space="preserve">
+    <value>감속비 설정</value>
+  </data>
+  <data name="Desc_SettingResolution" xml:space="preserve">
+    <value>분해능 설정</value>
+  </data>
+  <data name="Desc_SettingResponsetime" xml:space="preserve">
+    <value>통신 응답시간 설정</value>
+  </data>
+  <data name="Desc_SettingSpeedController" xml:space="preserve">
+    <value>속도제어기 설정</value>
+  </data>
+  <data name="Desc_ThreadSleep" xml:space="preserve">
+    <value>지연시간 설정 함수 예) 1초 대기 :Thread.Sleep(1000);</value>
+  </data>
   <data name="Label_Absolute" xml:space="preserve">
     <value>절대 위치제어</value>
   </data>

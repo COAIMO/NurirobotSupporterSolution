@@ -1,4 +1,4 @@
-<UserControl x:Class="NurirobotSupporter.SettingControls.PopupEditMacro"
+<UserControl x:Name="popupEditMacro" x:Class="NurirobotSupporter.SettingControls.PopupEditMacro"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -62,9 +62,16 @@
             <avalonEdit:TextEditor
                 Background="White"
                 Name="textEditor"
-                FontFamily="Consolas"
+                FontFamily="/NurirobotSupporter;component/Fonts/#D2Coding"
                 SyntaxHighlighting="C#"
-                FontSize="10pt" TextChanged="textEditor_TextChanged" />
+                FontSize="14pt" TextChanged="textEditor_TextChanged">
+                <!--<avalonEdit:TextEditor.ToolTip>
+                    <ToolTip x:Name="toolTip" Placement="Relative" PlacementTarget="textEditor" />
+                </avalonEdit:TextEditor.ToolTip>-->
+                <!--<avalonEdit:TextEditor.InputBindings>
+                    <KeyBinding Key="Space" Modifiers="Ctrl" Command="{Binding AutoInput, ElementName=root}" />
+                </avalonEdit:TextEditor.InputBindings>-->
+            </avalonEdit:TextEditor>
         </Grid>
         <Grid Grid.Row="3" Background="{DynamicResource MahApps.Brushes.Accent4}">
             <Grid.ColumnDefinitions>

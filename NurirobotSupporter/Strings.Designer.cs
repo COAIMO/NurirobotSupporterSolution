@@ -331,6 +331,177 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   가감속 위치 제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_ControlAcceleratedPos {
+            get {
+                return ResourceManager.GetString("Desc_ControlAcceleratedPos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   가감속 속도 제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_ControlAcceleratedSpeed {
+            get {
+                return ResourceManager.GetString("Desc_ControlAcceleratedSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치, 속도제어과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_ControlPosSpeed {
+            get {
+                return ResourceManager.GetString("Desc_ControlPosSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   모터 컨트롤러 제어 객체과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_NuriMC {
+            get {
+                return ResourceManager.GetString("Desc_NuriMC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   스마트모터 제어 객체과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_NuriRSA {
+            get {
+                return ResourceManager.GetString("Desc_NuriRSA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   공장 초기화과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_ResetFactory {
+            get {
+                return ResourceManager.GetString("Desc_ResetFactory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치 초기화과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_ResetPostion {
+            get {
+                return ResourceManager.GetString("Desc_ResetPostion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   통신속도 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingBaudrate {
+            get {
+                return ResourceManager.GetString("Desc_SettingBaudrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   제어 방향 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingControlDirection {
+            get {
+                return ResourceManager.GetString("Desc_SettingControlDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   제어 On/Off 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingControlOnOff {
+            get {
+                return ResourceManager.GetString("Desc_SettingControlOnOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ID 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingID {
+            get {
+                return ResourceManager.GetString("Desc_SettingID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치제어 모드 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingPositionControl {
+            get {
+                return ResourceManager.GetString("Desc_SettingPositionControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   위치제어기 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingPositionController {
+            get {
+                return ResourceManager.GetString("Desc_SettingPositionController", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   모터 정격속도 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingRatedspeed {
+            get {
+                return ResourceManager.GetString("Desc_SettingRatedspeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   감속비 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingRatio {
+            get {
+                return ResourceManager.GetString("Desc_SettingRatio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   분해능 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingResolution {
+            get {
+                return ResourceManager.GetString("Desc_SettingResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   통신 응답시간 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingResponsetime {
+            get {
+                return ResourceManager.GetString("Desc_SettingResponsetime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   속도제어기 설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_SettingSpeedController {
+            get {
+                return ResourceManager.GetString("Desc_SettingSpeedController", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   지연시간 설정 함수 예) 1초 대기 :Thread.Sleep(1000);과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_ThreadSleep {
+            get {
+                return ResourceManager.GetString("Desc_ThreadSleep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   절대 위치제어과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_Absolute {

@@ -207,6 +207,63 @@
   <data name="Button_Test" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="Desc_ControlAcceleratedPos" xml:space="preserve">
+    <value>Acceleration/deceleration position control</value>
+  </data>
+  <data name="Desc_ControlAcceleratedSpeed" xml:space="preserve">
+    <value>Acceleration/deceleration speed control</value>
+  </data>
+  <data name="Desc_ControlPosSpeed" xml:space="preserve">
+    <value>Position and speed control</value>
+  </data>
+  <data name="Desc_NuriMC" xml:space="preserve">
+    <value>Motor controller control object</value>
+  </data>
+  <data name="Desc_NuriRSA" xml:space="preserve">
+    <value>Smart motor control object</value>
+  </data>
+  <data name="Desc_ResetFactory" xml:space="preserve">
+    <value>Factory reset</value>
+  </data>
+  <data name="Desc_ResetPostion" xml:space="preserve">
+    <value>Location reset</value>
+  </data>
+  <data name="Desc_SettingBaudrate" xml:space="preserve">
+    <value>Communication speed setting</value>
+  </data>
+  <data name="Desc_SettingControlDirection" xml:space="preserve">
+    <value>Control direction setting</value>
+  </data>
+  <data name="Desc_SettingControlOnOff" xml:space="preserve">
+    <value>Control On/Off setting</value>
+  </data>
+  <data name="Desc_SettingID" xml:space="preserve">
+    <value>ID setting</value>
+  </data>
+  <data name="Desc_SettingPositionControl" xml:space="preserve">
+    <value>Position control mode setting</value>
+  </data>
+  <data name="Desc_SettingPositionController" xml:space="preserve">
+    <value>Position controller setting</value>
+  </data>
+  <data name="Desc_SettingRatedspeed" xml:space="preserve">
+    <value>Motor rated speed setting</value>
+  </data>
+  <data name="Desc_SettingRatio" xml:space="preserve">
+    <value>Reduction ratio setting</value>
+  </data>
+  <data name="Desc_SettingResolution" xml:space="preserve">
+    <value>Resolution setting</value>
+  </data>
+  <data name="Desc_SettingResponsetime" xml:space="preserve">
+    <value>Communication response time setting</value>
+  </data>
+  <data name="Desc_SettingSpeedController" xml:space="preserve">
+    <value>Speed controller setting</value>
+  </data>
+  <data name="Desc_ThreadSleep" xml:space="preserve">
+    <value>Delay time setting function example) 1 second wait : Thread.Sleep(1000);</value>
+  </data>
   <data name="Label_Absolute" xml:space="preserve">
     <value>Absolute position control</value>
   </data>
