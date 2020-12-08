@@ -35,6 +35,8 @@
                               IsOn="{Binding IsStartupPopupSearch}"/>
             <Button Content="Dark" Margin="5" Width="200" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Click="Button_Click"/>
             <Button Content="Light" Margin="5" Width="200" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Click="Button_Click_1"/>
+            <Button Content="{lex:Loc Button_Export}" Margin="5" Width="200" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Command="{Binding CMDExport}" />
+            <Button Content="{lex:Loc Button_Import}" Margin="5"  Width="200" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Command="{Binding CMDImport}" />
         </StackPanel>
     </Grid>
 </UserControl>

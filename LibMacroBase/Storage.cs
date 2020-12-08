@@ -64,6 +64,11 @@ namespace LibMacroBase
             return _MacroInfo.FindOne(x => x.Ticks.Equals(lTicks));
         }
 
+        public MacroInfo GetMacro(Guid guid)
+        {
+            return _MacroInfo.FindOne(x => x.Id.Equals(guid));
+        }
+
         /// <summary>
         /// 모든 매크로헤더 가져오기
         /// </summary>
@@ -95,7 +100,7 @@ namespace LibMacroBase
         public void UpdateMacro(MacroInfo macroInfo)
         {
             try {
-                _MacroInfo?.Update(macroInfo);
+                _MacroInfo?.Upsert(macroInfo);
             }
             catch (Exception ex) {
                 Debug.WriteLine(ex);

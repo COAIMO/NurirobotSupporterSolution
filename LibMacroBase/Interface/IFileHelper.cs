@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace LibMacroBase.Interface
@@ -15,5 +16,17 @@ namespace LibMacroBase.Interface
         /// <param name="filename">대상 파일명</param>
         /// <returns>대상 파일 경로</returns>
         string GetLocalFilePath(string filename);
+
+        /// <summary>
+        /// 외부 출력위치
+        /// </summary>
+        /// <returns></returns>
+        string GetExportFilePath();
+
+        /// <summary>
+        /// 외부 입력위치
+        /// </summary>
+        /// <returns></returns>
+        string GetImportFilePath();
     }
 }

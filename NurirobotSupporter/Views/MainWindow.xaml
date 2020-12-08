@@ -77,136 +77,45 @@
 
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
-    <mah:HamburgerMenu x:Name="HamburgerMenuControl"
-                          DisplayMode="CompactOverlay"
-                          HamburgerWidth="48"
-                          SelectedIndex="0"
-                          ItemTemplate="{StaticResource HamburgerMenuItem}"
-                          OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}" 
-                        ItemInvoked="HamburgerMenuControl_ItemInvoked">
-        <!--  Header  -->
-        <mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
-            <DataTemplate>
-                <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="16"
-                   Foreground="White"
-                   Text="{lex:Loc Left_Menu_Title}" />
-            </DataTemplate>
-        </mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
-
-        <!--  Items  -->
-        <mah:HamburgerMenu.ItemsSource>
-            <mah:HamburgerMenuItemCollection>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Setting}" Tag="Setting">
-                    <mah:HamburgerMenuIconItem.Icon>
-                        <iconPacks:PackIconMaterial Width="22"
-                                        Height="22"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Kind="Cog" />
-                    </mah:HamburgerMenuIconItem.Icon>
-                </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Single_Control}" Tag="Single">
-                    <mah:HamburgerMenuIconItem.Icon>
-                        <iconPacks:PackIconMaterial Width="22"
-                                        Height="22"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Kind="AlphaSBoxOutline" />
-                    </mah:HamburgerMenuIconItem.Icon>
-                </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Multiple_Control}" Tag="Multiple">
-                    <mah:HamburgerMenuIconItem.Icon>
-                        <iconPacks:PackIconMaterial Width="22"
-                                        Height="22"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Kind="AlphaMBox" />
-                    </mah:HamburgerMenuIconItem.Icon>
-                </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Macro}" Tag="Macro">
-                    <mah:HamburgerMenuIconItem.Icon>
-                        <iconPacks:PackIconMaterial Width="22"
-                                        Height="22"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Kind="LanguageCsharp" />
-                    </mah:HamburgerMenuIconItem.Icon>
-                </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Search}" Tag="DeviceSearch">
-                    <mah:HamburgerMenuIconItem.Icon>
-                        <iconPacks:PackIconMaterial Width="22"
-                                        Height="22"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Kind="FeatureSearch" />
-                    </mah:HamburgerMenuIconItem.Icon>
-                </mah:HamburgerMenuIconItem>
-            </mah:HamburgerMenuItemCollection>
-        </mah:HamburgerMenu.ItemsSource>
-
-        <!--  Options  -->
-        <mah:HamburgerMenu.OptionsItemsSource>
-            <mah:HamburgerMenuItemCollection>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Help}" Tag="Help">
-                    <mah:HamburgerMenuIconItem.Icon>
-                        <iconPacks:PackIconMaterial Width="22"
-                                        Height="22"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Kind="Help" />
-                    </mah:HamburgerMenuIconItem.Icon>
-                </mah:HamburgerMenuIconItem>
-                <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Language}" Tag="Language">
-                    <mah:HamburgerMenuIconItem.Icon>
-                        <iconPacks:PackIconMaterial Width="22"
-                                        Height="22"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Kind="Web" />
-                    </mah:HamburgerMenuIconItem.Icon>
-                </mah:HamburgerMenuIconItem>
-            </mah:HamburgerMenuItemCollection>
-        </mah:HamburgerMenu.OptionsItemsSource>
-
-        <!--  Content  -->
-        <mah:HamburgerMenu.ContentTemplate>
-            <DataTemplate>
-                <Grid x:Name="ContentGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="48" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="520"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="200"/>
-                        </Grid.ColumnDefinitions>
-                        <!--  상단 통신 연결 정보  -->
-                        <Grid Grid.Column="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Viewbox Grid.Column="0">
-                                <TextBlock Padding="10" Text="{lex:Loc Title_Comport}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
-                            </Viewbox>
-                            <Viewbox Grid.Column="2">
-                                <TextBlock Padding="10" Text="{lex:Loc Title_Baudrate}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
-                            </Viewbox>
-                            <mah:SplitButton Grid.Column="1" x:Name="comboBox" 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" x:Name="ContentGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="520"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                <!--  상단 통신 연결 정보  -->
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0">
+                        <TextBlock Padding="10" Text="{lex:Loc Title_Comport}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="2">
+                        <TextBlock Padding="10" Text="{lex:Loc Title_Baudrate}" Foreground="{DynamicResource IdealForegroundColorBrush}"/>
+                    </Viewbox>
+                    <mah:SplitButton Grid.Column="1" x:Name="comboBox" 
                                       Style="{DynamicResource MahApps.Styles.ComboBox}"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                              ItemsSource="{Binding DataContext.SerialPorts, ElementName=MainView}"
                                              SelectedItem="{Binding DataContext.SelectedPort, ElementName=MainView, Mode=TwoWay}"
                                              IsEnabled="{Binding DataContext.IsNotConnect, ElementName=MainView, Mode=OneWay}"
                                              IsEditable="False">
-                            </mah:SplitButton>
-                            <mah:SplitButton Grid.Column="3" 
+                    </mah:SplitButton>
+                    <mah:SplitButton Grid.Column="3" 
                                              Style="{DynamicResource MahApps.Styles.ComboBox}"
                                              HorizontalAlignment="Stretch" 
                                              VerticalAlignment="Center"
@@ -214,115 +123,216 @@
                                              SelectedItem="{Binding DataContext.SelectedBaudrates, ElementName=MainView, Mode=TwoWay}"
                                              IsEnabled="{Binding DataContext.IsNotConnect, ElementName=MainView, Mode=OneWay}"
                                              IsEditable="False">
-                            </mah:SplitButton>
-                        </Grid>
-                        <Grid Grid.Column="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Margin="5"
+                    </mah:SplitButton>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="5"
                                     Style="{StaticResource MahApps.Styles.Button.Circle}"
                                     Command="{Binding DataContext.MacroStopRecode, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"
                                     IsEnabled="{Binding DataContext.IsConnect, ElementName=MainView}">
-                                <iconPacks:PackIconModern Width="20"
+                        <iconPacks:PackIconModern Width="20"
                                               Height="20"
                                               Kind="ControlStop" />
-                            </Button>
-                            <Button Grid.Column="0" Margin="5"
+                    </Button>
+                    <Button Grid.Column="0" Margin="5"
                                     Style="{StaticResource MahApps.Styles.Button.Circle}"
                                     Command="{Binding DataContext.MacroRecode, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsNotRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"
                                     IsEnabled="{Binding DataContext.IsConnect, ElementName=MainView}">
-                                <iconPacks:PackIconModern Width="20"
+                        <iconPacks:PackIconModern Width="20"
                                               Height="20"
                                               Kind="MoonFull" Foreground="Red" />
-                            </Button>
-                            <Button Grid.Column="1" Content="{lex:Loc Button_Connect}" Margin="5"
+                    </Button>
+                    <Button Grid.Column="1" Content="{lex:Loc Button_Connect}" Margin="5"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
                                     Command="{Binding DataContext.SerialConnect, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
-                            <Button Grid.Column="1" Content="{lex:Loc Button_Disconnect}" Margin="5"
+                    <Button Grid.Column="1" Content="{lex:Loc Button_Disconnect}" Margin="5"
                                     Style="{DynamicResource MahApps.Styles.Button.Square}" 
                                     Command="{Binding DataContext.SerialDisConnect, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
-                        </Grid>
-                    </Grid>
-                    <local:MacroView 
+                </Grid>
+            </Grid>
+            <local:MacroView 
                         Grid.Row="1"
                         Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Macro, ElementName=HamburgerMenuControl}"
                         IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Macro, ElementName=HamburgerMenuControl}"
                         DataContext="{Binding DataContext.Macro, Mode=OneWay, ElementName=MainView}"
                         />
-                    <local:MultiView Grid.Row="1"
-                            Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Multiple, ElementName=HamburgerMenuControl}"
-                            IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Multiple, ElementName=HamburgerMenuControl}"
-                         DataContext="{Binding DataContext.Multiple, Mode=OneWay, ElementName=MainView}"/>
-                    <local:SingleView Grid.Row="1"
-                            Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Single, ElementName=HamburgerMenuControl}"
-                            IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Single, ElementName=HamburgerMenuControl}"
-                         DataContext="{Binding DataContext.Single, Mode=OneWay, ElementName=MainView}"/>
-                    <local:SettingView Grid.Row="1"
-                            Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
-                            IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
-                         DataContext="{Binding DataContext.Setting, Mode=OneWay, ElementName=MainView}"/>
-                    <Grid Grid.Row="1" Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"
+            <local:MultiView Grid.Row="1"
+                    Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Multiple, ElementName=HamburgerMenuControl}"
+                    IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Multiple, ElementName=HamburgerMenuControl}"
+                    DataContext="{Binding DataContext.Multiple, Mode=OneWay, ElementName=MainView}"/>
+            <local:SingleView Grid.Row="1"
+                    Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Single, ElementName=HamburgerMenuControl}"
+                    IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Single, ElementName=HamburgerMenuControl}"
+                    DataContext="{Binding DataContext.Single, Mode=OneWay, ElementName=MainView}"/>
+            <local:SettingView Grid.Row="1"
+                    Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
+                    IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
+                    DataContext="{Binding DataContext.Setting, Mode=OneWay, ElementName=MainView}"/>
+            <Grid Grid.Row="1" Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"
                   Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{lex:Loc Title_NotConnected}" FontSize="32" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{lex:Loc Title_NotConnected}" FontSize="32" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Grid>
-                    
-                    <local:DeviceSearchView 
+                </StackPanel>
+            </Grid>
+
+            <local:DeviceSearchView 
                         Grid.Row="1"
                         Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=DeviceSearch, ElementName=HamburgerMenuControl}"
                         IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=DeviceSearch, ElementName=HamburgerMenuControl}"
                         DataContext="{Binding DataContext.DeviceSearch, Mode=OneWay, ElementName=MainView}" />
-                    <local:LanguageView Grid.Row="1"
-                            Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Language, ElementName=HamburgerMenuControl}"
-                            IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Language, ElementName=HamburgerMenuControl}"
-                         DataContext="{Binding DataContext.Language, Mode=OneWay, ElementName=MainView}" />
-                    <local:HelpView Grid.Row="1"
-                            Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
-                            IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
-                         DataContext="{Binding DataContext.Help, Mode=OneWay, ElementName=MainView}" />
+            <local:LanguageView Grid.Row="1"
+                    Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Language, ElementName=HamburgerMenuControl}"
+                    IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Language, ElementName=HamburgerMenuControl}"
+                    DataContext="{Binding DataContext.Language, Mode=OneWay, ElementName=MainView}" />
+            <local:HelpView Grid.Row="1"
+                    Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
+                    IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
+                    DataContext="{Binding DataContext.Help, Mode=OneWay, ElementName=MainView}" />
 
-                    <Grid Visibility="{Binding DataContext.IsDeviceSearchPopup, Converter={StaticResource BooleanToVisibility}, Mode=OneWay, ElementName=MainView}"
+            <Grid Visibility="{Binding DataContext.IsDeviceSearchPopup, Converter={StaticResource BooleanToVisibility}, Mode=OneWay, ElementName=MainView}"
                           Grid.Row="1"
                           Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
                           >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="2*" />
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="3*" />
-                            <RowDefinition Height="2*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Row="1" Grid.Column="1"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="1" Grid.Column="1"
                                     Background="{DynamicResource MahApps.Brushes.Accent2}">
-                            <Viewbox Margin="10">
-                                <TextBlock Text="{lex:Loc Label_PopupTitleDeviceSearch}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
-                            </Viewbox>
-                        </Grid>
-                        <Grid Grid.Row="2" Grid.Column="1"
-                              Background="{DynamicResource MahApps.Brushes.Accent4}">
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Margin="30" Text="{lex:Loc Label_DeviceSearchDesc}" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Content="{lex:Loc Button_DeviceSearch}" Margin="10, 0" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Click="Button_Click"/>
-                                    <Button Content="{lex:Loc Button_Cancel}" Margin="10, 0" Style="{DynamicResource MahApps.Styles.Button.Square}" Click="Button_Click_1" />
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
+                    <Viewbox Margin="10">
+                        <TextBlock Text="{lex:Loc Label_PopupTitleDeviceSearch}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
+                    </Viewbox>
                 </Grid>
-            </DataTemplate>
-        </mah:HamburgerMenu.ContentTemplate>
-    </mah:HamburgerMenu>
+                <Grid Grid.Row="2" Grid.Column="1"
+                              Background="{DynamicResource MahApps.Brushes.Accent4}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Margin="30" Text="{lex:Loc Label_DeviceSearchDesc}" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"></TextBlock>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="{lex:Loc Button_DeviceSearch}" Margin="10, 0" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Click="Button_Click"/>
+                            <Button Content="{lex:Loc Button_Cancel}" Margin="10, 0" Style="{DynamicResource MahApps.Styles.Button.Square}" Click="Button_Click_1" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+        <mah:HamburgerMenu 
+                          Grid.ColumnSpan="2"
+                          x:Name="HamburgerMenuControl"
+                          DisplayMode="CompactOverlay"
+                          HamburgerWidth="48"
+                          SelectedIndex="0"
+                          ItemTemplate="{StaticResource HamburgerMenuItem}"
+                          OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}" 
+                        ItemInvoked="HamburgerMenuControl_ItemInvoked">
+            <!--  Header  -->
+            <mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Foreground="White"
+                   Text="{lex:Loc Left_Menu_Title}" />
+                </DataTemplate>
+            </mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
+
+            <!--  Items  -->
+            <mah:HamburgerMenu.ItemsSource>
+                <mah:HamburgerMenuItemCollection>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Setting}" Tag="Setting">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="Cog" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Single_Control}" Tag="Single">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="AlphaSBoxOutline" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Multiple_Control}" Tag="Multiple">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="AlphaMBox" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Macro}" Tag="Macro">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="LanguageCsharp" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Search}" Tag="DeviceSearch">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="FeatureSearch" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                </mah:HamburgerMenuItemCollection>
+            </mah:HamburgerMenu.ItemsSource>
+
+            <!--  Options  -->
+            <mah:HamburgerMenu.OptionsItemsSource>
+                <mah:HamburgerMenuItemCollection>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Help}" Tag="Help">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="Help" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Language}" Tag="Language">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="Web" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                </mah:HamburgerMenuItemCollection>
+            </mah:HamburgerMenu.OptionsItemsSource>
+
+            <!--  Content  -->
+            <mah:HamburgerMenu.ContentTemplate>
+                <DataTemplate>
+
+                </DataTemplate>
+            </mah:HamburgerMenu.ContentTemplate>
+        </mah:HamburgerMenu>
+    </Grid>
+    
 </mah:MetroWindow>

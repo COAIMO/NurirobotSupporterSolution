@@ -15,6 +15,7 @@ namespace LibMacroBase.Interface
         /// <param name="lTicks"></param>
         /// <returns></returns>
         MacroInfo GetMacro(long lTicks);
+        MacroInfo GetMacro(Guid guid);
         /// <summary>
         /// 모든 매크로헤더 가져오기
         /// </summary>

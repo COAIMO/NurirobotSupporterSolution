@@ -39,7 +39,7 @@ namespace NurirobotSupporter.SettingControls
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty
 .Register(nameof(ViewModel), typeof(IMacroControlViewModel), typeof(PopupEditMacro), null);
 
-        CompositeDisposable disposable = null;
+        //CompositeDisposable disposable = null;
         public ReactiveCommand<Unit, Unit> AutoInput { get; private set; }
         ToolTip toolTip;
         CompletionWindow completionWindow;
@@ -82,22 +82,31 @@ namespace NurirobotSupporter.SettingControls
             textEditor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
             textEditor.TextArea.Caret.PositionChanged += Caret_PositionChanged;
 
-            DataContextChanged += (sender, args) => {
-                if (disposable != null) {
-                    disposable.Dispose();
-                }
-                disposable = new CompositeDisposable();
+            this.WhenActivated(disposable => {
+                DataContextChanged += (sender, args) => {
+                    //if (disposable != null) {
+                    //    disposable.Dispose();
+                    //}
+                    //disposable = new CompositeDisposable();
 
-                ViewModel = DataContext as IMacroControlViewModel;
-                var txt = string.Join("\r\n", ViewModel.Macro.ToArray());
-                textEditor.Text = txt;
-                ViewModel.WhenAnyValue(x => x.LastUpdate)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(x => {
-                    var tmp = string.Join("\r\n", ViewModel.Macro.ToArray());
-                    textEditor.Text = tmp;
-                }).DisposeWith(disposable);
-            };
+                    ViewModel = DataContext as IMacroControlViewModel;
+                    var txt = string.Join("\r\n", ViewModel.Macro.ToArray());
+                    textEditor.Text = txt;
+                    ViewModel.WhenAnyValue(x => x.LastUpdate)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(x => {
+                        var tmp = string.Join("\r\n", ViewModel.Macro.ToArray());
+                        textEditor.Text = tmp;
+                    }).DisposeWith(disposable);
+
+                    ViewModel.WhenAnyValue(x => x.IsPopupShow)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(x => {
+                        if (!x && toolTip.IsOpen)
+                            toolTip.IsOpen = false;
+                    }).DisposeWith(disposable);
+                };
+            });
         }
 
         char[] _SplitChars = new char[] { ' ', '(', ')', ',', '.', '+', '-'};

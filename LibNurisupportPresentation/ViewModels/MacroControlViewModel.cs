@@ -84,6 +84,16 @@ namespace LibNurisupportPresentation.ViewModels
             get => _IsShowShortCut;
             set => this.RaiseAndSetIfChanged(ref _IsShowShortCut, value);
         }
+        bool _IsPopupShow;
+        public bool IsPopupShow { 
+            get => _IsPopupShow; 
+            set => this.RaiseAndSetIfChanged(ref _IsPopupShow, value); 
+        }
+        Guid _ID;
+        public Guid ID { 
+            get => _ID; 
+            set => this.RaiseAndSetIfChanged(ref _ID, value); 
+        }
 
         string _beforeKey;
 
@@ -95,6 +105,7 @@ namespace LibNurisupportPresentation.ViewModels
             MacroName = info.MacroName;
             ShortCut = info.ShortCut;
             Macro = info.Macro.ToArray();
+            ID = info.Id;
 
             var storage = Locator.Current.GetService<IStorage>();
             var canRun = this.WhenAnyValue(x => x.IsRunning)
@@ -103,11 +114,17 @@ namespace LibNurisupportPresentation.ViewModels
                     return !x;
                 });
 
+            this.WhenAnyValue(x => x._MacroViewModel.IsPopupEdit)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => {
+                    IsPopupShow = x;
+                });
+
             CMDRun = ReactiveCommand.Create(() => {
                 _MacroViewModel.IsRunning = true;
                 Task.Run(() => {
                     _MacroViewModel._Log.OnNext("Run ======== ");
-                    _MacroViewModel.RunID(Ticks);
+                    _MacroViewModel.RunID(ID);
 
                     _MacroViewModel.IsRunning = false;
                 });
@@ -129,7 +146,7 @@ namespace LibNurisupportPresentation.ViewModels
             CMDEditCancel = ReactiveCommand.Create(() => {
                 IsRunning = true;
                 Task.Run(() => {
-                    var data = storage.GetMacro(Ticks);
+                    var data = storage.GetMacro(ID);
                     MacroInfo = data;
                     MacroName = data.MacroName;
                     ShortCut = data.ShortCut;

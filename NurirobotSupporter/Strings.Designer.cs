@@ -223,6 +223,24 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   매크로 내보내기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Export {
+            get {
+                return ResourceManager.GetString("Button_Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   매크로 가져오기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Import {
+            get {
+                return ResourceManager.GetString("Button_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   한국어과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_Korean {
@@ -1020,6 +1038,24 @@ namespace NurirobotSupporter {
         internal static string Loading_Text {
             get {
                 return ResourceManager.GetString("Loading_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   내보내기를 성공하였습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Popup_ExportDone {
+            get {
+                return ResourceManager.GetString("Popup_ExportDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   가져오기를 성공하였습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Popup_ImportDone {
+            get {
+                return ResourceManager.GetString("Popup_ImportDone", resourceCulture);
             }
         }
         

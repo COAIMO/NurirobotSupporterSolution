@@ -30,7 +30,7 @@
             <Viewbox HorizontalAlignment="Left">
                 <TextBlock Padding="10" Text="{lex:Loc Title_Setting}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
             </Viewbox>
-            <Viewbox Width="120" HorizontalAlignment="Right" Grid.Column="1">
+            <Viewbox Width="120" HorizontalAlignment="Right" Grid.Column="1" Margin="5">
                 <Button Content="{lex:Loc Button_Cancel}" Width="120" Height="40"
                                         Command="{Binding StopTask}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square}"/>

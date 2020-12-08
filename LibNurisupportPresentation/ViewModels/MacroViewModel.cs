@@ -90,7 +90,7 @@ namespace LibNurisupportPresentation.ViewModels
 
         public void RunID(long arg)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
             var storage = Locator.Current.GetService<IStorage>();
             var tmp = storage.GetMacro(arg);
             //tmp.Macro
@@ -207,7 +207,7 @@ namespace LibNurisupportPresentation.ViewModels
                                 var macros = storage.GetMacros();
                                 List<MacroInfo> lst = new List<MacroInfo>();
                                 foreach (var item in macros) {
-                                    var tmp = storage.GetMacro(item.Ticks);
+                                    var tmp = storage.GetMacro(item.Id);
                                     if (!lst.Contains(tmp)) {
                                         lst.Add(tmp);
                                     }
@@ -249,7 +249,7 @@ namespace LibNurisupportPresentation.ViewModels
                     var macros = storage.GetMacros();
                     List<MacroInfo> lst = new List<MacroInfo>();
                     foreach (var item in macros) {
-                        var tmp = storage.GetMacro(item.Ticks);
+                        var tmp = storage.GetMacro(item.Id);
                         if (!lst.Contains(tmp)) {
                             lst.Add(tmp);
                         }
@@ -313,6 +313,16 @@ namespace LibNurisupportPresentation.ViewModels
         public void RunTest(string[] args)
         {
             foreach (var item in args) {
+                _MacroQueue.Enqueue(item);
+            }
+        }
+
+        public void RunID(Guid guid)
+        {
+            var storage = Locator.Current.GetService<IStorage>();
+            var tmp = storage.GetMacro(guid);
+            //tmp.Macro
+            foreach (var item in tmp.Macro) {
                 _MacroQueue.Enqueue(item);
             }
         }

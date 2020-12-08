@@ -7,6 +7,7 @@ namespace LibMacroBase
     /// <summary>
     /// 매크로 정보
     /// </summary>
+    [Serializable]
     public class MacroInfo : MacroInfoHeader, IDisposable
     {
         /// <summary>

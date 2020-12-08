@@ -41,6 +41,7 @@ namespace LibNurisupportPresentation.Interfaces
         /// </summary>
         /// <param name="arg"></param>
         void RunID(long arg);
+        void RunID(Guid guid);
 
         void RunTest(string[] args);
 

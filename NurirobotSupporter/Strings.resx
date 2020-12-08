@@ -171,6 +171,12 @@
   <data name="Button_English" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="Button_Export" xml:space="preserve">
+    <value>매크로 내보내기</value>
+  </data>
+  <data name="Button_Import" xml:space="preserve">
+    <value>매크로 가져오기</value>
+  </data>
   <data name="Button_Korean" xml:space="preserve">
     <value>한국어</value>
   </data>
@@ -440,6 +446,12 @@
   </data>
   <data name="PopupDone" xml:space="preserve">
     <value>처리 되었습니다.</value>
+  </data>
+  <data name="Popup_ExportDone" xml:space="preserve">
+    <value>내보내기를 성공하였습니다.</value>
+  </data>
+  <data name="Popup_ImportDone" xml:space="preserve">
+    <value>가져오기를 성공하였습니다.</value>
   </data>
   <data name="Title_Baudrate" xml:space="preserve">
     <value>통신속도</value>

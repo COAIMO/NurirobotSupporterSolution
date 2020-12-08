@@ -33,7 +33,7 @@ namespace NurirobotSupporter.Views
             .Register(nameof(ViewModel), typeof(IMacroViewModel), typeof(MacroView), null);
 
         protected DispatcherTimer UpdateTimer { get; set; }
-        ConcurrentDictionary<long, MacroControl> _dictControl = new ConcurrentDictionary<long, MacroControl>();
+        ConcurrentDictionary<Guid, MacroControl> _dictControl = new ConcurrentDictionary<Guid, MacroControl>();
 
         public MacroView()
         {
@@ -53,19 +53,20 @@ namespace NurirobotSupporter.Views
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Where(x => x != null)
                     .Subscribe(x => {
-                        List<long> keys = new List<long>();
-                        foreach (var item in x) {
+                        var tmps = x.OrderBy(v => v.Ticks);
+                        List<Guid> keys = new List<Guid>();
+                        foreach (var item in tmps) {
                             //Debug.WriteLine(item.MacroName);
-                            if (!_dictControl.ContainsKey(item.Ticks)) {
+                            if (!_dictControl.ContainsKey(item.Id)) {
                                 var tmp = new MacroControl(new MacroControlViewModel(item, ViewModel));
                                 tmp.Width = ViewModel.ControlWidth;
                                 tmp.Margin = new Thickness(0, 0, 5, 5);
-                                if (_dictControl.TryAdd(item.Ticks, tmp)) {
-                                    WrapPanel.Children.Add(_dictControl[item.Ticks]);
+                                if (_dictControl.TryAdd(item.Id, tmp)) {
+                                    WrapPanel.Children.Add(_dictControl[item.Id]);
                                     Debug.WriteLine(item);
                                 }
                             }
-                            keys.Add(item.Ticks);
+                            keys.Add(item.Id);
                         }
 
                         foreach (var item in _dictControl.Keys) {

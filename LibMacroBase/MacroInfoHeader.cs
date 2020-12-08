@@ -8,6 +8,7 @@ namespace LibMacroBase
     /// <summary>
     /// 매크로 정보 헤더
     /// </summary>
+    [Serializable]
     public class MacroInfoHeader
     {
         [BsonId]

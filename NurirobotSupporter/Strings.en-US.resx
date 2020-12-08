@@ -171,6 +171,12 @@
   <data name="Button_English" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="Button_Export" xml:space="preserve">
+    <value>Macro Export</value>
+  </data>
+  <data name="Button_Import" xml:space="preserve">
+    <value>Macro Import</value>
+  </data>
   <data name="Button_Korean" xml:space="preserve">
     <value>Korean</value>
   </data>

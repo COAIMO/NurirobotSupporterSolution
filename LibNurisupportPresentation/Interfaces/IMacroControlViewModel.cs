@@ -14,6 +14,7 @@ namespace LibNurisupportPresentation.Interfaces
         string ShortCut { get; set; }
         IEnumerable<string> Macro { get; set; }
         MacroInfo MacroInfo { get; set; }
+        Guid ID { get; set; }
 
         ReactiveCommand<Unit, Unit> CMDRun { get; }
         ReactiveCommand<Unit, Unit> CMDEdit { get; }
@@ -31,6 +32,7 @@ namespace LibNurisupportPresentation.Interfaces
         long LastUpdate { get; set; }
         string EditMacro { get; set; }
         bool IsShowShortCut { get; set; }
+        bool IsPopupShow { get; set; }
 
 
     }
