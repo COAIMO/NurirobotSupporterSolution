@@ -198,6 +198,7 @@
                                         <TextBlock Margin="2, 5" Text="{lex:Loc Label_usTime}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
+                                                       Focusable="True"
                                                    Value="{Binding ResponseTime, Mode=TwoWay}"
                                                    Minimum="0"
                                                    Maximum="20000"
@@ -263,6 +264,7 @@
                                         <TextBlock Margin="2, 8" Text="Kp" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="2"
+                                                       Focusable="True"
                                                 Value="{Binding PosGainKp, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="254"
@@ -273,6 +275,7 @@
                                         <TextBlock Margin="2, 8" Text="Ki" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="2"
+                                                       Focusable="True"
                                                 Value="{Binding PosGainKi, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="254"
@@ -283,6 +286,7 @@
                                         <TextBlock Margin="2, 8" Text="Kd" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="2" Grid.Column="1" Margin="2"
+                                                       Focusable="True"
                                                 Value="{Binding PosGainKd, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="254"
@@ -293,6 +297,7 @@
                                         <TextBlock Margin="2, 8" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Row="3" Grid.Column="1" Margin="2"
+                                                       Focusable="True"
                                                 Value="{Binding PosCurrent, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="25400"
@@ -326,6 +331,7 @@
                                         <TextBlock Margin="2, 5" Text="{lex:Loc Label_RPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
+                                                       Focusable="True"
                                                    Value="{Binding RatedSpeedRPM, Mode=TwoWay}"
                                                    Minimum="0"
                                                    Maximum="65533"
@@ -358,6 +364,7 @@
                                         <TextBlock Margin="2, 5" Text="{lex:Loc Label_Resolution}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
+                                                       Focusable="True"
                                                    Value="{Binding Resolution, Mode=TwoWay}"
                                                    Minimum="0"
                                                    Maximum="65533"
@@ -422,7 +429,7 @@
                                     <Viewbox Grid.Column="0" Grid.Row="0">
                                         <TextBlock Margin="2, 8" Text="Kp" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
-                                    <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="2"
+                                    <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="2" Focusable="True"
                                                 Value="{Binding SpeedGainKp, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="254"
@@ -432,7 +439,7 @@
                                     <Viewbox Grid.Column="0" Grid.Row="1">
                                         <TextBlock Margin="2, 8" Text="Ki" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
-                                    <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="2"
+                                    <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="2" Focusable="True"
                                                 Value="{Binding SpeedGainKi, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="254"
@@ -442,7 +449,7 @@
                                     <Viewbox Grid.Column="0" Grid.Row="2">
                                         <TextBlock Margin="2, 8" Text="Kd" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
-                                    <mah:NumericUpDown Grid.Row="2" Grid.Column="1" Margin="2"
+                                    <mah:NumericUpDown Grid.Row="2" Grid.Column="1" Margin="2" Focusable="True"
                                                 Value="{Binding SpeedGainKd, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="254"
@@ -452,7 +459,7 @@
                                     <Viewbox Grid.Column="0" Grid.Row="3">
                                         <TextBlock Margin="2, 8" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
-                                    <mah:NumericUpDown Grid.Row="3" Grid.Column="1" Margin="2"
+                                    <mah:NumericUpDown Grid.Row="3" Grid.Column="1" Margin="2" Focusable="True"
                                                 Value="{Binding SpeedCurrent, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="25400"
@@ -485,7 +492,7 @@
                                     <Viewbox Grid.Column="0">
                                         <TextBlock Margin="2, 5" Text="{lex:Loc Label_Ratio_Title}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
-                                    <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right"
+                                    <mah:NumericUpDown Grid.Column="2" HorizontalContentAlignment="Right" Focusable="True"
                                                    Value="{Binding ChooseRatio, Mode=TwoWay}"
                                                    Minimum="0"
                                                    Maximum="6553.3"

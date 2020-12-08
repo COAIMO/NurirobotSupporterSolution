@@ -39,6 +39,7 @@ namespace NurirobotSupporter.Views
             }
         }
 
+        long beforecount = -1;
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             if (!this.IsEnabled)
@@ -48,11 +49,14 @@ namespace NurirobotSupporter.Views
                 if (ViewModel == null || ViewModel.Logs == null || ViewModel.Logs.Count == 0)
                     return;
 
-                if (SystemStatusLB.ItemContainerGenerator.ContainerFromIndex(ViewModel.Logs.Count - 1) is FrameworkElement container) {
-                    var transform = container.TransformToVisual(SystemStatusSV);
-                    var elementLocation = transform.Transform(new Point(0, 0));
-                    double newVerticalOffset = elementLocation.Y + SystemStatusSV.VerticalOffset;
-                    SystemStatusSV.ScrollToVerticalOffset(newVerticalOffset);
+                if (beforecount != ViewModel.Logs.Count) {
+                    if (SystemStatusLB.ItemContainerGenerator.ContainerFromIndex(ViewModel.Logs.Count - 1) is FrameworkElement container) {
+                        var transform = container.TransformToVisual(SystemStatusSV);
+                        var elementLocation = transform.Transform(new Point(0, 0));
+                        double newVerticalOffset = elementLocation.Y + SystemStatusSV.VerticalOffset;
+                        SystemStatusSV.ScrollToVerticalOffset(newVerticalOffset);
+                    }
+                    beforecount = ViewModel.Logs.Count;
                 }
             } catch {
 

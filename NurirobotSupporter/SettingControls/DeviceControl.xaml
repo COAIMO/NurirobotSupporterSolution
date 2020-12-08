@@ -55,7 +55,7 @@
                             <Viewbox Grid.Column="0" Grid.Row="0" Margin="2">
                                 <TextBlock Margin="2, 8" Text="{lex:Loc Label_Position}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                             </Viewbox>
-                            <mah:NumericUpDown Grid.Column="1" Grid.Row="0" Margin="3"
+                            <mah:NumericUpDown Grid.Column="1" Grid.Row="0" Margin="3" Focusable="True"
                                                 Value="{Binding Postion, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="655.33" StringFormat="0.00" ParsingNumberStyle="Float"
@@ -63,7 +63,7 @@
                             <Viewbox Grid.Column="0" Grid.Row="1" Margin="2">
                                 <TextBlock Margin="2, 8" Text="{lex:Loc Label_Velocity}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                             </Viewbox>
-                            <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3"
+                            <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3" Focusable="True"
                                                 Value="{Binding Velocity, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="6553.3" ParsingNumberStyle="Float" StringFormat="0.0"
@@ -84,7 +84,7 @@
                             <Viewbox Grid.Column="0" Grid.Row="0" Margin="2">
                                 <TextBlock Margin="2, 8" Text="{lex:Loc Label_Position}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                             </Viewbox>
-                            <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="3"
+                            <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="3" Focusable="True"
                                                 Value="{Binding Postion, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="655.33" ParsingNumberStyle="Float" StringFormat="0.0"
@@ -92,7 +92,7 @@
                             <Viewbox Grid.Column="0" Grid.Row="1" Margin="2">
                                 <TextBlock Margin="2, 8" Text="{lex:Loc Label_Arrival}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                             </Viewbox>
-                            <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3" 
+                            <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3"  Focusable="True"
                                                 Value="{Binding Arrival, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="25.5" StringFormat="0.0" ParsingNumberStyle="Float"
@@ -113,7 +113,7 @@
                             <Viewbox Grid.Column="0" Grid.Row="0" Margin="2">
                                 <TextBlock Margin="2, 8" Text="{lex:Loc Label_Velocity}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                             </Viewbox>
-                            <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="3"
+                            <mah:NumericUpDown Grid.Row="0" Grid.Column="1" Margin="3" Focusable="True"
                                                 Value="{Binding Velocity, Mode=TwoWay}"
                                                 Minimum="0" HorizontalContentAlignment="Right"
                                                 Maximum="6553.3" StringFormat="0.0" ParsingNumberStyle="Float"
@@ -121,7 +121,7 @@
                             <Viewbox Grid.Column="0" Grid.Row="1" Margin="2">
                                 <TextBlock Margin="2, 8" Text="{lex:Loc Label_Arrival}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                             </Viewbox>
-                            <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3" 
+                            <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3"  Focusable="True"
                                                 Value="{Binding Arrival, Mode=TwoWay}"
                                                 Minimum="0" 
                                                 Maximum="25.5" StringFormat="0.0"  ParsingNumberStyle="Float" 

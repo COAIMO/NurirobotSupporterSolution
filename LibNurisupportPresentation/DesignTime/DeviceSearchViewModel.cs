@@ -27,5 +27,7 @@ namespace LibNurisupportPresentation.DesignTime
         public string SelectLog { get; set; } = "1 sdfasd";
 
         public IMainViewModel MainViewModel { get; set; }
+        public int CurrPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int TotalPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

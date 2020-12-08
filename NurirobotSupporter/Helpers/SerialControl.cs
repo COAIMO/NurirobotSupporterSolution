@@ -235,7 +235,7 @@ namespace NurirobotSupporter.Helpers
                             }
 
                             if (idx > 0
-                            && stopwatch.ElapsedMilliseconds > 50) {
+                            && stopwatch.ElapsedMilliseconds > 1000) {
                                 if (idx > 3
                                 && buffPattern[0] == baSTX[0] && buffPattern[1] == baSTX[1]) {
                                     byte[] segment = new byte[idx];
@@ -243,14 +243,19 @@ namespace NurirobotSupporter.Helpers
                                     if (idx > 3
                                     && segment[3] + 4 == idx)
                                         ProtocolReceived.OnNext(segment);
+                                    else {
+                                        byte[] tmpError = new byte[8] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
+                                        ProtocolReceived.OnNext(tmpError);
+                                        Debug.WriteLine("Timeout : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t 데이터 수신 미완");
+                                    }
                                 }
-#if DEBUG
                                 else {
-                                    byte[] segment = new byte[idx];
-                                    Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
-                                    Debug.WriteLine("Timeout : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t" + BitConverter.ToString(segment).Replace("-", ""));
-                                }
+                                    byte[] tmpError = new byte[8] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
+                                    ProtocolReceived.OnNext(tmpError);
+#if DEBUG
+                                    Debug.WriteLine("Timeout : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t STX 이상");
 #endif
+                                }
 
                                 idx = 0;
                                 stopwatch.Stop();

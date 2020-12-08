@@ -58,7 +58,7 @@
         "Entry"
         {
         "MsmKey" = "8:_0F8BADEE57DF22392958773FBF9D116A"
-        "OwnerKey" = "8:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
+        "OwnerKey" = "8:_1B23E42E5524D938DE468850764241D6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,7 +70,7 @@
         "Entry"
         {
         "MsmKey" = "8:_0F8BADEE57DF22392958773FBF9D116A"
-        "OwnerKey" = "8:_1B23E42E5524D938DE468850764241D6"
+        "OwnerKey" = "8:_84C4FBC81261138B6281F44F491D9FAD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -681,12 +681,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6E37439869D8420FBFB2044B4607DC72"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_6EF40D6A6ADF7C156150F34A556DB216"
         "OwnerKey" = "8:_A5461675D98E4FD994234B3DA62083F4"
         "MsmSig" = "8:_UNDEFINED"
@@ -945,6 +939,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_84C4FBC81261138B6281F44F491D9FAD"
+        "OwnerKey" = "8:_A5461675D98E4FD994234B3DA62083F4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_84FA8143D586447634BCFCB87DAC7078"
         "OwnerKey" = "8:_A5461675D98E4FD994234B3DA62083F4"
         "MsmSig" = "8:_UNDEFINED"
@@ -1101,6 +1101,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9A9D9A352F9F473797E14A2E8049FC98"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9AF3C066BB62B4A6126F44BF204EC6B8"
         "OwnerKey" = "8:_A5461675D98E4FD994234B3DA62083F4"
         "MsmSig" = "8:_UNDEFINED"
@@ -1175,36 +1181,6 @@
         {
         "MsmKey" = "8:_9EA2196C03D66326076DA7D7337F5982"
         "OwnerKey" = "8:_A5461675D98E4FD994234B3DA62083F4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-        "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-        "OwnerKey" = "8:_A5461675D98E4FD994234B3DA62083F4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-        "OwnerKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-        "OwnerKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2122,6 +2098,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_84C4FBC81261138B6281F44F491D9FAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2B0D5CE00BBCE2C53E51E457008F2FFF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2404,6 +2386,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0F8BADEE57DF22392958773FBF9D116A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_71B37624383B7EDBD5595DBEE2E7A187"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2417,18 +2405,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0F8BADEE57DF22392958773FBF9D116A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -5298,26 +5274,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6E37439869D8420FBFB2044B4607DC72"
-            {
-            "SourcePath" = "8:..\\WebNURIROBOTSUPPORT\\wwwroot\\favicon.ico"
-            "TargetName" = "8:favicon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6EF40D6A6ADF7C156150F34A556DB216"
             {
             "AssemblyRegister" = "3:1"
@@ -6062,6 +6018,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_84C4FBC81261138B6281F44F491D9FAD"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Splat, Version=9.8.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_84C4FBC81261138B6281F44F491D9FAD"
+                    {
+                    "Name" = "8:Splat.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Splat.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_84FA8143D586447634BCFCB87DAC7078"
             {
             "AssemblyRegister" = "3:1"
@@ -6713,6 +6700,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9A9D9A352F9F473797E14A2E8049FC98"
+            {
+            "SourcePath" = "8:..\\WebDeployNURI\\wwwroot\\favicon.ico"
+            "TargetName" = "8:favicon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9AF3C066BB62B4A6126F44BF204EC6B8"
             {
             "AssemblyRegister" = "3:1"
@@ -6975,37 +6982,6 @@
                     }
                 }
             "SourcePath" = "8:System.Threading.Thread.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Splat, Version=9.7.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_9F7B0E8B066CF10EFCA09050DC3D9AC5"
-                    {
-                    "Name" = "8:Splat.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Splat.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
@@ -9249,15 +9225,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NurirobotSupporterSetup"
-        "ProductCode" = "8:{758B5480-19D9-48B4-A40E-8456CA0728DC}"
-        "PackageCode" = "8:{C6D946AE-1A1A-4325-90CA-5DFCE763BFBA}"
+        "ProductCode" = "8:{56D8E2D6-E82B-454D-B432-107639D5A5E4}"
+        "PackageCode" = "8:{F2E1F1A3-E1F0-4492-9A25-7397C80D3BCA}"
         "UpgradeCode" = "8:{5079617D-D2E3-40B8-B2B8-F404339CDED5}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.8"
+        "ProductVersion" = "8:1.0.9"
         "Manufacturer" = "8:NURI ROBOT"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.nurirobot.com/main/index.html"
@@ -9267,7 +9243,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:NURI ROBOT MOTOR SUPPORTER"
         "ARPURLINFOABOUT" = "8:http://www.nurirobot.com/main/index.html"
-        "ARPPRODUCTICON" = "8:_6E37439869D8420FBFB2044B4607DC72"
+        "ARPPRODUCTICON" = "8:_9A9D9A352F9F473797E14A2E8049FC98"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -9381,7 +9357,7 @@
             "Target" = "8:_A5461675D98E4FD994234B3DA62083F4"
             "Folder" = "8:_60E3004DBF324FCE96B4D2D982FAEC72"
             "WorkingFolder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Icon" = "8:_6E37439869D8420FBFB2044B4607DC72"
+            "Icon" = "8:_9A9D9A352F9F473797E14A2E8049FC98"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CC1EFE23F8F94AD195E4617EF90648E9"
@@ -9395,7 +9371,7 @@
             "Target" = "8:_A5461675D98E4FD994234B3DA62083F4"
             "Folder" = "8:_D67361DD4D764B3A9F7EB8AE8379C283"
             "WorkingFolder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Icon" = "8:_6E37439869D8420FBFB2044B4607DC72"
+            "Icon" = "8:_9A9D9A352F9F473797E14A2E8049FC98"
             "Feature" = "8:"
             }
         }
@@ -9855,7 +9831,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A5461675D98E4FD994234B3DA62083F4"
             {
-            "SourcePath" = "8:..\\NurirobotSupporter\\obj\\Debug\\NurirobotSupporter.exe"
+            "SourcePath" = "8:..\\NurirobotSupporter\\obj\\Release\\NurirobotSupporter.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"

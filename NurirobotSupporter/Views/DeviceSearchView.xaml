@@ -17,6 +17,8 @@
             <RowDefinition Height="48"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="48"/>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="48"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
@@ -34,14 +36,16 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </ScrollViewer>
-        <Button Grid.Row="2" 
+        <ProgressBar Grid.Row="2" Value="{Binding CurrPercent}" Margin="10, 0" Height="20"/>
+        <ProgressBar Grid.Row="3" Value="{Binding TotalPercent}" Margin="10, 0" Height="20"/>
+        <Button Grid.Row="4" 
                 Margin="5"
                 Content="{lex:Loc Button_Search_Start}" 
                 HorizontalAlignment="Center"
                 Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
                 Command="{Binding Search}"
                 Visibility="{Binding IsDisConnect, Converter={StaticResource BooleanToVisibility}}"/>
-        <Button Grid.Row="2" 
+        <Button Grid.Row="4" 
                 Margin="5"
                 Content="{lex:Loc Button_Search_Stop}" 
                 Style="{DynamicResource MahApps.Styles.Button.Square}"

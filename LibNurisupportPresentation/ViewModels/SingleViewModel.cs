@@ -1069,36 +1069,60 @@ namespace LibNurisupportPresentation.ViewModels
             // 처리지연에 의한 대기시간 보정상수
             float constWait = 1f;
 
+            //switch (baud) {
+            //    case "110":
+            //        ret = 3000;
+            //        break;
+            //    case "300":
+            //        ret = 1500;
+            //        break;
+            //    case "600":
+            //        ret = 1000;
+            //        break;
+            //    case "1200":
+            //        ret = 500;
+            //        break;
+            //    case "2400":
+            //        ret = 250;
+            //        break;
+            //    case "4800":
+            //        ret = 125;
+            //        break;
+            //    case "9600":
+            //        ret = 40;
+            //        break;
+            //    case "14400":
+            //        ret = 40;
+            //        break;
+            //    case "19200":
+            //        ret = 30;
+            //        break;
+            //    default:
+            //        ret = 30;
+            //        break;
+            //}
+
             switch (baud) {
                 case "110":
-                    ret = 3000;
+                    ret = 1200;
                     break;
                 case "300":
-                    ret = 1500;
+                    ret = 400;
                     break;
                 case "600":
-                    ret = 1000;
+                    ret = 200;
                     break;
                 case "1200":
-                    ret = 500;
+                    ret = 100;
                     break;
                 case "2400":
-                    ret = 250;
+                    ret = 50;
                     break;
                 case "4800":
-                    ret = 125;
-                    break;
-                case "9600":
                     ret = 40;
-                    break;
-                case "14400":
-                    ret = 40;
-                    break;
-                case "19200":
-                    ret = 30;
                     break;
                 default:
-                    ret = 30;
+                    ret = 20;
                     break;
             }
 

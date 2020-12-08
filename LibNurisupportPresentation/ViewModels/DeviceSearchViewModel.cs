@@ -50,6 +50,16 @@ using System.Diagnostics;
         public string SelectLog { get; set; }
 
         public IMainViewModel MainViewModel { get; set; }
+        int _CurrPercent;
+        public int CurrPercent { 
+            get => _CurrPercent;
+            set => this.RaiseAndSetIfChanged(ref _CurrPercent, value); 
+        }
+        int _TotalPercent;
+        public int TotalPercent { 
+            get => _TotalPercent; 
+            set => this.RaiseAndSetIfChanged(ref _TotalPercent, value); 
+        }
 
         string[] rates = new string[] {
             "1000000",
@@ -68,8 +78,8 @@ using System.Diagnostics;
             "2400",
             "1200",
             "600",
-            "300",
-            "110"
+            "300"
+            //,"110"
         };
         AutoResetEvent mStopWaitHandle = new AutoResetEvent(false);
         CancellationTokenSource mCTS;
@@ -78,9 +88,12 @@ using System.Diagnostics;
         {
             Logs = new ObservableCollection<string>();
             this.ObsLog.ObserveOn(RxApp.MainThreadScheduler).Subscribe(x => {
-                Logs.Add(string.Format("{0}\t{1}", Logs.Count + 1, x));
+                Logs.Add(string.Format("{0}\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), x));
                 //SelectLog = Logs[Logs.Count - 1];
             });
+
+            CurrPercent = 0;
+            TotalPercent = 0;
 
             Search = ReactiveCommand.Create(() => {
                 var state = RxApp.SuspensionHost.GetAppState<AppState>();
@@ -94,12 +107,15 @@ using System.Diagnostics;
                 IsConnect = true;
                 IsNotConnect = false;
                 state.SearchDevice.Clear();
+                CurrPercent = 0;
+                TotalPercent = 0;
 
                 Task.Run(() => {
                     Debug.WriteLine("Device find Start =======================");
                     _Log.OnNext("Device find Start =======================");
                     Debug.WriteLine(string.Format("Comport : {0}", state.Comport));
                     _Log.OnNext(string.Format("Comport : {0}", state.Comport));
+
                     var stx = Observable.Return<byte[]>(new byte[] { 0xFF, 0xFE });
                     bool chkDone = false;
                     ISerialControl isc = Locator.Current.GetService<ISerialControl>();
@@ -109,6 +125,7 @@ using System.Diagnostics;
                         int addv = Array.IndexOf(rates, state.Baudrate);
                         for (int j = 0; j < rates.Length; j++)
                         {
+                            TotalPercent = (int)(j / (rates.Length * 1f) * 100);
                             var item = rates[(j + addv) % rates.Length];
                             mCTS.Token.ThrowIfCancellationRequested();
                             comdis = new CompositeDisposable();
@@ -137,12 +154,18 @@ using System.Diagnostics;
                                         if (tmp.Parse(data)) {
                                             if (string.Equals(tmp.PacketName, "FEEDPing")) {
                                                 var obj = (NuriProtocol)tmp.GetDataStruct();
-                                                if (!state.SearchDevice.Contains(obj.ID)) {
-                                                    _Log.OnNext(string.Format("Device Index : {0} ===========", obj.ID));
+                                                //if (!state.SearchDevice.Contains(obj.ID)) {
+                                                //    _Log.OnNext(string.Format("Device Index : {0} ===========", obj.ID));
+                                                //    state.SearchDevice.Add(obj.ID);
+                                                //}
+                                                _Log.OnNext(string.Format("Device Index : {0} ===========", obj.ID));
+                                                if (!state.SearchDevice.Contains(obj.ID))
                                                     state.SearchDevice.Add(obj.ID);
-                                                }
                                                 mStopWaitHandle.Set();
                                             }
+                                        } else {
+                                            _Log.OnNext(string.Format("Device conflict ==========="));
+                                            mStopWaitHandle.Set();
                                         }
                                     }
                                     catch (Exception ex) {
@@ -150,37 +173,46 @@ using System.Diagnostics;
                                     }
                                 })
                                 .AddTo(comdis);
-                                
-                                NurirobotRSA tmpRSA = new NurirobotRSA();
-                                chkDone = false;
-                                for (int i = 0; i < 255; i++) {
-                                    mCTS.Token.ThrowIfCancellationRequested();
-                                    for (int k = 0; k < 2; k++) {
-                                        tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                                            ID = (byte)i,
-                                            Protocol = 0xa0
-                                        });
-                                        if (mStopWaitHandle.WaitOne(GetTimeout(item))) {
-                                            if (!searchBaud.Contains(item)) 
-                                                searchBaud.Add(item);
-                                            break;
 
-                                            //MainViewModel.SelectedBaudrates = item;
-                                            //if (!searchBaud.Contains(item)) {
-                                            //    searchBaud.Add(item);
-                                            //    break;
-                                            //}
-                                        }
+                                bool isDevice = false;
+                                NurirobotRSA tmpRSA = new NurirobotRSA();
+                                for (int k = 0; k < 2; k++) {
+                                    CurrPercent = (int)(k / 2f * 100);
+                                    mCTS.Token.ThrowIfCancellationRequested();
+                                    tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
+                                        ID = 0xff,
+                                        Protocol = 0xa0
+                                    });
+
+                                    if (mStopWaitHandle.WaitOne(2000)) {
+                                        if (!searchBaud.Contains(item))
+                                            searchBaud.Add(item);
+                                        chkDone = true;
+                                        isDevice = true;
+                                        MainViewModel.SelectedBaudrates = item;
+                                        Thread.Sleep(1000);
+                                        break;
                                     }
                                 }
 
-                                //if (chkDone) {
-                                //    comdis.Dispose();
-                                //    isc.Disconnect();
-                                //    sp.Stop();
-                                //    break;
-                                //}
-                                //sp.Stop();
+                                if (isDevice) {
+                                    for (int i = 0; i < 255; i++) {
+                                        CurrPercent = (int)(i / 255f * 100);
+                                        mCTS.Token.ThrowIfCancellationRequested();
+                                        for (int k = 0; k < 2; k++) {
+                                            tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
+                                                ID = (byte)i,
+                                                Protocol = 0xa0
+                                            });
+                                            if (mStopWaitHandle.WaitOne(GetTimeout(item))) {
+                                                if (!searchBaud.Contains(item))
+                                                    searchBaud.Add(item);
+                                                break;
+
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             else {
                                 _Log.OnNext("Fail!");
@@ -192,7 +224,7 @@ using System.Diagnostics;
                         }
 
                         if (!chkDone) {
-                            MainViewModel.SelectedBaudrates = "110";
+                            //MainViewModel.SelectedBaudrates = "110";
                             var msg = Locator.Current.GetService<IMessageShow>();
                             msg?.Show("Alert_No_BaudRate");
                         }
@@ -205,7 +237,7 @@ using System.Diagnostics;
                     IsNotConnect = true;
                     if (searchBaud.Count == 0) {
                         MainViewModel.Baudrates = new string[] {
-                "110",
+                //"110",
                 "300",
                 "600",
                 "1200",
@@ -229,6 +261,10 @@ using System.Diagnostics;
                         MainViewModel.Baudrates = searchBaud.ToArray();
                         MainViewModel.SelectedBaudrates = searchBaud.ToArray()[0];
                     }
+
+                    CurrPercent = 100;
+                    TotalPercent = 100;
+                    _Log.OnNext(string.Format("Device Find End ==========="));
                 });
             });
             SearchStop = ReactiveCommand.Create(() => {
@@ -236,7 +272,7 @@ using System.Diagnostics;
                     mCTS.Cancel();
                 }
             });
-            //Logs.Add("Start ================= ");
+            
         }
 
         private int GetTimeout(string baud)
@@ -245,36 +281,60 @@ using System.Diagnostics;
             // 처리지연에 의한 대기시간 보정상수
             float constWait = 1f;
 
+            //switch (baud) {
+            //    case "110":
+            //        ret = 3000;
+            //        break;
+            //    case "300":
+            //        ret = 1500;
+            //        break;
+            //    case "600":
+            //        ret = 1000;
+            //        break;
+            //    case "1200":
+            //        ret = 500;
+            //        break;
+            //    case "2400":
+            //        ret = 250;
+            //        break;
+            //    case "4800":
+            //        ret = 125;
+            //        break;
+            //    case "9600":
+            //        ret = 40;
+            //        break;
+            //    case "14400":
+            //        ret = 40;
+            //        break;
+            //    case "19200":
+            //        ret = 30;
+            //        break;
+            //    default:
+            //        ret = 30;
+            //        break;
+            //}
+
             switch (baud) {
                 case "110":
-                    ret = 3000;
+                    ret = 1200;
                     break;
                 case "300":
-                    ret = 1500;
+                    ret = 400;
                     break;
                 case "600":
-                    ret = 1000;
+                    ret = 200;
                     break;
                 case "1200":
-                    ret = 500;
+                    ret = 100;
                     break;
                 case "2400":
-                    ret = 250;
+                    ret = 50;
                     break;
                 case "4800":
-                    ret = 125;
-                    break;
-                case "9600":
                     ret = 40;
-                    break;
-                case "14400":
-                    ret = 40;
-                    break;
-                case "19200":
-                    ret = 30;
                     break;
                 default:
-                    ret = 30;
+                    ret = 20;
                     break;
             }
 

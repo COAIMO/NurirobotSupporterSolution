@@ -42,5 +42,7 @@ namespace LibNurisupportPresentation.Interfaces
         /// 메인 뷰 모델
         /// </summary>
         IMainViewModel MainViewModel { get; set; }
+        int CurrPercent { get; set; }
+        int TotalPercent { get; set; }
     }
 }
