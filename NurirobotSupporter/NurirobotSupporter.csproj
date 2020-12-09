@@ -67,7 +67,7 @@
     <ManifestKeyFile>NurirobotSupporter_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -82,7 +82,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>nurirobot.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>NurirobotSupporter.App</StartupObject>
@@ -502,6 +502,7 @@
     <Resource Include="Fonts\NanumBarunGothic.ttf" />
     <Resource Include="Fonts\D2Coding.ttc" />
     <None Include="mykey.snk" />
+    <None Include="nurirobot.pfx" />
     <None Include="NurirobotSupporter_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <assemblyIdentity version="1.0.0.0" name="MyApplication.app" />
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
@@ -16,12 +16,12 @@
             이전 버전과의 호환성을 위해 애플리케이션에 가상화가 필요한 경우
             이 요소를 제거합니다.
         -->
-        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+        <!--<requestedExecutionLevel level="asInvoker" uiAccess="false" />-->
       </requestedPrivileges>
-      <applicationRequestMinimum>
+      <!--<applicationRequestMinimum>
         <defaultAssemblyRequest permissionSetReference="Custom" />
-        <PermissionSet class="System.Security.PermissionSet" version="1" ID="Custom" SameSite="site" Unrestricted="true" />
-      </applicationRequestMinimum>
+        <PermissionSet class="System.Security.PermissionSet" version="1" ID="Custom" SameSite="site" />
+      </applicationRequestMinimum>-->
     </security>
   </trustInfo>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

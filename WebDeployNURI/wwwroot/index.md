@@ -3,8 +3,37 @@
 ### NURI ROBOT Supporter란?
 NURI ROBOT에서 판매하는 RS485지원 모터 및 모터드라이버의 지원 프로그램입니다.
 **프로그램은 다중 실행하는 것이 가능하지만, 매크로를 생성하거나 수정은 최초 시작된 프로그램에서만 가능합니다.**
-다음의 설치위치에서 설치프로그램을 제공합니다.  
-[설치주소](./publish.htm)
+다음의 설치위치에서 설치프로그램을 제공합니다.
+<br>
+
+### 설치 전 점검사항
+#### 운영체제
+프로그램 설치 실패 시 **Windows 업데이트** 여부를 확인하시기 바랍니다.
+
+#### 하드웨어
+* x86 또는 x64 기반의 Windows PC 혹은 노트북
+* USB 혹은 내장 RS485 포트
+<br>
+
+### [누리로봇 서포터 다운로드 페이지](./publish.htm) 👈 
+
+### 설치
+설치프로그램은 윈도우가 연결된 상태에서 필요한 파일을 다운로드 받아서 설치합니다.(인터넷 연결이 필요합니다.)
+만약 인터넷이 연결되지 않은 환경에서 설치를 위해서는 다음의 파일들이 필요합니다. 
+해당 파일을 다운로드해서 순차적으로 설치하시기 바랍니다.
+
+* .Net Framework 4.7.2
+  * Windows (7, 8, 10, Server...) http://go.microsoft.com/fwlink/?linkid=863265
+  * Windows 8.1 RT http://go.microsoft.com/fwlink/?LinkId=863276
+* NURI ROBOT Supporter 오프라인 설치파일
+  *  https://support.nurirobot.info/NurirobotSupporterSetup.msi
+
+### Windows 설치 경고
+![41_windowSetup](./Images/41_windowSetup.png)
+추가정보를 눌러 설치를 진행할 수 있습니다.
+![42_run](./Images/42_run.png)
+<br>
+<br>
 
 ![Start_popup](./Images/01_Startup.png)
 
@@ -14,7 +43,7 @@ NURI ROBOT 제품중 RS485 제품군
 ##### 모터 컨트롤러
 * [DCMC-200-RS485](http://www.nurirobot.com/shop/goods_view.php?gno=63&pid=119&cate1=11)
 * [BLMC-200-RS485-H](http://www.nurirobot.com/shop/goods_view.php?gno=64&pid=119&cate1=11)
-![mcserialnumber](http://www.nurirobot.com/wysiwyg/PEG/se2_15787106814648.jpg)
+![se2_15787106814648](./Images/se2_15787106814648.jpg)
 
 
 ##### 스마트 모터
@@ -22,15 +51,14 @@ NURI ROBOT 제품중 RS485 제품군
 * [SM70-200-RS485](http://www.nurirobot.com/shop/goods_view.php?gno=70&pid=120&cate1=12)
 * [SM84-2-RS485](http://www.nurirobot.com/shop/goods_view.php?gno=71&pid=120&cate1=12)
 * [SM109-12-RS485](http://www.nurirobot.com/shop/goods_view.php?gno=72&pid=120&cate1=12)
-![smserialnumber](http://www.nurirobot.com/wysiwyg/PEG/se2_15794331401636.jpg)
-
+![se2_15794331401636](./Images/se2_15794331401636.jpg)
 
 ##### 스마트 액츄에이터
 * [RSA70-100-RS485-H](http://www.nurirobot.com/shop/goods_view.php?gno=73&pid=121&cate1=13)
 * RSA70-100-RS485-ZH
 * [RSA70-200-RS485-H](http://www.nurirobot.com/shop/goods_view.php?gno=75&pid=121&cate1=13)
 * RSA70-200-RS485-ZH
-![saserialnumber](http://www.nurirobot.com/wysiwyg/PEG/se2_15794331544188.jpg)
+![se2_15794331544188](./Images/se2_15794331544188.jpg)
 
 ### 지원기능
 * 모터 및 모터드라이버 설정
