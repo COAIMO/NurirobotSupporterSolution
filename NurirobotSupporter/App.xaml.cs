@@ -64,6 +64,7 @@ namespace NurirobotSupporter
             Locator.CurrentMutable.RegisterConstant(new Language(), typeof(ILanguage));
             Locator.CurrentMutable.RegisterConstant(new Running(), typeof(IRunning));
             Locator.CurrentMutable.RegisterConstant(new Storage(), typeof(IStorage));
+            //Locator.CurrentMutable.RegisterConstant(new Script(), typeof(IScript));
             Locator.CurrentMutable.RegisterConstant(new CommandEngine(), typeof(ICommandEngine));
 
             Locator.Current.GetService<ISerialControl>().AddTo(_Disposables);
@@ -72,7 +73,9 @@ namespace NurirobotSupporter
             Locator.Current.GetService<IReciveProcess>().AddTo(_Disposables);
             Locator.Current.GetService<ISerialProcess>().AddTo(_Disposables);
             Locator.Current.GetService<IStorage>().AddTo(_Disposables);
+            //Locator.Current.GetService<IScript>().AddTo(_Disposables);
             Locator.Current.GetService<ICommandEngine>().AddTo(_Disposables);
+
         }
 
 #if DEBUG

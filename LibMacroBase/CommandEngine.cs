@@ -2,7 +2,6 @@ namespace LibMacroBase
 {
     using System;
     using System.Diagnostics;
-    using CSScriptLibrary;
     using LibMacroBase.Interface;
     using Splat;
 
@@ -32,6 +31,7 @@ namespace LibMacroBase
         _TimerSubscribeDispose?.Dispose();
         */
         IStorage _Storage = Locator.Current.GetService<IStorage>();
+        IScript _Script = Locator.Current.GetService<IScript>();
 
         private const string _Templete = "using System;\n" +
             "using System.Diagnostics;\n" +
@@ -103,24 +103,26 @@ namespace LibMacroBase
         /// <param name="arg">실행할 명령어 문자열</param>
         public bool RunScripts(string arg)
         {
-            bool ret = false;
-            try {
-                string code = string.Format(_Templete, arg);
-                //dynamic script = CSScript
-                //    .Evaluator
-                //    .CompileMethod(code)
-                //    .GetStaticMethodWithArgs("*.Run", new Type[] { typeof(object) });
-                dynamic script = CSScript
-                    .Evaluator
-                    .CompileMethod(code)
-                    .GetStaticMethodWithArgs("*.Run");
-                script();
-                ret = true;
-            }
-            catch (Exception ex) {
-                Debug.WriteLine(ex);
-            }
-            return ret;
+            //bool ret = false;
+            //try {
+            //    string code = string.Format(_Templete, arg);
+            //    //dynamic script = CSScript
+            //    //    .Evaluator
+            //    //    .CompileMethod(code)
+            //    //    .GetStaticMethodWithArgs("*.Run", new Type[] { typeof(object) });
+            //    dynamic script = CSScript
+            //        .Evaluator
+            //        .CompileMethod(code)
+            //        .GetStaticMethodWithArgs("*.Run");
+            //    script();
+            //    ret = true;
+            //}
+            //catch (Exception ex) {
+            //    Debug.WriteLine(ex);
+            //}
+            //return ret;
+
+            return _Script.RunScripts(arg);
         }
 
         /// <summary>
@@ -128,9 +130,12 @@ namespace LibMacroBase
         /// </summary>
         public CommandEngine()
         {
-            CSScript.GlobalSettings.InMemoryAssembly = true;
-            CSScript.EvaluatorConfig.DebugBuild = true;
-            CSScript.EvaluatorConfig.Engine = EvaluatorEngine.CodeDom;
+            //CSScript.GlobalSettings.InMemoryAssembly = true;
+            //CSScript.EvaluatorConfig.DebugBuild = true;
+            //CSScript.EvaluatorConfig.Engine = EvaluatorEngine.CodeDom;
+            if (_Script == null) {
+                _Script = new Script();
+            }
         }
 
         /// <summary>
