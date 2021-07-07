@@ -1116,13 +1116,13 @@ namespace LibNurisupportPresentation.ViewModels
                     ret = 100;
                     break;
                 case "2400":
-                    ret = 50;
+                    ret = 60;
                     break;
                 case "4800":
-                    ret = 40;
+                    ret = 60;
                     break;
                 default:
-                    ret = 20;
+                    ret = 60;
                     break;
             }
 
