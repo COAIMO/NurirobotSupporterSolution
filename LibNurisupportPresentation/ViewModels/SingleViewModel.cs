@@ -312,7 +312,7 @@ namespace LibNurisupportPresentation.ViewModels
                 .Subscribe(x => {
                     _LastGraphInt = DateTime.Now.Ticks;
                     if (string.Equals(mainvm.CurrentPageName, "Single")) {
-                        GetFeedback(SelectedId, (byte)(0xa1));
+                        GetFeedback(SelectedId, (byte)(0xa1), true, true);
                     }
                 });
 
@@ -720,7 +720,7 @@ namespace LibNurisupportPresentation.ViewModels
         /// <param name="id">대상 아이디</param>
         /// <param name="feedback">피드백코드</param>
         /// <param name="isSpControl"></param>
-        private void GetFeedback(byte id, byte feedback, bool isSpControl = true)
+        private void GetFeedback(byte id, byte feedback, bool isSpControl = true, bool isGraph = false)
         {
             var isc = Locator.Current.GetService<ISerialControl>();
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
@@ -759,7 +759,24 @@ namespace LibNurisupportPresentation.ViewModels
             if (!(!isMc
                 && feedback > 0xA8)) {
 
-                for (int k = 0; k < 5; k++) {
+                if (!isGraph) {
+                    for (int k = 0; k < 5; k++) {
+                        if (isMc) {
+                            (command as NurirobotMC).Feedback(id, feedback);
+                        }
+                        else {
+                            (command as NurirobotRSA).Feedback(id, feedback);
+                        }
+
+                        //Stopwatch sw = new Stopwatch();
+                        //sw.Start();
+                        if (stopWaitHandle.WaitOne(_WaitTime)) {
+                            break;
+                        }
+                        //sw.Stop();
+                        //Debug.WriteLine(string.Format("Wait Time : {0}",sw.ElapsedMilliseconds));
+                    }
+                } else {
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, feedback);
                     }
@@ -767,9 +784,9 @@ namespace LibNurisupportPresentation.ViewModels
                         (command as NurirobotRSA).Feedback(id, feedback);
                     }
 
-                    if (stopWaitHandle.WaitOne(_WaitTime)) {
-                        break;
-                    }
+                    //Stopwatch sw = new Stopwatch();
+                    //sw.Start();
+                    stopWaitHandle.WaitOne(_WaitTime);
                 }
 
             }
@@ -795,8 +812,11 @@ namespace LibNurisupportPresentation.ViewModels
             if (state.IsConnect) {
                 esv.ClearDictionary();
                 if (CheckPing(SelectedId)) {
+                    Thread.Sleep(_WaitTime);
                     CheckProtocol(SelectedId);
+                    Thread.Sleep(_WaitTime);
                     GetFeedback(SelectedId, (byte)(0xa1));
+                    Thread.Sleep(_WaitTime);
                     GetFeedback(SelectedId, (byte)(0xa2));
                 }
                 else {

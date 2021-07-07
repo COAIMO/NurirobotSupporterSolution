@@ -217,8 +217,11 @@ namespace LibNurisupportPresentation.ViewModels
 
                     if (CheckPing((byte)i)) {
                         _Log.OnNext(string.Format("Device {0} Checked!", i));
+                        Thread.Sleep(_WaitTime);
+
                         searchIDs.Add((byte)i);
                         AssignCommand((byte)i);
+                        Thread.Sleep(_WaitTime);
                     }
                     else {
                         _Log.OnNext(string.Format("Device {0} not Found", i));

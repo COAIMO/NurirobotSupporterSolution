@@ -211,6 +211,8 @@ using System.Diagnostics;
 
                                             }
                                         }
+
+                                        Thread.Sleep(GetTimeout(item));
                                     }
                                 }
                             }

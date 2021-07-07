@@ -993,9 +993,12 @@ namespace LibNurisupportPresentation.ViewModels
                 esv.ClearDictionary();
                 SelectedBaudrate = int.Parse(state.Baudrate);
                 if (CheckPing(SelectedId)) {
+                    Thread.Sleep(_WaitTime);
                     AssignCommand(SelectedId);
+                    Thread.Sleep(_WaitTime);
                     for (int i = 0; i < 12; i++) {
                         GetFeedback(SelectedId, (byte)(0xa0 + i));
+                        Thread.Sleep(_WaitTime);
                     }
                     GetFeedback(SelectedId, (byte)0xCD);
 
