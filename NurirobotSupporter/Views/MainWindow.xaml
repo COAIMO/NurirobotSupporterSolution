@@ -110,7 +110,7 @@
                     <mah:SplitButton Grid.Column="1" x:Name="comboBox" 
                                       Style="{DynamicResource MahApps.Styles.ComboBox}"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                                             ItemsSource="{Binding DataContext.SerialPorts, ElementName=MainView}"
+                                             ItemsSource="{Binding DataContext.SerialPorts, ElementName=MainView, Mode=OneWay}"
                                              SelectedItem="{Binding DataContext.SelectedPort, ElementName=MainView, Mode=TwoWay}"
                                              IsEnabled="{Binding DataContext.IsNotConnect, ElementName=MainView, Mode=OneWay}"
                                              IsEditable="False">
@@ -128,9 +128,17 @@
                 <Grid Grid.Column="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Margin="5"
+                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
+                                    Command="{Binding DataContext.RefreshPort, ElementName=MainView}"
+                                    Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}">
+                        <iconPacks:PackIconBootstrapIcons Width="20" Height="20"
+                                                          Kind="ArrowClockwise"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="5"
                                     Style="{StaticResource MahApps.Styles.Button.Circle}"
                                     Command="{Binding DataContext.MacroStopRecode, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"
@@ -139,7 +147,7 @@
                                               Height="20"
                                               Kind="ControlStop" />
                     </Button>
-                    <Button Grid.Column="0" Margin="5"
+                    <Button Grid.Column="1" Margin="5"
                                     Style="{StaticResource MahApps.Styles.Button.Circle}"
                                     Command="{Binding DataContext.MacroRecode, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsNotRecode, Converter={StaticResource BooleanToVisibility}, ElementName=MainView}"
@@ -148,11 +156,11 @@
                                               Height="20"
                                               Kind="MoonFull" Foreground="Red" />
                     </Button>
-                    <Button Grid.Column="1" Content="{lex:Loc Button_Connect}" Margin="5"
+                    <Button Grid.Column="2" Content="{lex:Loc Button_Connect}" Margin="5"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" 
                                     Command="{Binding DataContext.SerialConnect, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>
-                    <Button Grid.Column="1" Content="{lex:Loc Button_Disconnect}" Margin="5"
+                    <Button Grid.Column="2" Content="{lex:Loc Button_Disconnect}" Margin="5"
                                     Style="{DynamicResource MahApps.Styles.Button.Square}" 
                                     Command="{Binding DataContext.SerialDisConnect, ElementName=MainView}"
                                     Visibility="{Binding DataContext.IsConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"/>

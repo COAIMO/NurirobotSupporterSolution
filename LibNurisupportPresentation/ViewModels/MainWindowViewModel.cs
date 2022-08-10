@@ -31,7 +31,7 @@ namespace LibNurisupportPresentation.ViewModels
         private ObservableAsPropertyHelper<bool> _IsDisConnected;
         private ObservableAsPropertyHelper<bool> _IsRecoded;
         private ObservableAsPropertyHelper<bool> _IsNotRecoded;
-        private string[] _SerialPorts;
+        //private string[] _SerialPorts;
 
         public bool IsConnect {
             get {
@@ -51,10 +51,18 @@ namespace LibNurisupportPresentation.ViewModels
             set => this.RaiseAndSetIfChanged(ref _IsDeviceSearchPopup, value);
         }
 
+        private bool _IsRefresh = true;
+        public bool IsRefresh {
+            get => _IsRefresh;
+            set => this.RaiseAndSetIfChanged(ref _IsRefresh, value);
+        }
+
         public ReactiveCommand<Unit, Unit> SerialConnect { get; }
         public ReactiveCommand<Unit, Unit> SerialDisConnect { get; }
         public ReactiveCommand<Unit, Unit> MacroRecode { get; }
         public ReactiveCommand<Unit, Unit> MacroStopRecode { get; }
+        public ReactiveCommand<Unit, Unit> RefreshPort { get; }
+
         ISerialControl _ISC;
         ICommandEngine _ICE;
         //CompositeDisposable _CompositeDisposable;
@@ -118,8 +126,8 @@ namespace LibNurisupportPresentation.ViewModels
                     }
                 }
                 else {
-                    if (_SerialPorts.Length > 0) {
-                        SelectedPort = _SerialPorts[0];
+                    if (_SerialPorts.Count() > 0) {
+                        SelectedPort = _SerialPorts.First();
                     }
                 }
                 IsDeviceSearchPopup = state.IsUseStartPopup;
@@ -149,7 +157,6 @@ namespace LibNurisupportPresentation.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Select(recorded => !recorded)
                 .ToProperty(this, x => x.IsNotRecode);
-
 
             _ISC.ObsErrorReceived.Subscribe(x => Debug.WriteLine(x));
             _ISC.ObsIsOpenObservable.Subscribe(x => {
@@ -206,6 +213,49 @@ namespace LibNurisupportPresentation.ViewModels
                 _Macro.OnNext(false);
             }, canMacroRecstop);
 
+            var canRefreshPort = this.WhenAnyValue(x => x.IsRefresh).Select(x => x);
+            RefreshPort = ReactiveCommand.Create(() => {
+                List<string> tmpports = new List<string>();
+                var tmpdeviceports = deviceInfo.GetPorts();
+                foreach (var item in tmpdeviceports) {
+                    if (!item.IsNowUsing) {
+                        tmpports.Add(item.PortName);
+                    }
+                }
+
+
+                Baudrates = new string[] {
+                    "110",
+                    "300",
+                    "600",
+                    "1200",
+                    "2400",
+                    "4800",
+                    "9600",
+                    "14400",
+                    "19200",
+                    "28800",
+                    "38400",
+                    "57600",
+                    "76800",
+                    "115200",
+                    "230400",
+                    "250000",
+                    "500000",
+                    "1000000"
+                };
+
+                SerialPorts = tmpports.ToArray();
+                {
+                    var state = RxApp.SuspensionHost.GetAppState<AppState>();
+                    SelectedBaudrates = state.Baudrate != null ? state.Baudrate : "9600";
+                    if (_SerialPorts.Count() > 0) {
+                        SelectedPort = _SerialPorts.First();
+                    }
+                    IsDeviceSearchPopup = state.IsUseStartPopup;
+                }
+            }, canRefreshPort);
+
             this
                 .WhenAnyValue(x => x.SelectedPort)
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -246,7 +296,14 @@ namespace LibNurisupportPresentation.ViewModels
             sp.Start();
         }
 
-        public IEnumerable<string> SerialPorts => _SerialPorts;
+        private IEnumerable<string> _SerialPorts;
+        public IEnumerable<string> SerialPorts {
+            get => _SerialPorts;
+            set {
+                _SerialPorts = value;
+                this.RaisePropertyChanged("SerialPorts");
+            }
+        }
 
         IEnumerable<string> _BaudratesEnum { get; set; } = new string[] {
                 "110",
