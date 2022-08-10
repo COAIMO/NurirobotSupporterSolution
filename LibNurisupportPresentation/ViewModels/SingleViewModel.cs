@@ -823,6 +823,8 @@ namespace LibNurisupportPresentation.ViewModels
                 esv.ClearDictionary();
                 if (CheckPing(SelectedId)) {
                     Thread.Sleep(_WaitTime);
+                    AssignCommand(SelectedId);
+                    Thread.Sleep(_WaitTime);
                     CheckProtocol(SelectedId);
                     Thread.Sleep(_WaitTime);
                     GetFeedback(SelectedId, (byte)(0xa1));
