@@ -90,7 +90,7 @@ namespace NurirobotSupporter.Views
                 UpdateTimer.Start();
 
                 DispatcherTimer renderTimer = new DispatcherTimer();
-                renderTimer.Interval = TimeSpan.FromMilliseconds(10);
+                renderTimer.Interval = TimeSpan.FromMilliseconds(50);
                 renderTimer.Tick += Render;
                 renderTimer.Start();
             }

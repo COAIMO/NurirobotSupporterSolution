@@ -2074,12 +2074,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_49B55EF2D311E1AEBD54020D341014B6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_107CFB1245B646FFAEB34058C39A61B9"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3137,6 +3131,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0B402059A7D268D8F7D72E3BBC2A4970"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_49B55EF2D311E1AEBD54020D341014B6"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -9242,7 +9242,7 @@
         "ProductVersion" = "8:1.1.1"
         "Manufacturer" = "8:NURI ROBOT"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:http://www.nurirobot.com/main/index.html"
+        "ARPHELPLINK" = "8:https://support.nurirobot.info/"
         "Title" = "8:NURI ROBOT SUPPORTER Setup"
         "Subject" = "8:NURI ROBOT SUPPORTER"
         "ARPCONTACT" = "8:NURI ROBOT"

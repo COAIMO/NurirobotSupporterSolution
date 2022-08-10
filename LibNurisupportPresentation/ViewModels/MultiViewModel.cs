@@ -258,13 +258,16 @@ namespace LibNurisupportPresentation.ViewModels
             ISerialControl isc = Locator.Current.GetService<ISerialControl>();
             CompositeDisposable comdis = new CompositeDisposable();
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            AutoResetEvent stopWaitHandle2 = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
+            stopWaitHandle2.AddTo(comdis);
 
             // 응답 확인
             isc.ObsProtocolReceived
                 .Subscribe(data => {
+                    Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+
                     try {
-                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
                         var tmp = new NurirobotMC();
                         if (tmp.Parse(data)) {
                             if (string.Equals(tmp.PacketName, "FEEDPosCtrlMode")) {
@@ -273,6 +276,25 @@ namespace LibNurisupportPresentation.ViewModels
                                 // 동일해야만 의미가 있다.
                                 if (id == obj.ID) {
                                     stopWaitHandle.Set();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+
+                    try {
+                        var tmp = new NurirobotRSA();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDPosCtrlMode")) {
+                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle2.Set();
+                                    return;
                                 }
                             }
                         }
@@ -286,15 +308,26 @@ namespace LibNurisupportPresentation.ViewModels
             // 1. 존재하는 지 확인
             if (CheckPing(id)) {
                 // 2. MC의 제어방향 전문 응답 확인
-                //var sp = Locator.Current.GetService<ISerialProcess>();
-                //sp.Start();
                 var tmpMC = new NurirobotMC();
                 bool isMC = false;
-                for (int i = 0; i < 2; i++) {
+                bool isRSA = false;
+
+                for (int i = 0; i < 5; i++) {
                     tmpMC.Feedback(id, 0xaa);
                     if (stopWaitHandle.WaitOne(_WaitTime)) {
                         isMC = true;
                         break;
+                    }
+                }
+
+                // MC가 아닐 경우 RSA와 SM일 수 있음
+                if (!isMC) {
+                    for (int i = 0; i < 5; i++) {
+                        tmpMC.Feedback(id, 0xa8);
+                        if (stopWaitHandle2.WaitOne(_WaitTime)) {
+                            isRSA = true;
+                            break;
+                        }
                     }
                 }
 
@@ -303,9 +336,13 @@ namespace LibNurisupportPresentation.ViewModels
                 if (isMC) {
                     dpd.AddDeviceProtocol(id, new NurirobotMC());
                 }
-                else {
+                else if (isRSA) {
                     dpd.AddDeviceProtocol(id, new NurirobotRSA());
                 }
+                else {
+                    dpd.AddDeviceProtocol(id, new NurirobotSM());
+                }
+
                 ret = true;
                 //sp.Stop();
             }
