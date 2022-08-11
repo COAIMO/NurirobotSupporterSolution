@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:NurirobotSupporter.Views"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
@@ -20,6 +21,37 @@
         BorderThickness="0"
              mc:Ignorable="d" 
              d:DesignHeight="1100" d:DesignWidth="1500" IsEnabledChanged="UserControl_IsEnabledChanged">
+    <UserControl.Resources>
+        <Style TargetType="ItemsControl" x:Key="LogViewerStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ScrollViewer CanContentScroll="True">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate DataType="{x:Type s:String}">
+            <Grid IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding}" Grid.Column="0"
+                       TextWrapping="Wrap"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
@@ -349,15 +381,22 @@
         <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
         <Grid Grid.Row="3" Visibility="{Binding IsOnLog, Converter={StaticResource BooleanToVisibilityConverter}}">
             <ScrollViewer Name="SystemStatusSV" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="200" PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
-                <ListView x:Name="SystemStatusLB" ItemsSource="{Binding Logs}"
-                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                      Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Height" Value="20" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+                <ItemsControl x:Name="SystemStatusLB" 
+                              KeyDown="SystemStatusLB_KeyDown"
+                              Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                              ItemsSource="{Binding Logs}" 
+                              Style="{StaticResource LogViewerStyle}">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter/>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </ScrollViewer>
         </Grid>
     </Grid>

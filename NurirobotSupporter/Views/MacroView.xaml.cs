@@ -187,5 +187,18 @@ namespace NurirobotSupporter.Views
             //Debug.WriteLine(string.Join("+", keys));
             ViewModel?.KeyIn(string.Join("+", keys));
         }
+
+        private void SystemStatusLB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control) {
+                var sb = new StringBuilder();
+
+                foreach (var item in SystemStatusLB.Items) {
+                    sb.Append($"{item.ToString()}\n");
+                }
+
+                Clipboard.SetDataObject(sb.ToString());
+            }
+        }
     }
 }

@@ -485,7 +485,7 @@ namespace LibNurisupportPresentation.ViewModels
             string commandStr = string.Empty;
             if (isMc) {
                 commandStr = string.Format(
-                                "nuriMC.ControlAcceleratedSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
+                                "nuriMC.ControlPosSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
                                 id,
                                 isccw ? 0x00 : 0x01,
                                 0,
@@ -493,7 +493,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
             else {
                 commandStr = string.Format(
-                "nuriRSA.ControlAcceleratedSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
+                "nuriRSA.ControlPosSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
                                 id,
                                 isccw ? 0x00 : 0x01,
                                 0,

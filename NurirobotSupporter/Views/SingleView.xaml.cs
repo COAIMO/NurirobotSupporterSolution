@@ -179,6 +179,7 @@ namespace NurirobotSupporter.Views
                         }
                         beforecount = ViewModel.Logs.Count;
                     }
+
                 }
             }
         }
@@ -238,6 +239,19 @@ namespace NurirobotSupporter.Views
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
+        }
+
+        private void SystemStatusLB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control) {
+                var sb = new StringBuilder();
+                
+                foreach(var item in SystemStatusLB.Items) {
+                    sb.Append($"{item.ToString()}\n");
+                }
+
+                Clipboard.SetDataObject(sb.ToString());
+            }
         }
     }
 }
