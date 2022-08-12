@@ -345,7 +345,7 @@ namespace LibNurisupportPresentation.ViewModels
                 });
 
             Observable.Interval(TimeSpan.FromMilliseconds(50), RxApp.TaskpoolScheduler)
-                .Where(x => IsOnGraph && (_LastGraphInt + (long)((double)IntervalGraph * TimeSpan.TicksPerSecond) <= DateTime.Now.Ticks))
+                .Where(x => !IsRunning && IsOnGraph && (_LastGraphInt + (long)((double)IntervalGraph * TimeSpan.TicksPerSecond) <= DateTime.Now.Ticks))
                 .Subscribe(x => {
                     _LastGraphInt = DateTime.Now.Ticks;
                     if (string.Equals(mainvm.CurrentPageName, "Single")) {

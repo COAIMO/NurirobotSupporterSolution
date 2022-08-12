@@ -418,6 +418,24 @@
         "Entry"
         {
         "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
+        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
+        "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
+        "OwnerKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
         "OwnerKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -479,24 +497,6 @@
         {
         "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
         "OwnerKey" = "8:_DA6BC0790D2D9A5D344A19C33D29E2BA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
-        "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
-        "OwnerKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -604,6 +604,12 @@
         "Entry"
         {
         "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
+        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
         "OwnerKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -641,12 +647,6 @@
         {
         "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
         "OwnerKey" = "8:_118481AF30BA739896F18EF79A00F6AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -9231,15 +9231,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NURIROBOTSUPPORTER"
-        "ProductCode" = "8:{E562E84B-2454-4E10-8738-8F239D223269}"
-        "PackageCode" = "8:{1C709BFB-A725-482D-9A6C-BAF95AB660FC}"
+        "ProductCode" = "8:{82F3C41A-7B2A-4FB2-A6C7-48E57BB89AF5}"
+        "PackageCode" = "8:{D8E1F256-C821-411E-BD54-9515B685F58C}"
         "UpgradeCode" = "8:{5079617D-D2E3-40B8-B2B8-F404339CDED5}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.1"
+        "ProductVersion" = "8:1.2.2"
         "Manufacturer" = "8:NURI ROBOT"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://support.nurirobot.info/"
