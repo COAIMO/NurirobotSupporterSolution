@@ -192,6 +192,9 @@
   <data name="Button_PosReset" xml:space="preserve">
     <value>위치 리셋</value>
   </data>
+  <data name="Button_Protocol" xml:space="preserve">
+    <value>전문복사</value>
+  </data>
   <data name="Button_Run" xml:space="preserve">
     <value>실행</value>
   </data>
@@ -461,6 +464,9 @@
   </data>
   <data name="Title_EditMacro" xml:space="preserve">
     <value>매크로 편집</value>
+  </data>
+  <data name="Title_Feedback" xml:space="preserve">
+    <value>피드백</value>
   </data>
   <data name="Title_Graph" xml:space="preserve">
     <value>그래프 표시</value>

@@ -24,6 +24,7 @@ namespace NurirobotSupporter.Helpers
             "public static void Run() {{\n" +
             "NurirobotRSA nuriRSA = new NurirobotRSA();\n" +
             "NurirobotMC nuriMC = new NurirobotMC();\n" +
+            "NurirobotSM nuriSM = new NurirobotSM();\n" +
             "try {{\n" +
             "{0}\n" +
             "}} catch (Exception ex) {{ Debug.WriteLine(ex); }}\n" +

@@ -192,6 +192,9 @@
   <data name="Button_PosReset" xml:space="preserve">
     <value>Position reset</value>
   </data>
+  <data name="Button_Protocol" xml:space="preserve">
+    <value>Copy protocol</value>
+  </data>
   <data name="Button_Run" xml:space="preserve">
     <value>Run</value>
   </data>
@@ -455,6 +458,9 @@
   </data>
   <data name="Title_EditMacro" xml:space="preserve">
     <value>Edit Macro</value>
+  </data>
+  <data name="Title_Feedback" xml:space="preserve">
+    <value>Feedback</value>
   </data>
   <data name="Title_Graph" xml:space="preserve">
     <value>Show Graph</value>

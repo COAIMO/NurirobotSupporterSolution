@@ -21,6 +21,7 @@ namespace LibNurirobotV00
         public string PacketName { get; set; }
         public byte[] Data { get; set; }
         public byte ID { get; set; }
+        public bool DontSend { get; set; } = false;
 
         ISerialProcess _SerialProcess = Locator.Current.GetService<ISerialProcess>();
 
@@ -56,7 +57,8 @@ namespace LibNurirobotV00
             Buffer.BlockCopy(data, 0, Data, 6, data.Length);
             Data[4] = GetCheckSum();
             if (isSend) {
-                _SerialProcess?.AddTaskqueue(Data);
+                if (!DontSend)
+                    _SerialProcess?.AddTaskqueue(Data);
             }
         }
 

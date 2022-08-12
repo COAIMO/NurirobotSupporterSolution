@@ -163,7 +163,11 @@
                                     <TextBlock Margin="2" Text="{lex:Loc Title_Graph}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                 </Viewbox>
                                 <Grid Margin="10" Height="50">
-                                    <Viewbox>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="79*"/>
+                                        <ColumnDefinition Width="24*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Viewbox Grid.ColumnSpan="2">
                                         <mah:ToggleSwitch Margin="2"
                               OffContent="{lex:Loc Label_Off}"
                               OnContent="{lex:Loc 켜기}"
@@ -188,7 +192,7 @@
                             </StackPanel>
                         </Border>
                     </Grid>
-                    
+
                     <!--tab-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
@@ -215,7 +219,10 @@
                                           Height="110"
                                           KeepVisualTreeInMemoryWhenChangingTabs="True" mah:TabControlHelper.Underlined="SelectedTabItem">
                                     <!--위치속도제어-->
-                                    <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" Header="{lex:Loc Label_POSVEL}" IsSelected="{Binding IsShowTargetPosVel, Mode=TwoWay}">
+                                    <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" 
+                                                      Header="{lex:Loc Label_POSVEL}" 
+                                                      IsSelected="{Binding IsShowTargetPosVel, Mode=TwoWay}"
+                                                      Visibility="{Binding IsNotSM, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1*"/>
@@ -244,7 +251,10 @@
                                         </Grid>
                                     </mah:MetroTabItem>
                                     <!--위치제어-->
-                                    <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" Header="{lex:Loc Label_POS}" IsSelected="{Binding IsShowTargetPos, Mode=TwoWay}">
+                                    <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" 
+                                                      Header="{lex:Loc Label_POS}" 
+                                                      IsSelected="{Binding IsShowTargetPos, Mode=TwoWay}"
+                                                      Visibility="{Binding IsNotSM, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1*"/>
@@ -306,12 +316,13 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <Button Grid.Row="0" Grid.Column="0" Margin="2" Grid.ColumnSpan="2"
+                                    <Button Grid.Row="0" Grid.Column="0" Margin="2" Grid.ColumnSpan="3"
                                             Style="{DynamicResource MahApps.Styles.Button.Square}"
                                             Content="{lex:Loc Button_Stop}"
                                             Command="{Binding CMDStop}"
@@ -326,11 +337,75 @@
                                             Command="{Binding CMDRun}"
                                             Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
                                             />
+                                    <Button Grid.Row="1" Grid.Column="2" Margin="2"
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocol}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
                                 </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
-                    
+                    <!--피드백 요청-->
+                    <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
+                      Margin="0, 0, 5, 5"
+                      Visibility="{Binding IsShowGraph, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Width="{Binding ControlWidth}" Height="210">
+                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+                            <StackPanel Margin="10, 2, 10, 2" >
+                                <Viewbox Height="30" HorizontalAlignment="Left">
+                                    <TextBlock Margin="2" Text="{lex:Loc Title_Feedback}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                </Viewbox>
+                                <Grid Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Viewbox Grid.Row="0" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_Position}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_RPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="2" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+
+                                    <Viewbox Grid.Row="0" Grid.Column="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{Binding FeedbackPOS}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="1" Grid.Column="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{Binding FeedbackRPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="2" Grid.Column="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{Binding FeedbackCurrent}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                </Grid>
+                                <Grid Height="50" Margin="0, 5, 0, 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Margin="2" 
+                                            Content="{lex:Loc Button_Run}"
+                                            Command="{Binding CMDRunFeedback}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
+                                            />
+                                    <Button Grid.Column="1" Margin="2"
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolFeedback}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
                     <!--위치 그래프-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
@@ -342,7 +417,7 @@
                                     <TextBlock Margin="2" Text="{lex:Loc Label_Position}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                 </Viewbox>
                                 <WpfPlot x:Name="PosPlot" Height="300">
-                                    
+
                                 </WpfPlot>
                             </StackPanel>
                         </Border>

@@ -171,11 +171,20 @@
                                           ItemsSource="{Binding ChangeIDs}"/>
 
                                 </Grid>
-                                <Viewbox Width="120"  HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolChangeID}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeID}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -203,11 +212,20 @@
                                           ItemsSource="{Binding Baudrates}"/>
 
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolChangeBaudrate}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeBaudrate}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -237,11 +255,20 @@
                                                    Interval="100"
                                                    />
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolResponseTime}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDResponseTime}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -263,11 +290,20 @@
                               IsOn="{Binding IsAbsolutePosCtrl, Mode=TwoWay}"/>
                                     </Viewbox>
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolPosCtrl}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangePosCtrl}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -336,11 +372,20 @@
                                                 Interval="100"
                                                 />
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolPosGain}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangePosGain}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -369,11 +414,20 @@
                                                    Maximum="65533"
                                                    Interval="1"/>
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolRatedSpeed}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeRatedSpeed}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -402,11 +456,20 @@
                                                    Maximum="65533"
                                                    Interval="1"/>
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolEncoderResoultion}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeEncoderResolution}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -428,11 +491,20 @@
                               IsOn="{Binding IsCCW, Mode=TwoWay}"/>
                                     </Viewbox>
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolDirection}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeDirection}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -498,11 +570,20 @@
                                                 Interval="100"
                                                 />
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolSpeedGain}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeSpeedGain}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -530,11 +611,20 @@
                                                    Maximum="6553.3"
                                                    Interval="1"/>
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolRatio}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeRatio}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -556,11 +646,20 @@
                               IsOn="{Binding IsCtrlOn, Mode=TwoWay}"/>
                                     </Viewbox>
                                 </Grid>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolControlOnOff}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeControlOnOff}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -574,11 +673,20 @@
                                 <Viewbox Height="30" HorizontalAlignment="Left">
                                     <TextBlock Margin="2" Text="{lex:Loc Label_PostionReset}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                 </Viewbox>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolPosReset}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangePosReset}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -592,11 +700,20 @@
                                 <Viewbox Height="30" HorizontalAlignment="Left">
                                     <TextBlock Margin="2" Text="{lex:Loc Label_FactoryReset}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                 </Viewbox>
-                                <Viewbox Width="120" HorizontalAlignment="Right">
-                                    <Button Content="{lex:Loc Button_Set}" Width="120" Height="40"
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolFactoryReset}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
                                         Command="{Binding CMDChangeFactoryReset}"
                                     Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
-                                </Viewbox>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>                    

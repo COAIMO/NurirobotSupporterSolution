@@ -84,6 +84,12 @@ namespace LibNurisupportPresentation.ViewModels
             set => this.RaiseAndSetIfChanged(ref _IsShowGraphSpeed, value);
         }
 
+        bool _IsNotSM = true;
+        public bool IsNotSM {
+            get => _IsNotSM;
+            set => this.RaiseAndSetIfChanged(ref _IsNotSM, value);
+        }
+
         public ObservableCollection<string> Logs { get; }
 
         IEnumerable<byte> _TargetIDs = new ObservableCollection<byte>();
@@ -168,6 +174,26 @@ namespace LibNurisupportPresentation.ViewModels
             set => this.RaiseAndSetIfChanged(ref _ControlWidth, value);
         }
 
+        float _FeedbackPOS = 0;
+        public float FeedbackPOS { 
+            get => _FeedbackPOS;
+            set => this.RaiseAndSetIfChanged(ref _FeedbackPOS, value);
+        }
+
+        float _FeedbackRPM = 0;
+        public float FeedbackRPM {
+            get => _FeedbackRPM;
+            set => this.RaiseAndSetIfChanged(ref _FeedbackRPM, value);
+        }
+
+        float _FeedbackCurrent = 0;
+        public float FeedbackCurrent {
+            get => _FeedbackCurrent;
+            set => this.RaiseAndSetIfChanged(ref _FeedbackCurrent, value);
+        }
+
+
+
         private double _PannelWidth = 800;
         public double PannelWidth {
             get => _PannelWidth;
@@ -193,6 +219,9 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDChangePosReset { get; }
         public ReactiveCommand<Unit, Unit> CMDStop { get; }
         public ReactiveCommand<Unit, Unit> CMDRun { get; }
+        public ReactiveCommand<Unit, Unit> CMDCopyProtocol { get; }
+        public ReactiveCommand<Unit, Unit> CMDRunFeedback { get; }
+        public ReactiveCommand<Unit, Unit> CMDCopyProtocolFeedback { get; }
 
         public ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> GraphData { get; } = new ObservableCollection<KeyValuePair<long, PosVelocityCurrent>>();
 
@@ -207,8 +236,6 @@ namespace LibNurisupportPresentation.ViewModels
             get => _IsRunning;
             set => this.RaiseAndSetIfChanged(ref _IsRunning, value);
         }
-
-        
 
         bool _LastConnect = false;
         string _LastPage = "";
@@ -398,6 +425,37 @@ namespace LibNurisupportPresentation.ViewModels
                 });
             }, IsNotRunning);
 
+            CMDCopyProtocol = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("= Protocol Make = ");
+                    if (IsShowTargetVel) {
+                        // 속도
+                        CopyVelocity(SelectedId);
+                    }
+                    else if (IsShowTargetPos) {
+                        // 위치
+                        CopyPosition(SelectedId);
+                    }
+                    else {
+                        // 위치 속도
+                        CopyPositionVelocity(SelectedId);
+                    }
+                    _Log.OnNext("= Copy Done! = ");
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            CMDCopyProtocolFeedback = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("= Protocol Make = ");
+                    CopyProtocolFeedback(SelectedId);
+                    _Log.OnNext("= Copy Done! = ");
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
             // 중지
             CMDStop = ReactiveCommand.Create(() => {
                 IsRunning = true;
@@ -421,6 +479,14 @@ namespace LibNurisupportPresentation.ViewModels
                     });
                     RefreshFeedback(state, esv);
 
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            CMDRunFeedback = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    GetFeedback(SelectedId, (byte)(0xa1), true, true);
                     IsRunning = false;
                 });
             }, IsNotRunning);
@@ -502,6 +568,87 @@ namespace LibNurisupportPresentation.ViewModels
                 });
         }
 
+        private void CopyProtocolFeedback(byte selectedId)
+        {
+            //throw new NotImplementedException();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(selectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            bool isRSA = command is NurirobotRSA;
+            var clip = Locator.Current.GetService<IClipBoard>();
+
+            if (isMc) {
+                var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.Feedback(selectedId, 0xa1);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSA) {
+                var tmpobj = new NurirobotRSA();
+                tmpobj.DontSend = true;
+                tmpobj.Feedback(selectedId, 0xa1);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else {
+                var tmpobj = new NurirobotSM();
+                tmpobj.DontSend = true;
+                tmpobj.Feedback(selectedId, 0xa1);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+        }
+
+        private void CopyVelocity(byte selectedId)
+        {
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(selectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            bool isRSA = command is NurirobotRSA;
+            var clip = Locator.Current.GetService<IClipBoard>();
+
+            if (isMc) {
+                var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.ControlAcceleratedSpeed(selectedId, (byte)(IsCCW ? 0x00 : 0x01), Velocity, Arrival);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSA) {
+                var tmpobj = new NurirobotRSA();
+                tmpobj.DontSend = true;
+                tmpobj.ControlAcceleratedSpeed(selectedId, (byte)(IsCCW ? 0x00 : 0x01), Velocity, Arrival);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else {
+                var tmpobj = new NurirobotSM();
+                tmpobj.DontSend = true;
+                tmpobj.ControlAcceleratedSpeed(selectedId, (byte)(IsCCW ? 0x00 : 0x01), Velocity, Arrival);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+        }
+
+        private void CopyPosition(byte selectedId)
+        {
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(selectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            var clip = Locator.Current.GetService<IClipBoard>();
+
+            if (isMc) {
+                var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.ControlAcceleratedPos(selectedId, (byte)(IsCCW ? 0x00 : 0x01), Postion, Arrival);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else {
+                var tmpobj = new NurirobotRSA();
+                tmpobj.DontSend = true;
+                tmpobj.ControlAcceleratedPos(selectedId, (byte)(IsCCW ? 0x00 : 0x01), Postion, Arrival);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+        }
+
         private void Delete2Min(ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> datas, long bftwomin)
         {
             var tmps = from tmp in datas
@@ -519,6 +666,7 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(id);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSA = command is NurirobotRSA;
 
             var ICE = Locator.Current.GetService<ICommandEngine>();
             string commandStr = string.Empty;
@@ -530,9 +678,17 @@ namespace LibNurisupportPresentation.ViewModels
                                 0,
                                 0.1f);
             }
-            else {
+            else if (isRSA) {
                 commandStr = string.Format(
                 "nuriRSA.ControlPosSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
+                                id,
+                                IsCCW ? 0x00 : 0x01,
+                                0,
+                                0.1f);
+            } 
+            else {
+                commandStr = string.Format(
+                "nuriSM.ControlAcceleratedSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
                                 id,
                                 IsCCW ? 0x00 : 0x01,
                                 0,
@@ -737,7 +893,8 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            
+            bool isRSA = command is NurirobotRSA;
+
             var comdis = new CompositeDisposable();
             var stopWaitHandle = new AutoResetEvent(false);
             stopWaitHandle.AddTo(comdis);
@@ -746,14 +903,24 @@ namespace LibNurisupportPresentation.ViewModels
                     try {
                         if (command.Parse(data)) {
                             var protocol = ((ProtocolMode)feedback + 48).ToString();
-                            if (!isMc) {
+                            if (!isMc && isRSA) {
                                 protocol = ((ProtocolModeRSA)feedback + 48).ToString();
+                            }
+                            else if (!isMc && !isRSA) {
+                                protocol = ((ProtocolModeSM)feedback + 48).ToString();
                             }
 
                             if (string.Equals(command.PacketName, protocol)) {
                                 var obj = (BaseStruct)command.GetDataStruct();
 
                                 if (id == obj.ID) {
+                                    if (string.Equals(command.PacketName, "FEEDPos")) {
+                                        var tmppos = (NuriPosSpeedAclCtrl)obj;
+                                        FeedbackPOS = tmppos.Pos;
+                                        FeedbackCurrent = tmppos.Current;
+                                        FeedbackRPM = tmppos.Speed;
+                                    }
+
                                     stopWaitHandle.Set();
                                 }
                             }
@@ -774,8 +941,11 @@ namespace LibNurisupportPresentation.ViewModels
                         if (isMc) {
                             (command as NurirobotMC).Feedback(id, feedback);
                         }
-                        else {
+                        else if (isRSA) {
                             (command as NurirobotRSA).Feedback(id, feedback);
+                        }
+                        else {
+                            (command as NurirobotSM).Feedback(id, feedback);
                         }
 
                         //Stopwatch sw = new Stopwatch();
@@ -790,8 +960,11 @@ namespace LibNurisupportPresentation.ViewModels
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, feedback);
                     }
-                    else {
+                    else if (isRSA) {
                         (command as NurirobotRSA).Feedback(id, feedback);
+                    }
+                    else {
+                        (command as NurirobotSM).Feedback(id, feedback);
                     }
 
                     //Stopwatch sw = new Stopwatch();
@@ -836,6 +1009,29 @@ namespace LibNurisupportPresentation.ViewModels
                 }
             }
         }
+
+        private void CopyPositionVelocity(byte id)
+        {
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(id);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            var clip = Locator.Current.GetService<IClipBoard>();
+
+            if (isMc) {
+                var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.ControlPosSpeed(id, (byte)(IsCCW ? 0x00 : 0x01), Postion, Velocity);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            } else {
+                var tmpobj = new NurirobotRSA();
+                tmpobj.DontSend = true;
+                tmpobj.ControlPosSpeed(id, (byte)(IsCCW ? 0x00 : 0x01), Postion, Velocity);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+        }
+
+
 
         /// <summary>
         /// 위치 속도제어
@@ -919,6 +1115,7 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(id);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSA = command is NurirobotRSA;
 
             var ICE = Locator.Current.GetService<ICommandEngine>();
             string commandStr = string.Empty;
@@ -930,9 +1127,17 @@ namespace LibNurisupportPresentation.ViewModels
                                 Velocity,
                                 Arrival);
             }
-            else {
+            else if (isRSA) {
                 commandStr = string.Format(
                 "nuriRSA.ControlAcceleratedSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
+                                id,
+                                IsCCW ? 0x00 : 0x01,
+                                Velocity,
+                                Arrival);
+            } 
+            else {
+                commandStr = string.Format(
+                "nuriSM.ControlAcceleratedSpeed( 0x{0:X2}, (byte){1}, (float){2}f, (float){3}f);",
                                 id,
                                 IsCCW ? 0x00 : 0x01,
                                 Velocity,
@@ -1108,6 +1313,7 @@ namespace LibNurisupportPresentation.ViewModels
                     }
                 }
 
+                IsNotSM = true;
                 // 3. 지정
                 var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
                 if (isMC) {
@@ -1118,6 +1324,10 @@ namespace LibNurisupportPresentation.ViewModels
                 }
                 else {
                     dpd.AddDeviceProtocol(id, new NurirobotSM());
+                    IsShowTargetVel = true;
+                    IsShowTargetPosVel = false;
+                    IsShowTargetPos = false;
+                    IsNotSM = false;
                 }
 
                 ret = true;

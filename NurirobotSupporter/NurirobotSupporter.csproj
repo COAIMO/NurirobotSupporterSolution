@@ -355,6 +355,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\ClipBoard.cs" />
     <Compile Include="Helpers\ComparisonToBooleanConverter.cs" />
     <Compile Include="Helpers\ComparisonToVisibleConverter.cs" />
     <Compile Include="Helpers\DeviceInfo.cs" />

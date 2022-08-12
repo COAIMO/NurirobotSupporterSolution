@@ -286,6 +286,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   전문복사과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Protocol {
+            get {
+                return ResourceManager.GetString("Button_Protocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   실행과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_Run {
@@ -1092,6 +1101,15 @@ namespace NurirobotSupporter {
         internal static string Title_EditMacro {
             get {
                 return ResourceManager.GetString("Title_EditMacro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   피드백과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Feedback {
+            get {
+                return ResourceManager.GetString("Title_Feedback", resourceCulture);
             }
         }
         
