@@ -81,6 +81,7 @@ namespace LibNurisupportPresentation.ViewModels
             Multiple = new MultiViewModel(this);
             Macro = new MacroViewModel(this);
             deviceSearch.MainViewModel = this;
+            Terminal = new TerminalViewModel(this);
 
             _Connected.OnNext(false);
             _Macro.OnNext(false);
@@ -353,5 +354,6 @@ namespace LibNurisupportPresentation.ViewModels
         public ISingleViewModel Single { get; set; }
         public IMultiViewModel Multiple { get; set; }
         public IMacroViewModel Macro { get; set; }
+        public ITerminalViewModel Terminal { get; set; }
     }
 }

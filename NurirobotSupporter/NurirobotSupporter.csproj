@@ -343,6 +343,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFHexaEditor, Version=2.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFHexaEditor.2.1.7\lib\net47\WPFHexaEditor.dll</HintPath>
+    </Reference>
     <Reference Include="WPFLocalizeExtension, Version=3.8.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFLocalizeExtension.3.8.0\lib\net452\WPFLocalizeExtension.dll</HintPath>
     </Reference>
@@ -411,11 +414,17 @@
     <Compile Include="Views\MultiView.xaml.cs">
       <DependentUpon>MultiView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SendDataControl.xaml.cs">
+      <DependentUpon>SendDataControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SingleView.xaml.cs">
       <DependentUpon>SingleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TerminalView.xaml.cs">
+      <DependentUpon>TerminalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
@@ -460,11 +469,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SendDataControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SingleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TerminalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -501,6 +518,8 @@
     </EmbeddedResource>
     <None Include=".editorconfig" />
     <EmbeddedResource Include="SettingControls\CustomHighlighting.xshd" />
+    <None Include="Resources\EBCDIC-NoSpecialChar.tbl" />
+    <None Include="Resources\EBCDIC.tbl" />
     <Resource Include="Fonts\NanumBarunGothic.ttf" />
     <Resource Include="Fonts\D2Coding.ttc" />
     <None Include="mykey.snk" />

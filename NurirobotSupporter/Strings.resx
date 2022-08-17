@@ -150,6 +150,9 @@
   <data name="Alert_Setting_SameID" xml:space="preserve">
     <value>변경하려는 ID와 현재의 ID가 동일합니다.</value>
   </data>
+  <data name="Button_Add" xml:space="preserve">
+    <value>추가</value>
+  </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>취소</value>
   </data>
@@ -194,6 +197,9 @@
   </data>
   <data name="Button_Protocol" xml:space="preserve">
     <value>전문복사</value>
+  </data>
+  <data name="Button_Remove" xml:space="preserve">
+    <value>제거</value>
   </data>
   <data name="Button_Run" xml:space="preserve">
     <value>실행</value>
@@ -441,6 +447,9 @@
   <data name="Left_Menu_Single_Control" xml:space="preserve">
     <value>단독 제어</value>
   </data>
+  <data name="Left_Menu_Terminal" xml:space="preserve">
+    <value>터미날</value>
+  </data>
   <data name="Left_Menu_Title" xml:space="preserve">
     <value>메뉴</value>
   </data>
@@ -500,6 +509,9 @@
   </data>
   <data name="Title_StartupPopup" xml:space="preserve">
     <value>시작 시 장비조회 팝업 유무</value>
+  </data>
+  <data name="Title_Terminal" xml:space="preserve">
+    <value>시리얼 터미날</value>
   </data>
   <data name="Title_Tool" xml:space="preserve">
     <value>제어기능</value>

@@ -160,6 +160,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   추가과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Add {
+            get {
+                return ResourceManager.GetString("Button_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   취소과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_Cancel {
@@ -291,6 +300,15 @@ namespace NurirobotSupporter {
         internal static string Button_Protocol {
             get {
                 return ResourceManager.GetString("Button_Protocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   제거과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Remove {
+            get {
+                return ResourceManager.GetString("Button_Remove", resourceCulture);
             }
         }
         
@@ -1033,6 +1051,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   터미날과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Left_Menu_Terminal {
+            get {
+                return ResourceManager.GetString("Left_Menu_Terminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   메뉴과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Left_Menu_Title {
@@ -1209,6 +1236,15 @@ namespace NurirobotSupporter {
         internal static string Title_StartupPopup {
             get {
                 return ResourceManager.GetString("Title_StartupPopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   시리얼 터미날과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_Terminal {
+            get {
+                return ResourceManager.GetString("Title_Terminal", resourceCulture);
             }
         }
         

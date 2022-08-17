@@ -150,6 +150,9 @@
   <data name="Alert_Setting_SameID" xml:space="preserve">
     <value>The ID you want to change and the current ID are the same.</value>
   </data>
+  <data name="Button_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -194,6 +197,9 @@
   </data>
   <data name="Button_Protocol" xml:space="preserve">
     <value>Copy protocol</value>
+  </data>
+  <data name="Button_Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="Button_Run" xml:space="preserve">
     <value>Run</value>
@@ -441,6 +447,9 @@
   <data name="Left_Menu_Single_Control" xml:space="preserve">
     <value>Single Control</value>
   </data>
+  <data name="Left_Menu_Terminal" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
   <data name="Left_Menu_Title" xml:space="preserve">
     <value>Menus</value>
   </data>
@@ -494,6 +503,9 @@
   </data>
   <data name="Title_StartupPopup" xml:space="preserve">
     <value>Is pop-up at startup</value>
+  </data>
+  <data name="Title_Terminal" xml:space="preserve">
+    <value>Terminal</value>
   </data>
   <data name="Title_Tool" xml:space="preserve">
     <value>Control function</value>

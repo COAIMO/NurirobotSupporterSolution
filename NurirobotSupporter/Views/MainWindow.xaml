@@ -184,6 +184,10 @@
                     Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
                     IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Setting, ElementName=HamburgerMenuControl}"
                     DataContext="{Binding DataContext.Setting, Mode=OneWay, ElementName=MainView}"/>
+            <local:TerminalView Grid.Row="1"
+                    Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Terminal, ElementName=HamburgerMenuControl}"
+                    IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Terminal, ElementName=HamburgerMenuControl}"
+                    DataContext="{Binding DataContext.Terminal, Mode=OneWay, ElementName=MainView}" />
             <Grid Grid.Row="1" Visibility="{Binding DataContext.IsNotConnect, Converter={StaticResource BooleanToVisibility}, ElementName=MainView, Mode=OneWay}"
                   Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
                 <StackPanel VerticalAlignment="Center">
@@ -205,7 +209,6 @@
                     Visibility="{Binding Content.Tag, Converter={StaticResource ComparisonToVisibleConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
                     IsEnabled="{Binding Content.Tag, Converter={StaticResource ComparisonToBooleanConverter}, ConverterParameter=Help, ElementName=HamburgerMenuControl}"
                     DataContext="{Binding DataContext.Help, Mode=OneWay, ElementName=MainView}" />
-
             <Grid Visibility="{Binding DataContext.IsDeviceSearchPopup, Converter={StaticResource BooleanToVisibility}, Mode=OneWay, ElementName=MainView}"
                           Grid.Row="1"
                           Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
@@ -305,6 +308,15 @@
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Kind="FeatureSearch" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="{lex:Loc Left_Menu_Terminal}" Tag="Terminal">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconBootstrapIcons Width="22"
+                                        Height="22"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Kind="Terminal" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                 </mah:HamburgerMenuItemCollection>
