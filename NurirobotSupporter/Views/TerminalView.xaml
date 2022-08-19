@@ -184,7 +184,7 @@
                                         <ColumnDefinition Width="10*"/>
                                         <ColumnDefinition Width="80"/>
                                         <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="60"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox
