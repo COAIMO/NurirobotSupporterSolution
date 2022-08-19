@@ -64,6 +64,7 @@ namespace NurirobotSupporter.SettingControls
                 IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                 data.Add(new MyCompletionData("nuriMC", LocExtension.GetLocalizedValue<string>("Desc_NuriMC")));
                 data.Add(new MyCompletionData("nuriRSA", LocExtension.GetLocalizedValue<string>("Desc_NuriRSA")));
+                data.Add(new MyCompletionData("nuriSM", LocExtension.GetLocalizedValue<string>("Desc_NuriSM")));
                 data.Add(new MyCompletionData("Thread.Sleep", LocExtension.GetLocalizedValue<string>("Desc_ThreadSleep")));
                 completionWindow.Show();
                 completionWindow.Closed += delegate {
@@ -113,7 +114,8 @@ namespace NurirobotSupporter.SettingControls
         string[] _Classs = new string[] {
             "Thread",
             "nuriMC",
-            "nuriRSA"
+            "nuriRSA",
+            "nuriSM"
         };
         string[] _Methods = new string[] {
             "Sleep",
@@ -315,6 +317,7 @@ namespace NurirobotSupporter.SettingControls
                                         || doc.GetCharAt(textEditor.CaretOffset - 8) == ';') {
                                         completionWindow = new CompletionWindow(textEditor.TextArea);
                                         IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+
                                         data.Add(new MyCompletionData("ControlAcceleratedSpeed", LocExtension.GetLocalizedValue<string>("Desc_ControlAcceleratedSpeed")));
                                         data.Add(new MyCompletionData("ControlAcceleratedPos", LocExtension.GetLocalizedValue<string>("Desc_ControlAcceleratedPos")));
                                         data.Add(new MyCompletionData("ControlPosSpeed", LocExtension.GetLocalizedValue<string>("Desc_ControlPosSpeed")));
@@ -331,6 +334,49 @@ namespace NurirobotSupporter.SettingControls
                                         data.Add(new MyCompletionData("SettingRatedspeed", LocExtension.GetLocalizedValue<string>("Desc_SettingRatedspeed")));
                                         data.Add(new MyCompletionData("SettingResolution", LocExtension.GetLocalizedValue<string>("Desc_SettingResolution")));
                                         data.Add(new MyCompletionData("SettingControlDirection", LocExtension.GetLocalizedValue<string>("Desc_SettingControlDirection")));
+
+
+                                        completionWindow.Show();
+                                        completionWindow.Closed += delegate {
+                                            completionWindow = null;
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                        else if (lastch == 'M') {
+                            if (textEditor.CaretOffset > 6) {
+                                var lastword = doc.Text.Substring(textEditor.CaretOffset - 7, 6);
+                                if (string.Equals(lastword, "nuriSM")) {
+                                    if (textEditor.CaretOffset == 7
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == '\t'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == '\r'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == '\n'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == ' '
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == '{'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == '}'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == '('
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == ')'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 8) == ';') {
+                                        completionWindow = new CompletionWindow(textEditor.TextArea);
+                                        IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+
+                                        data.Add(new MyCompletionData("ControlAcceleratedSpeed", LocExtension.GetLocalizedValue<string>("Desc_ControlAcceleratedSpeed")));
+                                        //data.Add(new MyCompletionData("ControlAcceleratedPos", LocExtension.GetLocalizedValue<string>("Desc_ControlAcceleratedPos")));
+                                        //data.Add(new MyCompletionData("ControlPosSpeed", LocExtension.GetLocalizedValue<string>("Desc_ControlPosSpeed")));
+                                        //data.Add(new MyCompletionData("SettingPositionController", LocExtension.GetLocalizedValue<string>("Desc_SettingPositionController")));
+                                        data.Add(new MyCompletionData("SettingSpeedController", LocExtension.GetLocalizedValue<string>("Desc_SettingSpeedController")));
+                                        data.Add(new MyCompletionData("SettingID", LocExtension.GetLocalizedValue<string>("Desc_SettingID")));
+                                        data.Add(new MyCompletionData("SettingBaudrate", LocExtension.GetLocalizedValue<string>("Desc_SettingBaudrate")));
+                                        data.Add(new MyCompletionData("SettingResponsetime", LocExtension.GetLocalizedValue<string>("Desc_SettingResponsetime")));
+                                        data.Add(new MyCompletionData("SettingRatio", LocExtension.GetLocalizedValue<string>("Desc_SettingRatio")));
+                                        data.Add(new MyCompletionData("SettingControlOnOff", LocExtension.GetLocalizedValue<string>("Desc_SettingControlOnOff")));
+                                        //data.Add(new MyCompletionData("SettingPositionControl", LocExtension.GetLocalizedValue<string>("Desc_SettingPositionControl")));
+                                        data.Add(new MyCompletionData("ResetPostion", LocExtension.GetLocalizedValue<string>("Desc_ResetPostion")));
+                                        data.Add(new MyCompletionData("ResetFactory", LocExtension.GetLocalizedValue<string>("Desc_ResetFactory")));
+                                        //data.Add(new MyCompletionData("SettingRatedspeed", LocExtension.GetLocalizedValue<string>("Desc_SettingRatedspeed")));
+                                        //data.Add(new MyCompletionData("SettingResolution", LocExtension.GetLocalizedValue<string>("Desc_SettingResolution")));
+                                        //data.Add(new MyCompletionData("SettingControlDirection", LocExtension.GetLocalizedValue<string>("Desc_SettingControlDirection")));
 
                                         completionWindow.Show();
                                         completionWindow.Closed += delegate {

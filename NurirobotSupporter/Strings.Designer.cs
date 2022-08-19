@@ -421,11 +421,20 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
-        ///   스마트모터 제어 객체과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   스마트액츄에이터 제어 객체과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Desc_NuriRSA {
             get {
                 return ResourceManager.GetString("Desc_NuriRSA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   스마트모터 제어 객체과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_NuriSM {
+            get {
+                return ResourceManager.GetString("Desc_NuriSM", resourceCulture);
             }
         }
         

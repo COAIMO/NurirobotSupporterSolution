@@ -238,6 +238,9 @@
     <value>모터 컨트롤러 제어 객체</value>
   </data>
   <data name="Desc_NuriRSA" xml:space="preserve">
+    <value>스마트액츄에이터 제어 객체</value>
+  </data>
+  <data name="Desc_NuriSM" xml:space="preserve">
     <value>스마트모터 제어 객체</value>
   </data>
   <data name="Desc_ResetFactory" xml:space="preserve">
