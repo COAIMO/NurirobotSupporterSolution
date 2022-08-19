@@ -13,6 +13,11 @@
         lex:LocalizeDictionary.DesignCulture="ko"
         lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
+                         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            TextElement.FontWeight="Regular"
+            TextElement.FontSize="13"
+            TextOptions.TextFormattingMode="Ideal" 
+            TextOptions.TextRenderingMode="Auto"  
              d:DesignHeight="800" d:DesignWidth="1600" IsEnabledChanged="UserControl_IsEnabledChanged" >
     <!--lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"-->
@@ -737,16 +742,6 @@
                               Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                               ItemsSource="{Binding Logs}" 
                               Style="{StaticResource LogViewerStyle}">
-                    <ItemsControl.Template>
-                        <ControlTemplate>
-                            <ItemsPresenter/>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel IsItemsHost="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
         </Grid>

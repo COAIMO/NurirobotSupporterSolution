@@ -124,7 +124,9 @@ namespace NurirobotSupporter.Views
 
         private void txtInput_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.Key == Key.Enter) {
+                Button_Click_3(sender, null);
+            }
         }
     }
 }

@@ -183,6 +183,9 @@
   <data name="Button_Korean" xml:space="preserve">
     <value>한국어</value>
   </data>
+  <data name="Button_Logclear" xml:space="preserve">
+    <value>로그 삭제</value>
+  </data>
   <data name="Button_MacroCall" xml:space="preserve">
     <value>매크로 삽입</value>
   </data>

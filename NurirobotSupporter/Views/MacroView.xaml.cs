@@ -19,10 +19,12 @@ namespace NurirobotSupporter.Views
     using System.Windows.Navigation;
     using System.Windows.Shapes;
     using System.Windows.Threading;
+    using LibNurirobotBase.Interface;
     using LibNurisupportPresentation.Interfaces;
     using LibNurisupportPresentation.ViewModels;
     using NurirobotSupporter.SettingControls;
     using ReactiveUI;
+    using Splat;
 
     /// <summary>
     /// MacroView.xaml에 대한 상호 작용 논리
@@ -197,8 +199,10 @@ namespace NurirobotSupporter.Views
                     sb.Append($"{item.ToString()}\n");
                 }
 
-                Clipboard.SetDataObject(sb.ToString());
+                var clip = Locator.Current.GetService<IClipBoard>();
+                clip.SetDataObject(sb.ToString());
             }
+            e.Handled = true;
         }
     }
 }

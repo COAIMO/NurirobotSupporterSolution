@@ -12,6 +12,11 @@
             lex:LocalizeDictionary.DesignCulture="ko"
             lex:ResxLocalizationProvider.DefaultAssembly="NurirobotSupporter"
             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
+            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            TextElement.FontWeight="Regular"
+            TextElement.FontSize="13"
+            TextOptions.TextFormattingMode="Ideal" 
+            TextOptions.TextRenderingMode="Auto"  
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              x:Name="terminalView"
              IsEnabledChanged="terminalView_IsEnabledChanged"
@@ -45,7 +50,7 @@
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
@@ -129,7 +134,6 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding}" 
                            Grid.Column="0"
-                           KeyDown="TextBlock_KeyDown"
                            TextWrapping="Wrap"/>
             </Grid>
         </DataTemplate>
@@ -139,11 +143,12 @@
             <RowDefinition Height="48"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto" MinHeight="100" MaxHeight="500"/>
+            <RowDefinition Height="auto" MinHeight="100" MaxHeight="350"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Viewbox HorizontalAlignment="Left" Grid.Column="0">
@@ -151,9 +156,14 @@
             </Viewbox>
             <Button Grid.Column="1" 
                     Margin="5"
-                    Style="{DynamicResource MahApps.Styles.Button.Square}"
+                    Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
                     Content="{lex:Loc Button_Add}"
                     Command="{Binding CMDAdd}" />
+            <Button Grid.Column="2"
+                    Margin="5"
+                    Style="{DynamicResource MahApps.Styles.Button.Square}"
+                    Content="{lex:Loc Button_Logclear}"
+                    Command="{Binding CMDClear}" />
         </Grid>
         <Grid Grid.Row="1" >
             <Grid.RowDefinitions>
@@ -219,11 +229,14 @@
 
             </ScrollViewer>
         </Grid>
-        <GridSplitter Grid.Row="2" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter
+            Grid.Row="2" Height="10" 
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
         <Grid Grid.Row="3">
             <ScrollViewer 
                 Name="SystemStatusSV"  
-                MaxHeight="500"
+                MaxHeight="350"
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Stretch"
                 PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
@@ -234,45 +247,6 @@
                               Style="{StaticResource LogViewerStyle}">
                 </ItemsControl>
             </ScrollViewer>
-            <!--<ItemsControl 
-                x:Name="SystemStatusLB" 
-                KeyDown="SystemStatusLB_KeyDown"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                ItemsSource="{Binding Logs}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <TextBlock Text="{Binding}" 
-                           KeyDown="TextBlock_KeyDown"
-                           TextWrapping="Wrap"/>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel IsVirtualizing="True"
-                              VirtualizationMode="Recycling" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-                <ItemsControl.Template>
-                    <ControlTemplate TargetType="ItemsControl">
-                        <Border BorderThickness="{TemplateBinding BorderThickness}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              Background="{TemplateBinding Background}">
-                            <ScrollViewer 
-                                x:Name="theScrollViewer"
-                                CanContentScroll="True" 
-                                Padding="{TemplateBinding Padding}"
-                                Focusable="False">
-                                <ItemsPresenter />
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </ItemsControl.Template>
-            </ItemsControl>-->
         </Grid>
     </Grid>
 </UserControl>

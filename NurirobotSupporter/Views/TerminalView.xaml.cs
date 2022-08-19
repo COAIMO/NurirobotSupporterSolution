@@ -16,9 +16,11 @@ namespace NurirobotSupporter.Views
     using System.Windows.Navigation;
     using System.Windows.Shapes;
     using System.Windows.Threading;
+    using LibNurirobotBase.Interface;
     using LibNurisupportPresentation.Interfaces;
     using LibNurisupportPresentation.ViewModels;
     using ReactiveUI;
+    using Splat;
 
     /// <summary>
     /// TerminalView.xaml에 대한 상호 작용 논리
@@ -91,23 +93,9 @@ namespace NurirobotSupporter.Views
                 foreach (var item in SystemStatusLB.Items) {
                     sb.Append($"{item.ToString()}\n");
                 }
-
-                Clipboard.SetDataObject(sb.ToString());
+                var clip = Locator.Current.GetService<IClipBoard>();
+                clip.SetDataObject(sb.ToString());
             }
-            e.Handled = true;
-        }
-
-        private void TextBlock_KeyDown(object sender, KeyEventArgs e)
-        {
-            //if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control) {
-            //    var sb = new StringBuilder();
-
-            //    foreach (var item in SystemStatusLB.Items) {
-            //        sb.Append($"{item.ToString()}\n");
-            //    }
-
-            //    Clipboard.SetDataObject(sb.ToString());
-            //}
             e.Handled = true;
         }
 

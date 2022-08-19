@@ -80,8 +80,6 @@ namespace LibNurisupportPresentation.ViewModels
 
         public TerminalViewModel()
         {
-            //_IMainViewModel = mainvm;
-
             Logs = new ObservableCollection<string>();
             var protocols = state.ProtocolSends;
 
@@ -105,9 +103,11 @@ namespace LibNurisupportPresentation.ViewModels
             esl.ObsLog
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(x => {
-                    Logs.Add(x);
-                    if (Logs.Count > 1000) {
-                        Logs.RemoveAt(0);
+                    if (IsRunningPage) {
+                        Logs.Add(x);
+                        if (Logs.Count > 1000) {
+                            Logs.RemoveAt(0);
+                        }
                     }
                 });
 
@@ -137,6 +137,9 @@ namespace LibNurisupportPresentation.ViewModels
 
 
             CMDRemove = ReactiveCommand.Create<ProtocolSend>(protocol => {
+                if (protocol.IsRunning)
+                    return;
+
                 Items.Remove(protocol);
                 ProtocolUpdate();
             });
@@ -197,6 +200,10 @@ namespace LibNurisupportPresentation.ViewModels
                     }
                 }
                 protocol.IsRunning = false;
+            });
+
+            CMDClear = ReactiveCommand.Create(() => {
+                Logs.Clear();
             });
         }
 

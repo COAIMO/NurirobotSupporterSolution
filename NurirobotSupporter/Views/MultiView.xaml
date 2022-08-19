@@ -142,16 +142,6 @@
                               Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                               ItemsSource="{Binding Logs}" 
                               Style="{StaticResource LogViewerStyle}">
-                    <ItemsControl.Template>
-                        <ControlTemplate>
-                            <ItemsPresenter/>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel IsItemsHost="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
         </Grid>

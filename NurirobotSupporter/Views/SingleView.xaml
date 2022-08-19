@@ -455,22 +455,15 @@
         </Grid>
         <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
         <Grid Grid.Row="3" Visibility="{Binding IsOnLog, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ScrollViewer Name="SystemStatusSV" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxHeight="200" PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
+            <ScrollViewer Name="SystemStatusSV" 
+                          VerticalAlignment="Stretch" 
+                          HorizontalAlignment="Stretch" MaxHeight="200" 
+                          PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
                 <ItemsControl x:Name="SystemStatusLB" 
                               KeyDown="SystemStatusLB_KeyDown"
                               Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                               ItemsSource="{Binding Logs}" 
                               Style="{StaticResource LogViewerStyle}">
-                    <ItemsControl.Template>
-                        <ControlTemplate>
-                            <ItemsPresenter/>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel IsItemsHost="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
         </Grid>

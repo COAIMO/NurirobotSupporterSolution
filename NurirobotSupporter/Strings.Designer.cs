@@ -259,6 +259,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   로그 삭제과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_Logclear {
+            get {
+                return ResourceManager.GetString("Button_Logclear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   매크로 삽입과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_MacroCall {
