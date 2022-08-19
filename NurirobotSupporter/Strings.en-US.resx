@@ -303,6 +303,9 @@
   <data name="Label_Current" xml:space="preserve">
     <value>Rated current</value>
   </data>
+  <data name="Label_Delay" xml:space="preserve">
+    <value>Delay time</value>
+  </data>
   <data name="Label_DeviceSearchDesc" xml:space="preserve">
     <value>Find equipment connection information.</value>
   </data>
@@ -339,6 +342,9 @@
   <data name="Label_Logview" xml:space="preserve">
     <value>Log Viewer</value>
   </data>
+  <data name="Label_Loop" xml:space="preserve">
+    <value>Repeat execution</value>
+  </data>
   <data name="Label_Macro" xml:space="preserve">
     <value>Macro</value>
   </data>
@@ -371,6 +377,9 @@
   </data>
   <data name="Label_ProcessStop" xml:space="preserve">
     <value>Stop processing</value>
+  </data>
+  <data name="Label_Protocol" xml:space="preserve">
+    <value>Protocol</value>
   </data>
   <data name="Label_RatedSpeed" xml:space="preserve">
     <value>Motor rated speed setting</value>
@@ -509,5 +518,8 @@
   </data>
   <data name="Title_Tool" xml:space="preserve">
     <value>Control function</value>
+  </data>
+  <data name="Tooltip_HexInput" xml:space="preserve">
+    <value>Enter hexadecimal data.</value>
   </data>
 </root>

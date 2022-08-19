@@ -71,17 +71,18 @@ namespace LibNurisupportPresentation.ViewModels
         public MainWindowViewModel(
             IDeviceSearchViewModel deviceSearch, 
             ILanguageViewModel language,
-            IHelpViewModel help)
+            IHelpViewModel help,
+            ITerminalViewModel terminal)
         {
             DeviceSearch = deviceSearch;
             Language = language;
             Help = help;
+            Terminal = terminal;
             Setting = new SettingViewModel(this);
             Single = new SingleViewModel(this);
             Multiple = new MultiViewModel(this);
             Macro = new MacroViewModel(this);
             deviceSearch.MainViewModel = this;
-            Terminal = new TerminalViewModel(this);
 
             _Connected.OnNext(false);
             _Macro.OnNext(false);

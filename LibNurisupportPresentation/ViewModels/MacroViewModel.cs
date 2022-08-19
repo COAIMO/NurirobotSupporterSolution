@@ -160,10 +160,6 @@ namespace LibNurisupportPresentation.ViewModels
                     var tmp = string.Format("[{0}]\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), x);
                     if (IsOnLog) {
                         Logs.Add(tmp);
-                        if (Logs.Count > 1000) {
-                            Logs.RemoveAt(0);
-                            GC.Collect();
-                        }
                     }
                     Debug.WriteLine(tmp);
                 });
@@ -196,7 +192,6 @@ namespace LibNurisupportPresentation.ViewModels
                         Logs.Add(x);
                         if (Logs.Count > 1000) {
                             Logs.RemoveAt(0);
-                            GC.Collect();
                         }
                     }
                 });

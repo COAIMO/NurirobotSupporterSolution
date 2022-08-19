@@ -67,6 +67,7 @@ namespace NurirobotSupporter
             Locator.CurrentMutable.RegisterConstant(new Script(), typeof(IScript));
             Locator.CurrentMutable.RegisterConstant(new CommandEngine(), typeof(ICommandEngine));
             Locator.CurrentMutable.RegisterConstant(new ClipBoard(), typeof(IClipBoard));
+            Locator.CurrentMutable.RegisterConstant(new DialogWindowHexEditor(), typeof(IDialogWindowHexEditor));
 
             Locator.Current.GetService<ISerialControl>().AddTo(_Disposables);
             Locator.Current.GetService<IEventSerialLog>().AddTo(_Disposables);
@@ -77,6 +78,7 @@ namespace NurirobotSupporter
             Locator.Current.GetService<IScript>().AddTo(_Disposables);
             Locator.Current.GetService<ICommandEngine>().AddTo(_Disposables);
             Locator.Current.GetService<IClipBoard>().AddTo(_Disposables);
+            Locator.Current.GetService<IDialogWindowHexEditor>().AddTo(_Disposables);
 
         }
 
@@ -116,7 +118,8 @@ namespace NurirobotSupporter
                 DataContext = new MainWindowViewModel(
                     new DeviceSearchViewModel(),
                     new LanguageViewModel(),
-                    new HelpViewModel()
+                    new HelpViewModel(),
+                    new TerminalViewModel()
                     )
             };
             window.Closed += delegate { Shutdown(); };

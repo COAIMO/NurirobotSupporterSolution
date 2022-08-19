@@ -3,22 +3,29 @@ namespace LibNurisupportPresentation
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.Serialization;
     using System.Text;
     using ReactiveUI;
 
+    [DataContract]
     public class ProtocolSend: ReactiveObject
     {
-        int _Id = 0;
-        public int ID {
-            get => _Id;
-            set => this.RaiseAndSetIfChanged(ref _Id, value);
+        string _Title = "";
+        [DataMember]
+        public string Title {
+            get => _Title;
+            set => this.RaiseAndSetIfChanged(ref _Title, value);
         }
-        MemoryStream _SendData = new MemoryStream(1);
-        public MemoryStream SendData {
+
+        string _SendData = "";
+        [DataMember]
+        public string SendData {
             get => _SendData;
+            set => this.RaiseAndSetIfChanged(ref _SendData, value);
         }
 
         bool _IsLoop = false;
+        [DataMember]
         public bool IsLoop {
             get => _IsLoop;
             set => this.RaiseAndSetIfChanged(ref _IsLoop, value);
@@ -30,10 +37,22 @@ namespace LibNurisupportPresentation
             set => this.RaiseAndSetIfChanged(ref _IsRunning, value);
         }
 
-        long _TimeOfDelay = 0;
+        bool _IsThreadrunning = false;
+        public bool IsThreadrunning {
+            get => _IsThreadrunning;
+            set => this.RaiseAndSetIfChanged(ref _IsThreadrunning, value);
+        }
+
+        long _TimeOfDelay = 1000;
+        [DataMember]
         public long TimeOfDelay {
             get => _TimeOfDelay;
-            set => this.RaiseAndSetIfChanged(ref _TimeOfDelay, value);
+            set {
+                if (value >= 20)
+                    this.RaiseAndSetIfChanged(ref _TimeOfDelay, value);
+                else
+                    this.RaiseAndSetIfChanged(ref _TimeOfDelay, 20);
+            }
         }
     }
 }

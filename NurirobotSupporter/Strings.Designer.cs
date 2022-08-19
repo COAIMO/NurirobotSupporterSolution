@@ -619,6 +619,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   지연시간과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Delay {
+            get {
+                return ResourceManager.GetString("Label_Delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   장비 연결 정보을 찾습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_DeviceSearchDesc {
@@ -727,6 +736,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   반복여부과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Loop {
+            get {
+                return ResourceManager.GetString("Label_Loop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   매크로과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_Macro {
@@ -822,6 +840,15 @@ namespace NurirobotSupporter {
         internal static string Label_ProcessStop {
             get {
                 return ResourceManager.GetString("Label_ProcessStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   전문과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Protocol {
+            get {
+                return ResourceManager.GetString("Label_Protocol", resourceCulture);
             }
         }
         
@@ -1254,6 +1281,15 @@ namespace NurirobotSupporter {
         internal static string Title_Tool {
             get {
                 return ResourceManager.GetString("Title_Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   헥사 데이터를 입력하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Tooltip_HexInput {
+            get {
+                return ResourceManager.GetString("Tooltip_HexInput", resourceCulture);
             }
         }
     }

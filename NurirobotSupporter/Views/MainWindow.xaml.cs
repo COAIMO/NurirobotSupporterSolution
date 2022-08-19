@@ -11,6 +11,7 @@ namespace NurirobotSupporter.Views
     using System.Windows.Data;
     using System.Windows.Documents;
     using System.Windows.Input;
+    using System.Windows.Interop;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using System.Windows.Navigation;
@@ -83,6 +84,15 @@ namespace NurirobotSupporter.Views
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             ViewModel.IsDeviceSearchPopup = false;
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            var hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+
+            if (hwndSource != null)
+                hwndSource.CompositionTarget.RenderMode = RenderMode.SoftwareOnly;
+            base.OnSourceInitialized(e);
         }
 
         private void MainView_KeyDown(object sender, KeyEventArgs e)

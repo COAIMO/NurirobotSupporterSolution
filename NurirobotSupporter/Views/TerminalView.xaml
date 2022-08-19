@@ -14,9 +14,94 @@
             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              x:Name="terminalView"
+             IsEnabledChanged="terminalView_IsEnabledChanged"
             d:DesignHeight="450" d:DesignWidth="800">
-    <!--<UserControl.Resources>
+    <UserControl.Resources>
         <Style TargetType="ItemsControl" x:Key="SendStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ScrollViewer CanContentScroll="True">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <!--<Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>-->
+        </Style>
+        <DataTemplate DataType="{x:Type present:ProtocolSend}">
+            <Grid IsSharedSizeScope="True" 
+                  Height="40"
+                  Margin="0,2.5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Margin="5,2.5,0,0"
+                        VerticalContentAlignment="Center"
+                        Style="{DynamicResource MahApps.Styles.TextBox}"
+                        Text="{Binding Title}" />
+                <TextBox Grid.Column="1"
+                                         Margin="5,2.5,5,0"
+                                         VerticalContentAlignment="Center"
+                                         IsReadOnly="True"
+                                         Style="{DynamicResource MahApps.Styles.TextBox}"
+                                         Text="{Binding SendData}">
+                    <TextBox.InputBindings>
+                        <MouseBinding Command="{Binding ElementName=terminalView, Path=DataContext.CMDClick}" CommandParameter="{Binding}" MouseAction="LeftDoubleClick" />
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <CheckBox
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding IsLoop}"
+                    Style="{DynamicResource MahApps.Styles.CheckBox}"
+                    />
+                <TextBox
+                    Grid.Column="4"
+                    Style="{DynamicResource MahApps.Styles.TextBox}"
+                    Margin="5,2.5,5,0"
+                    VerticalContentAlignment="Center"
+                    InputScope="Number"
+                    Text="{Binding TimeOfDelay}"
+                    IsEnabled="{Binding IsLoop}"
+                    />
+                <Button Grid.Column="5" 
+                        Margin="0, 2.5,0,0"
+                        Content="{lex:LocText Button_Remove}" 
+                        Style="{DynamicResource MahApps.Styles.Button.Square}"
+                        CommandParameter="{Binding}"
+                        Command="{Binding ElementName=terminalView, Path=DataContext.CMDRemove}"/>
+                <Button Grid.Column="2" 
+                        Margin="0, 2.5,0,0"
+                        Content="{lex:LocText Button_Run}" 
+                        Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
+                        Visibility="{Binding IsRunning, Converter={StaticResource InvertableBooleanToVisibilityConverter}}"
+                        CommandParameter="{Binding}"
+                        Command="{Binding ElementName=terminalView, Path=DataContext.CMDSendProtocol}"/>
+                <Button Grid.Column="2" 
+                        Margin="0, 2.5,0,0"
+                        Content="{lex:LocText Button_Stop}" 
+                        Style="{DynamicResource MahApps.Styles.Button.Square}"
+                        Visibility="{Binding IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        CommandParameter="{Binding}"
+                        Command="{Binding ElementName=terminalView, Path=DataContext.CMDStop}"/>
+            </Grid>
+        </DataTemplate>
+        <Style TargetType="ItemsControl" x:Key="LogViewerStyle">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
@@ -30,42 +115,25 @@
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <VirtualizingStackPanel IsItemsHost="True"/>
+                        <VirtualizingStackPanel IsVirtualizing="True"
+                              VirtualizationMode="Recycling" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <DataTemplate DataType="{x:Type present:ProtocolSend}">
-            <Grid IsSharedSizeScope="True" 
-                  Height="120"
-                  Margin="0,2.5">
+        <DataTemplate DataType="{x:Type s:String}">
+            <Grid IsSharedSizeScope="True">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                --><!--<local:SendDataControl 
-                    Grid.Column="0"
-                    />-->
-                <!--<TextBox Grid.Column="2"/>--><!--
-                <Button Grid.Column="1" 
-                        Margin="0, 10"
-                        Content="{lex:LocText Button_Run}" 
-                        Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
-                        CommandParameter="{Binding Mode=OneWay}"
-                        Command="{Binding ElementName=terminalView, Path=DataContext.CMDSend}"/>
-                <Button Grid.Column="4" 
-                        Margin="0, 10"
-                        Content="{lex:LocText Button_Remove}" 
-                        Style="{DynamicResource MahApps.Styles.Button.Square}"
-                        CommandParameter="{Binding Mode=OneWay}"
-                        Command="{Binding ElementName=terminalView, Path=DataContext.CMDRemove}"/>                
+                <TextBlock Text="{Binding}" 
+                           Grid.Column="0"
+                           KeyDown="TextBlock_KeyDown"
+                           TextWrapping="Wrap"/>
             </Grid>
         </DataTemplate>
-    </UserControl.Resources>-->
+    </UserControl.Resources>
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
@@ -88,33 +156,58 @@
                     Command="{Binding CMDAdd}" />
         </Grid>
         <Grid Grid.Row="1" >
-            <ScrollViewer>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <!--<local:SendDataControl Grid.Row="0" />-->
-                    <!--<local:SendDataControl Grid.Row="1" />-->
-                </Grid>
-            </ScrollViewer>
-        </Grid>
-        <!--<Grid Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <local:SendDataControl Grid.Row="0" />
-            <local:SendDataControl Grid.Row="1" />
-            --><!--<control:HexEditor x:Name="he0" Grid.Row="0"/>-->
-            <!--<control:HexEditor x:Name="he1" Grid.Row="1"/>-->
-            <!--<ScrollViewer>
-                --><!--<ItemsControl
-                    ItemsSource="{Binding Items, Mode=TwoWay}"
+            <ScrollViewer>
+                <ItemsControl
+                    ItemsSource="{Binding Items}"
                     Style="{StaticResource SendStyle}">
                     <ItemsControl.Template>
                         <ControlTemplate>
-                            <ItemsPresenter/>
+                            <StackPanel>
+                                <Grid 
+                                    Height="24"
+                                    Background="{DynamicResource MahApps.Brushes.TextBox.Border}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="10*"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="60"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Viewbox
+                                        Grid.Column="0">
+                                        <TextBlock 
+                                            HorizontalAlignment="Center"
+                                            Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                            Text="{lex:LocText Label_Title}"/>
+                                    </Viewbox>
+                                    <Viewbox
+                                        Grid.Column="1">
+                                        <TextBlock 
+                                            HorizontalAlignment="Center"
+                                            Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                            Text="{lex:LocText Label_Protocol}"/>
+                                    </Viewbox>
+                                    <Viewbox
+                                        Grid.Column="3">
+                                        <TextBlock 
+                                            HorizontalAlignment="Center"
+                                            Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                            Text="{lex:LocText Label_Loop}"/>
+                                    </Viewbox>
+                                    <Viewbox
+                                        Grid.Column="4">
+                                        <TextBlock 
+                                            HorizontalAlignment="Center"
+                                            Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                            Text="{lex:LocText Label_Delay}"/>
+                                    </Viewbox>
+                                </Grid>
+                                <ItemsPresenter/>
+                            </StackPanel>
                         </ControlTemplate>
                     </ItemsControl.Template>
                     <ItemsControl.ItemsPanel>
@@ -122,47 +215,64 @@
                             <VirtualizingStackPanel IsItemsHost="True"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                </ItemsControl>--><!--
+                </ItemsControl>
 
-            </ScrollViewer>-->
-            <!--<local:SendDataControl 
-                    />-->
-            <!--<ScrollViewer>
-                <ListView ItemsSource="{Binding Items}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate DataType="{x:Type present:ProtocolSend}">
-                            <Grid 
-                              Height="120"
-                              Margin="0,2.5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="10*"/>
-                                    <ColumnDefinition Width="80"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="80"/>
-                                </Grid.ColumnDefinitions>
-                                --><!--<local:SendDataControl 
-                                    Grid.Column="0"
-                                    />--><!--
-                                <control:HexEditor Grid.Column="0" Stream="{Binding SendData}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </ScrollViewer>--><!--
-        </Grid>-->
-        <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
+            </ScrollViewer>
+        </Grid>
+        <GridSplitter Grid.Row="2" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndNext"/>
         <Grid Grid.Row="3">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="48"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                    <Button Width="100" Content="11"/>
-                    <Button Width="100" Content="11"/>
-                </StackPanel>
-            </Grid>
+            <ScrollViewer 
+                Name="SystemStatusSV"  
+                MaxHeight="500"
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Stretch"
+                PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
+                <ItemsControl x:Name="SystemStatusLB" 
+                              KeyDown="SystemStatusLB_KeyDown"
+                              Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                              ItemsSource="{Binding Logs}" 
+                              Style="{StaticResource LogViewerStyle}">
+                </ItemsControl>
+            </ScrollViewer>
+            <!--<ItemsControl 
+                x:Name="SystemStatusLB" 
+                KeyDown="SystemStatusLB_KeyDown"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                ItemsSource="{Binding Logs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding}" 
+                           KeyDown="TextBlock_KeyDown"
+                           TextWrapping="Wrap"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel IsVirtualizing="True"
+                              VirtualizationMode="Recycling" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <Border BorderThickness="{TemplateBinding BorderThickness}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              Background="{TemplateBinding Background}">
+                            <ScrollViewer 
+                                x:Name="theScrollViewer"
+                                CanContentScroll="True" 
+                                Padding="{TemplateBinding Padding}"
+                                Focusable="False">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+            </ItemsControl>-->
         </Grid>
     </Grid>
 </UserControl>

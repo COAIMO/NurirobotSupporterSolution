@@ -87,5 +87,12 @@ namespace LibNurisupportPresentation
         /// </summary>
         [DataMember]
         public List<byte> SearchDevice { get; set; } = new List<byte>();
+
+        /// <summary>
+        /// 터미날 프로토콜
+        /// </summary>
+        [DataMember]
+        public List<ProtocolSend> ProtocolSends { get; set; } = new List<ProtocolSend>();
+
     }
 }

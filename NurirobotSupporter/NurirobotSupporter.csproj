@@ -362,6 +362,7 @@
     <Compile Include="Helpers\ComparisonToBooleanConverter.cs" />
     <Compile Include="Helpers\ComparisonToVisibleConverter.cs" />
     <Compile Include="Helpers\DeviceInfo.cs" />
+    <Compile Include="Helpers\DialogWindowHexEditor.cs" />
     <Compile Include="Helpers\EventSerialLog.cs" />
     <Compile Include="Helpers\EventSerialValue.cs" />
     <Compile Include="Helpers\InvertableBooleanToVisibilityConverter.cs" />
@@ -396,6 +397,9 @@
     <Compile Include="Views\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HexEditorWindow.xaml.cs">
+      <DependentUpon>HexEditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LanguageView.xaml.cs">
       <DependentUpon>LanguageView.xaml</DependentUpon>
     </Compile>
@@ -413,9 +417,6 @@
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\MultiView.xaml.cs">
       <DependentUpon>MultiView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SendDataControl.xaml.cs">
-      <DependentUpon>SendDataControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
@@ -453,6 +454,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\HexEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LanguageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -466,10 +471,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MultiView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SendDataControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -515,6 +516,7 @@
     <EmbeddedResource Include="Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include=".editorconfig" />
     <EmbeddedResource Include="SettingControls\CustomHighlighting.xshd" />

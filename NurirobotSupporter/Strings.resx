@@ -303,6 +303,9 @@
   <data name="Label_Current" xml:space="preserve">
     <value>정격전류</value>
   </data>
+  <data name="Label_Delay" xml:space="preserve">
+    <value>지연시간</value>
+  </data>
   <data name="Label_DeviceSearchDesc" xml:space="preserve">
     <value>장비 연결 정보을 찾습니다.</value>
   </data>
@@ -339,6 +342,9 @@
   <data name="Label_Logview" xml:space="preserve">
     <value>로그뷰어</value>
   </data>
+  <data name="Label_Loop" xml:space="preserve">
+    <value>반복여부</value>
+  </data>
   <data name="Label_Macro" xml:space="preserve">
     <value>매크로</value>
   </data>
@@ -371,6 +377,9 @@
   </data>
   <data name="Label_ProcessStop" xml:space="preserve">
     <value>처리 중단</value>
+  </data>
+  <data name="Label_Protocol" xml:space="preserve">
+    <value>전문</value>
   </data>
   <data name="Label_RatedSpeed" xml:space="preserve">
     <value>모터 정격속도 설정</value>
@@ -515,5 +524,8 @@
   </data>
   <data name="Title_Tool" xml:space="preserve">
     <value>제어기능</value>
+  </data>
+  <data name="Tooltip_HexInput" xml:space="preserve">
+    <value>헥사 데이터를 입력하세요.</value>
   </data>
 </root>

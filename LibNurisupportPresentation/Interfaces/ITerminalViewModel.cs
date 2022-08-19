@@ -2,12 +2,14 @@ namespace LibNurisupportPresentation.Interfaces
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Reactive;
     using System.Text;
     using ReactiveUI;
 
     public interface ITerminalViewModel : IReactiveObject
     {
+        bool IsRunningPage { get; set; }
         /// <summary>
         /// 전송 데이터 표시
         /// </summary>
@@ -32,8 +34,11 @@ namespace LibNurisupportPresentation.Interfaces
         /// <summary>
         /// 전문 전달
         /// </summary>
-        ReactiveCommand<ProtocolSend, Unit> CMDSend { get; }
+        ReactiveCommand<ProtocolSend, Unit> CMDSendProtocol { get; }
+        ReactiveCommand<ProtocolSend, Unit> CMDStop { get; }
         ReactiveCommand<ProtocolSend, Unit> CMDRemove { get; }
         ReactiveCommand<Unit, Unit> CMDAdd { get; }
+        ReactiveCommand<ProtocolSend, Unit> CMDClick { get; }
+        ObservableCollection<string> Logs { get; }
     }
 }
