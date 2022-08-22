@@ -78,7 +78,7 @@ namespace LibNurisupportPresentation.ViewModels
 
         Dictionary<ProtocolSend, Task> _RunningTasks = new Dictionary<ProtocolSend, Task>();
 
-        public TerminalViewModel()
+        public TerminalViewModel(IMainViewModel mainvm)
         {
             Logs = new ObservableCollection<string>();
             var protocols = state.ProtocolSends;
@@ -176,7 +176,12 @@ namespace LibNurisupportPresentation.ViewModels
                         protocol.IsThreadrunning = true;
                         sw.Start();
                         while (protocol.IsThreadrunning) {
-                            _SerialProcess?.AddTaskqueue(tmp);
+                            if (string.Equals(mainvm.CurrentPageName, "Terminal")) {
+                                if (_SerialProcess?.TaskCount() < 1) {
+                                    _SerialProcess?.AddTaskqueue(tmp);
+                                }
+                            }
+
                             sw.Stop();
                             delay = protocol.TimeOfDelay - sw.ElapsedMilliseconds;
                             if (delay > 0) {

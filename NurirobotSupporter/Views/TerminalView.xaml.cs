@@ -104,5 +104,10 @@ namespace NurirobotSupporter.Views
             if (ViewModel != null)
                 ViewModel.IsRunningPage = (bool)e.NewValue;
         }
+
+        private void TextBlock_Initialized(object sender, EventArgs e)
+        {
+
+        }
     }
 }

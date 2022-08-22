@@ -132,6 +132,11 @@ namespace LibNurirobotBase
         {
             Dispose(true);
         }
+
+        public long TaskCount()
+        {
+            return _CQTaskQueue.Count;
+        }
         #endregion
     }
 }

@@ -110,7 +110,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <ScrollViewer CanContentScroll="True">
+                        <ScrollViewer CanContentScroll="False">
                             <ItemsPresenter/>
                         </ScrollViewer>
                     </ControlTemplate>
@@ -128,14 +128,16 @@
         </Style>
 
         <DataTemplate DataType="{x:Type s:String}">
-            <Grid IsSharedSizeScope="True">
+            <!--<Grid IsSharedSizeScope="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding}" 
                            Grid.Column="0"
                            TextWrapping="Wrap"/>
-            </Grid>
+            </Grid>-->
+            <TextBlock Text="{Binding}" 
+                           TextWrapping="Wrap"/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">

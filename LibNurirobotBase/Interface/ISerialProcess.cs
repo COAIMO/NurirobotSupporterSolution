@@ -27,5 +27,6 @@ namespace LibNurirobotBase.Interface
         /// 작업 제거
         /// </summary>
         void ClearTaskqueue();
+        long TaskCount();
     }
 }

@@ -118,8 +118,7 @@ namespace NurirobotSupporter
                 DataContext = new MainWindowViewModel(
                     new DeviceSearchViewModel(),
                     new LanguageViewModel(),
-                    new HelpViewModel(),
-                    new TerminalViewModel()
+                    new HelpViewModel()
                     )
             };
             window.Closed += delegate { Shutdown(); };
