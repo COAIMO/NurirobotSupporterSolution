@@ -65,5 +65,7 @@ namespace LibNurirobotBase.Interface
 
 
         IObservable<byte[]> ObsProtocolReceived { get; }
+
+        int GetTimeoutMS();
     }
 }

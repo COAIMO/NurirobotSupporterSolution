@@ -345,5 +345,48 @@ namespace NurirobotSupporter.Helpers
                 IsDisposed = true;
             }
         }
+
+        public int GetTimeoutMS()
+        {
+            int ret = 150;
+
+            switch ((int)_SerialPortSetting.Baudrate) {
+                case 110:
+                    ret = 273;
+                    break;
+                case 300:
+                    ret = 100;
+                    break;
+                case 600:
+                    ret = 50;
+                    break;
+                case 1200:
+                    ret = 25;
+                    break;
+                case 2400:
+                    ret = 13;
+                    break;
+                case 4800:
+                    ret = 7;
+                    break;
+                case 9600:
+                    ret = 4;
+                    break;
+                case 14400:
+                    ret = 3;
+                    break;
+                case 19200:
+                    ret = 2;
+                    break;
+                case 28800:
+                    ret = 2;
+                    break;
+                default:
+                    ret = 1;
+                    break;
+            }
+
+            return ret;
+        }
     }
 }

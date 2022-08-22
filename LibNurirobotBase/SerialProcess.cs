@@ -3,6 +3,7 @@ namespace LibNurirobotBase
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Text;
@@ -69,6 +70,7 @@ namespace LibNurirobotBase
         void Job()
         {
             try {
+                long delay = 0;
                 while (true) {
                     _Token.Token.ThrowIfCancellationRequested();
                     byte[] tmp = default(byte[]);
@@ -78,6 +80,9 @@ namespace LibNurirobotBase
 
                         _SerialControl?.Send(tmp);
                         _EventSerialLog?.AddLog(tmp);
+                        if (_SerialControl != null) {
+                            Thread.Sleep(_SerialControl.GetTimeoutMS());
+                        }
                     } else {
                         Thread.Sleep(10);
                     }

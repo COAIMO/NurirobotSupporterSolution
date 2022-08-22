@@ -48,10 +48,10 @@ namespace LibNurisupportPresentation
         public long TimeOfDelay {
             get => _TimeOfDelay;
             set {
-                if (value >= 20)
+                if (value >= 30)
                     this.RaiseAndSetIfChanged(ref _TimeOfDelay, value);
                 else
-                    this.RaiseAndSetIfChanged(ref _TimeOfDelay, 20);
+                    this.RaiseAndSetIfChanged(ref _TimeOfDelay, 30);
             }
         }
     }
