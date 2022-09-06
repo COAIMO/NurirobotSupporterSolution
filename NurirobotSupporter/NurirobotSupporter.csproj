@@ -18,7 +18,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>C:\Workspace\배포\누리서포터\</PublishUrl>
+    <PublishUrl>E:\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -33,7 +33,7 @@
     <PublisherName>누리로봇</PublisherName>
     <SuiteName>Nurirobot Supporter</SuiteName>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>17</ApplicationRevision>
+    <ApplicationRevision>19</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -59,10 +59,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>63DC1AE827E9F164CD9598BFE1A3C9EE84549691</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>2A2EC3695107DFE59621B479C07A19DBA0366F6A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>NurirobotSupporter_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>nurirobot.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -77,7 +77,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>nurirobot.pfx</AssemblyOriginatorKeyFile>
@@ -96,10 +96,10 @@
       <HintPath>..\packages\CS-Script.bin.3.30.3\lib\net46\CSScriptLibrary.dll</HintPath>
     </Reference>
     <Reference Include="DynamicData, Version=7.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DynamicData.7.1.1\lib\net461\DynamicData.dll</HintPath>
+      <HintPath>..\packages\DynamicData.7.1.16\lib\net461\DynamicData.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.AvalonEdit, Version=6.0.1.278, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
-      <HintPath>..\packages\AvalonEdit.6.0.1\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=6.1.3.50, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.6.1.3.50\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
     <Reference Include="LiteDB, Version=5.0.9.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.5.0.9\lib\net45\LiteDB.dll</HintPath>
@@ -240,7 +240,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Pharmacist.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pharmacist.Common.2.0.6\lib\net472\Pharmacist.Common.dll</HintPath>
+      <HintPath>..\packages\Pharmacist.Common.2.0.8\lib\net472\Pharmacist.Common.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.Settings, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xam.Plugins.Settings.3.1.1\lib\net45\Plugin.Settings.dll</HintPath>
@@ -249,14 +249,14 @@
       <HintPath>..\packages\Xam.Plugins.Settings.3.1.1\lib\net45\Plugin.Settings.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
-    <Reference Include="ReactiveUI, Version=13.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReactiveUI.13.0.1\lib\net472\ReactiveUI.dll</HintPath>
+    <Reference Include="ReactiveUI, Version=13.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveUI.13.3.2\lib\net472\ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI.Events.WPF, Version=13.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReactiveUI.Events.WPF.13.0.1\lib\net472\ReactiveUI.Events.WPF.dll</HintPath>
+    <Reference Include="ReactiveUI.Events.WPF, Version=13.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveUI.Events.WPF.13.3.2\lib\net472\ReactiveUI.Events.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI.Wpf, Version=13.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReactiveUI.WPF.13.0.1\lib\net472\ReactiveUI.Wpf.dll</HintPath>
+    <Reference Include="ReactiveUI.Wpf, Version=13.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveUI.WPF.13.3.2\lib\net472\ReactiveUI.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="ScottPlot, Version=4.0.45.0, Culture=neutral, PublicKeyToken=86698dc10387c39e, processorArchitecture=MSIL">
       <HintPath>..\packages\ScottPlot.4.0.45\lib\netstandard2.0\ScottPlot.dll</HintPath>
@@ -264,8 +264,8 @@
     <Reference Include="ScottPlot.WPF, Version=4.0.45.0, Culture=neutral, PublicKeyToken=e53b06131e34a3aa, processorArchitecture=MSIL">
       <HintPath>..\packages\ScottPlot.WPF.4.0.45\lib\net472\ScottPlot.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Splat, Version=9.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Splat.9.8.1\lib\net461\Splat.dll</HintPath>
+    <Reference Include="Splat, Version=11.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.11.1.1\lib\net472\Splat.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2, Version=2.0.2.669, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_green.2.0.2\lib\net461\SQLitePCLRaw.batteries_v2.dll</HintPath>

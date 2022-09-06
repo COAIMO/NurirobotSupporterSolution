@@ -30,6 +30,7 @@ namespace NurirobotSupporter
     using LibNurisupportPresentation.Interfaces;
     using CSScriptLibrary;
     using WPFLocalizeExtension.Providers;
+    using System.Reflection;
 
     /// <summary>
     /// App.xaml에 대한 상호 작용 논리
@@ -97,6 +98,8 @@ namespace NurirobotSupporter
             base.OnStartup(e);
             var tmp = RxApp.SuspensionHost.GetAppState<AppState>();
             ThemeManager.Current.ChangeTheme(this, tmp.ColorTheme);
+
+            string name = Assembly.GetEntryAssembly().GetName().Name;
 
             (LocalizeDictionary.Instance.DefaultProvider as ResxLocalizationProvider).SearchCultures =
                 new List<System.Globalization.CultureInfo>()
