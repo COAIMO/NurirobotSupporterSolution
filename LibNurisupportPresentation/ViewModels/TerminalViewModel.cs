@@ -171,10 +171,10 @@ namespace LibNurisupportPresentation.ViewModels
                                  .Where(x => x % 2 == 0)
                                  .Select(x => Convert.ToByte(protocol.SendData.Substring(x, 2), 16))
                                  .ToArray();
-                        Stopwatch sw = new Stopwatch();
+                        //Stopwatch sw = new Stopwatch();
                         long delay = 0;
                         protocol.IsThreadrunning = true;
-                        sw.Start();
+                        //sw.Start();
                         while (protocol.IsThreadrunning) {
                             if (string.Equals(mainvm.CurrentPageName, "Terminal")) {
                                 if (_SerialProcess?.TaskCount() < 1) {
@@ -182,12 +182,12 @@ namespace LibNurisupportPresentation.ViewModels
                                 }
                             }
 
-                            sw.Stop();
-                            delay = protocol.TimeOfDelay - sw.ElapsedMilliseconds;
+                            //sw.Stop();
+                            delay = protocol.TimeOfDelay;
                             if (delay > 0) {
                                 Thread.Sleep((int)delay);
                             }
-                            sw.Start();
+                            //sw.Start();
                         }
                     });
                     _RunningTasks.Add(protocol, task);

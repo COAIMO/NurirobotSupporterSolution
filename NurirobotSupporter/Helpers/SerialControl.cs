@@ -124,8 +124,11 @@ namespace NurirobotSupporter.Helpers
 
             dis.Add(writeByte.Subscribe(x => {
                 try {
-                    if (port?.IsOpen == true)
+                    if (port?.IsOpen == true) {
+                        port?.DiscardOutBuffer();
                         port?.Write(x.Item1, x.Item2, x.Item3);
+                    }
+                    //Debug.WriteLine("SEND!!!");
                 }
                 catch (Exception ex) {
                     Debug.WriteLine(ex);
@@ -326,7 +329,7 @@ namespace NurirobotSupporter.Helpers
         public void Send(byte[] baData, int iStart = 0, int iLength = -1)
         {
             int count = iLength == -1 ? baData.Length - iStart : iLength;
-            writeByte?.OnNext(new Tuple<byte[], int, int>(baData, iStart, count));
+            writeByte?.OnNext(new Tuple<byte[], int, int>((byte[])baData.Clone(), iStart, count));
 
         }
 

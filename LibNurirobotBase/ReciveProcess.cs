@@ -60,15 +60,14 @@ namespace LibNurirobotBase
             try {
                 while (true) {
                     _Token.Token.ThrowIfCancellationRequested();
-                    byte[] tmp = default(byte[]);
-                    if (_CQTaskQueue.TryDequeue(out tmp)) {
+                    if (_CQTaskQueue.TryDequeue(out byte[] tmp)) {
                         if (_StopAndClear)
                             continue;
 
                         _EventSerialLog?.AddLogRecv(tmp);
                         _EventSerialValue?.ReciveData(tmp);
                     } else {
-                        Thread.Sleep(10);
+                        Thread.Sleep(1);
                     }
                 }
             }

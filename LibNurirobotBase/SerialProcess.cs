@@ -73,18 +73,18 @@ namespace LibNurirobotBase
                 long delay = 0;
                 while (true) {
                     _Token.Token.ThrowIfCancellationRequested();
-                    byte[] tmp = default(byte[]);
-                    if (_CQTaskQueue.TryDequeue(out tmp)) {
+                    if (_CQTaskQueue.TryDequeue(out byte[] tmp)) {
                         if (_StopAndClear)
                             continue;
 
                         _SerialControl?.Send(tmp);
                         _EventSerialLog?.AddLog(tmp);
+                        GC.Collect(0);
                         if (_SerialControl != null) {
                             Thread.Sleep(_SerialControl.GetTimeoutMS());
                         }
                     } else {
-                        Thread.Sleep(10);
+                        Thread.Sleep(1);
                     }
                 }
             }

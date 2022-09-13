@@ -16,7 +16,7 @@ namespace NurirobotSupporter.Helpers
         {
             try {
                 string data = String.Format("[{0}]\tSend :\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), BitConverter.ToString(arg).Replace("-", ""));
-                Debug.WriteLine(data);
+                //Debug.WriteLine(data);
                 _Log.OnNext(data);
             }
             catch (Exception ex) {
@@ -28,7 +28,7 @@ namespace NurirobotSupporter.Helpers
         {
             try {
                 string data = String.Format("[{0}]\tRecive :\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), BitConverter.ToString(arg).Replace("-", ""));
-                Debug.WriteLine(data);
+                //Debug.WriteLine(data);
                 _Log.OnNext(data);
             }
             catch (Exception ex) {

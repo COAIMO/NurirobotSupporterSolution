@@ -104,7 +104,7 @@ namespace NurirobotSupporter.Helpers
                     return;
                 }
 
-                byte id = arg[2];
+                 byte id = arg[2];
                 var prot = _DPD.GetDeviceProtocol(id);
                 var command = prot != null ? prot.Command : new NurirobotMC();
                 if (command.Parse(arg)) {
