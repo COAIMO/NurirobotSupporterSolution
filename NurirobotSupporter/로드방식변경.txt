@@ -388,5 +388,5 @@
             </mah:HamburgerMenu.ContentTemplate>
         </mah:HamburgerMenu>
     </Grid>
-
+    
 </mah:MetroWindow>
