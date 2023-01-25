@@ -1267,6 +1267,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   에러로그 표시과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_ShowError {
+            get {
+                return ResourceManager.GetString("Title_ShowError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   단독 제어과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Title_Single {

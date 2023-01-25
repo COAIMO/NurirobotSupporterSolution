@@ -56,6 +56,16 @@ namespace NurirobotSupporter.Views
                     //    //    vm => vm.TargetIDs,
                     //    //    vw => vw.splitButton.ItemsSource)
                     //    //.DisposeWith(disposable);
+
+                    ViewModel
+                    .WhenAnyValue(x => x.IsOnLog)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Where(x => x == false)
+                    .Subscribe(x => {
+                        //Debug.WriteLine(x);
+                        grid_Content.Height = new GridLength(1.0, GridUnitType.Star);
+                        grid_Log.Height = new GridLength(0, GridUnitType.Auto);
+                    });
                 });
 
                 UpdateTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 500) };

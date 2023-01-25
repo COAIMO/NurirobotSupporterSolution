@@ -28,7 +28,7 @@
         MinWidth="800"
         Height="600"
         Width="1024"
-        Title="NURI ROBOT Supporter 1.3.5" KeyDown="MainView_KeyDown" >
+        Title="NURI ROBOT Supporter 1.4.0" KeyDown="MainView_KeyDown" >
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <!--  This is the template for all menu items. In this sample we use the glyph items.  -->
@@ -99,13 +99,13 @@
                 <local:DeviceSearchView
                     DataContext="{Binding DataContext.DeviceSearch, Mode=OneWay, ElementName=MainView}"/>
             </DataTemplate>
-            <DataTemplate x:Key="LanguageTemplate">
-                <local:LanguageView
-                    DataContext="{Binding DataContext.Language, Mode=OneWay, ElementName=MainView}"/>
-            </DataTemplate>
             <DataTemplate x:Key="HelpTemplate">
                 <local:HelpView
                     DataContext="{Binding DataContext.Help, Mode=OneWay, ElementName=MainView}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="LanguageTemplate">
+                <local:LanguageView
+                    DataContext="{Binding DataContext.Language, Mode=OneWay, ElementName=MainView}"/>
             </DataTemplate>
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
@@ -221,10 +221,10 @@
                                 <Setter Property="ContentTemplate" Value="{StaticResource TerminalTemplate}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Content.Tag, ElementName=HamburgerMenuControl}" Value="Help">
-                                <Setter Property="ContentTemplate" Value="{StaticResource LanguageTemplate}" />
+                                <Setter Property="ContentTemplate" Value="{StaticResource HelpTemplate}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Content.Tag, ElementName=HamburgerMenuControl}" Value="Language">
-                                <Setter Property="ContentTemplate" Value="{StaticResource HelpTemplate}" />
+                                <Setter Property="ContentTemplate" Value="{StaticResource LanguageTemplate}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

@@ -94,7 +94,7 @@
                             </Viewbox>
                             <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3"  Focusable="True"
                                                 Value="{Binding Arrival, Mode=TwoWay}"
-                                                Minimum="0" HorizontalContentAlignment="Right"
+                                                Minimum="0.1" HorizontalContentAlignment="Right"
                                                 Maximum="25.5" StringFormat="0.0" ParsingNumberStyle="Float"
                                                 />
                         </Grid>
@@ -123,7 +123,7 @@
                             </Viewbox>
                             <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3"  Focusable="True"
                                                 Value="{Binding Arrival, Mode=TwoWay}"
-                                                Minimum="0" 
+                                                Minimum="0.1" 
                                                 Maximum="25.5" StringFormat="0.0"  ParsingNumberStyle="Float" 
                                                 />
                         </Grid>

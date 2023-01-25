@@ -519,6 +519,9 @@
   <data name="Title_Setting" xml:space="preserve">
     <value>설정</value>
   </data>
+  <data name="Title_ShowError" xml:space="preserve">
+    <value>에러로그 표시</value>
+  </data>
   <data name="Title_Single" xml:space="preserve">
     <value>단독 제어</value>
   </data>

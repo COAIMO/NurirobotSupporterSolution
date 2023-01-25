@@ -15,6 +15,11 @@ namespace LibNurisupportPresentation.Interfaces
         /// 시작 장비 조회 서치 팝업 표시 여부
         /// </summary>
         bool IsStartupPopupSearch { get; set; }
+        /// <summary>
+        /// 에러 로그 표시 여부
+        /// </summary>
+        bool IsShowErrorLog { get; set; }
+
 
         ReactiveCommand<Unit, Unit> CMDExport { get; }
         ReactiveCommand<Unit, Unit> CMDImport { get; }

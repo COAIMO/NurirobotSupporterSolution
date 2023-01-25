@@ -388,19 +388,38 @@ namespace LibNurisupportPresentation.ViewModels
 
             // 공통 표시
             IsShowTarget = true;
-            IsShowChangeID = true;
-            IsShowBaudrate = true;
-            IsShowResponsetime = true;
-            IsShowPosition = true;
-
             IsShowLogView = true;
-            IsShowPosreset = true;
-            IsShowFactoryreset = true;
+            //IsShowChangeID = true;
+            //IsShowBaudrate = true;
+            //IsShowResponsetime = true;
+            //IsShowPosition = true;
 
-            IsShowPosGain = true;
-            IsShowVelocityGain = true;
-            IsShowCtrlOnOff = true;
-            IsShowRatio = true;
+            //
+            //IsShowPosreset = true;
+            //IsShowFactoryreset = true;
+
+            //IsShowPosGain = true;
+            //IsShowVelocityGain = true;
+            //IsShowCtrlOnOff = true;
+            //IsShowRatio = true;
+
+            IsShowChangeID = false;
+            IsShowBaudrate = false;
+            IsShowResponsetime = false;
+            IsShowPosition = false;
+
+            IsShowPosreset = false;
+            IsShowFactoryreset = false;
+
+            IsShowPosGain = false;
+            IsShowVelocityGain = false;
+            IsShowCtrlOnOff = false;
+            IsShowRatio = false;
+
+            IsShowRatedspeed = false;
+            IsShowEncoderpulse = false;
+            IsShowDirection = false;
+
             /*
             전문에 따라 다름
             IsShowRatedspeed = false;
@@ -1479,6 +1498,18 @@ namespace LibNurisupportPresentation.ViewModels
                     var command = tmp != null ? tmp.Command : new NurirobotRSA();
                     bool isMc = command is NurirobotMC;
                     bool isRSA = command is NurirobotRSA;
+
+                    IsShowChangeID = true;
+                    IsShowBaudrate = true;
+                    IsShowResponsetime = true;
+                    IsShowPosition = true;
+                    IsShowPosreset = true;
+                    IsShowFactoryreset = true;
+                    IsShowPosGain = true;
+                    IsShowVelocityGain = true;
+                    IsShowCtrlOnOff = true;
+                    IsShowRatio = true;
+
                     if (isRSA) {
                         IsShowPosGain = true;
                         IsShowPosition = true;
@@ -1503,9 +1534,26 @@ namespace LibNurisupportPresentation.ViewModels
                      
                 }
                 else {
-                    IsShowRatedspeed = true;
-                    IsShowEncoderpulse = true;
-                    IsShowDirection = true;
+                    IsShowChangeID = false;
+                    IsShowBaudrate = false;
+                    IsShowResponsetime = false;
+                    IsShowPosition = false;
+
+                    IsShowPosreset = false;
+                    IsShowFactoryreset = false;
+
+                    IsShowPosGain = false;
+                    IsShowVelocityGain = false;
+                    IsShowCtrlOnOff = false;
+                    IsShowRatio = false;
+
+                    IsShowRatedspeed = false;
+                    IsShowEncoderpulse = false;
+                    IsShowDirection = false;
+
+                    IsShowRatedspeed = false;
+                    IsShowEncoderpulse = false;
+                    IsShowDirection = false;
                     InitValue();
                 }
             }

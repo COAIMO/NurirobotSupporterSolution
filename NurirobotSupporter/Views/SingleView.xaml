@@ -55,9 +55,9 @@
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition x:Name="grid_Content" Height="1*"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto" MaxHeight="200"/>
+            <RowDefinition x:Name="grid_Log" Height="auto" MaxHeight="200"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
             <Grid.ColumnDefinitions>
@@ -93,14 +93,21 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width=".7*"/>
                                         <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
                                     <Viewbox Grid.Column="0">
                                         <TextBlock Margin="2, 5" Text="{lex:Loc Label_ID}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
-                                    <mah:SplitButton Grid.Column="2" HorizontalContentAlignment="Right"
+                                    <mah:SplitButton Grid.Column="1" HorizontalContentAlignment="Right"
                                                  Style="{DynamicResource MahApps.Styles.ComboBox}"
                                                  SelectedItem="{Binding SelectedId, Mode=TwoWay}"
                                           ItemsSource="{Binding TargetIDs}"/>
+                                    <Button Grid.Column="2"
+                                        Style="{StaticResource MahApps.Styles.Button.Circle}"
+                                        Command="{Binding RefresshIDs}">
+                                            <iconPacks:PackIconBootstrapIcons Width="20" Height="20"
+                                                              Kind="ArrowClockwise"/>
+                                    </Button>
                                 </Grid>
                                 <Viewbox Height="30" HorizontalAlignment="Left">
                                     <CheckBox  Margin="2" Content="{lex:Loc Label_Broadcast}" 
@@ -196,6 +203,7 @@
                     <!--tab-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
+                      Visibility="{Binding IsShowCommand, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Width="{Binding ControlWidth}" Height="290">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
@@ -277,7 +285,7 @@
                                             </Viewbox>
                                             <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3"  Focusable="True"
                                                 Value="{Binding Arrival, Mode=TwoWay}"
-                                                Minimum="0" HorizontalContentAlignment="Right"
+                                                Minimum="0.1" HorizontalContentAlignment="Right"
                                                 Maximum="25.5" StringFormat="0.0" ParsingNumberStyle="Float"
                                                 />
                                         </Grid>
@@ -306,7 +314,7 @@
                                             </Viewbox>
                                             <mah:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="3"  Focusable="True"
                                                 Value="{Binding Arrival, Mode=TwoWay}"
-                                                Minimum="0" 
+                                                Minimum="0.1" 
                                                 Maximum="25.5" StringFormat="0.0"  ParsingNumberStyle="Float" 
                                                 />
                                         </Grid>

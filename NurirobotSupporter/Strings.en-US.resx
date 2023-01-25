@@ -510,6 +510,9 @@
   <data name="Title_Setting" xml:space="preserve">
     <value>Setting</value>
   </data>
+  <data name="Title_ShowError" xml:space="preserve">
+    <value>Show error log</value>
+  </data>
   <data name="Title_Single" xml:space="preserve">
     <value>Single control</value>
   </data>

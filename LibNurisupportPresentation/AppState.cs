@@ -94,5 +94,10 @@ namespace LibNurisupportPresentation
         [DataMember]
         public List<ProtocolSend> ProtocolSends { get; set; } = new List<ProtocolSend>();
 
+        /// <summary>
+        /// 에러 로그 표시 여부
+        /// </summary>
+        [DataMember]
+        public bool IsShowErrorLog { get; set; } = false;
     }
 }

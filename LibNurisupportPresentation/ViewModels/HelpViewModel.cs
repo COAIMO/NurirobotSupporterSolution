@@ -27,20 +27,33 @@ namespace LibNurisupportPresentation.ViewModels
 
         public ReactiveCommand<Unit, Unit> CMDExport { get; }
         public ReactiveCommand<Unit, Unit> CMDImport { get; }
+
+        private bool _IsShowErrorLog = false;
+        public bool IsShowErrorLog { 
+            get => _IsShowErrorLog; 
+            set => this.RaiseAndSetIfChanged(ref _IsShowErrorLog, value);
+        }
+
         CompositeDisposable _CompositeDisposable;
 
         public HelpViewModel()
         {
             var state = RxApp.SuspensionHost.GetAppState<AppState>();
             IsStartupPopupSearch = state.IsUseStartPopup;
+            IsShowErrorLog = state.IsShowErrorLog;
             _CompositeDisposable = new CompositeDisposable();
 
             var tmp = this.WhenAnyValue(x => x.IsStartupPopupSearch)
                 .Subscribe(x => {
-                    //Debug.WriteLine(x);
                     state.IsUseStartPopup = x;
                 });
             tmp.AddTo(_CompositeDisposable);
+
+            var tmpLog = this.WhenAnyValue(x => x.IsShowErrorLog)
+                .Subscribe(x => {
+                    state.IsShowErrorLog = x;
+                });
+            tmpLog.AddTo(_CompositeDisposable);
 
             var filesvc = Locator.Current.GetService<IFileHelper>();
             var storage = Locator.Current.GetService<IStorage>();

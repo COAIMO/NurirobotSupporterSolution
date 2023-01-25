@@ -61,6 +61,15 @@ namespace NurirobotSupporter.Views
                         if (ViewModel != null)
                             ViewModel.PannelWidth = x;
                     }).DisposeWith(disposable);
+
+                    ViewModel
+                    .WhenAnyValue(x => x.IsOnLog)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Where(x => x == false)
+                    .Subscribe(x => {
+                        grid_Content.Height = new GridLength(1.0, GridUnitType.Star);
+                        grid_Log.Height = new GridLength(0, GridUnitType.Auto);
+                    });
                 });
 
                 PosPlot.Configure(middleClickMarginX: 0);

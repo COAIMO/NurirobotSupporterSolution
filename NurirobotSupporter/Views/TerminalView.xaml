@@ -143,9 +143,9 @@
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition x:Name="grid_Content" Height="1*"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto" MinHeight="100" MaxHeight="350"/>
+            <RowDefinition x:Name="grid_Log" Height="auto" MinHeight="100" MaxHeight="350"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
             <Grid.ColumnDefinitions>

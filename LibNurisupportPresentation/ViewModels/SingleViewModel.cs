@@ -24,6 +24,12 @@ namespace LibNurisupportPresentation.ViewModels
 
     public class SingleViewModel : ReactiveObject, ISingleViewModel
     {
+        bool _IsShowCommand = false;
+        public bool IsShowCommand {
+            get => _IsShowCommand;
+            set => this.RaiseAndSetIfChanged(ref _IsShowCommand, value);
+        }
+
         bool _IsShowTarget = false;
         public bool IsShowTarget {
             get => _IsShowTarget;
@@ -175,7 +181,7 @@ namespace LibNurisupportPresentation.ViewModels
         }
 
         float _FeedbackPOS = 0;
-        public float FeedbackPOS { 
+        public float FeedbackPOS {
             get => _FeedbackPOS;
             set => this.RaiseAndSetIfChanged(ref _FeedbackPOS, value);
         }
@@ -222,6 +228,8 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDCopyProtocol { get; }
         public ReactiveCommand<Unit, Unit> CMDRunFeedback { get; }
         public ReactiveCommand<Unit, Unit> CMDCopyProtocolFeedback { get; }
+
+        public ReactiveCommand<Unit, Unit> RefresshIDs { get; }
 
         public ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> GraphData { get; } = new ObservableCollection<KeyValuePair<long, PosVelocityCurrent>>();
 
@@ -285,14 +293,23 @@ namespace LibNurisupportPresentation.ViewModels
 
             IsShowTarget = true;
             IsShowLogView = true;
-            IsShowGraph = true;
-            IsShowTargetPosVel = true;
+
+            //IsShowGraph = true;
+            
+            //IsShowTargetPosVel = true;
             IsShowGraphPos = false;
             IsShowGraphCurrent = false;
             IsShowGraphSpeed = false;
             IsOnLog = false;
             IsOnGraph = false;
             IsCCW = true;
+
+
+            IsShowTargetPosVel = false;
+            IsShowGraph = false;
+            IsShowCommand = false;
+
+
 
             InitValue();
 
@@ -493,6 +510,26 @@ namespace LibNurisupportPresentation.ViewModels
                 Task.Run(() => {
                     InitValue();
                     RefreshFeedback(state, esv);
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            RefresshIDs = ReactiveCommand.Create(() => {
+                IsRunning = true;
+
+                Task.Run(() => {
+                    List<byte> tmpids = new List<byte>();
+                    if (state.SearchDevice.Count > 0) {
+                        foreach (var item in state.SearchDevice) {
+                            tmpids.Add(item);
+                        }
+                    }
+                    else {
+                        for (int i = 0; i < 254; i++) {
+                            tmpids.Add((byte)i);
+                        }
+                    }
+                    TargetIDs = tmpids.ToArray();
                     IsRunning = false;
                 });
             }, IsNotRunning);
@@ -998,9 +1035,24 @@ namespace LibNurisupportPresentation.ViewModels
                     GetFeedback(SelectedId, (byte)(0xa1));
                     Thread.Sleep(_WaitTime);
                     GetFeedback(SelectedId, (byte)(0xa2));
+
+                    IsShowGraph = true;
+                    IsShowTargetPosVel = true;
+                    IsShowCommand = true;
                 }
                 else {
                     InitValue();
+
+                    IsShowGraphPos = false;
+                    IsShowGraphCurrent = false;
+                    IsShowGraphSpeed = false;
+                    IsOnLog = false;
+                    IsOnGraph = false;
+                    IsCCW = true;
+
+                    IsShowTargetPosVel = false;
+                    IsShowGraph = false;
+                    IsShowCommand = false;
                 }
             }
         }
