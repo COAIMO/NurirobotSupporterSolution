@@ -40,5 +40,6 @@ namespace LibNurisupportPresentation.Interfaces
         ReactiveCommand<Unit, Unit> CMDAdd { get; }
         ReactiveCommand<ProtocolSend, Unit> CMDClick { get; }
         ObservableCollection<string> Logs { get; }
+        ReactiveCommand<Unit, Unit> CMDClickChecksum { get; }
     }
 }

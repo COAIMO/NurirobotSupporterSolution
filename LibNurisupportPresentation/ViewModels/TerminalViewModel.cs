@@ -68,6 +68,7 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDAdd { get; }
         public ReactiveCommand<ProtocolSend, Unit> CMDClick { get; }
         public ReactiveCommand<ProtocolSend, Unit> CMDStop { get; }
+        public ReactiveCommand<Unit, Unit> CMDClickChecksum { get; }
 
         //IMainViewModel _IMainViewModel;
         AppState state = RxApp.SuspensionHost.GetAppState<AppState>();
@@ -209,6 +210,11 @@ namespace LibNurisupportPresentation.ViewModels
 
             CMDClear = ReactiveCommand.Create(() => {
                 Logs.Clear();
+            });
+
+            CMDClickChecksum = ReactiveCommand.Create(() => {
+                var dial = Locator.Current.GetService<IDialogWindowChecksum>();
+                dial.ShowDialog("");
             });
         }
 

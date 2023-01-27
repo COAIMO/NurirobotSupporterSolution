@@ -362,6 +362,7 @@
     <Compile Include="Helpers\ComparisonToBooleanConverter.cs" />
     <Compile Include="Helpers\ComparisonToVisibleConverter.cs" />
     <Compile Include="Helpers\DeviceInfo.cs" />
+    <Compile Include="Helpers\DialogWindowChecksum.cs" />
     <Compile Include="Helpers\DialogWindowHexEditor.cs" />
     <Compile Include="Helpers\EventSerialLog.cs" />
     <Compile Include="Helpers\EventSerialValue.cs" />
@@ -390,6 +391,9 @@
     </Compile>
     <Compile Include="SettingControls\TargetDevice.xaml.cs">
       <DependentUpon>TargetDevice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChecksumWindow.xaml.cs">
+      <DependentUpon>ChecksumWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeviceSearchView.xaml.cs">
       <DependentUpon>DeviceSearchView.xaml</DependentUpon>
@@ -443,6 +447,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingControls\TargetDevice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChecksumWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

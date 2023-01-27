@@ -19,6 +19,7 @@ namespace NurirobotSupporter.Helpers
     using Splat;
     using ReactiveUI;
     using System.Collections.Concurrent;
+    using LibNurisupportPresentation;
 
     public class SerialControl : ISerialControl
     {
@@ -80,6 +81,8 @@ namespace NurirobotSupporter.Helpers
         /// </summary>
         private IObservable<Unit> ObsConnect => Observable.Create<Unit>(obs => {
             var dis = new CompositeDisposable();
+
+            var state = RxApp.SuspensionHost.GetAppState<AppState>();
 
             // 포트 존재 확인
             // 포트 설정
@@ -197,11 +200,13 @@ namespace NurirobotSupporter.Helpers
                                         if (pos > 3
                                         && segment[3] + 4 == pos)
                                             ProtocolReceived.OnNext(segment);
-#if DEBUG
                                         else {
+#if DEBUG
                                             Debug.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t" + BitConverter.ToString(segment).Replace("-", ""));
-                                        }
 #endif
+                                            if (state.IsShowErrorLog)
+                                                ProtocolReceived.OnNext(segment);
+                                        }
 
                                         Buffer.BlockCopy(buffPattern, pos, buffPattern, 0, idx - pos);
                                         idx -= pos;
@@ -213,7 +218,8 @@ namespace NurirobotSupporter.Helpers
                                         if (lenprotocol < idx) {
                                             byte[] segment = new byte[lenprotocol];
                                             Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
-                                            ProtocolReceived.OnNext(segment);
+                                            if (state.IsShowErrorLog)
+                                                ProtocolReceived.OnNext(segment);
 
                                             Buffer.BlockCopy(buffPattern, lenprotocol, buffPattern, 0, idx - lenprotocol);
                                             idx -= lenprotocol;
@@ -225,11 +231,12 @@ namespace NurirobotSupporter.Helpers
                                 else {
                                     var pos = SerialportReactiveExt.PatternAt(buffPattern, baSTX, 1, idx);
                                     if (pos > 0) {
-#if DEBUG
                                         byte[] segment = new byte[pos];
                                         Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
-                                        Debug.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t" + BitConverter.ToString(segment).Replace("-", ""));
-#endif
+                                        if (state.IsShowErrorLog)
+                                            ProtocolReceived.OnNext(segment);
+                                        //Debug.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t" + BitConverter.ToString(segment).Replace("-", ""));
+
 
                                         Buffer.BlockCopy(buffPattern, pos, buffPattern, 0, idx - pos);
                                         idx -= pos;
@@ -247,14 +254,22 @@ namespace NurirobotSupporter.Helpers
                                     && segment[3] + 4 == idx)
                                         ProtocolReceived.OnNext(segment);
                                     else {
-                                        byte[] tmpError = new byte[8] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
-                                        ProtocolReceived.OnNext(tmpError);
+                                        //byte[] tmpError = new byte[8] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
+                                        //ProtocolReceived.OnNext(tmpError);
+                                        if (state.IsShowErrorLog)
+                                            ProtocolReceived.OnNext(segment);
+#if DEBUG
                                         Debug.WriteLine("Timeout : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t 데이터 수신 미완");
+#endif
                                     }
                                 }
                                 else {
-                                    byte[] tmpError = new byte[8] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
-                                    ProtocolReceived.OnNext(tmpError);
+                                    //byte[] tmpError = new byte[8] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
+                                    //ProtocolReceived.OnNext(tmpError);
+                                    byte[] segment = new byte[idx];
+                                    Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
+                                    if (state.IsShowErrorLog)
+                                        ProtocolReceived.OnNext(segment);
 #if DEBUG
                                     Debug.WriteLine("Timeout : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.FFF") + "\t STX 이상");
 #endif

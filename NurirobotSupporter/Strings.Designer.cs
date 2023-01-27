@@ -178,6 +178,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   체크섬과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Button_ChecksumCalc {
+            get {
+                return ResourceManager.GetString("Button_ChecksumCalc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   연결과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Button_Connect {

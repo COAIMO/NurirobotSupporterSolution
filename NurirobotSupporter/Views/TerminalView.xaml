@@ -152,6 +152,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Viewbox HorizontalAlignment="Left" Grid.Column="0">
                 <TextBlock Padding="10" Text="{lex:Loc Title_Terminal}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
@@ -166,6 +167,11 @@
                     Style="{DynamicResource MahApps.Styles.Button.Square}"
                     Content="{lex:Loc Button_Logclear}"
                     Command="{Binding CMDClear}" />
+            <Button Grid.Column="3" 
+                    Margin="5"
+                    Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                    Content="{lex:Loc Button_ChecksumCalc}"
+                    Command="{Binding CMDClickChecksum}" />
         </Grid>
         <Grid Grid.Row="1" >
             <Grid.RowDefinitions>

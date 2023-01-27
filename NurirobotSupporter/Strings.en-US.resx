@@ -156,6 +156,9 @@
   <data name="Button_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Button_ChecksumCalc" xml:space="preserve">
+    <value>Checksum</value>
+  </data>
   <data name="Button_Connect" xml:space="preserve">
     <value>Connect</value>
   </data>
