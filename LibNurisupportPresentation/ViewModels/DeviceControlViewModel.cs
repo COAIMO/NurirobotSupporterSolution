@@ -54,7 +54,7 @@ namespace LibNurisupportPresentation.ViewModels
             set => this.RaiseAndSetIfChanged(ref _Velocity, value);
         }
 
-        float _Arrival = 0;
+        float _Arrival = 0.1f;
         public float Arrival {
             get => _Arrival;
             set => this.RaiseAndSetIfChanged(ref _Arrival, value);
