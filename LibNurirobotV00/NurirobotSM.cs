@@ -196,7 +196,7 @@ namespace LibNurirobotV00
                     return new NuriRatio {
                         Protocol = Data[5],
                         ID = Data[2],
-                        Ratio = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0) * 0.1f
+                        Ratio = (decimal)(BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0) * 0.1m)
                     };
                 case ProtocolModeSM.SETCtrlOnOff:
                     return new NuriControlOnOff {
@@ -282,7 +282,7 @@ namespace LibNurirobotV00
                     return new NuriRatio {
                         Protocol = Data[5],
                         ID = Data[2],
-                        Ratio = BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0) * 0.1f
+                        Ratio = (decimal)(BitConverter.ToUInt16(Data.Skip(6).Take(2).Reverse().ToArray(), 0) * 0.1m)
                     };
                 case ProtocolModeSM.FEEDCtrlOnOff:
                     return new NuriControlOnOff {
@@ -472,7 +472,7 @@ namespace LibNurirobotV00
         public void PROT_SettingRatio(NuriRatio arg)
         {
             byte[] data = new byte[2];
-            var tmpspd = BitConverter.GetBytes((ushort)Math.Round(arg.Ratio / 0.1f)).Reverse().ToArray();
+            var tmpspd = BitConverter.GetBytes((ushort)Math.Round(arg.Ratio * 10)).Reverse().ToArray();
             Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
             BuildProtocol(arg.ID, 0x04, 0x06, data);
         }
@@ -482,7 +482,7 @@ namespace LibNurirobotV00
         /// </summary>
         /// <param name="id">장비 아이디</param>
         /// <param name="ratio">감속비</param>
-        public void SettingRatio(byte id, float ratio)
+        public void SettingRatio(byte id, decimal ratio)
         {
             PROT_SettingRatio(new NuriRatio {
                 ID = id,
@@ -640,7 +640,7 @@ namespace LibNurirobotV00
         public void PROT_FeedbackRatio(NuriRatio arg, bool isSend = false)
         {
             byte[] data = new byte[2];
-            var tmpspd = BitConverter.GetBytes((ushort)Math.Round(arg.Ratio / 0.1f)).Reverse().ToArray();
+            var tmpspd = BitConverter.GetBytes((ushort)Math.Round(arg.Ratio * 10)).Reverse().ToArray();
             Buffer.BlockCopy(tmpspd, 0, data, 0, 2);
             BuildProtocol(arg.ID, 0x04, 0xD4, data, isSend);
         }

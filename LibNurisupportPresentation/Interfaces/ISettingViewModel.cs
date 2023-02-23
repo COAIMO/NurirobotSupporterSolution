@@ -99,7 +99,7 @@ namespace LibNurisupportPresentation.Interfaces
         ushort SpeedCurrent { get; set; }
         ReactiveCommand<Unit, Unit> CMDChangeSpeedGain { get; }
 
-        float ChooseRatio { get; set; }
+        decimal ChooseRatio { get; set; }
         ReactiveCommand<Unit, Unit> CMDChangeRatio { get; }
 
         bool IsCtrlOn { get; set; }

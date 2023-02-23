@@ -614,7 +614,7 @@
                                                    Value="{Binding ChooseRatio, Mode=TwoWay}"
                                                    Minimum="0"
                                                    Maximum="6553.3"
-                                                   Interval="1"/>
+                                                   Interval="0.1"/>
                                 </Grid>
                                 <Grid Height="35" Margin="0,5,0,0">
                                     <Grid.ColumnDefinitions>

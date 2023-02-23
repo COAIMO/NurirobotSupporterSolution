@@ -20,11 +20,13 @@ namespace LibMacroBase
     {
         NurirobotRSA nuriRSA = null;
         NurirobotMC nuriMC = null;
+        NurirobotSM nuriSM = null;
 
         public void Dispose()
         {
             nuriRSA = null;
             nuriMC = null;
+            nuriSM = null;
         }
 
         private void RunThread(string method, string argument)
@@ -179,12 +181,12 @@ namespace LibMacroBase
                     break;
                 case "SettingRatio": {
                         byte id = 0;
-                        float ratio = 0;
+                        decimal ratio = 0;
 
                         if (!GetByte(args[0], out id))
                             return;
 
-                        if (!GetFloat(args[1], out ratio))
+                        if (!GetDecimal(args[1], out ratio))
                             return;
 
                         nuriRSA.SettingRatio(id, ratio);
@@ -309,6 +311,61 @@ namespace LibMacroBase
                 }
                 else
                     return ret;
+            }
+
+            return ret;
+        }
+
+        bool GetDecimalHexOrDigit(string arg, out decimal data)
+        {
+            bool ret = false;
+            data = 0;
+
+            if (arg.StartsWith("0x")) {
+                data = Convert.ToByte(arg, 16);
+                ret = true;
+            }
+            else {
+                arg = arg.Replace("m", "");
+                if (decimal.TryParse(arg, out decimal t)) {
+                    data = t;
+                    ret = true;
+                }
+                else
+                    return ret;
+            }
+
+            return ret;
+        }
+
+        bool GetDecimal(string arg, out decimal data)
+        {
+            bool ret = false;
+            data = 0;
+
+            var regex = new Regex(@"([a-z0-9.]+)");
+            var tmp = regex.Matches(arg);
+
+            if (tmp.Count == 0) {
+                return ret;
+            }
+            else if (tmp.Count == 1) {
+                if (GetDecimalHexOrDigit(tmp[0].Value, out decimal t)) {
+                    data = t;
+                    ret = true;
+                }
+                else
+                    return ret;
+            }
+            else if (tmp.Count == 2) {
+                if (string.Equals("decimal", tmp[0].Value.ToLower())) {
+                    if (GetDecimalHexOrDigit(tmp[1].Value, out decimal t)) {
+                        data = t;
+                        ret = true;
+                    }
+                    else
+                        return ret;
+                }
             }
 
             return ret;
@@ -699,12 +756,12 @@ namespace LibMacroBase
                     break;
                 case "SettingRatio": {
                         byte id = 0;
-                        float ratio = 0;
+                        decimal ratio = 0;
 
                         if (!GetByte(args[0], out id))
                             return;
 
-                        if (!GetFloat(args[1], out ratio))
+                        if (!GetDecimal(args[1], out ratio))
                             return;
 
                         nuriMC.SettingRatio(id, ratio);
@@ -773,6 +830,130 @@ namespace LibMacroBase
             }
         }
 
+        private void RunSM(string method, string argument)
+        {
+            string[] args = argument.Split(',');
+            switch (method) {
+                case "ControlAcceleratedSpeed": {
+                        byte id = 0;
+                        byte dirction = 0;
+                        float speed = 0;
+                        float arrive = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out dirction))
+                            return;
+
+                        if (!GetFloat(args[2], out speed))
+                            return;
+
+                        if (!GetFloat(args[3], out arrive))
+                            return;
+
+                        nuriSM.ControlAcceleratedSpeed(id, dirction, speed, arrive);
+                    }
+                    break;
+                case "SettingSpeedController": {
+                        byte id = 0;
+                        byte kp = 0;
+                        byte ki = 0;
+                        byte kd = 0;
+                        short current = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out kp))
+                            return;
+
+                        if (!GetByte(args[2], out ki))
+                            return;
+
+                        if (!GetByte(args[3], out kd))
+                            return;
+
+                        if (!GetShort(args[4], out current))
+                            return;
+                        nuriSM.SettingSpeedController(id, kp, ki, kd, current);
+                    }
+                    break;
+                case "SettingID": {
+                        byte id = 0;
+                        byte afterid = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out afterid))
+                            return;
+
+                        nuriSM.SettingID(id, afterid);
+                    }
+                    break;
+                case "SettingResponsetime": {
+                        byte id = 0;
+                        short response = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetShort(args[1], out response))
+                            return;
+
+                        nuriSM.SettingResponsetime(id, response);
+                    }
+                    break;
+                case "SettingRatio": {
+                        byte id = 0;
+                        decimal ratio = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetDecimal(args[1], out ratio))
+                            return;
+
+                        nuriSM.SettingRatio(id, ratio);
+                    }
+                    break;
+                case "SettingControlOnOff": {
+                        byte id = 0;
+                        bool isCtrlOn = false;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetBool(args[1], out isCtrlOn))
+                            return;
+
+                        nuriSM.SettingControlOnOff(id, isCtrlOn);
+                    }
+                    break;
+                case "ResetPostion": {
+                        byte id = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        nuriSM.ResetPostion(id);
+                    }
+                    break;
+                case "ResetFactory": {
+                        byte id = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        nuriSM.ResetFactory(id);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public bool RunScripts(string arg)
         {
             bool ret = false;
@@ -799,6 +980,9 @@ namespace LibMacroBase
                             case "nuriMC":
                                 this.RunMC(vMethod, vArg);
                                 break;
+                            case "nuriSM":
+                                this.RunSM(vMethod, vArg);
+                                break;
                             default:
                                 break;
                         }
@@ -815,6 +999,7 @@ namespace LibMacroBase
         {
             nuriRSA = new NurirobotRSA();
             nuriMC = new NurirobotMC();
+            nuriSM = new NurirobotSM();
         }
     }
 }

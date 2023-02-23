@@ -8,7 +8,7 @@ namespace LibNurirobotV00.Struct
         /// <summary>
         /// 감속비
         /// </summary>
-        public float Ratio { get; set; }
+        public decimal Ratio { get; set; }
         /// <summary>
         /// 피드백 모드
         /// </summary>

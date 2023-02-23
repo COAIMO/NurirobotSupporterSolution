@@ -225,8 +225,8 @@ namespace LibNurisupportPresentation.DesignTime
         }
         public ReactiveCommand<Unit, Unit> CMDChangeSpeedGain { get; }
 
-        float _ChooseRatio;
-        public float ChooseRatio {
+        decimal _ChooseRatio;
+        public decimal ChooseRatio {
             get => _ChooseRatio;
             set => this.RaiseAndSetIfChanged(ref _ChooseRatio, value);
         }

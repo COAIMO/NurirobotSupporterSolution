@@ -240,11 +240,18 @@ namespace LibNurisupportPresentation.ViewModels
         }
         public ReactiveCommand<Unit, Unit> CMDChangeSpeedGain { get; }
 
-        float _ChooseRatio;
-        public float ChooseRatio {
+        //float _ChooseRatio;
+        //public float ChooseRatio {
+        //    get => _ChooseRatio;
+        //    set => this.RaiseAndSetIfChanged(ref _ChooseRatio, value);
+        //}
+
+        decimal _ChooseRatio;
+        public decimal ChooseRatio {
             get => _ChooseRatio;
             set => this.RaiseAndSetIfChanged(ref _ChooseRatio, value);
         }
+
         public ReactiveCommand<Unit, Unit> CMDChangeRatio { get; }
 
         bool _IsCtrlOn;
@@ -369,7 +376,7 @@ namespace LibNurisupportPresentation.ViewModels
             get => _IsRunning;
             set => this.RaiseAndSetIfChanged(ref _IsRunning, value);
         }
-
+        
         bool _LastConnect = false;
         string _LastPage = "";
 
@@ -1096,7 +1103,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
         }
 
-        private void CopyProtocolRatio(byte selectedId, float chooseRatio)
+        private void CopyProtocolRatio(byte selectedId, decimal chooseRatio)
         {
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(selectedId);
@@ -2400,7 +2407,7 @@ namespace LibNurisupportPresentation.ViewModels
         /// <param name="id"></param>
         /// <param name="ratio"></param>
         /// <returns></returns>
-        private bool ChangeRatio(byte id, float ratio)
+        private bool ChangeRatio(byte id, decimal ratio)
         {
             bool ret = false;
 
@@ -2444,21 +2451,21 @@ namespace LibNurisupportPresentation.ViewModels
             string commandStr = string.Empty;
             if (isMc) {
                 commandStr = string.Format(
-                                "nuriMC.SettingRatio( 0x{0:X2}, {1}f);",
+                                "nuriMC.SettingRatio( 0x{0:X2}, {1}m);",
                                 id,
                                 ratio
                                 );
             }
             else if (isRSA) {
                 commandStr = string.Format(
-                                "nuriRSA.SettingRatio( 0x{0:X2}, {1}f);",
+                                "nuriRSA.SettingRatio( 0x{0:X2}, {1}m);",
                                 id,
                                 ratio
                                 );
             }
             else {
                 commandStr = string.Format(
-                                "nuriSM.SettingRatio( 0x{0:X2}, {1}f);",
+                                "nuriSM.SettingRatio( 0x{0:X2}, {1}m);",
                                 id,
                                 ratio
                                 );
