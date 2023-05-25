@@ -174,46 +174,64 @@ using System.Diagnostics;
                                 })
                                 .AddTo(comdis);
 
-                                bool isDevice = false;
+                                //bool isDevice = false;
                                 NurirobotRSA tmpRSA = new NurirobotRSA();
-                                for (int k = 0; k < 2; k++) {
-                                    CurrPercent = (int)(k / 2f * 100);
+                                //for (int k = 0; k < 2; k++) {
+                                //    CurrPercent = (int)(k / 2f * 100);
+                                //    mCTS.Token.ThrowIfCancellationRequested();
+                                //    tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
+                                //        ID = 0xff,
+                                //        Protocol = 0xa0
+                                //    });
+
+                                //    if (mStopWaitHandle.WaitOne(2000)) {
+                                //        if (!searchBaud.Contains(item))
+                                //            searchBaud.Add(item);
+                                //        chkDone = true;
+                                //        isDevice = true;
+                                //        MainViewModel.SelectedBaudrates = item;
+                                //        Thread.Sleep(1000);
+                                //        break;
+                                //    }
+                                //}
+
+                                //if (isDevice) {
+                                //    for (int i = 0; i < 255; i++) {
+                                //        CurrPercent = (int)(i / 255f * 100);
+                                //        mCTS.Token.ThrowIfCancellationRequested();
+                                //        for (int k = 0; k < 2; k++) {
+                                //            tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
+                                //                ID = (byte)i,
+                                //                Protocol = 0xa0
+                                //            });
+                                //            if (mStopWaitHandle.WaitOne(GetTimeout(item))) {
+                                //                if (!searchBaud.Contains(item))
+                                //                    searchBaud.Add(item);
+                                //                break;
+
+                                //            }
+                                //        }
+
+                                //        Thread.Sleep(GetTimeout(item));
+                                //    }
+                                //}
+                                for (int i = 0; i < 255; i++) {
+                                    CurrPercent = (int)(i / 255f * 100);
                                     mCTS.Token.ThrowIfCancellationRequested();
-                                    tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                                        ID = 0xff,
-                                        Protocol = 0xa0
-                                    });
+                                    for (int k = 0; k < 2; k++) {
+                                        tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
+                                            ID = (byte)i,
+                                            Protocol = 0xa0
+                                        });
+                                        if (mStopWaitHandle.WaitOne(GetTimeout(item))) {
+                                            if (!searchBaud.Contains(item))
+                                                searchBaud.Add(item);
+                                            break;
 
-                                    if (mStopWaitHandle.WaitOne(2000)) {
-                                        if (!searchBaud.Contains(item))
-                                            searchBaud.Add(item);
-                                        chkDone = true;
-                                        isDevice = true;
-                                        MainViewModel.SelectedBaudrates = item;
-                                        Thread.Sleep(1000);
-                                        break;
-                                    }
-                                }
-
-                                if (isDevice) {
-                                    for (int i = 0; i < 255; i++) {
-                                        CurrPercent = (int)(i / 255f * 100);
-                                        mCTS.Token.ThrowIfCancellationRequested();
-                                        for (int k = 0; k < 2; k++) {
-                                            tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
-                                                ID = (byte)i,
-                                                Protocol = 0xa0
-                                            });
-                                            if (mStopWaitHandle.WaitOne(GetTimeout(item))) {
-                                                if (!searchBaud.Contains(item))
-                                                    searchBaud.Add(item);
-                                                break;
-
-                                            }
                                         }
-
-                                        Thread.Sleep(GetTimeout(item));
                                     }
+
+                                    Thread.Sleep(GetTimeout(item));
                                 }
                             }
                             else {
