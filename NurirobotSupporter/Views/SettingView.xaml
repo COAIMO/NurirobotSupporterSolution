@@ -668,6 +668,41 @@
                             </StackPanel>
                         </Border>
                     </Grid>
+                    <!--에코 On/Off 설정-->
+                    <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
+                      Margin="0, 0, 5, 5"
+                      Visibility="{Binding IsShowEchoOn, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Width="{Binding ControlWidth}" Height="155">
+                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+                            <StackPanel Margin="10, 2, 10, 2" >
+                                <Viewbox Height="30" HorizontalAlignment="Left">
+                                    <TextBlock Margin="2" Text="{lex:Loc Label_EchoMode}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                </Viewbox>
+                                <Grid Margin="10" Height="50">
+                                    <Viewbox>
+                                        <mah:ToggleSwitch Margin="2"
+                              OffContent="{lex:Loc Label_Off}"
+                              OnContent="{lex:Loc Label_On}"
+                              IsOn="{Binding IsEchoOn, Mode=TwoWay}"/>
+                                    </Viewbox>
+                                </Grid>
+                                <Grid Height="35" Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" 
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyProtocolEchoOnOff}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                    <Button Content="{lex:Loc Button_Set}" Grid.Column="1"
+                                        Command="{Binding CMDChangeEchoOnOff}"
+                                    Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
                     <!--위치 초기화-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"

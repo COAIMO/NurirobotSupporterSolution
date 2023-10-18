@@ -50,6 +50,7 @@ namespace LibMacroBase
             "NurirobotRSA nuriRSA = new NurirobotRSA();\n" +
             "NurirobotMC nuriMC = new NurirobotMC();\n" +
             "NurirobotSM nuriSM = new NurirobotSM();\n" +
+            "NurirobotRSAVW nuriRSAVW = new NurirobotRSAVW();\n" +
             "try {{\n" +
             "{0}\n" +
             "}} catch (Exception ex) {{ Debug.WriteLine(ex); }}\n" +

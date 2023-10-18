@@ -439,6 +439,15 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   스마트액츄에이터(뷰웍스) 제어 객체과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Desc_NuriRSAVW {
+            get {
+                return ResourceManager.GetString("Desc_NuriRSAVW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   스마트모터 제어 객체과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Desc_NuriSM {
@@ -687,6 +696,15 @@ namespace NurirobotSupporter {
         internal static string Label_Direction {
             get {
                 return ResourceManager.GetString("Label_Direction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   에코 모드과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_EchoMode {
+            get {
+                return ResourceManager.GetString("Label_EchoMode", resourceCulture);
             }
         }
         

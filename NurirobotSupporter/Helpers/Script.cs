@@ -23,6 +23,7 @@ namespace NurirobotSupporter.Helpers
             "class RunTask {{\n" +
             "public static void Run() {{\n" +
             "NurirobotRSA nuriRSA = new NurirobotRSA();\n" +
+            "NurirobotRSAVW nuriRSAVW = new NurirobotRSAVW();\n" +
             "NurirobotMC nuriMC = new NurirobotMC();\n" +
             "NurirobotSM nuriSM = new NurirobotSM();\n" +
             "try {{\n" +

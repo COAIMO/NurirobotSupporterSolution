@@ -63,6 +63,7 @@ namespace NurirobotSupporter.SettingControls
                 // provide AvalonEdit with the data:
                 IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                 data.Add(new MyCompletionData("nuriMC", LocExtension.GetLocalizedValue<string>("Desc_NuriMC")));
+                data.Add(new MyCompletionData("nuriRSAVW", LocExtension.GetLocalizedValue<string>("Desc_NuriRSAVW")));
                 data.Add(new MyCompletionData("nuriRSA", LocExtension.GetLocalizedValue<string>("Desc_NuriRSA")));
                 data.Add(new MyCompletionData("nuriSM", LocExtension.GetLocalizedValue<string>("Desc_NuriSM")));
                 data.Add(new MyCompletionData("Thread.Sleep", LocExtension.GetLocalizedValue<string>("Desc_ThreadSleep")));
@@ -114,6 +115,7 @@ namespace NurirobotSupporter.SettingControls
         string[] _Classs = new string[] {
             "Thread",
             "nuriMC",
+            "nuriRSAVW",
             "nuriRSA",
             "nuriSM"
         };
@@ -268,6 +270,43 @@ namespace NurirobotSupporter.SettingControls
                             if (textEditor.CaretOffset > 7) {
                                 var lastword = doc.Text.Substring(textEditor.CaretOffset - 8, 7);
                                 if (string.Equals(lastword, "nuriRSA")) {
+                                    if (textEditor.CaretOffset == 8
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == '\t'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == '\r'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == '\n'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == ' '
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == '{'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == '}'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == ';'
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == '('
+                                        || doc.GetCharAt(textEditor.CaretOffset - 9) == ')') {
+                                        completionWindow = new CompletionWindow(textEditor.TextArea);
+                                        IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                                        data.Add(new MyCompletionData("ControlAcceleratedSpeed", LocExtension.GetLocalizedValue<string>("Desc_ControlAcceleratedSpeed")));
+                                        data.Add(new MyCompletionData("ControlAcceleratedPos", LocExtension.GetLocalizedValue<string>("Desc_ControlAcceleratedPos")));
+                                        data.Add(new MyCompletionData("ControlPosSpeed", LocExtension.GetLocalizedValue<string>("Desc_ControlPosSpeed")));
+                                        data.Add(new MyCompletionData("SettingPositionController", LocExtension.GetLocalizedValue<string>("Desc_SettingPositionController")));
+                                        data.Add(new MyCompletionData("SettingSpeedController", LocExtension.GetLocalizedValue<string>("Desc_SettingSpeedController")));
+                                        data.Add(new MyCompletionData("SettingID", LocExtension.GetLocalizedValue<string>("Desc_SettingID")));
+                                        data.Add(new MyCompletionData("SettingBaudrate", LocExtension.GetLocalizedValue<string>("Desc_SettingBaudrate")));
+                                        data.Add(new MyCompletionData("SettingResponsetime", LocExtension.GetLocalizedValue<string>("Desc_SettingResponsetime")));
+                                        data.Add(new MyCompletionData("SettingRatio", LocExtension.GetLocalizedValue<string>("Desc_SettingRatio")));
+                                        data.Add(new MyCompletionData("SettingControlOnOff", LocExtension.GetLocalizedValue<string>("Desc_SettingControlOnOff")));
+                                        data.Add(new MyCompletionData("SettingPositionControl", LocExtension.GetLocalizedValue<string>("Desc_SettingPositionControl")));
+                                        data.Add(new MyCompletionData("ResetPostion", LocExtension.GetLocalizedValue<string>("Desc_ResetPostion")));
+                                        data.Add(new MyCompletionData("ResetFactory", LocExtension.GetLocalizedValue<string>("Desc_ResetFactory")));
+                                        completionWindow.Show();
+                                        completionWindow.Closed += delegate {
+                                            completionWindow = null;
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                        else if (lastch == 'W') {
+                            if (textEditor.CaretOffset > 9) {
+                                var lastword = doc.Text.Substring(textEditor.CaretOffset - 10, 9);
+                                if (string.Equals(lastword, "nuriRSAVW")) {
                                     if (textEditor.CaretOffset == 8
                                         || doc.GetCharAt(textEditor.CaretOffset - 9) == '\t'
                                         || doc.GetCharAt(textEditor.CaretOffset - 9) == '\r'

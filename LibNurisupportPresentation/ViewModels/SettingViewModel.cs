@@ -264,6 +264,20 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDChangePosReset { get; }
         public ReactiveCommand<Unit, Unit> CMDChangeFactoryReset { get; }
 
+
+        bool _IsShowEchoOn = false;
+        public bool IsShowEchoOn {
+            get => _IsShowEchoOn;
+            set => this.RaiseAndSetIfChanged(ref _IsShowEchoOn, value);
+        }
+        bool _IsEchoOn;
+        public bool IsEchoOn {
+            get => _IsEchoOn;
+            set => this.RaiseAndSetIfChanged(ref _IsEchoOn, value);
+        }
+
+        public ReactiveCommand<Unit, Unit> CMDChangeEchoOnOff { get; }
+
         public ReactiveCommand<Unit, Unit> Refresh { get; }
 
         public ReactiveCommand<Unit, Unit> CMDCopyProtocolChangeID { get; }
@@ -279,6 +293,7 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDCopyProtocolControlOnOff { get; }
         public ReactiveCommand<Unit, Unit> CMDCopyProtocolPosReset { get; }
         public ReactiveCommand<Unit, Unit> CMDCopyProtocolFactoryReset { get; }
+        public ReactiveCommand<Unit, Unit> CMDCopyProtocolEchoOnOff { get; }
 
         bool _IsRunningPage = true;
         public bool IsRunningPage {
@@ -426,6 +441,8 @@ namespace LibNurisupportPresentation.ViewModels
             IsShowRatedspeed = false;
             IsShowEncoderpulse = false;
             IsShowDirection = false;
+
+            IsShowEchoOn = false;
 
             /*
             전문에 따라 다름
@@ -769,6 +786,19 @@ namespace LibNurisupportPresentation.ViewModels
                 });
             }, IsNotRunning);
 
+            CMDChangeEchoOnOff = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("Echo Mode Change");
+                    BaseSetting((p) => {
+                        return ChangeEchoOnOff(p, IsEchoOn);
+                    });
+                    RefreshFeedback(state, esv);
+
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
             //공장 초기화
             CMDChangeFactoryReset = ReactiveCommand.Create(() => {
                 IsRunning = true;
@@ -1043,6 +1073,16 @@ namespace LibNurisupportPresentation.ViewModels
 
                 IsRunning = false;
             }, IsNotRunning);
+
+            CMDCopyProtocolEchoOnOff = ReactiveCommand.Create(() => {
+                IsRunning = true;
+
+                _Log.OnNext("= Protocol Make = ");
+                CopyProtocolEcho(SelectedId, IsEchoOn);
+                _Log.OnNext("= Copy Done! = ");
+
+                IsRunning = false;
+            }, IsNotRunning);
         }
 
         private void CopyProtocolSpeedGain(byte selectedId, byte speedGainKp, byte speedGainKi, byte speedGainKd, ushort speedCurrent)
@@ -1051,11 +1091,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingSpeedController(selectedId, speedGainKp, speedGainKi, speedGainKd, (short)speedCurrent);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingSpeedController(selectedId, speedGainKp, speedGainKi, speedGainKd, (short)speedCurrent);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1080,11 +1128,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingResponsetime(selectedId, (short)responseTime);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingResponsetime(selectedId, (short)responseTime);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1109,11 +1165,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingRatio(selectedId, chooseRatio);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingRatio(selectedId, chooseRatio);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1154,11 +1218,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.ResetPostion(selectedId);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.ResetPostion(selectedId);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1183,11 +1255,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingPositionController(selectedId, posGainKp, posGainKi, posGainKd, (short)posCurrent);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingPositionController(selectedId, posGainKp, posGainKi, posGainKd, (short)posCurrent);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1206,11 +1286,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingPositionControl(selectedId, isAbsolutePosCtrl);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingPositionControl(selectedId, isAbsolutePosCtrl);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1223,17 +1311,45 @@ namespace LibNurisupportPresentation.ViewModels
             }
         }
 
+        private void CopyProtocolEcho(byte selectedId, bool isEchoOn)
+        {
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(selectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
+            var clip = Locator.Current.GetService<IClipBoard>();
+
+            if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
+                tmpobj.DontSend = true;
+                tmpobj.SettingEchomode(selectedId, isEchoOn);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+        }
+
+
         private void CopyProtocolFactoryReset(byte selectedId)
         {
             var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.ResetFactory(selectedId);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.ResetFactory(selectedId);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1274,7 +1390,6 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
-            bool isRSA = command is NurirobotRSA;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
@@ -1291,11 +1406,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingControlOnOff(selectedId, isCtrlOn);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingControlOnOff(selectedId, isCtrlOn);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1320,11 +1443,19 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingID(selectedId, selectedChangeID);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+            else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingID(selectedId, selectedChangeID);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1349,11 +1480,18 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(selectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             var clip = Locator.Current.GetService<IClipBoard>();
 
             if (isMc) {
                 var tmpobj = new NurirobotMC();
+                tmpobj.DontSend = true;
+                tmpobj.SettingBaudrate(selectedId, SelectedBaudrate);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            } else if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
                 tmpobj.DontSend = true;
                 tmpobj.SettingBaudrate(selectedId, SelectedBaudrate);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
@@ -1504,7 +1642,9 @@ namespace LibNurisupportPresentation.ViewModels
                     var tmp = dpd.GetDeviceProtocol(SelectedId);
                     var command = tmp != null ? tmp.Command : new NurirobotRSA();
                     bool isMc = command is NurirobotMC;
+                    bool isRSAVW = command is NurirobotRSAVW;
                     bool isRSA = command is NurirobotRSA;
+                    bool isSM = command is NurirobotSM;
 
                     IsShowChangeID = true;
                     IsShowBaudrate = true;
@@ -1516,6 +1656,7 @@ namespace LibNurisupportPresentation.ViewModels
                     IsShowVelocityGain = true;
                     IsShowCtrlOnOff = true;
                     IsShowRatio = true;
+                    IsShowEchoOn = false;
 
                     if (isRSA) {
                         IsShowPosGain = true;
@@ -1523,6 +1664,14 @@ namespace LibNurisupportPresentation.ViewModels
                         IsShowRatedspeed = false;
                         IsShowEncoderpulse = false;
                         IsShowDirection = false;
+                    }
+                    else if (isRSAVW) {
+                        IsShowPosGain = true;
+                        IsShowPosition = true;
+                        IsShowRatedspeed = false;
+                        IsShowEncoderpulse = false;
+                        IsShowDirection = false;
+                        IsShowEchoOn = true;
                     }
                     else if (isMc) {
                         IsShowPosGain = true;
@@ -1561,6 +1710,7 @@ namespace LibNurisupportPresentation.ViewModels
                     IsShowRatedspeed = false;
                     IsShowEncoderpulse = false;
                     IsShowDirection = false;
+                    IsShowEchoOn = false;
                     InitValue();
                 }
             }
@@ -1579,7 +1729,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
 
             //ISerialProcess sp = null;
             //if (isSpControl) {
@@ -1596,10 +1748,13 @@ namespace LibNurisupportPresentation.ViewModels
                     try {
                         if (command.Parse(data)) {
                             var protocol = ((ProtocolMode)feedback + 48).ToString();
-                            if (!isMc && isRSA) {
+                            if (!isMc && isRSAVW) {
+                                protocol = ((ProtocolModeRSAVW)feedback + 48).ToString();
+                            }
+                            else if (!isMc && isRSA) {
                                 protocol = ((ProtocolModeRSA)feedback + 48).ToString();
                             }
-                            else if (!isMc && !isRSA) {
+                            else if (!isMc && isSM) {
                                 protocol = ((ProtocolModeSM)feedback + 48).ToString();
                             }
 
@@ -1617,24 +1772,45 @@ namespace LibNurisupportPresentation.ViewModels
                     }
                 }).AddTo(comdis);
 
-            // 스마트 모터의 경우 필요없는 호출을 제한
-            if (!(!isMc
-                && feedback > 0xA8)) {
+            //// 스마트 모터의 경우 필요없는 호출을 제한
+            //if (!(!isMc
+            //    && feedback > 0xA8)) {
 
-                for (int k = 0; k < 5; k++) {
-                    if (isMc) {
-                        (command as NurirobotMC).Feedback(id, feedback);
-                    }
-                    else if (isRSA){
-                        (command as NurirobotRSA).Feedback(id, feedback);
-                    }
-                    else {
-                        (command as NurirobotSM).Feedback(id, feedback);
-                    }
+            //    for (int k = 0; k < 5; k++) {
+            //        if (isMc) {
+            //            (command as NurirobotMC).Feedback(id, feedback);
+            //        }
+            //        else if (isRSAVW) {
+            //            (command as NurirobotRSAVW).Feedback(id, feedback);
+            //        }
+            //        else if (isRSA){
+            //            (command as NurirobotRSA).Feedback(id, feedback);
+            //        }
+            //        else {
+            //            (command as NurirobotSM).Feedback(id, feedback);
+            //        }
 
-                    if (stopWaitHandle.WaitOne(_WaitTime)) {
-                        break;
-                    }
+            //        if (stopWaitHandle.WaitOne(_WaitTime)) {
+            //            break;
+            //        }
+            //    }
+            //}
+            for (int k = 0; k < 5; k++) {
+                if (isMc) {
+                    (command as NurirobotMC).Feedback(id, feedback);
+                }
+                else if (isRSAVW) {
+                    (command as NurirobotRSAVW).Feedback(id, feedback);
+                }
+                else if (isRSA) {
+                    (command as NurirobotRSA).Feedback(id, feedback);
+                }
+                else {
+                    (command as NurirobotSM).Feedback(id, feedback);
+                }
+
+                if (stopWaitHandle.WaitOne(_WaitTime)) {
+                    break;
                 }
             }
 
@@ -1657,7 +1833,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
 
             //ISerialProcess sp = null;
             //if (isSpControl) {
@@ -1693,7 +1871,7 @@ namespace LibNurisupportPresentation.ViewModels
             NurirobotMC tmpcmd = new NurirobotMC();
             _Log.OnNext(string.Format("GetResponseTime : {0}", id));
             for (int k = 0; k < 2; k++) {
-                if (isMc || isRSA) 
+                if (isMc || isRSA || isRSAVW) 
                     tmpcmd.Feedback(id, 0xa5); // 모터컨트롤러, 스마트액츄에이터
                 else
                     tmpcmd.Feedback(id, 0xa3); // 스마트모터
@@ -1724,6 +1902,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -1761,7 +1942,14 @@ namespace LibNurisupportPresentation.ViewModels
                                 isabs.ToString().ToLower()
                                 ); ;
             }
-            else {
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                                "nuriRSAVW.SettingPositionControl( 0x{0:X2}, {1});",
+                                id,
+                                isabs.ToString().ToLower()
+                                );
+            }
+            else if (isRSA) {
                 commandStr = string.Format(
                                 "nuriRSA.SettingPositionControl( 0x{0:X2}, {1});",
                                 id,
@@ -1772,9 +1960,12 @@ namespace LibNurisupportPresentation.ViewModels
             for (int i = 0; i < 5; i++) {
                 ICE.RunScript(commandStr);
                 if (isMc) {
-                    (command as NurirobotMC).Feedback(id, 0xAA);
+                    (command as NurirobotMC).Feedback(id, 0xAB);
                 }
-                else {
+                else if (isRSAVW) {
+                    (command as NurirobotRSAVW).Feedback(id, 0xA8);
+                }
+                else if (isRSA) {
                     (command as NurirobotRSA).Feedback(id, 0xA8);
                 }
 
@@ -1806,6 +1997,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -1846,7 +2040,17 @@ namespace LibNurisupportPresentation.ViewModels
                                 current
                                 ); ;
             }
-            else {
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                                "nuriRSAVW.SettingPositionController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
+                                id,
+                                kp,
+                                ki,
+                                kd,
+                                current
+                                );
+            }
+            else if (isRSA) {
                 commandStr = string.Format(
                                 "nuriRSA.SettingPositionController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
                                 id,
@@ -1862,7 +2066,10 @@ namespace LibNurisupportPresentation.ViewModels
                 if (isMc) {
                     (command as NurirobotMC).Feedback(id, 0xA3);
                 }
-                else {
+                else if (isRSAVW) {
+                    (command as NurirobotRSAVW).Feedback(id, 0xA3);
+                }
+                else if (isRSA) {
                     (command as NurirobotRSA).Feedback(id, 0xA3);
                 }
 
@@ -1898,7 +2105,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -1940,6 +2149,16 @@ namespace LibNurisupportPresentation.ViewModels
                                 current
                                 ); ;
             }
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                                "nuriRSAVW.SettingSpeedController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
+                                id,
+                                kp,
+                                ki,
+                                kd,
+                                current
+                                );
+            }
             else if (isRSA) {
                 commandStr = string.Format(
                                 "nuriRSA.SettingSpeedController( 0x{0:X2}, (byte){1}, (byte){2}, (byte){3}, (short){4});",
@@ -1965,6 +2184,9 @@ namespace LibNurisupportPresentation.ViewModels
                 ICE.RunScript(commandStr);
                 if (isMc) {
                     (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQSpdCtrl);
+                }
+                else if (isRSAVW) {
+                    (command as NurirobotRSAVW).Feedback(id, (byte)ProtocolModeRSAVW.REQSpdCtrl);
                 }
                 else if (isRSA) {
                     (command as NurirobotRSA).Feedback(id, (byte)ProtocolModeRSA.REQSpdCtrl);
@@ -2001,7 +2223,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -2040,6 +2264,13 @@ namespace LibNurisupportPresentation.ViewModels
                                 response
                                 );
             }
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                                "nuriRSAVW.SettingResponsetime( 0x{0:X2}, {1});",
+                                id,
+                                response
+                                );
+            }
             else if (isRSA) {
                 commandStr = string.Format(
                                 "nuriRSA.SettingResponsetime( 0x{0:X2}, {1});",
@@ -2059,6 +2290,9 @@ namespace LibNurisupportPresentation.ViewModels
                 ICE.RunScript(commandStr);
                 if (isMc) {
                     (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQResptime);
+                }
+                else if (isRSAVW) {
+                    (command as NurirobotRSAVW).Feedback(id, (byte)ProtocolModeRSAVW.REQResptime);
                 }
                 else if (isRSA) {
                     (command as NurirobotRSA).Feedback(id, (byte)ProtocolModeRSA.REQResptime);
@@ -2095,6 +2329,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -2171,6 +2408,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -2246,6 +2486,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -2322,7 +2565,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -2361,6 +2606,13 @@ namespace LibNurisupportPresentation.ViewModels
                                 isctrlOn.ToString().ToLower()
                                 );
             }
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                "nuriRSAVW.SettingControlOnOff( 0x{0:X2}, {1});",
+                id,
+                isctrlOn.ToString().ToLower()
+                );
+            }
             else if (isRSA) {
                 commandStr = string.Format(
                 "nuriRSA.SettingControlOnOff( 0x{0:X2}, {1});",
@@ -2382,11 +2634,87 @@ namespace LibNurisupportPresentation.ViewModels
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQCtrlOnOff);
                     }
+                    else if (isRSAVW) {
+                        (command as NurirobotRSAVW).Feedback(id, (byte)ProtocolModeRSAVW.REQCtrlOnOff);
+                    }
                     else if (isRSA) {
                         (command as NurirobotRSA).Feedback(id, (byte)ProtocolModeRSA.REQCtrlOnOff);
                     }
                     else {
                         (command as NurirobotSM).Feedback(id, (byte)ProtocolModeSM.REQCtrlOnOff);
+                    }
+
+                    if (stopWaitHandle.WaitOne(_WaitTime)) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+
+            comdis.Dispose();
+            //sp.Stop();
+
+            return ret;
+        }
+
+        private bool ChangeEchoOnOff(byte id, bool isEchoOn)
+        {
+            bool ret = false;
+
+            var isc = Locator.Current.GetService<ISerialControl>();
+            //var sp = Locator.Current.GetService<ISerialProcess>();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(SelectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
+            //sp.Start();
+
+            var comdis = new CompositeDisposable();
+            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+            stopWaitHandle.AddTo(comdis);
+
+            // 일괄적용일 경우 수정사항을 체크하지 않는다.
+            isc.ObsProtocolReceived
+                .Subscribe(data => {
+                    try {
+                        Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                        if (command.Parse(data)) {
+                            if (string.Equals(command.PacketName, "FEEDEcho")) {
+                                var obj = (NuriEchoOnOff)command.GetDataStruct();
+                                _Log.OnNext(string.Format("Echo Feedback Index : {0} ===========", obj.ID));
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && isEchoOn == obj.IsEchoOn) {
+                                    stopWaitHandle.Set();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+                })
+                .AddTo(comdis);
+
+            var ICE = Locator.Current.GetService<ICommandEngine>();
+            string commandStr = string.Empty;
+            if (isRSAVW) {
+                commandStr = string.Format(
+                "nuriRSAVW.SettingEchomode( 0x{0:X2}, {1});",
+                id,
+                isEchoOn.ToString().ToLower()
+                );
+            }
+
+            if (!string.IsNullOrEmpty(commandStr)) {
+                for (int i = 0; i < 5; i++) {
+                    ICE.RunScript(commandStr);
+
+                    if (isRSAVW) {
+                        (command as NurirobotRSAVW).Feedback(id, (byte)ProtocolModeRSAVW.REQEchoMode);
                     }
 
                     if (stopWaitHandle.WaitOne(_WaitTime)) {
@@ -2417,7 +2745,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //sp.Start();
 
             var comdis = new CompositeDisposable();
@@ -2456,6 +2786,13 @@ namespace LibNurisupportPresentation.ViewModels
                                 ratio
                                 );
             }
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                                "nuriRSAVW.SettingRatio( 0x{0:X2}, {1}m);",
+                                id,
+                                ratio
+                                );
+            }
             else if (isRSA) {
                 commandStr = string.Format(
                                 "nuriRSA.SettingRatio( 0x{0:X2}, {1}m);",
@@ -2476,6 +2813,9 @@ namespace LibNurisupportPresentation.ViewModels
                     ICE.RunScript(commandStr);
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQRatio);
+                    }
+                    else if (isRSAVW) {
+                        (command as NurirobotRSAVW).Feedback(id, (byte)ProtocolModeRSAVW.REQRatio);
                     }
                     else if (isRSA) {
                         (command as NurirobotRSA).Feedback(id, (byte)ProtocolModeRSA.REQRatio);
@@ -2509,7 +2849,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //ISerialProcess sp = null;
             //if (isSpControl) {
             //    sp = Locator.Current.GetService<ISerialProcess>();
@@ -2522,6 +2864,11 @@ namespace LibNurisupportPresentation.ViewModels
                 commandStr = string.Format(
                                 "nuriMC.ResetPostion( 0x{0:X2});",
                                 id);
+            }
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                "nuriRSAVW.ResetPostion( 0x{0:X2});",
+                id);
             }
             else if (isRSA) {
                 commandStr = string.Format(
@@ -2555,7 +2902,9 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             var command = tmp != null ? tmp.Command : new NurirobotRSA();
             bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
             bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
             //ISerialProcess sp = null;
             //if (isSpControl) {
             //    sp = Locator.Current.GetService<ISerialProcess>();
@@ -2568,6 +2917,11 @@ namespace LibNurisupportPresentation.ViewModels
                 commandStr = string.Format(
                                 "nuriMC.ResetFactory( 0x{0:X2});",
                                 id);
+            }
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                    "nuriRSAVW.ResetFactory( 0x{0:X2});",
+                    id);
             }
             else if (isRSA) {
                 commandStr = string.Format(
@@ -2628,6 +2982,7 @@ namespace LibNurisupportPresentation.ViewModels
             //sp.Start();
 
             bool isMc = (tmp?.Command is NurirobotMC);
+            bool isRSAVW = (tmp?.Command is NurirobotRSAVW);
             bool isRSA = (tmp?.Command is NurirobotRSA);
             var ICE = Locator.Current.GetService<ICommandEngine>();
             string commandStr = string.Empty;
@@ -2639,6 +2994,13 @@ namespace LibNurisupportPresentation.ViewModels
                                     id,
                                     bps
                                     );
+                }
+                else if (isRSAVW) {
+                    commandStr = string.Format(
+                                        "nuriRSAVW.SettingBaudrate(0x{0:X2}, {1});",
+                                        id,
+                                        bps
+                                        );
                 }
                 else if (isRSA) {
                     commandStr = string.Format(
@@ -2682,6 +3044,8 @@ namespace LibNurisupportPresentation.ViewModels
             var tmp = dpd.GetDeviceProtocol(SelectedId);
             bool isMc = tmp.Command is NurirobotMC;
             bool isRSA = tmp.Command is NurirobotRSA;
+            bool isRSAVW = tmp.Command is NurirobotRSAVW;
+
 
             //sp.Start();
             var comdis = new CompositeDisposable();
@@ -2721,6 +3085,13 @@ namespace LibNurisupportPresentation.ViewModels
                                 SelectedChangeID
                                 );
             }
+            else if (isRSAVW) {
+                commandStr = string.Format(
+                                    "nuriRSAVW.SettingID(0x{0:X2}, 0x{1:X2});",
+                                    SelectedId,
+                                    SelectedChangeID
+                                    );
+            }
             else if (isRSA) {
                 commandStr = string.Format(
                                     "nuriRSA.SettingID(0x{0:X2}, 0x{1:X2});",
@@ -2741,6 +3112,9 @@ namespace LibNurisupportPresentation.ViewModels
 
                 if (isMc) {
                     (tmp.Command as NurirobotMC).Feedback(newid, (byte)ProtocolMode.REQPing);
+                }
+                else if (isRSAVW) {
+                    (tmp.Command as NurirobotRSAVW).Feedback(newid, (byte)ProtocolModeRSAVW.REQPing);
                 }
                 else if (isRSA) {
                     (tmp.Command as NurirobotRSA).Feedback(newid, (byte)ProtocolModeRSA.REQPing);
@@ -2935,12 +3309,30 @@ namespace LibNurisupportPresentation.ViewModels
                     try {
                         var tmp = new NurirobotMC();
                         if (tmp.Parse(data)) {
-                            if (string.Equals(tmp.PacketName, "FEEDPosCtrlMode")) {
-                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
+                            if (string.Equals(tmp.PacketName, "FEEDCtrlDirt")) {
+                                var obj = (NuriCtrlDirection)tmp.GetDataStruct();
 
                                 // 동일해야만 의미가 있다.
                                 if (id == obj.ID) {
                                     stopWaitHandle.Set();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
+
+                    try {
+                        var tmp = new NurirobotRSAVW();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDEcho")) {
+                                var obj = (NuriEchoOnOff)tmp.GetDataStruct();
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle2.Set();
                                     return;
                                 }
                             }
@@ -2967,6 +3359,24 @@ namespace LibNurisupportPresentation.ViewModels
                     catch (Exception ex) {
                         Debug.WriteLine(ex.Message);
                     }
+
+                    try {
+                        var tmp = new NurirobotSM();
+                        if (tmp.Parse(data)) {
+                            if (string.Equals(tmp.PacketName, "FEEDCtrlOnOff")) {
+                                var obj = (NuriControlOnOff)tmp.GetDataStruct();
+
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle2.Set();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Debug.WriteLine(ex.Message);
+                    }
                 })
                 .AddTo(comdis);
 
@@ -2975,18 +3385,30 @@ namespace LibNurisupportPresentation.ViewModels
                 // 2. MC의 제어방향 전문 응답 확인
                 var tmpMC = new NurirobotMC();
                 bool isMC = false;
+                bool isRSAVW = false;
                 bool isRSA = false;
 
                 for (int i = 0; i < 5; i++) {
-                    tmpMC.Feedback(id, 0xaa);
+                    tmpMC.Feedback(id, 0xab);
                     if (stopWaitHandle.WaitOne(_WaitTime)) {
                         isMC = true;
                         break;
                     }
                 }
 
-                // MC가 아닐 경우 RSA와 SM일 수 있음
+                // MC가 아닐 경우 RSAVW또는 RSA와 SM일 수 있음
                 if (!isMC) {
+                    for (int i = 0; i < 5; i++) {
+                        tmpMC.Feedback(id, 0xaa);
+                        if (stopWaitHandle2.WaitOne(_WaitTime)) {
+                            isRSAVW = true;
+                            break;
+                        }
+                    }
+                }
+
+                // MC와 RSAVW가 아닐 경우 RSA와 SM일 수 있음
+                if (!isMC && !isRSAVW) {
                     for (int i = 0; i < 5; i++) {
                         tmpMC.Feedback(id, 0xa8);
                         if (stopWaitHandle2.WaitOne(_WaitTime)) {
@@ -3000,6 +3422,9 @@ namespace LibNurisupportPresentation.ViewModels
                 var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
                 if (isMC) {
                     dpd.AddDeviceProtocol(id, new NurirobotMC());
+                }
+                else if (isRSAVW) {
+                    dpd.AddDeviceProtocol(id, new NurirobotRSAVW());
                 }
                 else if (isRSA) {
                     dpd.AddDeviceProtocol(id, new NurirobotRSA());

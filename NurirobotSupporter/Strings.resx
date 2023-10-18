@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -240,6 +240,9 @@
   <data name="Desc_NuriMC" xml:space="preserve">
     <value>모터 컨트롤러 제어 객체</value>
   </data>
+  <data name="Desc_NuriRSAVW" xml:space="preserve">
+    <value>스마트액츄에이터(뷰웍스) 제어 객체</value>
+  </data>
   <data name="Desc_NuriRSA" xml:space="preserve">
     <value>스마트액츄에이터 제어 객체</value>
   </data>
@@ -326,6 +329,9 @@
   </data>
   <data name="Label_Direction" xml:space="preserve">
     <value>제어 방향 설정</value>
+  </data>
+  <data name="Label_EchoMode" xml:space="preserve">
+    <value>에코 모드</value>
   </data>
   <data name="Label_EncorderPulsePole" xml:space="preserve">
     <value>분해능 설정</value>

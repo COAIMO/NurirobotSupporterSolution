@@ -21,12 +21,14 @@ namespace LibMacroBase
         NurirobotRSA nuriRSA = null;
         NurirobotMC nuriMC = null;
         NurirobotSM nuriSM = null;
+        NurirobotRSAVW nuriRSAVW = null;
 
         public void Dispose()
         {
             nuriRSA = null;
             nuriMC = null;
             nuriSM = null;
+            nuriRSAVW = null;
         }
 
         private void RunThread(string method, string argument)
@@ -234,6 +236,222 @@ namespace LibMacroBase
                             return;
 
                         nuriRSA.ResetFactory(id);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void RunRsaVW(string method, string argument)
+        {
+            string[] args = argument.Split(',');
+            switch (method) {
+                case "ControlPosSpeed": {
+                        byte id = 0;
+                        byte dirction = 0;
+                        float pos = 0;
+                        float spd = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out dirction))
+                            return;
+
+                        if (!GetFloat(args[2], out pos))
+                            return;
+
+                        if (!GetFloat(args[3], out spd))
+                            return;
+
+                        nuriRSAVW.ControlPosSpeed(id, dirction, pos, spd);
+                    }
+                    break;
+                case "ControlAcceleratedPos": {
+                        byte id = 0;
+                        byte dirction = 0;
+                        float pos = 0;
+                        float arrive = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out dirction))
+                            return;
+
+                        if (!GetFloat(args[2], out pos))
+                            return;
+
+                        if (!GetFloat(args[3], out arrive))
+                            return;
+
+                        nuriRSAVW.ControlAcceleratedPos(id, dirction, pos, arrive);
+                    }
+                    break;
+                case "ControlAcceleratedSpeed": {
+                        byte id = 0;
+                        byte dirction = 0;
+                        float speed = 0;
+                        float arrive = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out dirction))
+                            return;
+
+                        if (!GetFloat(args[2], out speed))
+                            return;
+
+                        if (!GetFloat(args[3], out arrive))
+                            return;
+
+                        nuriRSAVW.ControlAcceleratedSpeed(id, dirction, speed, arrive);
+                    }
+                    break;
+                case "SettingPositionController": {
+                        byte id = 0;
+                        byte kp = 0;
+                        byte ki = 0;
+                        byte kd = 0;
+                        short current = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out kp))
+                            return;
+
+                        if (!GetByte(args[2], out ki))
+                            return;
+
+                        if (!GetByte(args[3], out kd))
+                            return;
+
+                        if (!GetShort(args[4], out current))
+                            return;
+                        nuriRSAVW.SettingPositionController(id, kp, ki, kd, current);
+                    }
+                    break;
+                case "SettingSpeedController": {
+                        byte id = 0;
+                        byte kp = 0;
+                        byte ki = 0;
+                        byte kd = 0;
+                        short current = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out kp))
+                            return;
+
+                        if (!GetByte(args[2], out ki))
+                            return;
+
+                        if (!GetByte(args[3], out kd))
+                            return;
+
+                        if (!GetShort(args[4], out current))
+                            return;
+                        nuriRSAVW.SettingSpeedController(id, kp, ki, kd, current);
+                    }
+                    break;
+                case "SettingID": {
+                        byte id = 0;
+                        byte afterid = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetByte(args[1], out afterid))
+                            return;
+
+                        nuriRSAVW.SettingID(id, afterid);
+                    }
+                    break;
+                case "SettingResponsetime": {
+                        byte id = 0;
+                        short response = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetShort(args[1], out response))
+                            return;
+
+                        nuriRSAVW.SettingResponsetime(id, response);
+                    }
+                    break;
+                case "SettingRatio": {
+                        byte id = 0;
+                        decimal ratio = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetDecimal(args[1], out ratio))
+                            return;
+
+                        nuriRSAVW.SettingRatio(id, ratio);
+                    }
+                    break;
+                case "SettingControlOnOff": {
+                        byte id = 0;
+                        bool isCtrlOn = false;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetBool(args[1], out isCtrlOn))
+                            return;
+
+                        nuriRSAVW.SettingControlOnOff(id, isCtrlOn);
+                    }
+                    break;
+                case "SettingPositionControl": {
+                        byte id = 0;
+                        bool isAbsolute = false;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetBool(args[1], out isAbsolute))
+                            return;
+
+                        nuriRSAVW.SettingPositionControl(id, isAbsolute);
+                    }
+                    break;
+                case "ResetPostion": {
+                        byte id = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        nuriRSAVW.ResetPostion(id);
+                    }
+                    break;
+                case "ResetFactory": {
+                        byte id = 0;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        nuriRSAVW.ResetFactory(id);
+                    }
+                    break;
+                case "SettingEchomode": {
+                        byte id = 0;
+                        bool isEchoOn = false;
+
+                        if (!GetByte(args[0], out id))
+                            return;
+
+                        if (!GetBool(args[1], out isEchoOn))
+                            return;
+
+                        nuriRSAVW.SettingEchomode(id, isEchoOn);
                     }
                     break;
                 default:
@@ -983,6 +1201,9 @@ namespace LibMacroBase
                             case "nuriSM":
                                 this.RunSM(vMethod, vArg);
                                 break;
+                            case "nuriRSAVW":
+                                this.RunRsaVW(vMethod, vArg);
+                                break;
                             default:
                                 break;
                         }
@@ -1000,6 +1221,7 @@ namespace LibMacroBase
             nuriRSA = new NurirobotRSA();
             nuriMC = new NurirobotMC();
             nuriSM = new NurirobotSM();
+            nuriRSAVW = new NurirobotRSAVW();
         }
     }
 }
