@@ -1960,7 +1960,7 @@ namespace LibNurisupportPresentation.ViewModels
             for (int i = 0; i < 5; i++) {
                 ICE.RunScript(commandStr);
                 if (isMc) {
-                    (command as NurirobotMC).Feedback(id, 0xAB);
+                    (command as NurirobotMC).Feedback(id, 0xAA);
                 }
                 else if (isRSAVW) {
                     (command as NurirobotRSAVW).Feedback(id, 0xA8);

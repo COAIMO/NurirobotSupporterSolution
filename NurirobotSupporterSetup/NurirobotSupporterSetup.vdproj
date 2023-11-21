@@ -249,24 +249,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
-        "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
-        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2B0D5CE00BBCE2C53E51E457008F2FFF"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
         "MsmSig" = "8:_UNDEFINED"
@@ -315,6 +297,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_333804D71868E990F7F14E3F0223286B"
+        "OwnerKey" = "8:_65D8AB96585EAF63268FC72DAF88A89E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_333804D71868E990F7F14E3F0223286B"
+        "OwnerKey" = "8:_8D969114CE6491A04638D928175DD9C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_333804D71868E990F7F14E3F0223286B"
+        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_334450A9DE7F432C8B896B3AB850E1BA"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
         "MsmSig" = "8:_UNDEFINED"
@@ -335,30 +335,6 @@
         {
         "MsmKey" = "8:_36B92BC4788DE698E5D03535D151E017"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
-        "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
-        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
-        "OwnerKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -388,7 +364,25 @@
         "Entry"
         {
         "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
-        "OwnerKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
+        "OwnerKey" = "8:_8D969114CE6491A04638D928175DD9C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
+        "OwnerKey" = "8:_65D8AB96585EAF63268FC72DAF88A89E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
+        "OwnerKey" = "8:_333804D71868E990F7F14E3F0223286B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
+        "OwnerKey" = "8:_DBE786B24C79978B50374BFBC0FFD527"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -449,24 +443,6 @@
         {
         "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
         "OwnerKey" = "8:_DA6BC0790D2D9A5D344A19C33D29E2BA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
-        "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3CCEDD300F1DE2099C0A18C03183482B"
-        "OwnerKey" = "8:_2A7F3832A689E5E86E344DA634C6AEE6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -598,7 +574,13 @@
         "Entry"
         {
         "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
-        "OwnerKey" = "8:_372ECB6BF7EAFD3257C3C42AFA371B9F"
+        "OwnerKey" = "8:_8D969114CE6491A04638D928175DD9C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
+        "OwnerKey" = "8:_DBE786B24C79978B50374BFBC0FFD527"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -635,12 +617,6 @@
         {
         "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
         "OwnerKey" = "8:_410E1C5565C96E22C19DEB82A0AF4AB5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_460FD78EA8377C62FCC4EC90A59BC9D5"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -748,7 +724,7 @@
         "Entry"
         {
         "MsmKey" = "8:_565549FBD9DDA95B33DA645663342563"
-        "OwnerKey" = "8:_A4136D86555B2C1C49613945DAD63673"
+        "OwnerKey" = "8:_65D8AB96585EAF63268FC72DAF88A89E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -807,12 +783,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
-        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_621BBF2714720566F661CD37098494A6"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
         "MsmSig" = "8:_UNDEFINED"
@@ -821,6 +791,18 @@
         {
         "MsmKey" = "8:_65B06DE847F61C5D1CA73DC9B955CE3E"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_65D8AB96585EAF63268FC72DAF88A89E"
+        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_65D8AB96585EAF63268FC72DAF88A89E"
+        "OwnerKey" = "8:_8D969114CE6491A04638D928175DD9C1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -886,7 +868,7 @@
         "Entry"
         {
         "MsmKey" = "8:_71B37624383B7EDBD5595DBEE2E7A187"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
+        "OwnerKey" = "8:_8D969114CE6491A04638D928175DD9C1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1090,6 +1072,12 @@
         "Entry"
         {
         "MsmKey" = "8:_8C9CA70EBF866A178E3157231F86245B"
+        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D969114CE6491A04638D928175DD9C1"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1307,18 +1295,6 @@
         {
         "MsmKey" = "8:_A402AC3EBB03FEC91D4FA57D096C0622"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A4136D86555B2C1C49613945DAD63673"
-        "OwnerKey" = "8:_5FE56B5B5ED50617E6C221BFFACA2850"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1857,6 +1833,30 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DBE786B24C79978B50374BFBC0FFD527"
+        "OwnerKey" = "8:_65D8AB96585EAF63268FC72DAF88A89E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DBE786B24C79978B50374BFBC0FFD527"
+        "OwnerKey" = "8:_8D969114CE6491A04638D928175DD9C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DBE786B24C79978B50374BFBC0FFD527"
+        "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DBE786B24C79978B50374BFBC0FFD527"
+        "OwnerKey" = "8:_333804D71868E990F7F14E3F0223286B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DDF8A385F4F929FD26417D1D68E6E996"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
         "MsmSig" = "8:_UNDEFINED"
@@ -2069,12 +2069,6 @@
         {
         "MsmKey" = "8:_FFD88ADD885E7383F5864445C358BF64"
         "OwnerKey" = "8:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_49B55EF2D311E1AEBD54020D341014B6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3145,6 +3139,12 @@
         "OwnerKey" = "8:_0B402059A7D268D8F7D72E3BBC2A4970"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_49B55EF2D311E1AEBD54020D341014B6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -4108,37 +4108,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2A7F3832A689E5E86E344DA634C6AEE6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LibNurirobotV00, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2A7F3832A689E5E86E344DA634C6AEE6"
-                    {
-                    "Name" = "8:LibNurirobotV00.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:LibNurirobotV00.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2B0D5CE00BBCE2C53E51E457008F2FFF"
             {
             "AssemblyRegister" = "3:1"
@@ -4356,6 +4325,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_333804D71868E990F7F14E3F0223286B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:LibNurirobotV00, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_333804D71868E990F7F14E3F0223286B"
+                    {
+                    "Name" = "8:LibNurirobotV00.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:LibNurirobotV00.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_334450A9DE7F432C8B896B3AB850E1BA"
             {
             "AssemblyRegister" = "3:1"
@@ -4463,37 +4463,6 @@
                     }
                 }
             "SourcePath" = "8:System.Linq.Parallel.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_372ECB6BF7EAFD3257C3C42AFA371B9F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LibNurirobotBase, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_372ECB6BF7EAFD3257C3C42AFA371B9F"
-                    {
-                    "Name" = "8:LibNurirobotBase.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:LibNurirobotBase.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
@@ -5534,37 +5503,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5FE56B5B5ED50617E6C221BFFACA2850"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LibNurisupportPresentation, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_5FE56B5B5ED50617E6C221BFFACA2850"
-                    {
-                    "Name" = "8:LibNurisupportPresentation.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:LibNurisupportPresentation.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_621BBF2714720566F661CD37098494A6"
             {
             "AssemblyRegister" = "3:1"
@@ -5610,6 +5548,37 @@
                     }
                 }
             "SourcePath" = "8:System.Net.WebSockets.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_65D8AB96585EAF63268FC72DAF88A89E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:LibMacroBase, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_65D8AB96585EAF63268FC72DAF88A89E"
+                    {
+                    "Name" = "8:LibMacroBase.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:LibMacroBase.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
@@ -6354,6 +6323,37 @@
                     }
                 }
             "SourcePath" = "8:MahApps.Metro.IconPacks.FeatherIcons.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8D969114CE6491A04638D928175DD9C1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:LibNurisupportPresentation, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8D969114CE6491A04638D928175DD9C1"
+                    {
+                    "Name" = "8:LibNurisupportPresentation.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:LibNurisupportPresentation.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
@@ -7118,37 +7118,6 @@
                     }
                 }
             "SourcePath" = "8:System.Security.Claims.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A4136D86555B2C1C49613945DAD63673"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LibMacroBase, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_A4136D86555B2C1C49613945DAD63673"
-                    {
-                    "Name" = "8:LibMacroBase.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:LibMacroBase.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
@@ -8468,6 +8437,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DBE786B24C79978B50374BFBC0FFD527"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:LibNurirobotBase, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_DBE786B24C79978B50374BFBC0FFD527"
+                    {
+                    "Name" = "8:LibNurirobotBase.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:LibNurirobotBase.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DDF8A385F4F929FD26417D1D68E6E996"
             {
             "AssemblyRegister" = "3:1"
@@ -9268,15 +9268,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NURIROBOTSUPPORTER"
-        "ProductCode" = "8:{934DD3A5-D029-40C8-899E-084C26152A4A}"
-        "PackageCode" = "8:{83D0F546-7BD4-4255-AC79-39FD4EB134C1}"
-        "UpgradeCode" = "8:{F994702E-B561-45E2-BEFE-A5453BC45BAD}"
+        "ProductCode" = "8:{623D12CA-B02B-46ED-92DF-089C13E0620D}"
+        "PackageCode" = "8:{539F2B11-EDA4-47AB-AF0E-8E3A8CE61AEB}"
+        "UpgradeCode" = "8:{F4A7FB11-C7DA-46D7-9B1C-CCFFE24249FF}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.6"
+        "ProductVersion" = "8:1.4.8"
         "Manufacturer" = "8:NURI ROBOT"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://support.nurirobot.info/"
@@ -9818,7 +9818,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_734AA9C8E51A4B9DB35DBACC9EEB7EE4"
             {
-            "SourcePath" = "8:..\\NurirobotSupporter\\obj\\Release\\NurirobotSupporter.exe"
+            "SourcePath" = "8:..\\NurirobotSupporter\\obj\\Debug\\NurirobotSupporter.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_460A0A67AD0E4C2C81945588C4C32ED4"
