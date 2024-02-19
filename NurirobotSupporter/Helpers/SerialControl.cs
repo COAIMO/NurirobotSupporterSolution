@@ -175,8 +175,8 @@ namespace NurirobotSupporter.Helpers
                                 if (pos == 0) {
                                     var possec = SerialportReactiveExt.PatternAt(buffPattern, baSTX, 2, idx);
                                     if (possec == -1) {
-                                        if (buffPattern[3] + 4 == idx) {
-                                            byte[] segment = new byte[idx];
+                                        if (buffPattern[3] + 4 <= idx) {
+                                            byte[] segment = new byte[buffPattern[3] + 4];
                                             Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
                                             ProtocolReceived.OnNext(segment);
                                             idx = 0;
@@ -189,6 +189,10 @@ namespace NurirobotSupporter.Helpers
                                 stopwatch.Reset();
                                 stopwatch.Restart();
                             }
+                            //else {
+                            //    byte[] tmpp = new byte[] { 0xFF, 0xFE, 0x01, 0x02, 0x2C, 0xD0, 0x00, 0xFF, 0xFE, 0x01, 0x02, 0x2C, 0xD0, 0x00 };
+                            //    recvBuffs.Enqueue(tmpp);
+                            //}
 
                             if (idx > 3) {
                                 if (buffPattern[0] == baSTX[0] && buffPattern[1] == baSTX[1]) {
@@ -198,7 +202,7 @@ namespace NurirobotSupporter.Helpers
                                         Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
 
                                         if (pos > 3
-                                        && segment[3] + 4 == pos)
+                                        && segment[3] + 4 <= pos)
                                             ProtocolReceived.OnNext(segment);
                                         else {
 #if DEBUG
@@ -251,7 +255,7 @@ namespace NurirobotSupporter.Helpers
                                     byte[] segment = new byte[idx];
                                     Buffer.BlockCopy(buffPattern, 0, segment, 0, segment.Length);
                                     if (idx > 3
-                                    && segment[3] + 4 == idx)
+                                    && segment[3] + 4 <= idx)
                                         ProtocolReceived.OnNext(segment);
                                     else {
                                         //byte[] tmpError = new byte[8] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };

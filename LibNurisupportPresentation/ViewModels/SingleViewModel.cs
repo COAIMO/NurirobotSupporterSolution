@@ -1508,6 +1508,7 @@ namespace LibNurisupportPresentation.ViewModels
                 }
 
                 IsNotSM = true;
+                IsShowTargetVel = true;
                 // 3. 지정
                 var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
                 if (isMC) {
