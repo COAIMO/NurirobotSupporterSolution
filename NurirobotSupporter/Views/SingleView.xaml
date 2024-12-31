@@ -105,7 +105,7 @@
                                     <Button Grid.Column="2"
                                         Style="{StaticResource MahApps.Styles.Button.Circle}"
                                         Command="{Binding RefresshIDs}">
-                                            <iconPacks:PackIconBootstrapIcons Width="20" Height="20"
+                                        <iconPacks:PackIconBootstrapIcons Width="20" Height="20"
                                                               Kind="ArrowClockwise"/>
                                     </Button>
                                 </Grid>
@@ -204,7 +204,7 @@
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
                       Margin="0, 0, 5, 5"
                       Visibility="{Binding IsShowCommand, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      Width="{Binding ControlWidth}" Height="290">
+                      Width="{Binding ControlWidth}" Height="310">
                         <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
                             <StackPanel Margin="10, 2, 10, 2" >
                                 <Viewbox Height="30" HorizontalAlignment="Left">
@@ -224,13 +224,13 @@
                                     </StackPanel>
                                 </Viewbox>
                                 <mah:MetroTabControl x:Name="MetroTabControl"
-                                          Height="110"
+                                          Height="130"
                                           KeepVisualTreeInMemoryWhenChangingTabs="True" mah:TabControlHelper.Underlined="SelectedTabItem">
                                     <!--위치속도제어-->
                                     <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" 
                                                       Header="{lex:Loc Label_POSVEL}" 
                                                       IsSelected="{Binding IsShowTargetPosVel, Mode=TwoWay}"
-                                                      Visibility="{Binding IsNotSM, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                      Visibility="{Binding IsNotSM, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="10">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1*"/>
@@ -262,7 +262,7 @@
                                     <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" 
                                                       Header="{lex:Loc Label_POS}" 
                                                       IsSelected="{Binding IsShowTargetPos, Mode=TwoWay}"
-                                                      Visibility="{Binding IsNotSM, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                      Visibility="{Binding IsNotSM, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="10">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1*"/>
@@ -291,7 +291,7 @@
                                         </Grid>
                                     </mah:MetroTabItem>
                                     <!--속도제어-->
-                                    <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" Header="{lex:Loc Label_VEL}" IsSelected="{Binding IsShowTargetVel, Mode=TwoWay}">
+                                    <mah:MetroTabItem mah:HeaderedControlHelper.HeaderFontSize="14" Header="{lex:Loc Label_VEL}" IsSelected="{Binding IsShowTargetVel, Mode=TwoWay}" FontSize="10">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="1*"/>

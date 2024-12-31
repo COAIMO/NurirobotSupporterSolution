@@ -361,7 +361,10 @@ namespace LibNurisupportPresentation.ViewModels
                 .Subscribe(x => {
                     _LastGraphInt = DateTime.Now.Ticks;
                     if (string.Equals(mainvm.CurrentPageName, "Single")) {
-                        GetFeedback(SelectedId, (byte)(0xa1), true, true);
+                        if (IsShowTargetVel)
+                            GetFeedback(SelectedId, (byte)(0xa2), true, true);
+                        else 
+                            GetFeedback(SelectedId, (byte)(0xa1), true, true);
                     }
                 });
 
