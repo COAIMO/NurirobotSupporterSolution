@@ -1162,6 +1162,7 @@ namespace LibNurisupportPresentation.ViewModels
                 esv.ClearDictionary();
                 if (CheckPing(SelectedId)) {
                     Thread.Sleep(_WaitTime);
+                    IsShowAbsolute = false;
                     AssignCommand(SelectedId);
                     Thread.Sleep(_WaitTime);
                     CheckProtocol(SelectedId);
