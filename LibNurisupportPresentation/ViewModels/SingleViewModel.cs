@@ -96,6 +96,12 @@ namespace LibNurisupportPresentation.ViewModels
             set => this.RaiseAndSetIfChanged(ref _IsNotSM, value);
         }
 
+        bool _IsShowAbsolute = false;
+        public bool IsShowAbsolute {
+            get => _IsShowAbsolute;
+            set => this.RaiseAndSetIfChanged(ref _IsShowAbsolute, value);
+        }
+
         public ObservableCollection<string> Logs { get; }
 
         IEnumerable<byte> _TargetIDs = new ObservableCollection<byte>();
@@ -198,7 +204,17 @@ namespace LibNurisupportPresentation.ViewModels
             set => this.RaiseAndSetIfChanged(ref _FeedbackCurrent, value);
         }
 
+        float _FeedbackEncode = 0;
+        public float FeedbackEncode {
+            get => _FeedbackEncode;
+            set => this.RaiseAndSetIfChanged(ref _FeedbackEncode, value);
+        }
 
+        byte _FeedbackDirection;
+        public byte FeedbackDirection {
+            get => _FeedbackDirection;
+            set => this.RaiseAndSetIfChanged(ref _FeedbackDirection, value);
+        }
 
         private double _PannelWidth = 800;
         public double PannelWidth {
@@ -216,6 +232,7 @@ namespace LibNurisupportPresentation.ViewModels
             }
         }
 
+
         public ReactiveCommand<Unit, Unit> CMDIDSearch { get; }
 
         public ReactiveCommand<Unit, Unit> StopTask { get; }
@@ -228,6 +245,9 @@ namespace LibNurisupportPresentation.ViewModels
         public ReactiveCommand<Unit, Unit> CMDCopyProtocol { get; }
         public ReactiveCommand<Unit, Unit> CMDRunFeedback { get; }
         public ReactiveCommand<Unit, Unit> CMDCopyProtocolFeedback { get; }
+
+        public ReactiveCommand<Unit, Unit> CMDFeedbackAbsolute { get; }
+        public ReactiveCommand<Unit, Unit> CMDCopyFeedbackAbsolute { get; }
 
         public ReactiveCommand<Unit, Unit> RefresshIDs { get; }
 
@@ -506,6 +526,25 @@ namespace LibNurisupportPresentation.ViewModels
                 });
             }, IsNotRunning);
 
+            CMDFeedbackAbsolute = ReactiveCommand.Create(() => {
+                IsRunning = true;
+
+                Task.Run(() => {
+                    GetFeedback(SelectedId, (byte)(0xa9), true, true);
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
+            CMDCopyFeedbackAbsolute = ReactiveCommand.Create(() => {
+                IsRunning = true;
+                Task.Run(() => {
+                    _Log.OnNext("= Protocol Make = ");
+                    CopyProtocolFeedbackEncode(SelectedId);
+                    _Log.OnNext("= Copy Done! = ");
+                    IsRunning = false;
+                });
+            }, IsNotRunning);
+
             // 리플래쉬
             Refresh = ReactiveCommand.Create(() => {
                 IsRunning = true;
@@ -580,6 +619,13 @@ namespace LibNurisupportPresentation.ViewModels
                                 GraphData.Add(new KeyValuePair<long, PosVelocityCurrent>(tick, dataspd));
 
                                 break;
+                            case "FEEDEncoder":
+                                var tmpenc = (x.Object as NuriEncoderFeedback);
+                                Debug.WriteLine(string.Format("{0} {1}", tmpenc.Direction, tmpenc.Encoder));
+
+                                FeedbackDirection = (byte)tmpenc.Direction;
+                                FeedbackEncode = tmpenc.Encoder * 0.01f;
+                                break;
                             default:
                                 break;
                         }
@@ -638,6 +684,27 @@ namespace LibNurisupportPresentation.ViewModels
                 var tmpobj = new NurirobotSM();
                 tmpobj.DontSend = true;
                 tmpobj.Feedback(selectedId, 0xa1);
+                clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
+            }
+        }
+
+        private void CopyProtocolFeedbackEncode(byte selectedId)
+        {
+            //throw new NotImplementedException();
+            var dpd = Locator.Current.GetService<IDeviceProtocolDictionary>();
+            var tmp = dpd.GetDeviceProtocol(selectedId);
+            var command = tmp != null ? tmp.Command : new NurirobotRSA();
+            bool isMc = command is NurirobotMC;
+            bool isRSAVW = command is NurirobotRSAVW;
+            bool isRSA = command is NurirobotRSA;
+            bool isSM = command is NurirobotSM;
+
+            var clip = Locator.Current.GetService<IClipBoard>();
+
+            if (isRSAVW) {
+                var tmpobj = new NurirobotRSAVW();
+                tmpobj.DontSend = true;
+                tmpobj.Feedback(selectedId, 0xa9);
                 clip.SetDataObject(BitConverter.ToString(tmpobj.Data).Replace("-", ""));
             }
         }
@@ -1008,6 +1075,11 @@ namespace LibNurisupportPresentation.ViewModels
                                         FeedbackCurrent = tmppos.Current;
                                         FeedbackRPM = tmppos.Speed;
                                     }
+                                    else if (string.Equals(command.PacketName, "FEEDEncoder")) {
+                                        var tmpobj = (NuriEncoderFeedback)obj;
+                                        FeedbackDirection = (byte)tmpobj.Direction;
+                                        FeedbackEncode = tmpobj.Encoder;
+                                    }
 
                                     stopWaitHandle.Set();
                                 }
@@ -1022,7 +1094,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             // 스마트 모터의 경우 필요없는 호출을 제한
             if (!(!isMc
-                && feedback > 0xA8)) {
+                && feedback > 0xA9)) {
 
                 if (!isGraph) {
                     for (int k = 0; k < 5; k++) {
@@ -1115,6 +1187,8 @@ namespace LibNurisupportPresentation.ViewModels
                     IsShowTargetPosVel = false;
                     IsShowGraph = false;
                     IsShowCommand = false;
+
+                    IsShowAbsolute = false;
                 }
             }
         }
@@ -1428,6 +1502,14 @@ namespace LibNurisupportPresentation.ViewModels
                                     return;
                                 }
                             }
+                            else if (string.Equals(tmp.PacketName, "FEEDEncoder")) {
+                                var obj = (NuriEncoderFeedback)tmp.GetDataStruct();
+
+                                if (id == obj.ID) {
+                                    stopWaitHandle2.Set();
+                                    return;
+                                }
+                            }
                         }
                     }
                     catch (Exception ex) {
@@ -1494,6 +1576,11 @@ namespace LibNurisupportPresentation.ViewModels
                         tmpMC.Feedback(id, 0xaa);
                         if (stopWaitHandle2.WaitOne(_WaitTime)) {
                             isRSAVW = true;
+
+                            tmpMC.Feedback(id, 0xa9);
+                            if (stopWaitHandle2.WaitOne(_WaitTime)) {
+                                IsShowAbsolute = true;
+                            }
                             break;
                         }
                     }

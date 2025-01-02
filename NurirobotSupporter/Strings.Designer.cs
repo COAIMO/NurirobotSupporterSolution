@@ -700,11 +700,29 @@ namespace NurirobotSupporter {
         }
         
         /// <summary>
+        ///   방향과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Direction_Encoder {
+            get {
+                return ResourceManager.GetString("Label_Direction_Encoder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   에코 모드과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Label_EchoMode {
             get {
                 return ResourceManager.GetString("Label_EchoMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   절대엔코더과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Label_Encoder {
+            get {
+                return ResourceManager.GetString("Label_Encoder", resourceCulture);
             }
         }
         
@@ -1209,6 +1227,15 @@ namespace NurirobotSupporter {
         internal static string Title_Feedback {
             get {
                 return ResourceManager.GetString("Title_Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   엔코더 피드백과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Title_FeedbackEncoder {
+            get {
+                return ResourceManager.GetString("Title_FeedbackEncoder", resourceCulture);
             }
         }
         

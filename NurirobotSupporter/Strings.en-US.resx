@@ -537,4 +537,13 @@
   <data name="Tooltip_HexInput" xml:space="preserve">
     <value>Enter hexadecimal data.</value>
   </data>
+  <data name="Title_FeedbackEncoder" xml:space="preserve">
+    <value>Feedback Encoder</value>
+  </data>
+  <data name="Label_Direction_Encoder" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Label_Encoder" xml:space="preserve">
+    <value>Abolute Encoder</value>
+  </data>
 </root>

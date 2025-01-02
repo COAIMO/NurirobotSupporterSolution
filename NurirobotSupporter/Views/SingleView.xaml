@@ -413,6 +413,57 @@
                             </StackPanel>
                         </Border>
                     </Grid>
+                    <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
+                      Margin="0, 0, 5, 5"
+                      Visibility="{Binding IsShowAbsolute, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Width="{Binding ControlWidth}" Height="180">
+                        <Border BorderBrush="{DynamicResource MahApps.Brushes.Control.Border}" BorderThickness="2" CornerRadius="0" Margin="2">
+                            <StackPanel Margin="10, 2, 10, 2" >
+                                <Viewbox Height="30" HorizontalAlignment="Left">
+                                    <TextBlock Margin="2" Text="{lex:Loc Title_FeedbackEncoder}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                </Viewbox>
+                                <Grid Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Viewbox Grid.Row="0" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_Direction_Encoder}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_Encoder}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+
+                                    <Viewbox Grid.Row="0" Grid.Column="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{Binding FeedbackDirection}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="1" Grid.Column="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{Binding FeedbackEncode}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                </Grid>
+                                <Grid Height="50" Margin="0, 5, 0, 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Margin="2" 
+                                            Content="{lex:Loc Button_Run}"
+                                            Command="{Binding CMDFeedbackAbsolute}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
+                                            />
+                                    <Button Grid.Column="1" Margin="2"
+                                            Content="{lex:Loc Button_Protocol}"
+                                            Command="{Binding CMDCopyFeedbackAbsolute}"
+                                            Style="{DynamicResource MahApps.Styles.Button.Square.Highlight}"
+                                            />
+                                </Grid>                                
+                            </StackPanel>
+                        </Border>
+                    </Grid>
 
                     <!--위치 그래프-->
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray}" 
