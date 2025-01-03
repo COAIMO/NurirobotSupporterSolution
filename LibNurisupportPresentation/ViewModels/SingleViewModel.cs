@@ -381,10 +381,10 @@ namespace LibNurisupportPresentation.ViewModels
                 .Subscribe(x => {
                     _LastGraphInt = DateTime.Now.Ticks;
                     if (string.Equals(mainvm.CurrentPageName, "Single")) {
-                        if (IsShowTargetVel)
-                            GetFeedback(SelectedId, (byte)(0xa2), true, true);
-                        else 
-                            GetFeedback(SelectedId, (byte)(0xa1), true, true);
+                        //if (IsShowTargetVel)
+                        //    GetFeedback(SelectedId, (byte)(0xa2), true, true);
+                        //else 
+                        GetFeedback(SelectedId, (byte)(0xa1), true, true);
                     }
                 });
 
@@ -607,6 +607,9 @@ namespace LibNurisupportPresentation.ViewModels
                                 var data = new PosVelocityCurrent { Current = tmppos.Current, Pos = tmppos.Pos, Velocity = tmppos.Speed };
                                 GraphData.Add(new KeyValuePair<long, PosVelocityCurrent>(tick, data));
 
+                                FeedbackPOS = tmppos.Pos;
+                                FeedbackCurrent = tmppos.Current;
+                                FeedbackRPM = tmppos.Speed;
                                 break;
                             case "FEEDSpeed":
                                 var tmpspd = (x.Object as NuriPosSpeedAclCtrl);
@@ -617,6 +620,10 @@ namespace LibNurisupportPresentation.ViewModels
                                     Pos = tmpspd.Pos, 
                                     Velocity = tmpspd.Speed };
                                 GraphData.Add(new KeyValuePair<long, PosVelocityCurrent>(tick, dataspd));
+
+                                FeedbackPOS = tmpspd.Pos;
+                                FeedbackCurrent = tmpspd.Current;
+                                FeedbackRPM = tmpspd.Speed;
 
                                 break;
                             case "FEEDEncoder":
@@ -1069,19 +1076,31 @@ namespace LibNurisupportPresentation.ViewModels
                                 var obj = (BaseStruct)command.GetDataStruct();
 
                                 if (id == obj.ID) {
-                                    if (string.Equals(command.PacketName, "FEEDPos")) {
-                                        var tmppos = (NuriPosSpeedAclCtrl)obj;
-                                        FeedbackPOS = tmppos.Pos;
-                                        FeedbackCurrent = tmppos.Current;
-                                        FeedbackRPM = tmppos.Speed;
-                                    }
-                                    else if (string.Equals(command.PacketName, "FEEDEncoder")) {
-                                        var tmpobj = (NuriEncoderFeedback)obj;
-                                        FeedbackDirection = (byte)tmpobj.Direction;
-                                        FeedbackEncode = tmpobj.Encoder;
+                                    try {
+                                        if (string.Equals(command.PacketName, "FEEDPos")) {
+                                            var tmppos = (NuriPosSpeedAclCtrl)obj;
+                                            FeedbackPOS = tmppos.Pos;
+                                            FeedbackCurrent = tmppos.Current;
+                                            FeedbackRPM = tmppos.Speed;
+                                            Console.WriteLine("FeedbackPOS : {0}, FeedbackCurrent: {1}, FeedbackRPM: {2}", FeedbackPOS, FeedbackCurrent, FeedbackRPM);
+                                        }
+                                        else if (string.Equals(command.PacketName, "FEEDSpeed")) {
+                                            var tmppos = (NuriPosSpeedAclCtrl)obj;
+                                            FeedbackPOS = tmppos.Pos;
+                                            FeedbackCurrent = tmppos.Current;
+                                            FeedbackRPM = tmppos.Speed;
+                                            Console.WriteLine("FeedbackPOS : {0}, FeedbackCurrent: {1}, FeedbackRPM: {2}", FeedbackPOS, FeedbackCurrent, FeedbackRPM);
+                                        }
+                                        else if (string.Equals(command.PacketName, "FEEDEncoder")) {
+                                            var tmpobj = (NuriEncoderFeedback)obj;
+                                            FeedbackDirection = (byte)tmpobj.Direction;
+                                            FeedbackEncode = tmpobj.Encoder;
+                                        }
+                                    } catch (Exception e) {
+                                        Debug.WriteLine(e.Message);
                                     }
 
-                                    stopWaitHandle.Set();
+                                    stopWaitHandle.Set();   
                                 }
                             }
                         }
@@ -1169,7 +1188,7 @@ namespace LibNurisupportPresentation.ViewModels
                     Thread.Sleep(_WaitTime);
                     GetFeedback(SelectedId, (byte)(0xa1));
                     Thread.Sleep(_WaitTime);
-                    GetFeedback(SelectedId, (byte)(0xa2));
+                    //GetFeedback(SelectedId, (byte)(0xa2));
 
                     IsShowGraph = true;
                     //IsShowTargetPosVel = true;
