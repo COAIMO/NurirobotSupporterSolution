@@ -5538,7 +5538,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LibNurisupportPresentation, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:LibNurisupportPresentation, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_5FE56B5B5ED50617E6C221BFFACA2850"
@@ -9268,15 +9268,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NURIROBOTSUPPORTER"
-        "ProductCode" = "8:{2BB05BA6-FEFF-437F-8CA9-ED50F72C436F}"
-        "PackageCode" = "8:{E1B42405-8800-49B5-BA9A-1CFE7014836A}"
+        "ProductCode" = "8:{B8DA3F46-629D-4E51-AFA8-4EABDD45C3FF}"
+        "PackageCode" = "8:{76E70B4D-6F64-4EC5-B69E-2DBDB75A7677}"
         "UpgradeCode" = "8:{DA02DB4B-DBB4-43E2-B7E4-ED585D47182C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.12"
+        "ProductVersion" = "8:1.4.13"
         "Manufacturer" = "8:NURI ROBOT"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://support.nurirobot.info/"

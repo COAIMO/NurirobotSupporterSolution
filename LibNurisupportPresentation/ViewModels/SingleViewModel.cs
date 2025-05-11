@@ -631,7 +631,7 @@ namespace LibNurisupportPresentation.ViewModels
                                 Debug.WriteLine(string.Format("{0} {1}", tmpenc.Direction, tmpenc.Encoder));
 
                                 FeedbackDirection = (byte)tmpenc.Direction;
-                                FeedbackEncode = tmpenc.Encoder * 0.01f;
+                                FeedbackEncode = tmpenc.Encoder;
                                 break;
                             default:
                                 break;
