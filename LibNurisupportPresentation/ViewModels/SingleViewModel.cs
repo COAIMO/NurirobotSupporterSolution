@@ -1490,7 +1490,7 @@ namespace LibNurisupportPresentation.ViewModels
             // 응답 확인
             isc.ObsProtocolReceived
                 .Subscribe(data => {
-                    Debug.WriteLine(BitConverter.ToString(data).Replace("-", ""));
+                    Console.WriteLine(BitConverter.ToString(data).Replace("-", ""));
 
                     try {
                         var tmp = new NurirobotMC();
@@ -1504,7 +1504,18 @@ namespace LibNurisupportPresentation.ViewModels
                                     return;
                                 }
                             }
-                        }
+                            else if (string.Equals(tmp.PacketName, "FEEDCtrlOnOff")) {
+                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
+                                Console.WriteLine("================");
+                                Console.WriteLine(tmp.Data.Length);
+                                Console.WriteLine(BitConverter.ToString(tmp.Data).Replace("-", ""));
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle.Set();
+                                    return;
+                                }
+                            }
+                        } 
                     }
                     catch (Exception ex) {
                         Debug.WriteLine(ex.Message);
@@ -1582,11 +1593,18 @@ namespace LibNurisupportPresentation.ViewModels
                 bool isRSAVW = false;
                 bool isRSA = false;
 
+                int test = 0;
+
                 for (int i = 0; i < 5; i++) {
                     tmpMC.Feedback(id, 0xab);
                     if (stopWaitHandle.WaitOne(_WaitTime)) {
-                        isMC = true;
-                        break;
+
+                        stopWaitHandle.Reset();
+                        tmpMC.Feedback(id, 0xa9);
+                        if (stopWaitHandle.WaitOne(_WaitTime * 2)) {
+                            isMC = true;
+                            break;
+                        }
                     }
                 }
 
@@ -1597,8 +1615,9 @@ namespace LibNurisupportPresentation.ViewModels
                         if (stopWaitHandle2.WaitOne(_WaitTime)) {
                             isRSAVW = true;
 
+                            stopWaitHandle2.Reset();
                             tmpMC.Feedback(id, 0xa9);
-                            if (stopWaitHandle2.WaitOne(_WaitTime)) {
+                            if (stopWaitHandle2.WaitOne(_WaitTime * 2)) {
                                 IsShowAbsolute = true;
                             }
                             break;
@@ -1612,6 +1631,11 @@ namespace LibNurisupportPresentation.ViewModels
                         tmpMC.Feedback(id, 0xa8);
                         if (stopWaitHandle2.WaitOne(_WaitTime)) {
                             isRSA = true;
+                            stopWaitHandle2.Reset();
+                            tmpMC.Feedback(id, 0xa9);
+                            if (stopWaitHandle2.WaitOne(_WaitTime * 2)) {
+                                IsShowAbsolute = true;
+                            }
                             break;
                         }
                     }

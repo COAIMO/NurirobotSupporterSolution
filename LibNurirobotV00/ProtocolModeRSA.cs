@@ -103,6 +103,10 @@ namespace LibNurirobotV00
         /// </summary>
         REQPosCtrlMode = 0xA8,
         /// <summary>
+        /// 절대 엔코더 피드백
+        /// </summary>
+        REQEncoder = 0xA9,
+        /// <summary>
         /// 펌웨어 버전 피드백
         /// </summary>
         REQFirmware = 0xCD,
@@ -143,6 +147,10 @@ namespace LibNurirobotV00
         /// 위치제어 모드 피드백(수신)
         /// </summary>
         FEEDPosCtrlMode = 0xD8,
+        /// <summary>
+        /// 절대엔코더 피드백
+        /// </summary>
+        FEEDEncoder = 0xD9,
         /// <summary>
         /// 펌웨어 버전 피드백(수신)
         /// </summary>

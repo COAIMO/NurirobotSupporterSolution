@@ -366,6 +366,13 @@ namespace LibNurirobotV00
                         ID = Data[2],
                         IsAbsolutePotionCtrl = Data[6] == 0
                     };
+                case ProtocolModeRSA.FEEDEncoder:
+                    return new NuriEncoderFeedback {
+                        Protocol = Data[5],
+                        ID = Data[2],
+                        Direction = (Direction)Data[6],
+                        Encoder = BitConverter.ToUInt16(Data.Skip(7).Take(2).Reverse().ToArray(), 0) * 0.01f
+                    };
                 case ProtocolModeRSA.FEEDFirmware:
                     return new NuriVersion {
                         ID = Data[2],
