@@ -1761,7 +1761,7 @@ namespace LibNurisupportPresentation.ViewModels
                             if (string.Equals(command.PacketName, protocol)) {
                                 var obj = (BaseStruct)command.GetDataStruct();
 
-                                if (id == obj.ID) {
+                                if (obj != null && id == obj.ID) {
                                     stopWaitHandle.Set();
                                 }
                             }
@@ -3318,6 +3318,17 @@ namespace LibNurisupportPresentation.ViewModels
                                     return;
                                 }
                             }
+                            else if (string.Equals(tmp.PacketName, "FEEDCtrlOnOff")) {
+                                var obj = (NuriControlOnOff)tmp.GetDataStruct();
+                                Console.WriteLine("================");
+                                Console.WriteLine(tmp.Data.Length);
+                                Console.WriteLine(BitConverter.ToString(tmp.Data).Replace("-", ""));
+                                // 동일해야만 의미가 있다.
+                                if (id == obj.ID && tmp.Data.Length == 7) {
+                                    stopWaitHandle.Set();
+                                    return;
+                                }
+                            }
                         }
                     }
                     catch (Exception ex) {
@@ -3331,6 +3342,14 @@ namespace LibNurisupportPresentation.ViewModels
                                 var obj = (NuriEchoOnOff)tmp.GetDataStruct();
 
                                 // 동일해야만 의미가 있다.
+                                if (id == obj.ID) {
+                                    stopWaitHandle2.Set();
+                                    return;
+                                }
+                            }
+                            else if (string.Equals(tmp.PacketName, "FEEDEncoder")) {
+                                var obj = (NuriEncoderFeedback)tmp.GetDataStruct();
+
                                 if (id == obj.ID) {
                                     stopWaitHandle2.Set();
                                     return;
@@ -3391,8 +3410,14 @@ namespace LibNurisupportPresentation.ViewModels
                 for (int i = 0; i < 5; i++) {
                     tmpMC.Feedback(id, 0xab);
                     if (stopWaitHandle.WaitOne(_WaitTime)) {
-                        isMC = true;
-                        break;
+                        //isMC = true;
+                        //break;
+                        stopWaitHandle.Reset();
+                        tmpMC.Feedback(id, 0xa9);
+                        if (stopWaitHandle.WaitOne(_WaitTime * 2)) {
+                            isMC = true;
+                            break;
+                        }
                     }
                 }
 
@@ -3401,7 +3426,10 @@ namespace LibNurisupportPresentation.ViewModels
                     for (int i = 0; i < 5; i++) {
                         tmpMC.Feedback(id, 0xaa);
                         if (stopWaitHandle2.WaitOne(_WaitTime)) {
+                            //isRSAVW = true;
+                            //break;
                             isRSAVW = true;
+
                             break;
                         }
                     }
@@ -3412,6 +3440,8 @@ namespace LibNurisupportPresentation.ViewModels
                     for (int i = 0; i < 5; i++) {
                         tmpMC.Feedback(id, 0xa8);
                         if (stopWaitHandle2.WaitOne(_WaitTime)) {
+                            //isRSA = true;
+                            //break;
                             isRSA = true;
                             break;
                         }

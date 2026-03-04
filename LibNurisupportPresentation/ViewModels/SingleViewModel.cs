@@ -1505,12 +1505,12 @@ namespace LibNurisupportPresentation.ViewModels
                                 }
                             }
                             else if (string.Equals(tmp.PacketName, "FEEDCtrlOnOff")) {
-                                var obj = (NuriPositionCtrl)tmp.GetDataStruct();
+                                var obj = (NuriControlOnOff)tmp.GetDataStruct();
                                 Console.WriteLine("================");
                                 Console.WriteLine(tmp.Data.Length);
                                 Console.WriteLine(BitConverter.ToString(tmp.Data).Replace("-", ""));
                                 // 동일해야만 의미가 있다.
-                                if (id == obj.ID) {
+                                if (id == obj.ID && tmp.Data.Length == 7) {
                                     stopWaitHandle.Set();
                                     return;
                                 }
