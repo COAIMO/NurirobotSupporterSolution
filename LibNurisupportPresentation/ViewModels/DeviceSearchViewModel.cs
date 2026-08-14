@@ -60,6 +60,10 @@ using System.Diagnostics;
             get => _TotalPercent; 
             set => this.RaiseAndSetIfChanged(ref _TotalPercent, value); 
         }
+        int _IDXStart = 0;
+        public int IDXStart { get => _IDXStart; set => this.RaiseAndSetIfChanged(ref _IDXStart, value); }
+        int _IDXStop = 10;
+        public int IDXStop { get => _IDXStop; set => this.RaiseAndSetIfChanged(ref _IDXStop, value); }
 
         string[] rates = new string[] {
             "1000000",
@@ -215,8 +219,9 @@ using System.Diagnostics;
                                 //        Thread.Sleep(GetTimeout(item));
                                 //    }
                                 //}
-                                for (int i = 0; i < 255; i++) {
-                                    CurrPercent = (int)(i / 255f * 100);
+                                float count = IDXStop - IDXStart;
+                                for (int i = IDXStart; i <= IDXStop; i++) {
+                                    CurrPercent = (int)(i / count * 100);
                                     mCTS.Token.ThrowIfCancellationRequested();
                                     for (int k = 0; k < 2; k++) {
                                         tmpRSA.PROT_Feedback(new LibNurirobotV00.Struct.NuriProtocol {
@@ -243,11 +248,11 @@ using System.Diagnostics;
                             Task.Delay(1000);
                         }
 
-                        if (!chkDone) {
-                            //MainViewModel.SelectedBaudrates = "110";
-                            var msg = Locator.Current.GetService<IMessageShow>();
-                            msg?.Show("Alert_No_BaudRate");
-                        }
+                        //if (!chkDone) {
+                        //    //MainViewModel.SelectedBaudrates = "110";
+                        //    var msg = Locator.Current.GetService<IMessageShow>();
+                        //    msg?.Show("Alert_No_BaudRate");
+                        //}
                     }
                     catch {
                         isc.Disconnect();

@@ -29,5 +29,7 @@ namespace LibNurisupportPresentation.DesignTime
         public IMainViewModel MainViewModel { get; set; }
         public int CurrPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int TotalPercent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int IDXStart { get; set; } = 0;
+        public int IDXStop { get; set; } = 10;
     }
 }

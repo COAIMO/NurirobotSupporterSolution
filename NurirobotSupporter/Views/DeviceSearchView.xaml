@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:NurirobotSupporter.Views"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:designTime="clr-namespace:LibNurisupportPresentation.DesignTime;assembly=LibNurisupportPresentation"
@@ -15,18 +16,66 @@
     <Grid Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
+            <RowDefinition Height="48"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="48"/>
             <RowDefinition Height="48"/>
             <RowDefinition Height="48"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource MahApps.Brushes.Accent2}">
+        <!--<Label Grid.Row="0" Margin="207,1,476,5" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">Start</Label>
+        <Label Grid.Row="0" Margin="409,1,346,5" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">End</Label>
+        <mah:NumericUpDown Grid.Row="0" Margin="257,1,476,5" Focusable="True"
+                                                Value="{Binding IDXStart, Mode=TwoWay}"
+                                                Minimum="0" HorizontalAlignment="Center"
+                                                Maximum="253" StringFormat="0" ParsingNumberStyle="Float"
+                                                />
+        <mah:NumericUpDown Grid.Row="0" Margin="469,1,266,5" Focusable="True"
+                                                Value="{Binding IDXStop, Mode=TwoWay}"
+                                                Minimum="1" HorizontalAlignment="Center"
+                                                Maximum="254" StringFormat="0" ParsingNumberStyle="Float"
+                                                />-->
+        <StackPanel Grid.Row="0"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+
+            <Label Content="Start"
+           VerticalAlignment="Center"
+           Margin="0,0,5,0"
+           Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+
+            <mah:NumericUpDown
+        Width="80"
+        Margin="0,0,20,0"
+        Focusable="True"
+        Value="{Binding IDXStart, Mode=TwoWay}"
+        Minimum="0"
+        Maximum="253"
+        StringFormat="0"
+        ParsingNumberStyle="Float" />
+
+            <Label Content="End"
+           VerticalAlignment="Center"
+           Margin="0,0,5,0"
+           Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+
+            <mah:NumericUpDown
+        Width="80"
+        Focusable="True"
+        Value="{Binding IDXStop, Mode=TwoWay}"
+        Minimum="1"
+        Maximum="254"
+        StringFormat="0"
+        ParsingNumberStyle="Float" />
+
+        </StackPanel>
+        <Grid Grid.Row="1" Background="{DynamicResource MahApps.Brushes.Accent2}">
             <Viewbox HorizontalAlignment="Left">
                 <TextBlock Padding="10" Text="{lex:Loc Title_Search}" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"/>
             </Viewbox>
         </Grid>
-        <ScrollViewer Name="SystemStatusSV" Grid.Row="1" PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
+        <ScrollViewer Name="SystemStatusSV" Grid.Row="2" PreviewMouseWheel="SystemStatusSV_PreviewMouseWheel">
             <ListView x:Name="SystemStatusLB" ItemsSource="{Binding Logs}"
                       Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
                 <ListView.ItemContainerStyle>
@@ -36,16 +85,16 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </ScrollViewer>
-        <ProgressBar Grid.Row="2" Value="{Binding CurrPercent}" Margin="10, 0" Height="20"/>
-        <ProgressBar Grid.Row="3" Value="{Binding TotalPercent}" Margin="10, 0" Height="20"/>
-        <Button Grid.Row="4" 
+        <ProgressBar Grid.Row="3" Value="{Binding CurrPercent}" Margin="10, 0" Height="20"/>
+        <ProgressBar Grid.Row="4" Value="{Binding TotalPercent}" Margin="10, 0" Height="20"/>
+        <Button Grid.Row="5" 
                 Margin="5"
                 Content="{lex:Loc Button_Search_Start}" 
                 HorizontalAlignment="Center"
                 Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
                 Command="{Binding Search}"
                 Visibility="{Binding IsDisConnect, Converter={StaticResource BooleanToVisibility}}"/>
-        <Button Grid.Row="4" 
+        <Button Grid.Row="5" 
                 Margin="5"
                 Content="{lex:Loc Button_Search_Stop}" 
                 Style="{DynamicResource MahApps.Styles.Button.Square}"

@@ -72,6 +72,14 @@ namespace NurirobotSupporter.Views
             HamburgerMenuControl.Content = args.InvokedItem;
             if (ViewModel != null) {
                 ViewModel.CurrentPageName = (string)((HamburgerMenuIconItem)args.InvokedItem).Tag;
+                if (!ViewModel.CurrentPageName.Equals("Single")) {
+
+                    ViewModel.Single.IsVisible = false;
+                }
+                else {
+                    ViewModel.Single.IsVisible = true;
+                } 
+
             }
         }
 

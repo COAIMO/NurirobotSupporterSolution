@@ -162,6 +162,8 @@ namespace NurirobotSupporter.Views
             if (ViewModel != null 
                 && ViewModel.GraphData != null 
                 && ViewModel.GraphData.Count() > 0) {
+                if (!ViewModel.IsVisible) return;
+
                 PosPlot.Render(skipIfCurrentlyRendering: true);
                 CurrentPlot.plt.AxisAutoY();
                 VelocityPlot.plt.AxisAutoY();
@@ -177,6 +179,8 @@ namespace NurirobotSupporter.Views
                 return;
 
             if (ViewModel != null) {
+                if (!ViewModel.IsVisible) return;
+
                 if (ViewModel.IsOnGraph)
                     UpdateData();
 

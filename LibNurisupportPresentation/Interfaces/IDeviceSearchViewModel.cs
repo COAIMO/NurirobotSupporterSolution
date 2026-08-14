@@ -44,5 +44,8 @@ namespace LibNurisupportPresentation.Interfaces
         IMainViewModel MainViewModel { get; set; }
         int CurrPercent { get; set; }
         int TotalPercent { get; set; }
+
+        int IDXStart { get; set; }
+        int IDXStop { get; set; }
     }
 }

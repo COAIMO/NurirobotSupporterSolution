@@ -68,5 +68,7 @@ namespace LibNurisupportPresentation.Interfaces
         //ObservableCollection<KeyValuePair<long, float>> GraphVelocity { get; }
 
         ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> GraphData { get; }
+
+        bool IsVisible { get; set; }
     }
 }

@@ -1634,7 +1634,7 @@ namespace LibNurisupportPresentation.ViewModels
                     Thread.Sleep(_WaitTime);
                     for (int i = 0; i < 12; i++) {
                         GetFeedback(SelectedId, (byte)(0xa0 + i));
-                        Thread.Sleep(_WaitTime);
+                        Thread.Sleep(_WaitTime*2);
                     }
                     GetFeedback(SelectedId, (byte)0xCD);
 
@@ -1959,6 +1959,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             for (int i = 0; i < 5; i++) {
                 ICE.RunScript(commandStr);
+                Thread.Sleep(_WaitTime);
                 if (isMc) {
                     (command as NurirobotMC).Feedback(id, 0xAA);
                 }
@@ -2063,6 +2064,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             for (int i = 0; i < 5; i++) {
                 ICE.RunScript(commandStr);
+                Thread.Sleep(_WaitTime);
                 if (isMc) {
                     (command as NurirobotMC).Feedback(id, 0xA3);
                 }
@@ -2182,6 +2184,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             for (int i = 0; i < 5; i++) {
                 ICE.RunScript(commandStr);
+                Thread.Sleep(_WaitTime);
                 if (isMc) {
                     (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQSpdCtrl);
                 }
@@ -2288,6 +2291,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             for (int i = 0; i < 5; i++) {
                 ICE.RunScript(commandStr);
+                Thread.Sleep(_WaitTime);
                 if (isMc) {
                     (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQResptime);
                 }
@@ -2374,6 +2378,7 @@ namespace LibNurisupportPresentation.ViewModels
             if (!string.IsNullOrEmpty(commandStr)) {
                 for (int i = 0; i < 5; i++) {
                     ICE.RunScript(commandStr);
+                    Thread.Sleep(_WaitTime);
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, 0xA6);
                     }
@@ -2453,6 +2458,7 @@ namespace LibNurisupportPresentation.ViewModels
             if (!string.IsNullOrEmpty(commandStr)) {
                 for (int i = 0; i < 5; i++) {
                     ICE.RunScript(commandStr);
+                    Thread.Sleep(_WaitTime);
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQResolution);
                     }
@@ -2532,6 +2538,7 @@ namespace LibNurisupportPresentation.ViewModels
             if (!string.IsNullOrEmpty(commandStr)) {
                 for (int i = 0; i < 5; i++) {
                     ICE.RunScript(commandStr);
+                    Thread.Sleep(_WaitTime);
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQCtrlDirt);
                     }
@@ -2631,6 +2638,7 @@ namespace LibNurisupportPresentation.ViewModels
             if (!string.IsNullOrEmpty(commandStr)) {
                 for (int i = 0; i < 5; i++) {
                     ICE.RunScript(commandStr);
+                    Thread.Sleep(_WaitTime);
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQCtrlOnOff);
                     }
@@ -2712,6 +2720,7 @@ namespace LibNurisupportPresentation.ViewModels
             if (!string.IsNullOrEmpty(commandStr)) {
                 for (int i = 0; i < 5; i++) {
                     ICE.RunScript(commandStr);
+                    Thread.Sleep(_WaitTime);
 
                     if (isRSAVW) {
                         (command as NurirobotRSAVW).Feedback(id, (byte)ProtocolModeRSAVW.REQEchoMode);
@@ -2811,6 +2820,7 @@ namespace LibNurisupportPresentation.ViewModels
             if (!string.IsNullOrEmpty(commandStr)) {
                 for (int i = 0; i < 5; i++) {
                     ICE.RunScript(commandStr);
+                    Thread.Sleep(_WaitTime);
                     if (isMc) {
                         (command as NurirobotMC).Feedback(id, (byte)ProtocolMode.REQRatio);
                     }
@@ -3109,6 +3119,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             for (int i = 0; i < 5; i++) {
                 ICE.RunScript(commandStr);
+                Thread.Sleep(_WaitTime);
 
                 if (isMc) {
                     (tmp.Command as NurirobotMC).Feedback(newid, (byte)ProtocolMode.REQPing);

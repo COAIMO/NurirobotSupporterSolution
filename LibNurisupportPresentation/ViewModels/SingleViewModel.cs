@@ -24,6 +24,12 @@ namespace LibNurisupportPresentation.ViewModels
 
     public class SingleViewModel : ReactiveObject, ISingleViewModel
     {
+        bool _IsVisible = false;
+        public bool IsVisible {
+            get => _IsVisible;
+            set => this.RaiseAndSetIfChanged(ref _IsVisible, value);
+        }
+
         bool _IsShowCommand = false;
         public bool IsShowCommand {
             get => _IsShowCommand;
@@ -313,6 +319,7 @@ namespace LibNurisupportPresentation.ViewModels
 
             IsShowTarget = true;
             IsShowLogView = true;
+            IsVisible = true;
 
             //IsShowGraph = true;
             

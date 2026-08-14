@@ -53,6 +53,8 @@ namespace LibNurisupportPresentation.DesignTime
         public ReactiveCommand<Unit, Unit> CMDRun { get; }
 
         public double Test { get; set; } = 333;
+        public bool IsVisible { get; set; } = false;
+
         public SingleViewModel()
         {
             Test = 333;
