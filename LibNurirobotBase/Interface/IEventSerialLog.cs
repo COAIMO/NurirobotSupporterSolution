@@ -15,6 +15,7 @@ namespace LibNurirobotBase.Interface
         /// <param name="arg">송수신 데이터</param>
         void AddLog(byte[] arg);
         void AddLogRecv(byte[] arg);
+        void AddStringLog(string arg);
 
         IObservable<string> ObsLog { get; }
     }

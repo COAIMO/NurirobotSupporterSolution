@@ -56,6 +56,19 @@ namespace NurirobotSupporter.Helpers
         {
             Dispose(true);
         }
+
+        public void AddStringLog(string arg)
+        {
+            //throw new NotImplementedException();
+            try {
+                string data = String.Format("[{0}]\tRecive :\t{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), arg);
+                //Debug.WriteLine(data);
+                _Log.OnNext(data);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
+        }
         #endregion
     }
 }

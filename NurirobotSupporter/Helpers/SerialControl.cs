@@ -65,7 +65,9 @@ namespace NurirobotSupporter.Helpers
         /// <summary>
         /// 에러 발생 연동
         /// </summary>
-        public IObservable<Exception> ObsErrorReceived => errors.Distinct(ex => ex.Message).Retry().Publish().RefCount();
+        //public IObservable<Exception> ObsErrorReceived => errors.Distinct(ex => ex.Message).Retry().Publish().RefCount();
+
+        public IObservable<Exception> ObsErrorReceived => errors.Retry().Publish().RefCount();
 
         /// <summary>
         /// 포트 열림 변경 연결
@@ -120,10 +122,25 @@ namespace NurirobotSupporter.Helpers
             }
             Thread.Sleep(100);
 
-            dis.Add(port
-                .ErrorReceivedObserver()
-                .Where(x => x.EventArgs.EventType != SerialError.Frame)
-                .Subscribe(e => obs.OnError(new Exception(e.EventArgs.EventType.ToString()))));
+            //dis.Add(port
+            //    .ErrorReceivedObserver()
+            //    .Where(x => x.EventArgs.EventType != SerialError.Frame)
+            //    .Subscribe(e => obs.OnError(new Exception(e.EventArgs.EventType.ToString()))));
+
+            dis.Add(
+                port.ErrorReceivedObserver()
+                .Subscribe(e => {
+                    var error = e.EventArgs.EventType;
+
+                    Debug.WriteLine(
+                        $"Serial Error : {error}, " +
+                        $"RX={port.BytesToRead}, TX={port.BytesToWrite}");
+
+                    errors.OnNext(
+                        new Exception($"Serial Error : {error}, " +
+                        $"RX={port.BytesToRead}, TX={port.BytesToWrite}"));
+                    // 여기서 obs.OnError() 하지 않음
+                }));
 
             dis.Add(writeByte.Subscribe(x => {
                 try {
@@ -168,8 +185,39 @@ namespace NurirobotSupporter.Helpers
                     while (!source.Token.IsCancellationRequested) {
                         try {
                             if (recvBuffs.TryDequeue(out byte[] result)) {
-                                Buffer.BlockCopy(result, 0, buffPattern, idx, result.Length);
-                                idx += result.Length;
+                                //Buffer.BlockCopy(result, 0, buffPattern, idx, result.Length);
+                                //idx += result.Length;
+                                if (result == null || result.Length == 0)
+                                    return;
+
+                                if (result.Length >= buffPattern.Length) {
+                                    // 한 번에 들어온 데이터 자체가 버퍼보다 큰 경우
+                                    Buffer.BlockCopy(
+                                        result,
+                                        result.Length - buffPattern.Length,
+                                        buffPattern,
+                                        0,
+                                        buffPattern.Length);
+
+                                    idx = buffPattern.Length;
+                                }
+                                else {
+                                    if (idx + result.Length > buffPattern.Length) {
+                                        Debug.WriteLine(
+                                            $"RX buffer reset: idx={idx}, recv={result.Length}");
+                                        errors.OnNext(new Exception($"RX buffer reset: idx={idx}, recv={result.Length}"));
+                                        idx = 0;
+                                    }
+
+                                    Buffer.BlockCopy(
+                                        result,
+                                        0,
+                                        buffPattern,
+                                        idx,
+                                        result.Length);
+
+                                    idx += result.Length;
+                                }
 
                                 var pos = SerialportReactiveExt.PatternAt(buffPattern, baSTX, 0, idx);
                                 if (pos == 0) {

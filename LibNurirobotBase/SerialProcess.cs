@@ -41,6 +41,7 @@ namespace LibNurirobotBase
         /// 이벤트 시리얼 로그
         /// </summary>
         IEventSerialLog _EventSerialLog = Locator.Current.GetService<IEventSerialLog>();
+        CompositeDisposable comdis = new CompositeDisposable();
 
 
         public SerialProcess()
@@ -49,6 +50,10 @@ namespace LibNurirobotBase
             _SerialControl = Locator.Current.GetService<ISerialControl>();
             _Token = new CancellationTokenSource();
             _Thread = new Thread(new ThreadStart(Job));
+
+            _SerialControl.ObsErrorReceived.Subscribe(data => {
+                _EventSerialLog?.AddStringLog(data.Message);
+            }).AddTo(comdis);
         }
 
         ~SerialProcess()
@@ -128,6 +133,7 @@ namespace LibNurirobotBase
             if (!IsDisposed) {
                 if (disposing) {
                     _Token.Cancel();
+                    comdis.Dispose();
                 }
 
                 IsDisposed = true;
