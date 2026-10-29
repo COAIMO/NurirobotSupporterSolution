@@ -364,11 +364,12 @@
                                 <Viewbox Height="30" HorizontalAlignment="Left">
                                     <TextBlock Margin="2" Text="{lex:Loc Title_Feedback}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                 </Viewbox>
-                                <Grid Margin="10">
+                                <Grid Margin="10, 5, 10, 5">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="24"/>
+                                        <RowDefinition Height="24"/>
+                                        <RowDefinition Height="24"/>
+                                        <RowDefinition Height="24"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
@@ -378,9 +379,12 @@
                                         <TextBlock Margin="2, 8" Text="{lex:Loc Label_Position}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <Viewbox Grid.Row="1" Margin="2">
-                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_RPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_DirectCCW}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <Viewbox Grid.Row="2" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{lex:Loc Label_RPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="3" Margin="2">
                                         <TextBlock Margin="2, 8" Text="{lex:Loc Label_Current}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
 
@@ -388,9 +392,15 @@
                                         <TextBlock Margin="2, 8" Text="{Binding FeedbackPOS}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                     <Viewbox Grid.Row="1" Grid.Column="1" Margin="2">
-                                        <TextBlock Margin="2, 8" Text="{Binding FeedbackRPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <TextBlock Margin="2, 8" Text="{Binding IsCCWFeedback}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                        <!--<mah:ToggleSwitch Margin="2" 
+                                            IsOn="{Binding IsCCW, Mode=OneWay}" IsTabStop="False" Focusable="False"/>-->
+                                        <!--<CheckBox IsChecked="{Binding IsCCWFeedback, Mode=OneWayToSource}" IsEnabled="False" Focusable="False" IsTabStop="False" ></CheckBox>-->
                                     </Viewbox>
                                     <Viewbox Grid.Row="2" Grid.Column="1" Margin="2">
+                                        <TextBlock Margin="2, 8" Text="{Binding FeedbackRPM}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="3" Grid.Column="1" Margin="2">
                                         <TextBlock Margin="2, 8" Text="{Binding FeedbackCurrent}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                                     </Viewbox>
                                 </Grid>

@@ -54,6 +54,7 @@ namespace LibNurisupportPresentation.DesignTime
 
         public double Test { get; set; } = 333;
         public bool IsVisible { get; set; } = false;
+        public bool IsCCWFeedback { get; set; } = false;
 
         public SingleViewModel()
         {

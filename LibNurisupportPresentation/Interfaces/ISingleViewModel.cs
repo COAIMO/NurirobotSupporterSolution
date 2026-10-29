@@ -70,5 +70,6 @@ namespace LibNurisupportPresentation.Interfaces
         ObservableCollection<KeyValuePair<long, PosVelocityCurrent>> GraphData { get; }
 
         bool IsVisible { get; set; }
+        bool IsCCWFeedback { get; set; }
     }
 }

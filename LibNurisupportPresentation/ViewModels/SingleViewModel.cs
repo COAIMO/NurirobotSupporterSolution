@@ -271,6 +271,12 @@ namespace LibNurisupportPresentation.ViewModels
             set => this.RaiseAndSetIfChanged(ref _IsRunning, value);
         }
 
+        bool _IsCCWFeedback = false;
+        public bool IsCCWFeedback { 
+            get => _IsCCWFeedback;
+            set => this.RaiseAndSetIfChanged(ref _IsCCWFeedback, value);
+        }
+
         bool _LastConnect = false;
         string _LastPage = "";
         CancellationTokenSource _CTSFindSearch;
@@ -617,6 +623,7 @@ namespace LibNurisupportPresentation.ViewModels
                                 FeedbackPOS = tmppos.Pos;
                                 FeedbackCurrent = tmppos.Current;
                                 FeedbackRPM = tmppos.Speed;
+                                IsCCWFeedback = tmppos.Direction == LibNurirobotBase.Enum.Direction.CCW;
                                 break;
                             case "FEEDSpeed":
                                 var tmpspd = (x.Object as NuriPosSpeedAclCtrl);
@@ -631,6 +638,7 @@ namespace LibNurisupportPresentation.ViewModels
                                 FeedbackPOS = tmpspd.Pos;
                                 FeedbackCurrent = tmpspd.Current;
                                 FeedbackRPM = tmpspd.Speed;
+                                IsCCWFeedback = tmpspd.Direction == LibNurirobotBase.Enum.Direction.CCW;
 
                                 break;
                             case "FEEDEncoder":
@@ -1089,14 +1097,16 @@ namespace LibNurisupportPresentation.ViewModels
                                             FeedbackPOS = tmppos.Pos;
                                             FeedbackCurrent = tmppos.Current;
                                             FeedbackRPM = tmppos.Speed;
-                                            Console.WriteLine("FeedbackPOS : {0}, FeedbackCurrent: {1}, FeedbackRPM: {2}", FeedbackPOS, FeedbackCurrent, FeedbackRPM);
+                                            IsCCWFeedback = tmppos.Direction == LibNurirobotBase.Enum.Direction.CCW;
+                                            Console.WriteLine("FeedbackPOS : {0}, FeedbackCurrent: {1}, FeedbackRPM: {2}, Dir : {3}", FeedbackPOS, FeedbackCurrent, FeedbackRPM, tmppos.Direction);
                                         }
                                         else if (string.Equals(command.PacketName, "FEEDSpeed")) {
                                             var tmppos = (NuriPosSpeedAclCtrl)obj;
                                             FeedbackPOS = tmppos.Pos;
                                             FeedbackCurrent = tmppos.Current;
                                             FeedbackRPM = tmppos.Speed;
-                                            Console.WriteLine("FeedbackPOS : {0}, FeedbackCurrent: {1}, FeedbackRPM: {2}", FeedbackPOS, FeedbackCurrent, FeedbackRPM);
+                                            IsCCWFeedback = tmppos.Direction == LibNurirobotBase.Enum.Direction.CCW;
+                                            Console.WriteLine("FeedbackPOS : {0}, FeedbackCurrent: {1}, FeedbackRPM: {2}, Dir : {3}", FeedbackPOS, FeedbackCurrent, FeedbackRPM, tmppos.Direction);
                                         }
                                         else if (string.Equals(command.PacketName, "FEEDEncoder")) {
                                             var tmpobj = (NuriEncoderFeedback)obj;

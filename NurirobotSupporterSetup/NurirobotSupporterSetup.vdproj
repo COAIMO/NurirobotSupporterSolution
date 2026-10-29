@@ -2074,12 +2074,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_49B55EF2D311E1AEBD54020D341014B6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F4D3DDFF26724E88922E3E3845860F95"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3143,6 +3137,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0B402059A7D268D8F7D72E3BBC2A4970"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_49B55EF2D311E1AEBD54020D341014B6"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -5538,7 +5538,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LibNurisupportPresentation, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:LibNurisupportPresentation, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_5FE56B5B5ED50617E6C221BFFACA2850"
@@ -9268,15 +9268,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NURIROBOTSUPPORTER"
-        "ProductCode" = "8:{FA9EA67A-8997-4BD6-B5EB-97AFD8E1A976}"
-        "PackageCode" = "8:{094C2C37-E5FD-463D-A955-8AF7B7BFD26A}"
+        "ProductCode" = "8:{E55BA27B-924F-40B5-8603-2B1BDD938A1C}"
+        "PackageCode" = "8:{388785B5-7D36-4A8E-A75E-971D34F270FE}"
         "UpgradeCode" = "8:{2C99D2A7-0156-43A0-8381-38751DAA706A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.16"
+        "ProductVersion" = "8:1.4.17"
         "Manufacturer" = "8:NURI ROBOT"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://support.nurirobot.info/"
